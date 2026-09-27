@@ -32,12 +32,12 @@ module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const token = process.env.GITHUB_TOKEN;
-  if (!token) return res.status(500).json({ error: 'Token manquant' });
+  if (!token) return res.status(500).json({ error: 'Missing token' });
 
   // GET — fetch scores for a student
   if (req.method === 'GET') {
     const nom = (req.query?.nom || '').trim().toUpperCase();
-    if (!nom) return res.status(400).json({ error: 'Nom requis' });
+    if (!nom) return res.status(400).json({ error: 'Name required' });
     const file = await ghGet(FILE, token);
     const all  = file?.data?.scores || [];
     const mine = all.filter(s => s.nom === nom).map(s => ({
@@ -50,7 +50,7 @@ module.exports = async (req, res) => {
   if (req.method === 'POST') {
     const { nom, testId, score, total, answers, date } = req.body || {};
     if (!nom || !testId || score === undefined || !total) {
-      return res.status(400).json({ error: 'Données manquantes' });
+      return res.status(400).json({ error: 'Missing data' });
     }
     // Retry loop for SHA conflicts
     for (let attempt = 0; attempt < 3; attempt++) {
@@ -67,7 +67,7 @@ module.exports = async (req, res) => {
       const ok = await ghPut(FILE, { scores }, file?.sha, token);
       if (ok) return res.json({ success: true });
     }
-    return res.status(500).json({ error: 'Conflit SHA — réessaie.' });
+    return res.status(500).json({ error: 'SHA conflict — try again.' });
   }
 
   return res.status(405).json({ error: 'Method not allowed' });
