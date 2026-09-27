@@ -197,6 +197,53 @@ const TESTS_DATA = {
     ]
   },
 
+  'iibc1-t2-listening': {
+    name: 'IIBC 1 — Test 2',
+    part: 'Listening',
+    section: 'L',
+    baseId: 'iibc1-t2',
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/13EjucN3m1CJWO8wfHKZEq_4gdUFTLr5e/view',
+    bookletUrl: 'https://drive.google.com/file/d/1O1GgRZQc-u2Pnuc5iuSrcgJYZIOXdYNk/view?usp=sharing',
+    partIds: ['p1', 'p2', 'p3', 'p4'],
+    keys: [
+      'D','A','B','B','D','A',
+      'B','A','C','A','B','C','B','C','C','B','B','B','A','B','B','C','B','C','A','C','C','C','A','B','B',
+      'B','B','A','C','A','D','D','C','A','A','C','B','C','B','C','D','C','C','B','B','A','B','A','D','B','A','C','C','C','A','A','B','B','B','D','D','C','B','C',
+      'A','C','C','D','A','D','B','C','D','A','D','C','D','D','D','B','D','C','C','D','B','D','D','C','B','B','A','D','A','B'
+    ],
+    parts: [
+      { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
+      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
+      { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  'iibc1-t2-reading': {
+    name: 'IIBC 1 — Test 2',
+    part: 'Reading',
+    section: 'R',
+    baseId: 'iibc1-t2',
+    audioControlled: false,
+    duration: 75 * 60,
+    bookletUrl: 'https://drive.google.com/file/d/1O1GgRZQc-u2Pnuc5iuSrcgJYZIOXdYNk/view?usp=sharing',
+    partIds: ['p5', 'p6', 'p7'],
+    keys: [
+      // Part 5 (local 1-30 = Q101-130)
+      'D','B','D','B','A','A','C','B','C','A','B','D','B','C','A','D','C','B','C','B','A','B','C','C','C','A','C','A','A','B',
+      // Part 6 (local 31-46 = Q131-146)
+      'C','B','A','D','A','C','D','A','B','D','B','A','D','B','A','C',
+      // Part 7 (local 47-100 = Q147-200)
+      'A','D','C','B','B','D','B','B','A','B','A','C','A','B','D','B','C','A','B','C','D','C','A','B','A','C','D','A','B','C','D','C','C','B','C','C','D','A','B','D','D','A','B','D','D','A','C','A','B','A','B','A','C','D'
+    ],
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
+      { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
+      { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
   'toeics8-listening': {
     name: 'TOEIC S8 (4A)',
     part: 'Listening',
