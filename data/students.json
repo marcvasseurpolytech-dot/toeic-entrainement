@@ -1,3 +1,11 @@
 {
-  "students": []
+  "students": [
+    {
+      "nom": "VASSEUR",
+      "prenom": "Marc",
+      "dept": "gba3",
+      "codeHash": "524beeec873cb78924f03e60f2b9a7313873df5881f0654eaead2d581336e643",
+      "createdAt": "2026-09-27T09:15:11.762Z"
+    }
+  ]
 }
