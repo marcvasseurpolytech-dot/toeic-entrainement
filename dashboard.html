@@ -170,22 +170,32 @@
     // =========================================================
     // AVAILABLE TESTS
     // =========================================================
-    function renderTests(scores) {
+    async function loadAccess() {
+      try {
+        const r = await fetch('/api/access');
+        const data = await r.json();
+        return data.tests || {};
+      } catch { return {}; }
+    }
+
+    function renderTests(scores, access) {
       const grid = document.getElementById('tests-grid');
       grid.innerHTML = '';
       Object.entries(TESTS_DATA).forEach(([id, t]) => {
         const myScores = scores.filter(s => s.testId === id);
         const best = myScores.length ? Math.max(...myScores.map(s => s.score)) : null;
+        const isOpen = access[id] !== false; // default open if not listed
         const div = document.createElement('div');
-        div.className = 'test-card';
-        const badge = best !== null ? `<span class="badge done">Best score: ${best}/100</span>`
+        div.className = 'test-card' + (isOpen ? '' : ' locked');
+        const badge = !isOpen ? '<span class="badge locked">Closed</span>'
+                    : best !== null ? `<span class="badge done">Best score: ${best}/100</span>`
                     : '<span class="badge open">Available</span>';
         div.innerHTML = `
           <h3>${t.name}</h3>
           <div class="meta">📋 ${t.part} &nbsp;·&nbsp; ${t.keys.length} questions ${t.audioControlled ? '&nbsp;·&nbsp; 🎧 audio' : ''}</div>
           ${badge}
-          <button class="btn-start" onclick="startTest('${id}')">
-            ${best !== null ? '🔄 Retake test' : '▶ Start'}
+          <button class="btn-start" ${isOpen ? '' : 'disabled'} onclick="startTest('${id}')">
+            ${!isOpen ? 'Not available' : best !== null ? '🔄 Retake test' : '▶ Start'}
           </button>
         `;
         grid.appendChild(div);
@@ -318,10 +328,10 @@
 
     (async () => {
       try {
-        const scores = await loadScores();
+        const [scores, access] = await Promise.all([loadScores(), loadAccess()]);
         const enriched = scores.map(enrichScore).filter(Boolean);
 
-        renderTests(scores);
+        renderTests(scores, access);
         renderSummary(enriched);
         renderEvolution(enriched);
         renderAttempts(enriched);
