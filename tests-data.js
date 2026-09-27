@@ -171,6 +171,30 @@ const TESTS_DATA = {
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
+  },
+
+  'toeics7-reading': {
+    name: 'TOEIC S7 (4A)',
+    part: 'Reading',
+    section: 'R',
+    baseId: 'toeics7',
+    audioControlled: false,
+    duration: 75 * 60,
+    bookletUrl: 'https://drive.google.com/file/d/1A6M1ZkszCR8nKlHFG6zVl2Q2Euc6PAcD/view?usp=sharing',
+    partIds: ['p5', 'p6', 'p7'],
+    keys: [
+      // Part 5 (local 1-30 = Q101-130)
+      'D','B','D','A','C','D','A','B','A','B','D','A','B','B','B','C','C','A','D','B','B','C','C','A','D','B','A','C','C','A',
+      // Part 6 (local 31-46 = Q131-146)
+      'D','C','A','D','D','C','D','B','B','D','A','D','D','A','D','B',
+      // Part 7 (local 47-100 = Q147-200)
+      'D','A','B','A','D','C','D','C','C','D','B','D','C','C','D','C','C','B','C','C','C','B','B','D','D','B','A','C','B','A','B','D','A','C','B','B','D','C','C','A','D','C','C','D','A','D','A','D','A','D','A','D','C','B'
+    ],
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
+      { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
+      { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
   }
 
   // All keys sourced from the answer-key PDF. IIBC 2 T1 additionally has a
