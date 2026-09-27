@@ -117,6 +117,14 @@
     .progress-bar-wrap { background: #e5e7eb; border-radius: 10px; height: 8px; margin: 1rem 0; }
     .progress-bar { background: var(--gold); border-radius: 10px; height: 8px; transition: width 0.3s; }
     .progress-label { font-size: 0.78rem; color: var(--muted); text-align: right; }
+    .btn-jump {
+      background: var(--cream); border: 1px solid var(--gold); color: var(--dark-gold);
+      border-radius: 20px; padding: 0.3rem 0.8rem; font-size: 0.75rem; cursor: pointer;
+      font-family: 'Source Serif 4', serif; font-weight: 600; white-space: nowrap;
+    }
+    .btn-jump:hover { background: var(--light-gold); }
+    .qcard.jump-highlight { animation: jumpFlash 1.2s ease; }
+    @keyframes jumpFlash { 0%,100% { box-shadow: none; } 30% { box-shadow: 0 0 0 3px var(--gold); } }
 
     .submit-section { text-align: center; padding: 2rem 0; }
     .btn-submit-main {
@@ -198,7 +206,10 @@
       <div class="progress-bar-wrap">
         <div class="progress-bar" id="progress-bar" style="width:0%"></div>
       </div>
-      <div class="progress-label"><span id="answered-count">0</span> / <span id="total-count">100</span> answered</div>
+      <div class="progress-label" style="display:flex;justify-content:space-between;align-items:center;gap:0.6rem">
+        <button id="btn-jump" class="btn-jump" onclick="jumpToUnanswered()" style="display:none">⬇ Next unanswered</button>
+        <span><span id="answered-count">0</span> / <span id="total-count">100</span> answered</span>
+      </div>
 
       <div id="questions-root"></div>
 
@@ -218,6 +229,7 @@
 // =========================================================
 const params  = new URLSearchParams(window.location.search);
 const testId  = params.get('id');
+const isReview = params.get('review') === '1';
 const student = JSON.parse(sessionStorage.getItem('student') || 'null');
 if (!student) window.location.href = 'index.html';
 
@@ -226,7 +238,9 @@ if (!TEST) { alert('Test not found.'); window.location.href = 'dashboard.html'; 
 
 // Guard against direct-URL access to a test the admin has closed, or a
 // test this student has already completed (one attempt per test).
-(async () => {
+// Skipped entirely in review mode, since reviewing an already-completed
+// test is exactly what that mode is for.
+if (!isReview) (async () => {
   try {
     const [accessR, scoresR] = await Promise.all([
       fetch('/api/access'),
@@ -379,41 +393,46 @@ renderBooklet();
 renderAudio();
 renderQuestions();
 
-// Restore progress: prefer local (same device), fall back to server
-(async () => {
-  let saved = loadProgress();
-  let fromServer = false;
-  if (!saved || !Array.isArray(saved.answers) || saved.answers.length !== TEST.keys.length) {
-    const serverEntry = await fetchServerProgress();
-    if (serverEntry && Array.isArray(serverEntry.answers) && serverEntry.answers.length === TEST.keys.length) {
-      saved = serverEntry;
-      fromServer = true;
+if (isReview) {
+  initReviewMode();
+} else {
+  document.getElementById('btn-jump').style.display = '';
+  // Restore progress: prefer local (same device), fall back to server
+  (async () => {
+    let saved = loadProgress();
+    let fromServer = false;
+    if (!saved || !Array.isArray(saved.answers) || saved.answers.length !== TEST.keys.length) {
+      const serverEntry = await fetchServerProgress();
+      if (serverEntry && Array.isArray(serverEntry.answers) && serverEntry.answers.length === TEST.keys.length) {
+        saved = serverEntry;
+        fromServer = true;
+      }
     }
-  }
 
-  if (saved && Array.isArray(saved.answers) && saved.answers.length === TEST.keys.length) {
-    sessionStartTime = saved.startTime || Date.now();
-    saved.answers.forEach((a, i) => { if (a) selectAnswer(i + 1, a, false); });
-    document.getElementById('restore-banner').style.display = 'block';
-    if (fromServer) saveProgress(); // mirror into localStorage too
+    if (saved && Array.isArray(saved.answers) && saved.answers.length === TEST.keys.length) {
+      sessionStartTime = saved.startTime || Date.now();
+      saved.answers.forEach((a, i) => { if (a) selectAnswer(i + 1, a, false); });
+      document.getElementById('restore-banner').style.display = 'block';
+      if (fromServer) saveProgress(); // mirror into localStorage too
 
-    if (!TEST.audioControlled) {
-      // Already started earlier — resume the countdown directly, no button.
-      const elapsed = Math.floor((Date.now() - sessionStartTime) / 1000);
-      timeLeft = TEST.duration - elapsed;
-      if (timeLeft <= 0) { timeLeft = 0; submitTest(true); return; }
-      startTimer();
-    }
-  } else {
-    if (!TEST.audioControlled) {
-      // Fresh attempt — wait for the student to click "Démarrer" before
-      // the 75-minute countdown starts.
-      document.getElementById('start-section').style.display = 'block';
+      if (!TEST.audioControlled) {
+        // Already started earlier — resume the countdown directly, no button.
+        const elapsed = Math.floor((Date.now() - sessionStartTime) / 1000);
+        timeLeft = TEST.duration - elapsed;
+        if (timeLeft <= 0) { timeLeft = 0; submitTest(true); return; }
+        startTimer();
+      }
     } else {
-      saveProgress();
+      if (!TEST.audioControlled) {
+        // Fresh attempt — wait for the student to click "Démarrer" before
+        // the 75-minute countdown starts.
+        document.getElementById('start-section').style.display = 'block';
+      } else {
+        saveProgress();
+      }
     }
-  }
-})();
+  })();
+}
 
 // =========================================================
 // RENDER QUESTIONS — TOEIC-style bubble answer sheet,
@@ -457,7 +476,7 @@ function buildQuestionCard(qNum, choices) {
 // ANSWER SELECTION — saved locally instantly, server debounced
 // =========================================================
 function selectAnswer(qNum, choice, persist = true) {
-  if (submitted) return;
+  if (submitted || isReview) return;
   const idx = qNum - 1;
   answers[idx] = choice;
   document.querySelectorAll(`[data-q="${qNum}"]`).forEach(el => {
@@ -474,6 +493,17 @@ function updateProgress() {
   const total = TEST.keys.length;
   document.getElementById('answered-count').textContent = done;
   document.getElementById('progress-bar').style.width = (done / total * 100) + '%';
+}
+
+function jumpToUnanswered() {
+  const idx = answers.findIndex(a => a === null);
+  if (idx === -1) { alert('All questions are answered!'); return; }
+  const card = document.getElementById(`q-${idx + 1}`);
+  if (!card) return;
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  card.classList.remove('jump-highlight');
+  void card.offsetWidth; // restart animation if clicked repeatedly
+  card.classList.add('jump-highlight');
 }
 
 // =========================================================
@@ -497,6 +527,82 @@ function updateTimerDisplay() {
 }
 
 // =========================================================
+// GRADING — shared by live submission and review mode
+// =========================================================
+function gradeAndRender(userAnswers) {
+  let correct = 0, wrong = 0, blank = 0;
+  TEST.keys.forEach((key, i) => {
+    if (userAnswers[i] === null || userAnswers[i] === undefined) blank++;
+    else if (userAnswers[i] === key) correct++;
+    else wrong++;
+  });
+
+  const panel = document.getElementById('results-panel');
+  panel.style.display = 'block';
+  document.getElementById('score-big').innerHTML  = `${correct}<span>/${TEST.keys.length}</span>`;
+  document.getElementById('score-pct').textContent = `${Math.round(correct / TEST.keys.length * 100)}%`;
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-wrong').textContent   = wrong;
+  document.getElementById('stat-blank').textContent   = blank;
+  panel.scrollIntoView({ behavior: 'smooth' });
+
+  TEST.keys.forEach((key, i) => {
+    const qNum = i + 1;
+    const card = document.getElementById(`q-${qNum}`);
+    if (!card) return;
+    const ans = userAnswers[i];
+    card.classList.remove('answered');
+    if (ans === null || ans === undefined) {
+      card.classList.add('wrong');
+      document.getElementById(`feedback-${qNum}`).textContent = `Answer: ${key}`;
+    } else if (ans === key) {
+      card.classList.add('correct');
+    } else {
+      card.classList.add('wrong');
+      document.getElementById(`feedback-${qNum}`).textContent = `You: ${ans} · Answer: ${key}`;
+    }
+    document.querySelectorAll(`[data-q="${qNum}"]`).forEach(el => {
+      el.classList.remove('selected');
+      if (el.dataset.choice === key)  el.classList.add('correct-ans');
+      if (el.dataset.choice === ans && ans !== key) el.classList.add('wrong-ans');
+    });
+  });
+
+  return { correct, wrong, blank };
+}
+
+// =========================================================
+// REVIEW MODE — revisit a previously submitted attempt,
+// read-only, no timer, no autosave
+// =========================================================
+async function initReviewMode() {
+  document.getElementById('timer').style.display = 'none';
+  document.querySelector('.btn-submit-top').style.display = 'none';
+  document.querySelector('.submit-section').style.display = 'none';
+  document.getElementById('btn-jump').style.display = 'none';
+  const banner = document.getElementById('restore-banner');
+  banner.textContent = '📖 Reviewing your submitted answers — read only, nothing will be saved.';
+  banner.style.display = 'block';
+
+  try {
+    const r = await fetch(`/api/scores?nom=${encodeURIComponent(student.nom)}`);
+    const data = await r.json();
+    const entry = (data.scores || []).find(s => s.testId === testId);
+    if (!entry) {
+      alert('No submitted attempt found for this test.');
+      window.location.href = 'dashboard.html';
+      return;
+    }
+    entry.answers.forEach((a, i) => { if (a) answers[i] = a; });
+    submitted = true;
+    gradeAndRender(answers);
+  } catch (e) {
+    alert('Could not load your submitted answers.');
+    window.location.href = 'dashboard.html';
+  }
+}
+
+// =========================================================
 // SUBMIT
 // =========================================================
 async function submitTest(auto = false) {
@@ -508,47 +614,7 @@ async function submitTest(auto = false) {
   clearInterval(timerInterval);
   submitted = true;
 
-  // Calculate score
-  let correct = 0, wrong = 0, blank = 0;
-  TEST.keys.forEach((key, i) => {
-    if (answers[i] === null)  blank++;
-    else if (answers[i] === key) correct++;
-    else wrong++;
-  });
-
-  // Show results panel
-  const panel = document.getElementById('results-panel');
-  panel.style.display = 'block';
-  document.getElementById('score-big').innerHTML  = `${correct}<span>/${TEST.keys.length}</span>`;
-  document.getElementById('score-pct').textContent = `${Math.round(correct / TEST.keys.length * 100)}%`;
-  document.getElementById('stat-correct').textContent = correct;
-  document.getElementById('stat-wrong').textContent   = wrong;
-  document.getElementById('stat-blank').textContent   = blank;
-  panel.scrollIntoView({ behavior: 'smooth' });
-
-  // Colour each question
-  TEST.keys.forEach((key, i) => {
-    const qNum = i + 1;
-    const card = document.getElementById(`q-${qNum}`);
-    if (!card) return;
-    const ans = answers[i];
-    card.classList.remove('answered');
-    if (ans === null) {
-      card.classList.add('wrong');
-      document.getElementById(`feedback-${qNum}`).textContent = `Answer: ${key}`;
-    } else if (ans === key) {
-      card.classList.add('correct');
-    } else {
-      card.classList.add('wrong');
-      document.getElementById(`feedback-${qNum}`).textContent = `You: ${ans} · Answer: ${key}`;
-    }
-    // Colour bubbles
-    document.querySelectorAll(`[data-q="${qNum}"]`).forEach(el => {
-      el.classList.remove('selected');
-      if (el.dataset.choice === key)  el.classList.add('correct-ans');
-      if (el.dataset.choice === ans && ans !== key) el.classList.add('wrong-ans');
-    });
-  });
+  const { correct } = gradeAndRender(answers);
 
   // Progress no longer needed once submitted — clear both stores
   clearProgress();
@@ -570,7 +636,7 @@ async function submitTest(auto = false) {
     });
     if (!saveR.ok) {
       const errData = await saveR.json().catch(() => ({}));
-      panel.insertAdjacentHTML('beforeend',
+      document.getElementById('results-panel').insertAdjacentHTML('beforeend',
         `<p style="color:#c0392b;font-size:0.85rem;margin-top:1rem">⚠️ ${errData.error || 'Your score could not be saved.'}</p>`);
     }
   } catch(e) { /* network failure — result already shown to the student */ }
