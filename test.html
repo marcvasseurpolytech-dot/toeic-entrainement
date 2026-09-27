@@ -256,8 +256,10 @@ if (!isReview) (async () => {
       return;
     }
     const scoresData = await scoresR.json();
-    const already = (scoresData.scores || []).some(s => s.testId === testId);
-    if (already) {
+    const mine = (scoresData.scores || []).filter(s => s.testId === testId)
+                                            .sort((a, b) => new Date(b.date) - new Date(a.date));
+    const latest = mine[0];
+    if (latest && !latest.retakeGranted) {
       alert('You have already completed this test. Only one attempt is allowed.');
       window.location.href = 'dashboard.html';
     }
@@ -589,7 +591,8 @@ async function initReviewMode() {
   try {
     const r = await fetch(`/api/scores?nom=${encodeURIComponent(student.nom)}`);
     const data = await r.json();
-    const entry = (data.scores || []).find(s => s.testId === testId);
+    const entry = (data.scores || []).filter(s => s.testId === testId)
+                                       .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
     if (!entry) {
       alert('No submitted attempt found for this test.');
       window.location.href = 'dashboard.html';
