@@ -9,6 +9,7 @@ const TESTS_DATA = {
     baseId: 'iibc2-t1',
     audioControlled: true,
     audioUrl: 'https://drive.google.com/file/d/1IUDU5a8JnSF_Y40oZeKtaDQ-y1Fn52r-/view',
+    bookletUrl: 'booklets/iibc2-t1.pdf',
     partIds: ['p1', 'p2', 'p3', 'p4'],
     keys: [
       'D','D','C','A','B','B',
@@ -34,6 +35,7 @@ const TESTS_DATA = {
     baseId: 'iibc2-t1',
     audioControlled: false,
     duration: 75 * 60,
+    bookletUrl: 'booklets/iibc2-t1.pdf',
     partIds: ['p5', 'p6', 'p7'],
     keys: [
       // Part 5 (local 1-30 = Q101-130)
