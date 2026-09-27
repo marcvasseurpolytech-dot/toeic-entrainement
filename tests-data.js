@@ -148,6 +148,29 @@ const TESTS_DATA = {
       { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
       { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
     ]
+  },
+
+  'toeics7-listening': {
+    name: 'TOEIC S7 (4A)',
+    part: 'Listening',
+    section: 'L',
+    baseId: 'toeics7',
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1jdoPY_zE9wZzqVKKPk6g5J2prt4AEHr1/view?usp=sharing',
+    bookletUrl: 'https://drive.google.com/file/d/1A6M1ZkszCR8nKlHFG6zVl2Q2Euc6PAcD/view?usp=sharing',
+    partIds: ['p1', 'p2', 'p3', 'p4'],
+    keys: [
+      'C','A','D','B','D','A',
+      'C','C','A','C','B','B','B','C','A','C','B','A','B','C','C','A','C','A','B','C','C','A','C','B','A',
+      'C','A','A','C','A','D','A','B','B','A','C','B','B','D','B','D','C','B','D','A','C','C','D','B','C','A','B','D','B','A','A','C','D','B','D','C','A','B','C',
+      'C','A','C','D','D','C','B','C','D','D','C','A','C','A','D','B','C','A','B','A','A','A','B','D','C','A','A','A','B','A'
+    ],
+    parts: [
+      { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
+      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
+      { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
+    ]
   }
 
   // All keys sourced from the answer-key PDF. IIBC 2 T1 additionally has a
