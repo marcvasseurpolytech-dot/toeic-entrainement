@@ -35,16 +35,15 @@
     main { max-width: 780px; margin: 0 auto; padding: 1.5rem 1rem; }
     .audio-block {
       background: var(--navy); color: var(--cream); border-radius: 8px;
-      padding: 1.2rem 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      padding: 1.2rem 1.5rem; margin-bottom: 2rem;
     }
-    .audio-block .icon { font-size: 2rem; }
-    .audio-block .text { flex: 1; }
-    .audio-block .text h3 { font-family: 'Playfair Display', serif; color: var(--gold); margin-bottom: 0.3rem; }
-    .audio-block .text p { font-size: 0.82rem; color: var(--light-gold); }
-    .btn-audio {
-      background: var(--gold); color: var(--navy); border: none; border-radius: 4px;
-      padding: 0.65rem 1.2rem; font-size: 0.9rem; cursor: pointer; font-weight: 700; white-space: nowrap;
-      font-family: 'Playfair Display', serif;
+    .audio-block h3 { font-family: 'Playfair Display', serif; color: var(--gold); margin-bottom: 0.3rem; }
+    .audio-block p { font-size: 0.82rem; color: var(--light-gold); margin-bottom: 0.9rem; }
+    .audio-embed-wrap { border-radius: 6px; overflow: hidden; background: #000; }
+    .audio-embed-wrap iframe { display: block; width: 100%; height: 90px; border: 0; }
+    .audio-missing {
+      background: rgba(255,255,255,0.08); border: 1px dashed var(--light-gold);
+      border-radius: 6px; padding: 1rem; font-size: 0.85rem; color: var(--light-gold); text-align: center;
     }
     .part-header {
       background: var(--navy); color: var(--cream);
@@ -71,15 +70,6 @@
     .qcard.wrong    { border-color: var(--error); border-width: 2px; background: #fdf2f2; }
     .qcard .qnum {
       font-family: 'Playfair Display', serif; font-weight: 700; color: var(--navy); font-size: 0.85rem;
-    }
-    .qcard .qthumb {
-      width: 100%; height: 58px; object-fit: cover; border-radius: 5px;
-      border: 1px solid var(--border); cursor: zoom-in;
-    }
-    .qcard .qthumb-placeholder {
-      width: 100%; height: 58px; background: #f3f4f6; border: 1px dashed var(--border);
-      border-radius: 5px; display: flex; align-items: center; justify-content: center;
-      font-size: 0.6rem; color: #9ca3af; padding: 0.2rem;
     }
     .bubbles { display: flex; gap: 0.32rem; flex-wrap: wrap; justify-content: center; }
     .bubble {
@@ -141,7 +131,7 @@
 <body>
   <div class="sticky-header">
     <h1 id="header-title">TOEIC — Chargement…</h1>
-    <div class="timer-display" id="timer">--:--</div>
+    <div class="timer-display" id="timer" style="display:none">--:--</div>
     <button class="btn-submit-top" onclick="submitTest()">Terminer</button>
   </div>
 
@@ -160,13 +150,9 @@
 
     <div id="test-body">
       <div id="audio-section" style="display:none" class="audio-block">
-        <div class="icon">🎧</div>
-        <div class="text">
-          <h3>Listening Audio</h3>
-          <p>Clique sur le bouton pour démarrer l'audio dans un nouvel onglet.<br>
-             <strong>Une fois démarré, tu ne peux pas mettre en pause.</strong></p>
-        </div>
-        <button class="btn-audio" id="audio-btn" onclick="openAudio()">▶ Démarrer l'audio</button>
+        <h3>🎧 Audio du test</h3>
+        <p>L'audio pilote le rythme du test — pas de chronomètre, réponds au fur et à mesure de l'écoute.</p>
+        <div id="audio-embed-target"></div>
       </div>
 
       <div class="restore-banner" id="restore-banner">✓ Ta progression a été restaurée automatiquement.</div>
@@ -194,9 +180,8 @@ const TESTS_DATA = {
   'iibc2-t1-listening': {
     name: 'IIBC 2 — Test 1',
     part: 'Listening',
-    duration: 45 * 60,
-    // *** Replace with actual Google Drive audio link for IIBC 2 Test 1 ***
-    audioUrl: '',
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1IUDU5a8JnSF_Y40oZeKtaDQ-y1Fn52r-/view',
     keys: [
       // Q1-6  Part 1
       'D','D','C','A','B','B',
@@ -215,22 +200,13 @@ const TESTS_DATA = {
       { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
-    ],
-    // Images: null = placeholder shown. Replace null values with actual URLs.
-    // Pattern: Part 1 (all), Part 3/4 (first Q of each group of 3)
-    images: {
-      1: null, 2: null, 3: null, 4: null, 5: null, 6: null,
-      32: null, 35: null, 38: null, 41: null, 44: null, 47: null, 50: null,
-      53: null, 56: null, 59: null, 62: null, 65: null, 68: null,
-      71: null, 74: null, 77: null, 80: null, 83: null, 86: null,
-      89: null, 92: null, 95: null, 98: null
-    }
+    ]
   },
 
   'iibc2-t2-listening': {
     name: 'IIBC 2 — Test 2',
     part: 'Listening',
-    duration: 45 * 60,
+    audioControlled: true,
     audioUrl: '',
     keys: [
       // Q1-6 Part 1
@@ -250,20 +226,13 @@ const TESTS_DATA = {
       { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
-    ],
-    images: {
-      1: null, 2: null, 3: null, 4: null, 5: null, 6: null,
-      32: null, 35: null, 38: null, 41: null, 44: null, 47: null, 50: null,
-      53: null, 56: null, 59: null, 62: null, 65: null, 68: null,
-      71: null, 74: null, 77: null, 80: null, 83: null, 86: null,
-      89: null, 92: null, 95: null, 98: null
-    }
+    ]
   },
 
   'iibc3-t1-listening': {
     name: 'IIBC 3 — Test 1',
     part: 'Listening',
-    duration: 45 * 60,
+    audioControlled: true,
     audioUrl: '',
     keys: [
       // Q1-6 Part 1
@@ -283,14 +252,7 @@ const TESTS_DATA = {
       { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
-    ],
-    images: {
-      1: null, 2: null, 3: null, 4: null, 5: null, 6: null,
-      32: null, 35: null, 38: null, 41: null, 44: null, 47: null, 50: null,
-      53: null, 56: null, 59: null, 62: null, 65: null, 68: null,
-      71: null, 74: null, 77: null, 80: null, 83: null, 86: null,
-      89: null, 92: null, 95: null, 98: null
-    }
+    ]
   }
 };
 
@@ -306,7 +268,7 @@ const TEST = TESTS_DATA[testId];
 if (!TEST) { alert('Test introuvable.'); window.location.href = 'dashboard.html'; }
 
 const answers = new Array(TEST.keys.length).fill(null);
-let timeLeft  = TEST.duration;
+let timeLeft  = TEST.duration || 0;
 let timerInterval = null;
 let submitted = false;
 
@@ -322,7 +284,7 @@ function saveProgress() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
       answers, startTime: sessionStartTime
     }));
-  } catch(e) { /* storage full or unavailable — ignore, results still submit */ }
+  } catch(e) { /* storage full or unavailable — server save still runs */ }
 }
 
 function loadProgress() {
@@ -338,41 +300,114 @@ function clearProgress() {
 }
 
 // =========================================================
+// SERVER-SIDE PERSISTENCE — debounced autosave to GitHub via
+// /api/progress, so progress survives even a lost/wiped device
+// =========================================================
+let serverSaveTimer = null;
+let serverSaveDirty = false;
+
+function scheduleServerSave() {
+  serverSaveDirty = true;
+  clearTimeout(serverSaveTimer);
+  serverSaveTimer = setTimeout(flushServerSave, 4000);
+}
+
+async function flushServerSave() {
+  if (!serverSaveDirty) return;
+  serverSaveDirty = false;
+  try {
+    await fetch('/api/progress', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nom: student.nom, testId, answers, startTime: sessionStartTime
+      })
+    });
+  } catch(e) { /* will retry on next change or periodic flush */ }
+}
+// Safety net: flush periodically even without new answers, and on unload
+setInterval(flushServerSave, 20000);
+window.addEventListener('beforeunload', () => {
+  if (serverSaveDirty && navigator.sendBeacon) {
+    navigator.sendBeacon('/api/progress', new Blob([JSON.stringify({
+      nom: student.nom, testId, answers, startTime: sessionStartTime
+    })], { type: 'application/json' }));
+  }
+});
+
+async function fetchServerProgress() {
+  try {
+    const r = await fetch(`/api/progress?nom=${encodeURIComponent(student.nom)}&testId=${encodeURIComponent(testId)}`);
+    const data = await r.json();
+    return data.progress || null;
+  } catch(e) { return null; }
+}
+
+async function clearServerProgress() {
+  try {
+    await fetch(`/api/progress?nom=${encodeURIComponent(student.nom)}&testId=${encodeURIComponent(testId)}`, { method: 'DELETE' });
+  } catch(e) {}
+}
+
+// =========================================================
+// AUDIO EMBED (Google Drive streaming player)
+// =========================================================
+function driveEmbedUrl(url) {
+  const m = url && url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  return m ? `https://drive.google.com/file/d/${m[1]}/preview` : null;
+}
+
+function renderAudio() {
+  if (!TEST.audioControlled) return;
+  const section = document.getElementById('audio-section');
+  section.style.display = 'block';
+  const target = document.getElementById('audio-embed-target');
+  const embedUrl = driveEmbedUrl(TEST.audioUrl);
+  if (embedUrl) {
+    target.innerHTML = `<div class="audio-embed-wrap"><iframe src="${embedUrl}" allow="autoplay" allowfullscreen></iframe></div>`;
+  } else {
+    target.innerHTML = `<div class="audio-missing">Audio pas encore configuré pour ce test.</div>`;
+  }
+}
+
+// =========================================================
 // INIT
 // =========================================================
 document.getElementById('header-title').textContent = `${TEST.name} — ${TEST.part}`;
 document.getElementById('total-count').textContent  = TEST.keys.length;
 
-if (TEST.audioUrl) {
-  document.getElementById('audio-section').style.display = 'flex';
-  document.getElementById('audio-btn').dataset.url = TEST.audioUrl;
-}
-
-function openAudio() {
-  const url = TEST.audioUrl || document.getElementById('audio-btn').dataset.url;
-  if (url) window.open(url, '_blank');
-}
-
+renderAudio();
 renderQuestions();
 
-// Restore any saved progress (e.g. after a crash or accidental close)
-const saved = loadProgress();
-if (saved && Array.isArray(saved.answers) && saved.answers.length === TEST.keys.length) {
-  sessionStartTime = saved.startTime || Date.now();
-  const elapsed = Math.floor((Date.now() - sessionStartTime) / 1000);
-  timeLeft = TEST.duration - elapsed;
-  saved.answers.forEach((a, i) => { if (a) selectAnswer(i + 1, a, false); });
-  document.getElementById('restore-banner').style.display = 'block';
-  if (timeLeft <= 0) {
-    timeLeft = 0;
-    submitTest(true);
-  } else {
-    startTimer();
+// Restore progress: prefer local (same device), fall back to server
+(async () => {
+  let saved = loadProgress();
+  let fromServer = false;
+  if (!saved || !Array.isArray(saved.answers) || saved.answers.length !== TEST.keys.length) {
+    const serverEntry = await fetchServerProgress();
+    if (serverEntry && Array.isArray(serverEntry.answers) && serverEntry.answers.length === TEST.keys.length) {
+      saved = serverEntry;
+      fromServer = true;
+    }
   }
-} else {
-  saveProgress();
-  startTimer();
-}
+
+  if (saved && Array.isArray(saved.answers) && saved.answers.length === TEST.keys.length) {
+    sessionStartTime = saved.startTime || Date.now();
+    saved.answers.forEach((a, i) => { if (a) selectAnswer(i + 1, a, false); });
+    document.getElementById('restore-banner').style.display = 'block';
+    if (fromServer) saveProgress(); // mirror into localStorage too
+
+    if (!TEST.audioControlled) {
+      const elapsed = Math.floor((Date.now() - sessionStartTime) / 1000);
+      timeLeft = TEST.duration - elapsed;
+      if (timeLeft <= 0) { timeLeft = 0; submitTest(true); return; }
+      startTimer();
+    }
+  } else {
+    saveProgress();
+    if (!TEST.audioControlled) startTimer();
+  }
+})();
 
 // =========================================================
 // RENDER QUESTIONS — TOEIC-style bubble answer sheet,
@@ -402,17 +437,6 @@ function buildQuestionCard(qNum, choices) {
   div.id = `q-${qNum}`;
 
   let inner = `<div class="qnum">${qNum}</div>`;
-
-  // Image (Part 1 photos + Part 3/4 docs) — tap to enlarge in a new tab
-  if (TEST.images && qNum in TEST.images) {
-    const imgUrl = TEST.images[qNum];
-    if (imgUrl) {
-      inner += `<img class="qthumb" src="${imgUrl}" alt="Document Q${qNum}" loading="lazy" onclick="window.open('${imgUrl}','_blank')">`;
-    } else {
-      inner += `<div class="qthumb-placeholder">🖼 image</div>`;
-    }
-  }
-
   inner += `<div class="bubbles" id="choices-${qNum}">`;
   choices.forEach(c => {
     inner += `<div class="bubble" data-q="${qNum}" data-choice="${c}" onclick="selectAnswer(${qNum},'${c}')">${c}</div>`;
@@ -424,7 +448,7 @@ function buildQuestionCard(qNum, choices) {
 }
 
 // =========================================================
-// ANSWER SELECTION — saved to localStorage instantly
+// ANSWER SELECTION — saved locally instantly, server debounced
 // =========================================================
 function selectAnswer(qNum, choice, persist = true) {
   if (submitted) return;
@@ -436,7 +460,7 @@ function selectAnswer(qNum, choice, persist = true) {
   const card = document.getElementById(`q-${qNum}`);
   if (card) card.classList.add('answered');
   updateProgress();
-  if (persist) saveProgress();
+  if (persist) { saveProgress(); scheduleServerSave(); }
 }
 
 function updateProgress() {
@@ -520,8 +544,9 @@ async function submitTest(auto = false) {
     });
   });
 
-  // Progress saved locally is no longer needed once submitted
+  // Progress no longer needed once submitted — clear both stores
   clearProgress();
+  clearServerProgress();
 
   // Save to API
   try {
