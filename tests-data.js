@@ -98,8 +98,59 @@ const TESTS_DATA = {
       { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
       { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
     ]
+  },
+
+  'iibc2-t3-listening': {
+    name: 'IIBC 2 — Test 3',
+    part: 'Listening',
+    section: 'L',
+    baseId: 'iibc2-t3',
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1Nj89BmvU4PVxWfOqvgyUDMijAF_Inm7R/view?usp=sharing',
+    bookletUrl: 'https://drive.google.com/file/d/1e7rUPX5LSKi0-Gvna9rcpIjadg7a_PAB/view?usp=sharing',
+    partIds: ['p1', 'p2', 'p3', 'p4'],
+    keys: [
+      'A','C','D','A','C','B',
+      'B','A','C','A','B','B','C','B','C','A','C','B','A','C','B','A','C','B','A','B','C','A','B','A','B',
+      'B','C','A','A','B','B','A','D','B','C','B','A','C','B','B','C','D','B','C','A',
+      'D','A','C','B','A','C','B','D','B','C','C','C','C','D','A','C','B','A','C',
+      'A','B','D','C','A','D','D','B','C','C',
+      'A','B','C','C','A','A','A','C','A','A',
+      'A','D','C','C','B','D','C','C','A','D'
+    ],
+    parts: [
+      { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
+      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
+      { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  'iibc2-t3-reading': {
+    name: 'IIBC 2 — Test 3',
+    part: 'Reading',
+    section: 'R',
+    baseId: 'iibc2-t3',
+    audioControlled: false,
+    duration: 75 * 60,
+    bookletUrl: 'https://drive.google.com/file/d/1e7rUPX5LSKi0-Gvna9rcpIjadg7a_PAB/view?usp=sharing',
+    partIds: ['p5', 'p6', 'p7'],
+    keys: [
+      // Part 5 (local 1-30 = Q101-130)
+      'B','A','B','A','B','C','D','B','C','A','C','A','B','B','C','D','C','B','A','A','C','C','A','A','C','D','C','A','D','A',
+      // Part 6 (local 31-46 = Q131-146)
+      'C','A','D','B','B','D','A','C','C','D','B','B','D','C','C','B',
+      // Part 7 (local 47-100 = Q147-200)
+      'D','B','C','A','C','B','B','B','C','A','B','A','C','B','B','C','C','D','B','C','D','B','C','A','C','A','B','C','B','A','B','C','C','B','C','D','A','A','B','A','B','D','C','D','D','A','C','D','D','A','B','D','A','B'
+    ],
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
+      { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
+      { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
   }
 
   // All keys sourced from the answer-key PDF. IIBC 2 T1 additionally has a
-  // full booklet PDF; IIBC 2 T2 doesn't (booklet button hidden).
+  // full booklet PDF; IIBC 2 T2 doesn't (booklet button hidden); IIBC 2 T3
+  // links directly to the Drive booklet rather than a locally-hosted copy.
 };
