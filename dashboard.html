@@ -194,17 +194,20 @@
       const grid = document.getElementById('tests-grid');
       grid.innerHTML = '';
       Object.entries(TESTS_DATA).forEach(([id, t]) => {
-        const myScores = scores.filter(s => s.testId === id);
-        const completed = myScores.length > 0; // one attempt only — already used
-        const best = completed ? myScores[0].score : null;
+        const myScores = scores.filter(s => s.testId === id).sort((a, b) => new Date(b.date) - new Date(a.date));
+        const latest = myScores[0] || null;
+        const retakeGranted = !!(latest && latest.retakeGranted);
+        const completed = !!latest && !retakeGranted; // blocked: already used, no grant
+        const best = latest ? latest.score : null;
         const isOpen = access[id] !== false; // default open if not listed
-        const canStart = isOpen && !completed;
+        const canStart = isOpen && (!latest || retakeGranted);
         const div = document.createElement('div');
         div.className = 'test-card' + (isOpen ? '' : ' locked');
         const badge = !isOpen ? '<span class="badge locked">Closed</span>'
+                    : retakeGranted ? `<span class="badge open">Retake granted — last: ${best}/100</span>`
                     : completed ? `<span class="badge done">Completed: ${best}/100</span>`
                     : '<span class="badge open">Available</span>';
-        const label = !isOpen ? 'Not available' : completed ? '✓ Completed' : '▶ Start';
+        const label = !isOpen ? 'Not available' : retakeGranted ? '🔄 Retake' : completed ? '✓ Completed' : '▶ Start';
         div.innerHTML = `
           <h3>${t.name}</h3>
           <div class="meta">📋 ${t.part} &nbsp;·&nbsp; ${t.keys.length} questions ${t.audioControlled ? '&nbsp;·&nbsp; 🎧 audio' : ''}</div>
