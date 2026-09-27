@@ -195,6 +195,53 @@ const TESTS_DATA = {
       { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
       { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
     ]
+  },
+
+  'toeics8-listening': {
+    name: 'TOEIC S8 (4A)',
+    part: 'Listening',
+    section: 'L',
+    baseId: 'toeics8',
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/176kDtbJGLBnMxXh9Iciqp4zpjoomy4aU/view?usp=sharing',
+    bookletUrl: 'https://drive.google.com/file/d/1m0Q0CyPPmeat0hdpc-g96jIpG2ICgpBe/view?usp=sharing',
+    partIds: ['p1', 'p2', 'p3', 'p4'],
+    keys: [
+      'C','A','B','A','D','A',
+      'C','C','C','A','C','C','A','B','B','C','A','B','B','A','C','A','B','B','A','C','B','C','A','B','B',
+      'A','D','B','C','B','D','C','A','A','C','B','A','B','D','C','C','A','D','C','B','D','B','B','A','A','B','D','B','D','A','C','A','B','B','D','B','B','D','C',
+      'A','B','D','B','D','B','C','B','B','C','A','D','C','D','C','C','B','A','D','B','C','A','D','D','A','C','A','D','C','A'
+    ],
+    parts: [
+      { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
+      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
+      { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  'toeics8-reading': {
+    name: 'TOEIC S8 (4A)',
+    part: 'Reading',
+    section: 'R',
+    baseId: 'toeics8',
+    audioControlled: false,
+    duration: 75 * 60,
+    bookletUrl: 'https://drive.google.com/file/d/1m0Q0CyPPmeat0hdpc-g96jIpG2ICgpBe/view?usp=sharing',
+    partIds: ['p5', 'p6', 'p7'],
+    keys: [
+      // Part 5 (local 1-30 = Q101-130)
+      'D','B','C','D','C','A','C','A','B','A','A','B','D','C','B','D','B','C','B','B','A','B','A','A','D','C','D','A','B','B',
+      // Part 6 (local 31-46 = Q131-146)
+      'C','B','D','A','A','D','C','B','A','C','C','B','D','C','B','A',
+      // Part 7 (local 47-100 = Q147-200)
+      'D','D','B','C','A','B','D','C','C','D','B','D','B','C','D','A','C','A','D','C','B','C','B','B','D','B','C','B','B','C','A','D','C','D','B','B','D','B','D','A','A','B','C','D','C','A','C','D','B','D','B','C','D','A'
+    ],
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
+      { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
+      { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
   }
 
   // All keys sourced from the answer-key PDF. IIBC 2 T1 additionally has a
