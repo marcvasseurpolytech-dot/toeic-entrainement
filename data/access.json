@@ -1,16 +1,16 @@
 {
   "tests": {
-    "iibc2-t1-listening": true,
-    "iibc2-t1-reading": true,
-    "iibc2-t2-listening": true,
-    "iibc2-t2-reading": true,
-    "iibc2-t3-listening": true,
-    "iibc2-t3-reading": true,
-    "toeics7-listening": true,
-    "toeics7-reading": true,
-    "toeics8-listening": true,
-    "toeics8-reading": true,
-    "iibc1-t2-listening": true,
-    "iibc1-t2-reading": true
+    "iibc2-t1-listening": false,
+    "iibc2-t1-reading": false,
+    "iibc2-t2-listening": false,
+    "iibc2-t2-reading": false,
+    "iibc2-t3-listening": false,
+    "iibc2-t3-reading": false,
+    "toeics7-listening": false,
+    "toeics7-reading": false,
+    "toeics8-listening": false,
+    "toeics8-reading": false,
+    "iibc1-t2-listening": false,
+    "iibc1-t2-reading": false
   }
 }
