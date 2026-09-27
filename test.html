@@ -294,6 +294,7 @@ function renderAudio() {
 // =========================================================
 document.getElementById('header-title').textContent = `${TEST.name} — ${TEST.part}`;
 document.getElementById('total-count').textContent  = TEST.keys.length;
+if (!TEST.audioControlled) document.getElementById('timer').style.display = '';
 
 renderAudio();
 renderQuestions();
