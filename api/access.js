@@ -44,12 +44,26 @@ module.exports = async (req, res) => {
     return res.json({ tests: file?.data?.tests || {} });
   }
 
-  // POST — admin only. Body: { testId, open } toggles a single test.
+  // POST — admin only.
+  // Body { testId, open } toggles a single test.
+  // Body { tests: { id1: bool, id2: bool, ... } } updates several at once
+  // in a single write (used for "close all" / "open all").
   if (req.method === 'POST') {
     const hash = req.headers['x-admin-hash'];
     if (!hash || hash !== ADMIN_HASH) return res.status(403).json({ error: 'Unauthorized' });
 
-    const { testId, open } = req.body || {};
+    const { testId, open, tests: bulkTests } = req.body || {};
+
+    if (bulkTests && typeof bulkTests === 'object') {
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const file = await ghGet(FILE, token);
+        const tests = { ...(file?.data?.tests || {}), ...bulkTests };
+        const ok = await ghPut(FILE, { tests }, file?.sha, token);
+        if (ok) return res.json({ success: true, tests });
+      }
+      return res.status(500).json({ error: 'SHA conflict — try again.' });
+    }
+
     if (!testId || typeof open !== 'boolean') return res.status(400).json({ error: 'Missing data' });
 
     for (let attempt = 0; attempt < 3; attempt++) {
