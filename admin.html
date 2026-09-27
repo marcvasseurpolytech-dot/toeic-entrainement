@@ -86,7 +86,7 @@
     </div>
     <div id="table-wrap"><p style="color:#9ca3af;font-style:italic">Loading…</p></div>
 
-    <h2 style="margin-top:2.5rem">Registered students</h2>
+    <h2 id="students-heading" style="margin-top:2.5rem">Registered students</h2>
     <div id="students-wrap"><p style="color:#9ca3af;font-style:italic">Loading…</p></div>
   </main>
 
@@ -278,19 +278,59 @@
         document.getElementById('students-wrap').innerHTML = '<p style="color:#9ca3af;font-style:italic">No students registered.</p>';
         return;
       }
+      // Accounts created before the approval system existed have no
+      // `approved` field — treat those as already approved.
+      const isApproved = s => s.approved !== false;
+      const pendingCount = allStudents.filter(s => !isApproved(s)).length;
+      document.getElementById('students-heading').textContent =
+        pendingCount ? `Registered students (${pendingCount} pending approval)` : 'Registered students';
+
+      const sorted = [...allStudents].sort((a, b) => {
+        if (isApproved(a) === isApproved(b)) return 0;
+        return isApproved(a) ? 1 : -1; // pending first
+      });
+
       document.getElementById('students-wrap').innerHTML = `
         <table>
-          <thead><tr><th>Last name</th><th>First name</th><th>Department</th><th>Registered</th><th></th></tr></thead>
-          <tbody>${allStudents.map(s => {
+          <thead><tr><th>Last name</th><th>First name</th><th>Department</th><th>Registered</th><th>Approved</th><th></th></tr></thead>
+          <tbody>${sorted.map(s => {
             const d = s.createdAt ? new Date(s.createdAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : '-';
-            return `<tr>
+            const approved = isApproved(s);
+            const safeName = s.nom.replace(/'/g, "\\'");
+            return `<tr${approved ? '' : ' style="background:#fef9ec"'}>
               <td>${s.nom}</td><td>${s.prenom}</td><td>${s.dept}</td><td>${d}</td>
-              <td><button class="btn-delete" onclick="deleteStudent('${s.nom.replace(/'/g, "\\'")}')">🗑 Delete</button></td>
+              <td>
+                <label class="switch">
+                  <input type="checkbox" ${approved ? 'checked' : ''} onchange="toggleApproval('${safeName}', this.checked, this)">
+                  <span class="slider"></span>
+                </label>
+              </td>
+              <td><button class="btn-delete" onclick="deleteStudent('${safeName}')">🗑 Delete</button></td>
             </tr>`;
           }).join('')}</tbody>
         </table>
         <p style="font-size:0.78rem;color:#9ca3af;margin-top:0.5rem">${allStudents.length} student(s)</p>
       `;
+    }
+
+    async function toggleApproval(nom, approved, checkboxEl) {
+      checkboxEl.disabled = true;
+      try {
+        const r = await fetch('/api/admin?resource=approval', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Admin-Hash': ADMIN_HASH },
+          body: JSON.stringify({ nom, approved })
+        });
+        if (!r.ok) throw new Error();
+        const student = allStudents.find(s => s.nom === nom);
+        if (student) student.approved = approved;
+        renderStudents();
+      } catch(e) {
+        alert('Could not update approval — reverting.');
+        checkboxEl.checked = !approved;
+      } finally {
+        checkboxEl.disabled = false;
+      }
     }
 
     async function deleteStudent(nom) {
