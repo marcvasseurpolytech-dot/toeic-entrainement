@@ -171,7 +171,7 @@
         </div>
         <div class="form-group">
           <label>Secret code (4 digits)</label>
-          <input type="number" id="login-code" placeholder="0000" min="0" max="9999" autocomplete="off">
+          <input type="password" id="login-code" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off" oninput="this.value=this.value.replace(/\D/g,'').slice(0,4)">
           <div class="hint">The code you chose when creating your profile.</div>
         </div>
         <button class="btn" onclick="doLogin()">Log in</button>
@@ -194,12 +194,12 @@
         </div>
         <div class="form-group">
           <label>Secret code (4 digits)</label>
-          <input type="number" id="signup-code" placeholder="0000" min="0" max="9999" autocomplete="off">
+          <input type="password" id="signup-code" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off" oninput="this.value=this.value.replace(/\D/g,'').slice(0,4)">
           <div class="hint">Choose a code you'll remember. It cannot be recovered.</div>
         </div>
         <div class="form-group">
           <label>Confirm code</label>
-          <input type="number" id="signup-code2" placeholder="0000" min="0" max="9999" autocomplete="off">
+          <input type="password" id="signup-code2" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off" oninput="this.value=this.value.replace(/\D/g,'').slice(0,4)">
         </div>
         <button class="btn" onclick="doSignup()">Create my profile</button>
       </div>
