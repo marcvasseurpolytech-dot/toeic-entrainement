@@ -27,6 +27,11 @@
       font-family: 'Source Serif 4', serif; transition: all 0.2s;
     }
     .btn-logout:hover { background: var(--light-gold); color: var(--navy); }
+    .progress-counter {
+      background: rgba(255,255,255,0.08); border: 1px solid var(--light-gold); border-radius: 20px;
+      padding: 0.4rem 1rem; font-size: 0.85rem; color: var(--light-gold); white-space: nowrap;
+    }
+    .progress-counter strong { color: var(--gold); }
     main { max-width: 960px; margin: 0 auto; padding: 2rem 1rem; }
     h2 {
       font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--navy);
@@ -95,6 +100,12 @@
     .score-pct { font-weight: 600; }
     .score-pct.good { color: var(--success); }
     .score-pct.bad  { color: var(--error); }
+    .btn-review {
+      background: var(--cream); border: 1px solid var(--gold); color: var(--dark-gold);
+      border-radius: 4px; padding: 0.3rem 0.7rem; font-size: 0.75rem; cursor: pointer;
+      font-family: 'Source Serif 4', serif; font-weight: 600; white-space: nowrap;
+    }
+    .btn-review:hover { background: var(--light-gold); }
 
     .empty-msg { color: var(--muted); font-size: 0.9rem; padding: 1rem 0; font-style: italic; }
     .loading { color: var(--muted); font-style: italic; padding: 2rem 0; text-align: center; }
@@ -108,6 +119,7 @@
       <h1>TOEIC — Full Practice</h1>
       <div class="student-info" id="student-info">Loading…</div>
     </div>
+    <div id="progress-counter" style="display:none" class="progress-counter"></div>
     <button class="btn-logout" onclick="logout()">Log out</button>
   </header>
 
@@ -303,7 +315,7 @@
         <div class="table-scroll">
         <table class="attempts-table">
           <thead><tr>
-            <th>Test</th><th>Section</th><th>Part breakdown</th><th>Raw score</th><th>/495</th><th>Level</th><th>Date</th>
+            <th>Test</th><th>Section</th><th>Part breakdown</th><th>Raw score</th><th>/495</th><th>Level</th><th>Date</th><th></th>
           </tr></thead>
           <tbody>${sorted.map(s => {
             const pct = Math.round(s.score / s.total * 100);
@@ -321,6 +333,7 @@
               <td>${s.converted}</td>
               <td><span class="cecrl-chip">${s.cecrl}</span></td>
               <td>${d}</td>
+              <td><button class="btn-review" onclick="reviewTest('${s.testId}')">📖 Review</button></td>
             </tr>`;
           }).join('')}</tbody>
         </table>
@@ -328,11 +341,24 @@
       `;
     }
 
+    function reviewTest(testId) {
+      window.location.href = `test.html?id=${testId}&review=1`;
+    }
+
+    function renderProgressCounter(scores) {
+      const totalTests = Object.keys(TESTS_DATA).length;
+      const completed  = new Set(scores.map(s => s.testId)).size;
+      const el = document.getElementById('progress-counter');
+      el.innerHTML = `<strong>${completed}</strong>/${totalTests} tests completed`;
+      el.style.display = 'inline-block';
+    }
+
     (async () => {
       try {
         const [scores, access] = await Promise.all([loadScores(), loadAccess()]);
         const enriched = scores.map(enrichScore).filter(Boolean);
 
+        renderProgressCounter(scores);
         renderTests(scores, access);
         renderSummary(enriched);
         renderEvolution(enriched);
