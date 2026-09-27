@@ -53,38 +53,54 @@
       display: flex; align-items: center; gap: 0.8rem;
     }
     .part-header .range { font-size: 0.78rem; color: var(--light-gold); margin-left: auto; letter-spacing: 0.05em; }
-    .question-block {
-      background: #fff; border: 1px solid var(--border); border-radius: 6px;
-      margin-bottom: 0.8rem; padding: 1rem 1.2rem;
-      transition: border-color 0.2s;
+
+    /* Answer sheet — multi-column bubble grid, smartphone-friendly */
+    .qsheet {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+      gap: 0.6rem;
+      margin-bottom: 0.5rem;
     }
-    .question-block.answered { border-left: 4px solid var(--gold); }
-    .question-block.correct  { border-left: 4px solid var(--success); background: #f0faf4; }
-    .question-block.wrong    { border-left: 4px solid var(--error); background: #fdf2f2; }
-    .q-header { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem; }
-    .q-num {
-      background: var(--navy); color: var(--cream);
-      font-size: 0.78rem; font-weight: 700; padding: 0.2rem 0.55rem; border-radius: 3px;
-      min-width: 36px; text-align: center; font-family: 'Playfair Display', serif;
+    .qcard {
+      background: #fff; border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.55rem 0.4rem; display: flex; flex-direction: column; align-items: center;
+      gap: 0.45rem; text-align: center; transition: border-color 0.2s;
     }
-    .q-img { max-width: 100%; border-radius: 4px; margin-bottom: 0.8rem; border: 1px solid var(--border); }
-    .q-img-placeholder {
-      width: 100%; height: 120px; background: #f3f4f6; border: 2px dashed var(--border);
-      border-radius: 4px; display: flex; align-items: center; justify-content: center;
-      color: #9ca3af; font-size: 0.8rem; margin-bottom: 0.8rem;
+    .qcard.answered { border-color: var(--gold); border-width: 2px; }
+    .qcard.correct  { border-color: var(--success); border-width: 2px; background: #f0faf4; }
+    .qcard.wrong    { border-color: var(--error); border-width: 2px; background: #fdf2f2; }
+    .qcard .qnum {
+      font-family: 'Playfair Display', serif; font-weight: 700; color: var(--navy); font-size: 0.85rem;
     }
-    .choices { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .choice {
-      flex: 1; min-width: 60px; border: 2px solid var(--border); border-radius: 4px;
-      padding: 0.5rem 0.4rem; text-align: center; cursor: pointer;
-      font-size: 1rem; font-weight: 700; color: var(--navy);
-      transition: all 0.15s; background: var(--cream); user-select: none;
+    .qcard .qthumb {
+      width: 100%; height: 58px; object-fit: cover; border-radius: 5px;
+      border: 1px solid var(--border); cursor: zoom-in;
     }
-    .choice:hover { border-color: var(--gold); background: #fdf8f0; }
-    .choice.selected { background: var(--navy); color: var(--cream); border-color: var(--navy); }
-    .choice.correct-ans { background: var(--success); color: #fff; border-color: var(--success); }
-    .choice.wrong-ans   { background: var(--error); color: #fff; border-color: var(--error); }
-    .q-feedback { font-size: 0.82rem; margin-top: 0.6rem; color: var(--muted); }
+    .qcard .qthumb-placeholder {
+      width: 100%; height: 58px; background: #f3f4f6; border: 1px dashed var(--border);
+      border-radius: 5px; display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem; color: #9ca3af; padding: 0.2rem;
+    }
+    .bubbles { display: flex; gap: 0.32rem; flex-wrap: wrap; justify-content: center; }
+    .bubble {
+      width: 34px; height: 34px; min-width: 34px; border-radius: 50%;
+      border: 2px solid #1a1a2e; display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.9rem; color: #1a1a2e; background: #fff;
+      cursor: pointer; user-select: none; transition: transform 0.1s;
+    }
+    .bubble:active { transform: scale(0.9); }
+    .bubble.selected    { background: #111; border-color: #111; color: #fff; }
+    .bubble.correct-ans { background: var(--success); border-color: var(--success); color: #fff; }
+    .bubble.wrong-ans    { background: var(--error); border-color: var(--error); color: #fff; }
+    .q-feedback { font-size: 0.68rem; color: var(--muted); }
+    .restore-banner {
+      background: #e6f4ec; color: var(--success); border: 1px solid #b8dfc8;
+      border-radius: 4px; padding: 0.7rem 1rem; font-size: 0.85rem; margin-bottom: 1.2rem; display: none;
+    }
+    @media (max-width: 420px) {
+      .qsheet { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 0.45rem; }
+      .bubble { width: 30px; height: 30px; min-width: 30px; font-size: 0.82rem; }
+    }
 
     /* Results panel */
     .results-panel {
@@ -152,6 +168,8 @@
         </div>
         <button class="btn-audio" id="audio-btn" onclick="openAudio()">▶ Démarrer l'audio</button>
       </div>
+
+      <div class="restore-banner" id="restore-banner">✓ Ta progression a été restaurée automatiquement.</div>
 
       <div class="progress-bar-wrap">
         <div class="progress-bar" id="progress-bar" style="width:0%"></div>
@@ -293,6 +311,33 @@ let timerInterval = null;
 let submitted = false;
 
 // =========================================================
+// LOCAL PERSISTENCE — every click saved instantly, survives
+// a browser crash, tab close, or power outage
+// =========================================================
+const STORAGE_KEY = `toeic-progress::${testId}::${student.nom}`;
+let sessionStartTime = Date.now();
+
+function saveProgress() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      answers, startTime: sessionStartTime
+    }));
+  } catch(e) { /* storage full or unavailable — ignore, results still submit */ }
+}
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch(e) { return null; }
+}
+
+function clearProgress() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+}
+
+// =========================================================
 // INIT
 // =========================================================
 document.getElementById('header-title').textContent = `${TEST.name} — ${TEST.part}`;
@@ -309,10 +354,29 @@ function openAudio() {
 }
 
 renderQuestions();
-startTimer();
+
+// Restore any saved progress (e.g. after a crash or accidental close)
+const saved = loadProgress();
+if (saved && Array.isArray(saved.answers) && saved.answers.length === TEST.keys.length) {
+  sessionStartTime = saved.startTime || Date.now();
+  const elapsed = Math.floor((Date.now() - sessionStartTime) / 1000);
+  timeLeft = TEST.duration - elapsed;
+  saved.answers.forEach((a, i) => { if (a) selectAnswer(i + 1, a, false); });
+  document.getElementById('restore-banner').style.display = 'block';
+  if (timeLeft <= 0) {
+    timeLeft = 0;
+    submitTest(true);
+  } else {
+    startTimer();
+  }
+} else {
+  saveProgress();
+  startTimer();
+}
 
 // =========================================================
-// RENDER QUESTIONS
+// RENDER QUESTIONS — TOEIC-style bubble answer sheet,
+// multi-column grid, smartphone-friendly
 // =========================================================
 function renderQuestions() {
   const root = document.getElementById('questions-root');
@@ -323,33 +387,35 @@ function renderQuestions() {
     ph.innerHTML = `<span>${part.name}</span><span class="range">Q${part.start} – Q${part.end}</span>`;
     root.appendChild(ph);
 
+    const sheet = document.createElement('div');
+    sheet.className = 'qsheet';
     for (let q = part.start; q <= part.end; q++) {
-      root.appendChild(buildQuestionBlock(q, part.choices));
+      sheet.appendChild(buildQuestionCard(q, part.choices));
     }
+    root.appendChild(sheet);
   });
 }
 
-function buildQuestionBlock(qNum, choices) {
-  const idx  = qNum - 1;
-  const div  = document.createElement('div');
-  div.className = 'question-block';
+function buildQuestionCard(qNum, choices) {
+  const div = document.createElement('div');
+  div.className = 'qcard';
   div.id = `q-${qNum}`;
 
-  let inner = `<div class="q-header"><span class="q-num">Q ${qNum}</span></div>`;
+  let inner = `<div class="qnum">${qNum}</div>`;
 
-  // Image (Part 1 photos + Part 3/4 docs)
+  // Image (Part 1 photos + Part 3/4 docs) — tap to enlarge in a new tab
   if (TEST.images && qNum in TEST.images) {
     const imgUrl = TEST.images[qNum];
     if (imgUrl) {
-      inner += `<img class="q-img" src="${imgUrl}" alt="Document Q${qNum}" loading="lazy">`;
+      inner += `<img class="qthumb" src="${imgUrl}" alt="Document Q${qNum}" loading="lazy" onclick="window.open('${imgUrl}','_blank')">`;
     } else {
-      inner += `<div class="q-img-placeholder">🖼 Image à configurer</div>`;
+      inner += `<div class="qthumb-placeholder">🖼 image</div>`;
     }
   }
 
-  inner += `<div class="choices" id="choices-${qNum}">`;
+  inner += `<div class="bubbles" id="choices-${qNum}">`;
   choices.forEach(c => {
-    inner += `<div class="choice" data-q="${qNum}" data-choice="${c}" onclick="selectAnswer(${qNum},'${c}')">${c}</div>`;
+    inner += `<div class="bubble" data-q="${qNum}" data-choice="${c}" onclick="selectAnswer(${qNum},'${c}')">${c}</div>`;
   });
   inner += `</div><div class="q-feedback" id="feedback-${qNum}"></div>`;
 
@@ -358,17 +424,19 @@ function buildQuestionBlock(qNum, choices) {
 }
 
 // =========================================================
-// ANSWER SELECTION
+// ANSWER SELECTION — saved to localStorage instantly
 // =========================================================
-function selectAnswer(qNum, choice) {
+function selectAnswer(qNum, choice, persist = true) {
   if (submitted) return;
   const idx = qNum - 1;
   answers[idx] = choice;
   document.querySelectorAll(`[data-q="${qNum}"]`).forEach(el => {
     el.classList.toggle('selected', el.dataset.choice === choice);
   });
-  document.getElementById(`q-${qNum}`).classList.add('answered');
+  const card = document.getElementById(`q-${qNum}`);
+  if (card) card.classList.add('answered');
   updateProgress();
+  if (persist) saveProgress();
 }
 
 function updateProgress() {
@@ -431,26 +499,29 @@ async function submitTest(auto = false) {
   // Colour each question
   TEST.keys.forEach((key, i) => {
     const qNum = i + 1;
-    const block = document.getElementById(`q-${qNum}`);
-    if (!block) return;
+    const card = document.getElementById(`q-${qNum}`);
+    if (!card) return;
     const ans = answers[i];
-    block.classList.remove('answered');
+    card.classList.remove('answered');
     if (ans === null) {
-      block.classList.add('wrong');
-      document.getElementById(`feedback-${qNum}`).textContent = `Pas de réponse — Bonne réponse : ${key}`;
+      card.classList.add('wrong');
+      document.getElementById(`feedback-${qNum}`).textContent = `Rép. : ${key}`;
     } else if (ans === key) {
-      block.classList.add('correct');
+      card.classList.add('correct');
     } else {
-      block.classList.add('wrong');
-      document.getElementById(`feedback-${qNum}`).textContent = `Ta réponse : ${ans} — Bonne réponse : ${key}`;
+      card.classList.add('wrong');
+      document.getElementById(`feedback-${qNum}`).textContent = `Toi : ${ans} · Rép. : ${key}`;
     }
-    // Colour choices
+    // Colour bubbles
     document.querySelectorAll(`[data-q="${qNum}"]`).forEach(el => {
       el.classList.remove('selected');
       if (el.dataset.choice === key)  el.classList.add('correct-ans');
       if (el.dataset.choice === ans && ans !== key) el.classList.add('wrong-ans');
     });
   });
+
+  // Progress saved locally is no longer needed once submitted
+  clearProgress();
 
   // Save to API
   try {
