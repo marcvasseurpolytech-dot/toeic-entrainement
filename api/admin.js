@@ -37,10 +37,10 @@ module.exports = async (req, res) => {
 
   // Auth via header or query param
   const hash = req.headers['x-admin-hash'] || req.query?.hash;
-  if (!hash || hash !== ADMIN_HASH) return res.status(403).json({ error: 'Non autorisé' });
+  if (!hash || hash !== ADMIN_HASH) return res.status(403).json({ error: 'Unauthorized' });
 
   const token = process.env.GITHUB_TOKEN;
-  if (!token)  return res.status(500).json({ error: 'Token manquant' });
+  if (!token)  return res.status(500).json({ error: 'Missing token' });
 
   const resource = req.query?.resource || 'scores';
 
@@ -55,22 +55,60 @@ module.exports = async (req, res) => {
       const file = await ghGet('data/scores.json', token);
       return res.json({ scores: file?.data?.scores || [] });
     }
-    return res.status(400).json({ error: 'Resource inconnue' });
+    return res.status(400).json({ error: 'Unknown resource' });
   }
 
-  // DELETE — wipe all results (scores + any lingering in-progress attempts).
-  // Student accounts (data/students.json) are never touched here.
+  // DELETE — wipe all results (resource=scores), or remove one student
+  // account plus their results (resource=student&nom=...).
   if (req.method === 'DELETE') {
-    if (resource !== 'scores') return res.status(400).json({ error: 'Resource inconnue' });
-    for (let attempt = 0; attempt < 3; attempt++) {
-      const scoresFile = await ghGet('data/scores.json', token);
-      const ok1 = await ghPut('data/scores.json', { scores: [] }, scoresFile?.sha, token);
-      if (!ok1) continue;
-      const progressFile = await ghGet('data/progress.json', token);
-      await ghPut('data/progress.json', { progress: [] }, progressFile?.sha, token);
-      return res.json({ success: true });
+    if (resource === 'scores') {
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const scoresFile = await ghGet('data/scores.json', token);
+        const ok1 = await ghPut('data/scores.json', { scores: [] }, scoresFile?.sha, token);
+        if (!ok1) continue;
+        const progressFile = await ghGet('data/progress.json', token);
+        await ghPut('data/progress.json', { progress: [] }, progressFile?.sha, token);
+        return res.json({ success: true });
+      }
+      return res.status(500).json({ error: 'SHA conflict — try again.' });
     }
-    return res.status(500).json({ error: 'Conflit SHA — réessaie.' });
+
+    if (resource === 'student') {
+      const nom = (req.query?.nom || '').trim().toUpperCase();
+      if (!nom) return res.status(400).json({ error: 'Missing name' });
+
+      // Remove the account itself
+      let removed = false;
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const studentsFile = await ghGet('data/students.json', token);
+        const before = studentsFile?.data?.students || [];
+        const after = before.filter(s => s.nom !== nom);
+        removed = after.length !== before.length;
+        const ok = await ghPut('data/students.json', { students: after }, studentsFile?.sha, token);
+        if (ok) break;
+        if (attempt === 2) return res.status(500).json({ error: 'SHA conflict — try again.' });
+      }
+
+      // Cascade: remove their scores
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const scoresFile = await ghGet('data/scores.json', token);
+        const after = (scoresFile?.data?.scores || []).filter(s => s.nom !== nom);
+        const ok = await ghPut('data/scores.json', { scores: after }, scoresFile?.sha, token);
+        if (ok) break;
+      }
+
+      // Cascade: remove any in-progress attempts
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const progressFile = await ghGet('data/progress.json', token);
+        const after = (progressFile?.data?.progress || []).filter(p => p.nom !== nom);
+        const ok = await ghPut('data/progress.json', { progress: after }, progressFile?.sha, token);
+        if (ok) break;
+      }
+
+      return res.json({ success: true, removed });
+    }
+
+    return res.status(400).json({ error: 'Unknown resource' });
   }
 
   return res.status(405).json({ error: 'Method not allowed' });
