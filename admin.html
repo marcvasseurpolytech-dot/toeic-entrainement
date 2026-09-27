@@ -33,6 +33,8 @@
     .pct.good { color:var(--success); font-weight:600; }
     .pct.mid  { color:var(--dark-gold); font-weight:600; }
     .pct.bad  { color:var(--error); font-weight:600; }
+    .chips { display:flex; flex-wrap:wrap; gap:0.3rem; }
+    .chip { background:#f3f4f6; border:1px solid var(--border); border-radius:3px; font-size:0.7rem; padding:0.1rem 0.4rem; white-space:nowrap; }
     .section-title { background:#f3f4f6; padding:0.5rem 0.8rem; font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:#6b7280; border-bottom:1px solid var(--border); }
     footer { text-align:center; font-size:0.75rem; color:#999; padding:1.5rem; border-top:1px solid var(--border); margin-top:2rem; }
   </style>
@@ -49,7 +51,7 @@
       <h2>Accès administrateur</h2>
       <div class="msg-err" id="gate-err" style="display:none"></div>
       <label>Code admin</label>
-      <input type="number" id="admin-code" placeholder="0000" autocomplete="off">
+      <input type="password" id="admin-code" placeholder="Mot de passe" autocomplete="off">
       <button class="btn" onclick="checkAdmin()">Accéder</button>
     </div>
   </div>
@@ -70,10 +72,11 @@
 
   <footer>Copyright Marc Vasseur — Polytech Lille</footer>
 
+  <script src="tests-data.js"></script>
+  <script src="scoring.js"></script>
   <script>
-    // Admin code hash — set ADMIN_HASH to sha256 of your chosen code
-    // Default code: 1234  → change before deploying
-    const ADMIN_HASH = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4'; // sha256('1234')
+    // Admin code — même mot de passe que Suivi Scores TOEIC
+    const ADMIN_HASH = 'f7ff32b790557d7601029bc0b296115f82e18d799b6e27ba0c6202fdbd1f2a08';
 
     async function sha256(text) {
       const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
@@ -81,7 +84,7 @@
     }
 
     async function checkAdmin() {
-      const code = String(parseInt(document.getElementById('admin-code').value) || 0).padStart(4,'0');
+      const code = document.getElementById('admin-code').value;
       const h = await sha256(code);
       if (h !== ADMIN_HASH) {
         const err = document.getElementById('gate-err');
@@ -93,14 +96,6 @@
     }
 
     let allScores = [], allStudents = [];
-    const TEST_NAMES = {
-      'iibc2-t1-listening': 'IIBC 2 T1 Listening',
-      'iibc2-t1-reading':   'IIBC 2 T1 Reading',
-      'iibc2-t2-listening': 'IIBC 2 T2 Listening',
-      'iibc2-t2-reading':   'IIBC 2 T2 Reading',
-      'iibc3-t1-listening': 'IIBC 3 T1 Listening',
-      'iibc3-t1-reading':   'IIBC 3 T1 Reading'
-    };
 
     async function loadAll() {
       try {
@@ -116,7 +111,7 @@
         const testIds = [...new Set(allScores.map(s => s.testId))];
         testIds.forEach(id => {
           const opt = document.createElement('option');
-          opt.value = id; opt.textContent = TEST_NAMES[id] || id;
+          opt.value = id; opt.textContent = (TESTS_DATA[id] ? `${TESTS_DATA[id].name} — ${TESTS_DATA[id].part}` : id);
           sel.appendChild(opt);
         });
 
@@ -129,13 +124,27 @@
 
     function pctClass(p) { return p >= 75 ? 'good' : p >= 50 ? 'mid' : 'bad'; }
 
+    function testLabel(id) {
+      const t = TESTS_DATA[id];
+      return t ? `${t.name} — ${t.part}` : id;
+    }
+
+    function enrichScore(s) {
+      const TEST = TESTS_DATA[s.testId];
+      if (!TEST) return { ...s, TEST: null, breakdown: {}, converted: null, cecrl: '—' };
+      const breakdown = computePartBreakdown(TEST, s.answers || []);
+      const converted = convertedSectionScore(TEST.section, s.score);
+      const cecrl = cecrlForTable(converted, TEST.section === 'L' ? CECRL_LISTENING : CECRL_READING);
+      return { ...s, TEST, breakdown, converted, cecrl };
+    }
+
     function render() {
       const testFilter = document.getElementById('filter-test').value;
       const nomFilter  = document.getElementById('filter-nom').value.trim().toUpperCase();
       let rows = allScores.filter(s =>
         (!testFilter || s.testId === testFilter) &&
         (!nomFilter  || s.nom.includes(nomFilter))
-      ).sort((a,b) => new Date(b.date) - new Date(a.date));
+      ).sort((a,b) => new Date(b.date) - new Date(a.date)).map(enrichScore);
 
       if (!rows.length) {
         document.getElementById('table-wrap').innerHTML = '<p style="color:#9ca3af;font-style:italic">Aucun résultat.</p>';
@@ -144,18 +153,23 @@
       const student = allStudents.reduce((m, s) => { m[s.nom] = s; return m; }, {});
       document.getElementById('table-wrap').innerHTML = `
         <table>
-          <thead><tr><th>Nom</th><th>Prénom</th><th>Dept</th><th>Test</th><th>Score</th><th>%</th><th>Date</th></tr></thead>
+          <thead><tr><th>Nom</th><th>Prénom</th><th>Dept</th><th>Test</th><th>Détail par partie</th><th>Score</th><th>/495</th><th>Niveau</th><th>Date</th></tr></thead>
           <tbody>${rows.map(s => {
-            const pct = Math.round(s.score / s.total * 100);
             const stu = student[s.nom] || {};
             const d = new Date(s.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+            const chips = s.TEST ? s.TEST.partIds.map(pid => {
+              const b = s.breakdown[pid];
+              return `<span class="chip">${partCanonById(pid).label}: ${b.correct}/${b.max}</span>`;
+            }).join('') : '—';
             return `<tr>
               <td>${s.nom}</td>
               <td>${stu.prenom||'-'}</td>
               <td>${stu.dept||'-'}</td>
-              <td>${TEST_NAMES[s.testId]||s.testId}</td>
+              <td>${testLabel(s.testId)}</td>
+              <td><div class="chips">${chips}</div></td>
               <td>${s.score}/${s.total}</td>
-              <td><span class="pct ${pctClass(pct)}">${pct}%</span></td>
+              <td>${s.converted !== null ? s.converted : '—'}</td>
+              <td>${s.cecrl}</td>
               <td>${d}</td>
             </tr>`;
           }).join('')}</tbody>
@@ -188,13 +202,12 @@
       let rows = allScores.filter(s =>
         (!testFilter || s.testId === testFilter) &&
         (!nomFilter  || s.nom.includes(nomFilter))
-      );
-      const header = ['Nom','Prenom','Dept','Test','Score','Total','Pct','Date'];
+      ).map(enrichScore);
+      const header = ['Nom','Prenom','Dept','Test','Score','Total','Converti495','Niveau','Date'];
       const lines  = rows.map(s => {
         const stu = student[s.nom] || {};
-        const pct = Math.round(s.score / s.total * 100);
         const d   = new Date(s.date).toLocaleDateString('fr-FR');
-        return [s.nom, stu.prenom||'', stu.dept||'', TEST_NAMES[s.testId]||s.testId, s.score, s.total, pct+'%', d].join(',');
+        return [s.nom, stu.prenom||'', stu.dept||'', testLabel(s.testId), s.score, s.total, s.converted ?? '', s.cecrl, d].join(',');
       });
       const csv  = [header.join(','), ...lines].join('\n');
       const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
