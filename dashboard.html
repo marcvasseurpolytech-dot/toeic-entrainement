@@ -6,6 +6,7 @@
   <title>My Dashboard — TOEIC</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
     :root {
       --navy: #1e3a5f; --gold: #c9a84c; --cream: #f8f4ee;
@@ -106,6 +107,12 @@
       font-family: 'Source Serif 4', serif; font-weight: 600; white-space: nowrap;
     }
     .btn-review:hover { background: var(--light-gold); }
+    .btn-export-mine {
+      background: var(--gold); color: var(--navy); border: none; border-radius: 4px;
+      padding: 0.5rem 1.1rem; font-size: 0.85rem; cursor: pointer; font-weight: 700;
+      font-family: 'Playfair Display', serif; white-space: nowrap;
+    }
+    .btn-export-mine:hover { background: var(--dark-gold); }
 
     .empty-msg { color: var(--muted); font-size: 0.9rem; padding: 1rem 0; font-style: italic; }
     .loading { color: var(--muted); font-style: italic; padding: 2rem 0; text-align: center; }
@@ -143,7 +150,10 @@
       </section>
 
       <section>
-        <h2>Attempt details</h2>
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.6rem;border-bottom:2px solid var(--light-gold);padding-bottom:0.5rem;margin-bottom:1.2rem">
+          <h2 style="border:none;padding:0;margin:0">Attempt details</h2>
+          <button id="btn-export-mine" class="btn-export-mine" onclick="exportMyResultsXLSX()">⬇ Export my results (Excel)</button>
+        </div>
         <div id="attempts-section"><p class="empty-msg">No attempts recorded yet.</p></div>
       </section>
     </div>
@@ -356,10 +366,13 @@
       el.style.display = 'inline-block';
     }
 
+    let currentEnriched = [];
+
     (async () => {
       try {
         const [scores, access] = await Promise.all([loadScores(), loadAccess()]);
         const enriched = scores.map(enrichScore).filter(Boolean);
+        currentEnriched = enriched;
 
         renderProgressCounter(scores);
         renderTests(scores, access);
@@ -375,6 +388,36 @@
         document.getElementById('content').style.display = 'block';
       }
     })();
+
+    function exportMyResultsXLSX() {
+      if (typeof XLSX === 'undefined') { alert('Excel export library failed to load (network blocked?). Please reload the page.'); return; }
+      if (!currentEnriched.length) { alert('No results to export yet.'); return; }
+
+      const sorted = [...currentEnriched].sort((a, b) => new Date(a.date) - new Date(b.date));
+      const data = sorted.map(s => {
+        const d = new Date(s.date).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+        const row = {
+          'Test': s.TEST.name,
+          'Section': s.TEST.part,
+          'Raw Score': `${s.score}/${s.total}`,
+          '/495': s.converted,
+          'CECRL Level': s.cecrl,
+          'Date': d
+        };
+        s.TEST.partIds.forEach(pid => {
+          const b = s.breakdown[pid];
+          const pct = Math.round(b.correct / b.max * 100);
+          row[partCanonById(pid).label] = `${pct}% (${b.correct}/${b.max})`;
+        });
+        return row;
+      });
+
+      const ws = XLSX.utils.json_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'My Results');
+      const safeName = student.nom.replace(/[^a-zA-Z0-9]/g, '_');
+      XLSX.writeFile(wb, `toeic-results-${safeName}.xlsx`);
+    }
 </script>
 </body>
 </html>
