@@ -137,6 +137,7 @@
     }
     .msg.error   { background: #fde8e8; color: var(--error); border: 1px solid #f5c6cb; display: block; }
     .msg.success { background: #e6f4ec; color: var(--success); border: 1px solid #b8dfc8; display: block; }
+    .msg.pending { background: #fef9ec; color: var(--dark-gold); border: 1px solid var(--light-gold); display: block; }
     .panel { display: none; }
     .panel.active { display: block; }
     footer {
@@ -243,7 +244,10 @@
           body: JSON.stringify({ action:'login', nom, codeHash })
         });
         const data = await r.json();
-        if (!r.ok) { showMsg('login-msg', data.error || 'Error.', 'error'); return; }
+        if (!r.ok) {
+          showMsg('login-msg', data.error || 'Error.', data.pending ? 'pending' : 'error');
+          return;
+        }
         sessionStorage.setItem('student', JSON.stringify(data.student));
         window.location.href = 'dashboard.html';
       } catch(e) {
@@ -273,8 +277,16 @@
         });
         const data = await r.json();
         if (!r.ok) { showMsg('signup-msg', data.error || 'Error.', 'error'); return; }
-        sessionStorage.setItem('student', JSON.stringify(data.student));
-        window.location.href = 'dashboard.html';
+        // Account created but NOT logged in — it needs admin approval first.
+        showMsg('signup-msg',
+          "✓ Profile created! An administrator must approve your account before you can access the tests. Check back later and log in once approved.",
+          'pending'
+        );
+        document.getElementById('signup-nom').value = '';
+        document.getElementById('signup-prenom').value = '';
+        document.getElementById('signup-dept').value = '';
+        document.getElementById('signup-code').value = '';
+        document.getElementById('signup-code2').value = '';
       } catch(e) {
         showMsg('signup-msg', 'Network error.', 'error');
       } finally {
