@@ -26,6 +26,9 @@
     .toolbar select, .toolbar input[type=text] { padding:0.4rem 0.7rem; border:1px solid var(--border); border-radius:4px; font-size:0.88rem; font-family:'Source Serif 4',serif; background:var(--cream); width:auto; }
     .btn-export { background:var(--gold); color:var(--navy); border:none; border-radius:4px; padding:0.4rem 1rem; font-size:0.85rem; cursor:pointer; font-weight:600; }
     .btn-export:hover { background:var(--dark-gold); color:var(--cream); }
+    .btn-reset { background:#fdecea; color:var(--error); border:1px solid var(--error); border-radius:4px; padding:0.4rem 1rem; font-size:0.85rem; cursor:pointer; font-weight:600; margin-left:auto; }
+    .btn-reset:hover { background:var(--error); color:#fff; }
+    .btn-reset:disabled { opacity:0.6; cursor:not-allowed; }
     table { width:100%; border-collapse:collapse; font-size:0.85rem; }
     th { background:var(--navy); color:var(--gold); padding:0.6rem 0.8rem; text-align:left; font-family:'Playfair Display',serif; font-weight:400; }
     td { padding:0.55rem 0.8rem; border-bottom:1px solid var(--border); }
@@ -63,6 +66,7 @@
       <select id="filter-test" onchange="render()"><option value="">Tous les tests</option></select>
       <input type="text" id="filter-nom" placeholder="Filtrer par nom…" oninput="render()">
       <button class="btn-export" onclick="exportCSV()">⬇ Exporter CSV</button>
+      <button id="btn-reset" class="btn-reset" onclick="resetAllScores()">🗑 Réinitialiser tous les résultats</button>
     </div>
     <div id="table-wrap"><p style="color:#9ca3af;font-style:italic">Chargement…</p></div>
 
@@ -99,15 +103,17 @@
 
     async function loadAll() {
       try {
+        const headers = { 'X-Admin-Hash': ADMIN_HASH };
         const [sr, studr] = await Promise.all([
-          fetch('/api/admin?resource=scores').then(r => r.json()),
-          fetch('/api/admin?resource=students').then(r => r.json())
+          fetch('/api/admin?resource=scores', { headers }).then(r => r.json()),
+          fetch('/api/admin?resource=students', { headers }).then(r => r.json())
         ]);
         allScores   = sr.scores   || [];
         allStudents = studr.students || [];
 
         // Populate test filter
         const sel = document.getElementById('filter-test');
+        sel.innerHTML = '<option value="">Tous les tests</option>';
         const testIds = [...new Set(allScores.map(s => s.testId))];
         testIds.forEach(id => {
           const opt = document.createElement('option');
@@ -119,6 +125,33 @@
         renderStudents();
       } catch(e) {
         document.getElementById('table-wrap').innerHTML = '<p style="color:red">Erreur de chargement.</p>';
+      }
+    }
+
+    async function resetAllScores() {
+      const sure = confirm(
+        `⚠️ Ceci va effacer DÉFINITIVEMENT tous les résultats de tous les étudiants (${allScores.length} résultat(s)).\n\n` +
+        `Les comptes étudiants (nom/code) ne sont pas touchés.\n\n` +
+        `Pense à exporter le CSV avant si besoin. Continuer ?`
+      );
+      if (!sure) return;
+      const confirmText = prompt('Pour confirmer, tape RESET en majuscules :');
+      if (confirmText !== 'RESET') { alert('Annulé — texte de confirmation incorrect.'); return; }
+
+      const btn = document.getElementById('btn-reset');
+      btn.disabled = true; btn.textContent = 'Réinitialisation…';
+      try {
+        const r = await fetch('/api/admin?resource=scores', {
+          method: 'DELETE',
+          headers: { 'X-Admin-Hash': ADMIN_HASH }
+        });
+        if (!r.ok) throw new Error();
+        alert('Tous les résultats ont été effacés.');
+        await loadAll();
+      } catch(e) {
+        alert('Erreur lors de la réinitialisation. Réessaie.');
+      } finally {
+        btn.disabled = false; btn.textContent = '🗑 Réinitialiser tous les résultats';
       }
     }
 
