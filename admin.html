@@ -33,6 +33,8 @@
     .btn-delete:hover { background:var(--error); color:#fff; }
     .btn-retake { background:#e6f4ec; color:var(--success); border:1px solid var(--success); border-radius:4px; padding:0.25rem 0.6rem; font-size:0.75rem; cursor:pointer; font-weight:600; white-space:nowrap; }
     .btn-retake:hover { background:var(--success); color:#fff; }
+    .btn-reset-code { background:#fff; color:var(--navy); border:1px solid var(--navy); border-radius:4px; padding:0.25rem 0.6rem; font-size:0.75rem; cursor:pointer; font-weight:600; white-space:nowrap; margin-right:0.3rem; }
+    .btn-reset-code:hover { background:var(--navy); color:#fff; }
     .access-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:0.8rem; }
     .access-card { background:#fff; border:1px solid var(--border); border-radius:6px; padding:1rem 1.1rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; }
     .access-card .name { font-family:'Playfair Display',serif; color:var(--navy); font-size:0.95rem; }
@@ -82,6 +84,7 @@
     <h2 style="margin-top:2.5rem">Overview — Results</h2>
     <div class="toolbar">
       <select id="filter-test" onchange="render()"><option value="">All tests</option></select>
+      <select id="filter-dept" onchange="render()"><option value="">All departments</option></select>
       <input type="text" id="filter-nom" placeholder="Filter by name…" oninput="render()">
       <button class="btn-export" onclick="exportXLSX()">⬇ Export Excel</button>
       <button id="btn-reset" class="btn-reset" onclick="resetAllScores()">🗑 Reset all results</button>
@@ -89,6 +92,9 @@
     <div id="table-wrap"><p style="color:#9ca3af;font-style:italic">Loading…</p></div>
 
     <h2 id="students-heading" style="margin-top:2.5rem">Registered students</h2>
+    <div class="toolbar" id="students-toolbar" style="display:none">
+      <button id="btn-approve-all" class="btn-export" onclick="approveAll()">✅ Approve all pending</button>
+    </div>
     <div id="students-wrap"><p style="color:#9ca3af;font-style:italic">Loading…</p></div>
   </main>
 
@@ -186,10 +192,45 @@
           sel.appendChild(opt);
         });
 
+        // Populate department filter
+        const deptSel = document.getElementById('filter-dept');
+        const currentDept = deptSel.value;
+        deptSel.innerHTML = '<option value="">All departments</option>';
+        const depts = [...new Set(allStudents.map(s => s.dept).filter(Boolean))].sort();
+        depts.forEach(d => {
+          const opt = document.createElement('option');
+          opt.value = d; opt.textContent = d;
+          deptSel.appendChild(opt);
+        });
+        if (depts.includes(currentDept)) deptSel.value = currentDept;
+
+        document.getElementById('students-toolbar').style.display = 'flex';
+
         render();
         renderStudents();
       } catch(e) {
         document.getElementById('table-wrap').innerHTML = '<p style="color:red">Loading error.</p>';
+      }
+    }
+
+    async function approveAll() {
+      const pendingCount = allStudents.filter(s => s.approved === false).length;
+      if (pendingCount === 0) { alert('No pending accounts to approve.'); return; }
+      const sure = confirm(`Approve all ${pendingCount} pending account(s)?`);
+      if (!sure) return;
+      const btn = document.getElementById('btn-approve-all');
+      btn.disabled = true; btn.textContent = 'Approving…';
+      try {
+        const r = await fetch('/api/admin?resource=approve-all', {
+          method: 'POST',
+          headers: { 'X-Admin-Hash': ADMIN_HASH }
+        });
+        if (!r.ok) throw new Error();
+        await loadAll();
+      } catch(e) {
+        alert('Error while approving accounts. Please try again.');
+      } finally {
+        btn.disabled = false; btn.textContent = '✅ Approve all pending';
       }
     }
 
@@ -256,17 +297,19 @@
 
     function render() {
       const testFilter = document.getElementById('filter-test').value;
+      const deptFilter = document.getElementById('filter-dept').value;
       const nomFilter  = document.getElementById('filter-nom').value.trim().toUpperCase();
+      const student = allStudents.reduce((m, s) => { m[s.nom] = s; return m; }, {});
       let rows = allScores.filter(s =>
         (!testFilter || s.testId === testFilter) &&
-        (!nomFilter  || s.nom.includes(nomFilter))
+        (!nomFilter  || s.nom.includes(nomFilter)) &&
+        (!deptFilter || (student[s.nom] && student[s.nom].dept === deptFilter))
       ).sort((a,b) => new Date(b.date) - new Date(a.date)).map(enrichScore);
 
       if (!rows.length) {
         document.getElementById('table-wrap').innerHTML = '<p style="color:#9ca3af;font-style:italic">No results.</p>';
         return;
       }
-      const student = allStudents.reduce((m, s) => { m[s.nom] = s; return m; }, {});
       document.getElementById('table-wrap').innerHTML = `
         <table>
           <thead><tr><th>Last name</th><th>First name</th><th>Dept</th><th>Test</th><th>Part breakdown</th><th>Score</th><th>/495</th><th>Level</th><th>Date</th><th></th></tr></thead>
@@ -308,6 +351,7 @@
       document.getElementById('students-heading').textContent =
         pendingCount ? `Registered students (${pendingCount} pending approval)` : 'Registered students';
 
+      const totalTests = Object.keys(TESTS_DATA).length;
       const sorted = [...allStudents].sort((a, b) => {
         if (isApproved(a) === isApproved(b)) return 0;
         return isApproved(a) ? 1 : -1; // pending first
@@ -315,25 +359,53 @@
 
       document.getElementById('students-wrap').innerHTML = `
         <table>
-          <thead><tr><th>Last name</th><th>First name</th><th>Department</th><th>Registered</th><th>Approved</th><th></th></tr></thead>
+          <thead><tr><th>Last name</th><th>First name</th><th>Department</th><th>Registered</th><th>Tests done</th><th>Avg %</th><th>Approved</th><th></th></tr></thead>
           <tbody>${sorted.map(s => {
             const d = s.createdAt ? new Date(s.createdAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : '-';
             const approved = isApproved(s);
             const safeName = s.nom.replace(/'/g, "\\'");
+            const theirScores = allScores.filter(sc => sc.nom === s.nom);
+            const testsDone = new Set(theirScores.map(sc => sc.testId)).size;
+            const avgPct = theirScores.length
+              ? Math.round(theirScores.reduce((sum, sc) => sum + (sc.score / sc.total * 100), 0) / theirScores.length)
+              : null;
             return `<tr${approved ? '' : ' style="background:#fef9ec"'}>
               <td>${s.nom}</td><td>${s.prenom}</td><td>${s.dept}</td><td>${d}</td>
+              <td>${testsDone}/${totalTests}</td>
+              <td>${avgPct !== null ? `<span class="pct ${pctClass(avgPct)}">${avgPct}%</span>` : '—'}</td>
               <td>
                 <label class="switch">
                   <input type="checkbox" ${approved ? 'checked' : ''} onchange="toggleApproval('${safeName}', this.checked, this)">
                   <span class="slider"></span>
                 </label>
               </td>
-              <td><button class="btn-delete" onclick="deleteStudent('${safeName}')">🗑 Delete</button></td>
+              <td style="white-space:nowrap">
+                <button class="btn-reset-code" onclick="resetCode('${safeName}')">🔑 Reset code</button>
+                <button class="btn-delete" onclick="deleteStudent('${safeName}')">🗑 Delete</button>
+              </td>
             </tr>`;
           }).join('')}</tbody>
         </table>
         <p style="font-size:0.78rem;color:#9ca3af;margin-top:0.5rem">${allStudents.length} student(s)</p>
       `;
+    }
+
+    async function resetCode(nom) {
+      const sure = confirm(`Generate a new secret code for ${nom}?\n\nTheir current code will stop working immediately.`);
+      if (!sure) return;
+      const newCode = String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+      try {
+        const codeHash = await sha256(newCode);
+        const r = await fetch('/api/admin?resource=reset-code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Admin-Hash': ADMIN_HASH },
+          body: JSON.stringify({ nom, codeHash })
+        });
+        if (!r.ok) throw new Error();
+        alert(`New code for ${nom}: ${newCode}\n\nGive this to the student — it will not be shown again.`);
+      } catch(e) {
+        alert('Error while resetting the code. Please try again.');
+      }
     }
 
     async function toggleApproval(nom, approved, checkboxEl) {
@@ -378,11 +450,13 @@
     function exportXLSX() {
       if (typeof XLSX === 'undefined') { alert('Excel export library failed to load (network blocked?). Please reload the page.'); return; }
       const testFilter = document.getElementById('filter-test').value;
+      const deptFilter = document.getElementById('filter-dept').value;
       const nomFilter  = document.getElementById('filter-nom').value.trim().toUpperCase();
       const student = allStudents.reduce((m, s) => { m[s.nom] = s; return m; }, {});
       let rows = allScores.filter(s =>
         (!testFilter || s.testId === testFilter) &&
-        (!nomFilter  || s.nom.includes(nomFilter))
+        (!nomFilter  || s.nom.includes(nomFilter)) &&
+        (!deptFilter || (student[s.nom] && student[s.nom].dept === deptFilter))
       ).map(enrichScore);
 
       if (!rows.length) { alert('No results to export.'); return; }
