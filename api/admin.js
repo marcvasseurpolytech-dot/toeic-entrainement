@@ -31,7 +31,7 @@ async function ghPut(path, content, sha, token) {
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Hash');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
@@ -56,6 +56,25 @@ module.exports = async (req, res) => {
       return res.json({ scores: file?.data?.scores || [] });
     }
     return res.status(400).json({ error: 'Unknown resource' });
+  }
+
+  // POST — approve or revoke a student account.
+  if (req.method === 'POST') {
+    if (resource !== 'approval') return res.status(400).json({ error: 'Unknown resource' });
+    const { nom, approved } = req.body || {};
+    const nomUpper = (nom || '').trim().toUpperCase();
+    if (!nomUpper || typeof approved !== 'boolean') return res.status(400).json({ error: 'Missing data' });
+
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const file = await ghGet('data/students.json', token);
+      const students = file?.data?.students || [];
+      const idx = students.findIndex(s => s.nom === nomUpper);
+      if (idx < 0) return res.status(404).json({ error: 'Student not found' });
+      students[idx] = { ...students[idx], approved };
+      const ok = await ghPut('data/students.json', { students }, file?.sha, token);
+      if (ok) return res.json({ success: true });
+    }
+    return res.status(500).json({ error: 'SHA conflict — try again.' });
   }
 
   // DELETE — wipe all results (resource=scores), or remove one student
