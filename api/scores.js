@@ -46,18 +46,23 @@ module.exports = async (req, res) => {
     return res.json({ scores: mine });
   }
 
-  // POST — save a new score
+  // POST — save a new score. One attempt per student per test: reject if
+  // this student already has a completed score for this testId.
   if (req.method === 'POST') {
     const { nom, testId, score, total, answers, date } = req.body || {};
     if (!nom || !testId || score === undefined || !total) {
       return res.status(400).json({ error: 'Missing data' });
     }
+    const nomUpper = nom.trim().toUpperCase();
     // Retry loop for SHA conflicts
     for (let attempt = 0; attempt < 3; attempt++) {
       const file   = await ghGet(FILE, token);
       const scores = file?.data?.scores || [];
+      if (scores.some(s => s.nom === nomUpper && s.testId === testId)) {
+        return res.status(409).json({ error: 'You have already completed this test. Only one attempt is allowed.' });
+      }
       scores.push({
-        nom: nom.trim().toUpperCase(),
+        nom: nomUpper,
         testId,
         score: parseInt(score),
         total: parseInt(total),
