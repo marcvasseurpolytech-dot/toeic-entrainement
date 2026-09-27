@@ -183,20 +183,22 @@
       grid.innerHTML = '';
       Object.entries(TESTS_DATA).forEach(([id, t]) => {
         const myScores = scores.filter(s => s.testId === id);
-        const best = myScores.length ? Math.max(...myScores.map(s => s.score)) : null;
+        const completed = myScores.length > 0; // one attempt only — already used
+        const best = completed ? myScores[0].score : null;
         const isOpen = access[id] !== false; // default open if not listed
+        const canStart = isOpen && !completed;
         const div = document.createElement('div');
         div.className = 'test-card' + (isOpen ? '' : ' locked');
         const badge = !isOpen ? '<span class="badge locked">Closed</span>'
-                    : best !== null ? `<span class="badge done">Best score: ${best}/100</span>`
+                    : completed ? `<span class="badge done">Completed: ${best}/100</span>`
                     : '<span class="badge open">Available</span>';
+        const label = !isOpen ? 'Not available' : completed ? '✓ Completed' : '▶ Start';
         div.innerHTML = `
           <h3>${t.name}</h3>
           <div class="meta">📋 ${t.part} &nbsp;·&nbsp; ${t.keys.length} questions ${t.audioControlled ? '&nbsp;·&nbsp; 🎧 audio' : ''}</div>
           ${badge}
-          <button class="btn-start" ${isOpen ? '' : 'disabled'} onclick="startTest('${id}')">
-            ${!isOpen ? 'Not available' : best !== null ? '🔄 Retake test' : '▶ Start'}
-          </button>
+          <button class="btn-start" ${canStart ? '' : 'disabled'} onclick="startTest('${id}')">${label}</button>
+          ${completed ? '<div class="meta" style="text-align:center">One attempt per test — already used</div>' : ''}
         `;
         grid.appendChild(div);
       });
