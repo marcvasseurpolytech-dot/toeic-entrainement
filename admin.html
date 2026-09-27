@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin — TOEIC Entraînement</title>
+  <title>Admin — TOEIC Practice</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     :root { --navy:#1e3a5f; --gold:#c9a84c; --cream:#f8f4ee; --light-gold:#e8d5a3; --dark-gold:#a07830; --border:#d4c5a9; --success:#2e7d52; --error:#c0392b; }
@@ -29,6 +29,8 @@
     .btn-reset { background:#fdecea; color:var(--error); border:1px solid var(--error); border-radius:4px; padding:0.4rem 1rem; font-size:0.85rem; cursor:pointer; font-weight:600; margin-left:auto; }
     .btn-reset:hover { background:var(--error); color:#fff; }
     .btn-reset:disabled { opacity:0.6; cursor:not-allowed; }
+    .btn-delete { background:#fdecea; color:var(--error); border:1px solid var(--error); border-radius:4px; padding:0.25rem 0.6rem; font-size:0.75rem; cursor:pointer; font-weight:600; white-space:nowrap; }
+    .btn-delete:hover { background:var(--error); color:#fff; }
     table { width:100%; border-collapse:collapse; font-size:0.85rem; }
     th { background:var(--navy); color:var(--gold); padding:0.6rem 0.8rem; text-align:left; font-family:'Playfair Display',serif; font-weight:400; }
     td { padding:0.55rem 0.8rem; border-bottom:1px solid var(--border); }
@@ -44,34 +46,34 @@
 </head>
 <body>
   <header>
-    <h1>TOEIC — Entraînement Complet</h1>
+    <h1>TOEIC — Full Practice</h1>
     <span class="badge-admin">Admin</span>
   </header>
 
   <!-- Gate -->
   <div class="gate" id="gate">
     <div class="gate-card">
-      <h2>Accès administrateur</h2>
+      <h2>Admin access</h2>
       <div class="msg-err" id="gate-err" style="display:none"></div>
-      <label>Code admin</label>
-      <input type="password" id="admin-code" placeholder="Mot de passe" autocomplete="off">
-      <button class="btn" onclick="checkAdmin()">Accéder</button>
+      <label>Admin code</label>
+      <input type="password" id="admin-code" placeholder="Password" autocomplete="off">
+      <button class="btn" onclick="checkAdmin()">Enter</button>
     </div>
   </div>
 
   <!-- Panel admin (hidden until auth) -->
   <main id="admin-panel" style="display:none">
-    <h2>Vue d'ensemble — Résultats</h2>
+    <h2>Overview — Results</h2>
     <div class="toolbar">
-      <select id="filter-test" onchange="render()"><option value="">Tous les tests</option></select>
-      <input type="text" id="filter-nom" placeholder="Filtrer par nom…" oninput="render()">
-      <button class="btn-export" onclick="exportCSV()">⬇ Exporter CSV</button>
-      <button id="btn-reset" class="btn-reset" onclick="resetAllScores()">🗑 Réinitialiser tous les résultats</button>
+      <select id="filter-test" onchange="render()"><option value="">All tests</option></select>
+      <input type="text" id="filter-nom" placeholder="Filter by name…" oninput="render()">
+      <button class="btn-export" onclick="exportCSV()">⬇ Export CSV</button>
+      <button id="btn-reset" class="btn-reset" onclick="resetAllScores()">🗑 Reset all results</button>
     </div>
-    <div id="table-wrap"><p style="color:#9ca3af;font-style:italic">Chargement…</p></div>
+    <div id="table-wrap"><p style="color:#9ca3af;font-style:italic">Loading…</p></div>
 
-    <h2 style="margin-top:2.5rem">Étudiants inscrits</h2>
-    <div id="students-wrap"><p style="color:#9ca3af;font-style:italic">Chargement…</p></div>
+    <h2 style="margin-top:2.5rem">Registered students</h2>
+    <div id="students-wrap"><p style="color:#9ca3af;font-style:italic">Loading…</p></div>
   </main>
 
   <footer>Copyright Marc Vasseur — Polytech Lille</footer>
@@ -79,7 +81,7 @@
   <script src="tests-data.js"></script>
   <script src="scoring.js"></script>
   <script>
-    // Admin code — même mot de passe que Suivi Scores TOEIC
+    // Admin code — same password as Suivi Scores TOEIC
     const ADMIN_HASH = 'f7ff32b790557d7601029bc0b296115f82e18d799b6e27ba0c6202fdbd1f2a08';
 
     async function sha256(text) {
@@ -92,7 +94,7 @@
       const h = await sha256(code);
       if (h !== ADMIN_HASH) {
         const err = document.getElementById('gate-err');
-        err.textContent = 'Code incorrect.'; err.style.display = 'block'; return;
+        err.textContent = 'Incorrect code.'; err.style.display = 'block'; return;
       }
       document.getElementById('gate').style.display = 'none';
       document.getElementById('admin-panel').style.display = 'block';
@@ -113,7 +115,7 @@
 
         // Populate test filter
         const sel = document.getElementById('filter-test');
-        sel.innerHTML = '<option value="">Tous les tests</option>';
+        sel.innerHTML = '<option value="">All tests</option>';
         const testIds = [...new Set(allScores.map(s => s.testId))];
         testIds.forEach(id => {
           const opt = document.createElement('option');
@@ -124,34 +126,34 @@
         render();
         renderStudents();
       } catch(e) {
-        document.getElementById('table-wrap').innerHTML = '<p style="color:red">Erreur de chargement.</p>';
+        document.getElementById('table-wrap').innerHTML = '<p style="color:red">Loading error.</p>';
       }
     }
 
     async function resetAllScores() {
       const sure = confirm(
-        `⚠️ Ceci va effacer DÉFINITIVEMENT tous les résultats de tous les étudiants (${allScores.length} résultat(s)).\n\n` +
-        `Les comptes étudiants (nom/code) ne sont pas touchés.\n\n` +
-        `Pense à exporter le CSV avant si besoin. Continuer ?`
+        `⚠️ This will PERMANENTLY delete all results for all students (${allScores.length} result(s)).\n\n` +
+        `Student accounts (name/code) are not affected.\n\n` +
+        `Remember to export the CSV first if needed. Continue?`
       );
       if (!sure) return;
-      const confirmText = prompt('Pour confirmer, tape RESET en majuscules :');
-      if (confirmText !== 'RESET') { alert('Annulé — texte de confirmation incorrect.'); return; }
+      const confirmText = prompt('To confirm, type RESET in capital letters:');
+      if (confirmText !== 'RESET') { alert('Cancelled — confirmation text did not match.'); return; }
 
       const btn = document.getElementById('btn-reset');
-      btn.disabled = true; btn.textContent = 'Réinitialisation…';
+      btn.disabled = true; btn.textContent = 'Resetting…';
       try {
         const r = await fetch('/api/admin?resource=scores', {
           method: 'DELETE',
           headers: { 'X-Admin-Hash': ADMIN_HASH }
         });
         if (!r.ok) throw new Error();
-        alert('Tous les résultats ont été effacés.');
+        alert('All results have been deleted.');
         await loadAll();
       } catch(e) {
-        alert('Erreur lors de la réinitialisation. Réessaie.');
+        alert('Error while resetting. Please try again.');
       } finally {
-        btn.disabled = false; btn.textContent = '🗑 Réinitialiser tous les résultats';
+        btn.disabled = false; btn.textContent = '🗑 Reset all results';
       }
     }
 
@@ -180,16 +182,16 @@
       ).sort((a,b) => new Date(b.date) - new Date(a.date)).map(enrichScore);
 
       if (!rows.length) {
-        document.getElementById('table-wrap').innerHTML = '<p style="color:#9ca3af;font-style:italic">Aucun résultat.</p>';
+        document.getElementById('table-wrap').innerHTML = '<p style="color:#9ca3af;font-style:italic">No results.</p>';
         return;
       }
       const student = allStudents.reduce((m, s) => { m[s.nom] = s; return m; }, {});
       document.getElementById('table-wrap').innerHTML = `
         <table>
-          <thead><tr><th>Nom</th><th>Prénom</th><th>Dept</th><th>Test</th><th>Détail par partie</th><th>Score</th><th>/495</th><th>Niveau</th><th>Date</th></tr></thead>
+          <thead><tr><th>Last name</th><th>First name</th><th>Dept</th><th>Test</th><th>Part breakdown</th><th>Score</th><th>/495</th><th>Level</th><th>Date</th></tr></thead>
           <tbody>${rows.map(s => {
             const stu = student[s.nom] || {};
-            const d = new Date(s.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+            const d = new Date(s.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
             const chips = s.TEST ? s.TEST.partIds.map(pid => {
               const b = s.breakdown[pid];
               return `<span class="chip">${partCanonById(pid).label}: ${b.correct}/${b.max}</span>`;
@@ -207,25 +209,47 @@
             </tr>`;
           }).join('')}</tbody>
         </table>
-        <p style="font-size:0.78rem;color:#9ca3af;margin-top:0.5rem">${rows.length} résultat(s)</p>
+        <p style="font-size:0.78rem;color:#9ca3af;margin-top:0.5rem">${rows.length} result(s)</p>
       `;
     }
 
     function renderStudents() {
       if (!allStudents.length) {
-        document.getElementById('students-wrap').innerHTML = '<p style="color:#9ca3af;font-style:italic">Aucun étudiant inscrit.</p>';
+        document.getElementById('students-wrap').innerHTML = '<p style="color:#9ca3af;font-style:italic">No students registered.</p>';
         return;
       }
       document.getElementById('students-wrap').innerHTML = `
         <table>
-          <thead><tr><th>Nom</th><th>Prénom</th><th>Département</th><th>Inscrit le</th></tr></thead>
+          <thead><tr><th>Last name</th><th>First name</th><th>Department</th><th>Registered</th><th></th></tr></thead>
           <tbody>${allStudents.map(s => {
-            const d = s.createdAt ? new Date(s.createdAt).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'}) : '-';
-            return `<tr><td>${s.nom}</td><td>${s.prenom}</td><td>${s.dept}</td><td>${d}</td></tr>`;
+            const d = s.createdAt ? new Date(s.createdAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : '-';
+            return `<tr>
+              <td>${s.nom}</td><td>${s.prenom}</td><td>${s.dept}</td><td>${d}</td>
+              <td><button class="btn-delete" onclick="deleteStudent('${s.nom.replace(/'/g, "\\'")}')">🗑 Delete</button></td>
+            </tr>`;
           }).join('')}</tbody>
         </table>
-        <p style="font-size:0.78rem;color:#9ca3af;margin-top:0.5rem">${allStudents.length} étudiant(s)</p>
+        <p style="font-size:0.78rem;color:#9ca3af;margin-top:0.5rem">${allStudents.length} student(s)</p>
       `;
+    }
+
+    async function deleteStudent(nom) {
+      const scoreCount = allScores.filter(s => s.nom === nom).length;
+      const sure = confirm(
+        `⚠️ Delete the profile for ${nom}?\n\n` +
+        `This also permanently removes their ${scoreCount} result(s). This cannot be undone.\n\nContinue?`
+      );
+      if (!sure) return;
+      try {
+        const r = await fetch(`/api/admin?resource=student&nom=${encodeURIComponent(nom)}`, {
+          method: 'DELETE',
+          headers: { 'X-Admin-Hash': ADMIN_HASH }
+        });
+        if (!r.ok) throw new Error();
+        await loadAll();
+      } catch(e) {
+        alert('Error while deleting this profile. Please try again.');
+      }
     }
 
     function exportCSV() {
@@ -236,10 +260,10 @@
         (!testFilter || s.testId === testFilter) &&
         (!nomFilter  || s.nom.includes(nomFilter))
       ).map(enrichScore);
-      const header = ['Nom','Prenom','Dept','Test','Score','Total','Converti495','Niveau','Date'];
+      const header = ['LastName','FirstName','Dept','Test','Score','Total','Converted495','Level','Date'];
       const lines  = rows.map(s => {
         const stu = student[s.nom] || {};
-        const d   = new Date(s.date).toLocaleDateString('fr-FR');
+        const d   = new Date(s.date).toLocaleDateString('en-GB');
         return [s.nom, stu.prenom||'', stu.dept||'', testLabel(s.testId), s.score, s.total, s.converted ?? '', s.cecrl, d].join(',');
       });
       const csv  = [header.join(','), ...lines].join('\n');
