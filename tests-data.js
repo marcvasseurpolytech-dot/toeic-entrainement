@@ -27,6 +27,29 @@ const TESTS_DATA = {
     ]
   },
 
+  'iibc2-t1-reading': {
+    name: 'IIBC 2 — Test 1',
+    part: 'Reading',
+    section: 'R',
+    baseId: 'iibc2-t1',
+    audioControlled: false,
+    duration: 75 * 60,
+    partIds: ['p5', 'p6', 'p7'],
+    keys: [
+      // Part 5 (local 1-30 = Q101-130)
+      'C','D','B','C','A','D','D','A','A','B','C','A','B','B','A','B','A','A','C','C','D','D','A','B','C','C','D','D','B','C',
+      // Part 6 (local 31-46 = Q131-146)
+      'C','A','C','B','D','C','B','A','C','B','D','A','C','A','B','D',
+      // Part 7 (local 47-100 = Q147-200)
+      'A','D','D','B','C','D','C','D','B','A','C','B','C','A','D','B','A','B','D','D','C','C','A','D','B','D','D','C','A','D','B','D','A','B','A','D','C','B','C','B','C','A','B','D','B','A','D','C','B','B','C','B','A','D'
+    ],
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
+      { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
+      { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
   'iibc2-t2-listening': {
     name: 'IIBC 2 — Test 2',
     part: 'Listening',
