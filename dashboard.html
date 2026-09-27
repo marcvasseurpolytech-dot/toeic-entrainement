@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mon Tableau de Bord — TOEIC</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #1e3a5f; --gold: #c9a84c; --cream: #f8f4ee;
+      --light-gold: #e8d5a3; --dark-gold: #a07830; --border: #d4c5a9;
+      --success: #2e7d52; --muted: #6b7280;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Source Serif 4', serif; background: var(--cream); color: #1a1a2e; min-height: 100vh; }
+    header {
+      background: var(--navy); color: var(--cream);
+      padding: 1.2rem 1.5rem; border-bottom: 3px solid var(--gold);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;
+    }
+    header h1 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold); }
+    .student-info { font-size: 0.85rem; color: var(--light-gold); }
+    .btn-logout {
+      background: transparent; border: 1px solid var(--light-gold); color: var(--light-gold);
+      padding: 0.35rem 0.9rem; border-radius: 4px; cursor: pointer; font-size: 0.8rem;
+      font-family: 'Source Serif 4', serif; transition: all 0.2s;
+    }
+    .btn-logout:hover { background: var(--light-gold); color: var(--navy); }
+    main { max-width: 860px; margin: 0 auto; padding: 2rem 1rem; }
+    h2 {
+      font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--navy);
+      border-bottom: 2px solid var(--light-gold); padding-bottom: 0.5rem; margin-bottom: 1.2rem;
+    }
+    .tests-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
+    .test-card {
+      background: #fff; border: 1px solid var(--border); border-top: 4px solid var(--gold);
+      border-radius: 6px; padding: 1.2rem; display: flex; flex-direction: column; gap: 0.8rem;
+    }
+    .test-card.locked { border-top-color: #ccc; opacity: 0.65; }
+    .test-card h3 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--navy); }
+    .test-card .meta { font-size: 0.8rem; color: var(--muted); }
+    .badge {
+      display: inline-block; padding: 0.2rem 0.55rem; border-radius: 20px;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .badge.open   { background: #e6f4ec; color: var(--success); }
+    .badge.locked { background: #f3f4f6; color: #9ca3af; }
+    .badge.done   { background: #fef9ec; color: var(--dark-gold); }
+    .btn-start {
+      background: var(--navy); color: var(--cream); border: none; border-radius: 4px;
+      padding: 0.65rem 1rem; font-size: 0.9rem; cursor: pointer;
+      font-family: 'Playfair Display', serif; letter-spacing: 0.04em;
+      transition: background 0.2s; margin-top: auto;
+    }
+    .btn-start:hover { background: var(--dark-gold); }
+    .btn-start:disabled { background: #ccc; cursor: not-allowed; }
+    .scores-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .scores-table th {
+      background: var(--navy); color: var(--gold); text-align: left;
+      padding: 0.6rem 0.8rem; font-family: 'Playfair Display', serif; font-weight: 400;
+    }
+    .scores-table td { padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--border); }
+    .scores-table tr:hover td { background: #fdf8f0; }
+    .score-pct { font-weight: 600; color: var(--navy); }
+    .score-pct.good { color: var(--success); }
+    .score-pct.bad  { color: #c0392b; }
+    .empty-msg { color: var(--muted); font-size: 0.9rem; padding: 1rem 0; font-style: italic; }
+    .loading { color: var(--muted); font-style: italic; padding: 2rem 0; text-align: center; }
+    footer { text-align: center; font-size: 0.75rem; color: #999; padding: 1.5rem; border-top: 1px solid var(--border); margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>TOEIC — Entraînement Complet</h1>
+      <div class="student-info" id="student-info">Chargement…</div>
+    </div>
+    <button class="btn-logout" onclick="logout()">Déconnexion</button>
+  </header>
+
+  <main>
+    <div id="loading" class="loading">Chargement de tes résultats…</div>
+
+    <div id="content" style="display:none">
+      <h2>Tests disponibles</h2>
+      <div class="tests-grid" id="tests-grid"></div>
+
+      <h2>Mes résultats</h2>
+      <div id="scores-section">
+        <p class="empty-msg">Aucun résultat enregistré pour le moment.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>Copyright Marc Vasseur — Polytech Lille</footer>
+
+  <script>
+    const TESTS = [
+      {
+        id: 'iibc2-t1-listening',
+        name: 'IIBC 2 — Test 1',
+        part: 'Listening',
+        questions: 100,
+        duration: '45 min',
+        open: true
+      },
+      {
+        id: 'iibc2-t1-reading',
+        name: 'IIBC 2 — Test 1',
+        part: 'Reading',
+        questions: 100,
+        duration: '75 min',
+        open: false
+      },
+      {
+        id: 'iibc2-t2-listening',
+        name: 'IIBC 2 — Test 2',
+        part: 'Listening',
+        questions: 100,
+        duration: '45 min',
+        open: false
+      },
+      {
+        id: 'iibc2-t2-reading',
+        name: 'IIBC 2 — Test 2',
+        part: 'Reading',
+        questions: 100,
+        duration: '75 min',
+        open: false
+      },
+      {
+        id: 'iibc3-t1-listening',
+        name: 'IIBC 3 — Test 1',
+        part: 'Listening',
+        questions: 100,
+        duration: '45 min',
+        open: false
+      },
+      {
+        id: 'iibc3-t1-reading',
+        name: 'IIBC 3 — Test 1',
+        part: 'Reading',
+        questions: 100,
+        duration: '75 min',
+        open: false
+      }
+    ];
+
+    const student = JSON.parse(sessionStorage.getItem('student') || 'null');
+    if (!student) window.location.href = 'index.html';
+
+    document.getElementById('student-info').textContent =
+      `${student.prenom} ${student.nom} — ${student.dept}`;
+
+    function logout() {
+      sessionStorage.removeItem('student');
+      window.location.href = 'index.html';
+    }
+
+    async function loadScores() {
+      try {
+        const r = await fetch(`/api/scores?nom=${encodeURIComponent(student.nom)}`);
+        const data = await r.json();
+        return data.scores || [];
+      } catch { return []; }
+    }
+
+    function pctClass(pct) {
+      if (pct >= 75) return 'good';
+      if (pct < 50)  return 'bad';
+      return '';
+    }
+
+    function renderTests(scores) {
+      const grid = document.getElementById('tests-grid');
+      grid.innerHTML = '';
+      TESTS.forEach(t => {
+        const myScores = scores.filter(s => s.testId === t.id);
+        const best = myScores.length ? Math.max(...myScores.map(s => s.score)) : null;
+        const locked = !t.open;
+        const div = document.createElement('div');
+        div.className = 'test-card' + (locked ? ' locked' : '');
+        const badge = locked ? '<span class="badge locked">Bientôt disponible</span>'
+                    : best !== null ? `<span class="badge done">Meilleur score : ${best}/100</span>`
+                    : '<span class="badge open">Disponible</span>';
+        div.innerHTML = `
+          <h3>${t.name}</h3>
+          <div class="meta">📋 ${t.part} &nbsp;·&nbsp; ${t.questions} questions &nbsp;·&nbsp; ${t.duration}</div>
+          ${badge}
+          <button class="btn-start" ${locked ? 'disabled' : ''} onclick="startTest('${t.id}')">
+            ${locked ? 'Non disponible' : best !== null ? '🔄 Refaire le test' : '▶ Commencer'}
+          </button>
+        `;
+        grid.appendChild(div);
+      });
+    }
+
+    function renderScores(scores) {
+      const section = document.getElementById('scores-section');
+      if (!scores.length) {
+        section.innerHTML = '<p class="empty-msg">Aucun résultat enregistré pour le moment.</p>';
+        return;
+      }
+      const sorted = [...scores].sort((a, b) => new Date(b.date) - new Date(a.date));
+      section.innerHTML = `
+        <table class="scores-table">
+          <thead><tr>
+            <th>Test</th><th>Partie</th><th>Score</th><th>Date</th>
+          </tr></thead>
+          <tbody>${sorted.map(s => {
+            const pct = Math.round(s.score / s.total * 100);
+            const testName = TESTS.find(t => t.id === s.testId)?.name || s.testId;
+            const part     = TESTS.find(t => t.id === s.testId)?.part || '';
+            const d = new Date(s.date).toLocaleDateString('fr-FR', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+            return `<tr>
+              <td>${testName}</td>
+              <td>${part}</td>
+              <td><span class="score-pct ${pctClass(pct)}">${s.score}/${s.total} (${pct}%)</span></td>
+              <td>${d}</td>
+            </tr>`;
+          }).join('')}</tbody>
+        </table>
+      `;
+    }
+
+    function startTest(testId) {
+      window.location.href = `test.html?id=${testId}&nom=${encodeURIComponent(student.nom)}`;
+    }
+
+    (async () => {
+      const scores = await loadScores();
+      renderTests(scores);
+      renderScores(scores);
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+    })();
+  </script>
+</body>
+</html>
