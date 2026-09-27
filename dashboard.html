@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mon Tableau de Bord — TOEIC</title>
+  <title>My Dashboard — TOEIC</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <style>
@@ -105,34 +105,34 @@
 <body>
   <header>
     <div>
-      <h1>TOEIC — Entraînement Complet</h1>
-      <div class="student-info" id="student-info">Chargement…</div>
+      <h1>TOEIC — Full Practice</h1>
+      <div class="student-info" id="student-info">Loading…</div>
     </div>
-    <button class="btn-logout" onclick="logout()">Déconnexion</button>
+    <button class="btn-logout" onclick="logout()">Log out</button>
   </header>
 
   <main>
-    <div id="loading" class="loading">Chargement de tes résultats…</div>
+    <div id="loading" class="loading">Loading your results…</div>
 
     <div id="content" style="display:none">
       <section>
-        <h2>Tests disponibles</h2>
+        <h2>Available tests</h2>
         <div class="tests-grid" id="tests-grid"></div>
       </section>
 
       <section>
-        <h2>Mes scores par TOEIC</h2>
-        <div id="summary-section"><p class="empty-msg">Aucun résultat enregistré pour le moment.</p></div>
+        <h2>My scores by TOEIC</h2>
+        <div id="summary-section"><p class="empty-msg">No results recorded yet.</p></div>
       </section>
 
       <section>
-        <h2>Évolution</h2>
+        <h2>Progress over time</h2>
         <div class="chart-wrap"><canvas id="evolution-chart"></canvas></div>
       </section>
 
       <section>
-        <h2>Détail par tentative</h2>
-        <div id="attempts-section"><p class="empty-msg">Aucune tentative enregistrée.</p></div>
+        <h2>Attempt details</h2>
+        <div id="attempts-section"><p class="empty-msg">No attempts recorded yet.</p></div>
       </section>
     </div>
   </main>
@@ -168,7 +168,7 @@
     }
 
     // =========================================================
-    // TESTS DISPONIBLES
+    // AVAILABLE TESTS
     // =========================================================
     function renderTests(scores) {
       const grid = document.getElementById('tests-grid');
@@ -178,14 +178,14 @@
         const best = myScores.length ? Math.max(...myScores.map(s => s.score)) : null;
         const div = document.createElement('div');
         div.className = 'test-card';
-        const badge = best !== null ? `<span class="badge done">Meilleur score : ${best}/100</span>`
-                    : '<span class="badge open">Disponible</span>';
+        const badge = best !== null ? `<span class="badge done">Best score: ${best}/100</span>`
+                    : '<span class="badge open">Available</span>';
         div.innerHTML = `
           <h3>${t.name}</h3>
           <div class="meta">📋 ${t.part} &nbsp;·&nbsp; ${t.keys.length} questions ${t.audioControlled ? '&nbsp;·&nbsp; 🎧 audio' : ''}</div>
           ${badge}
           <button class="btn-start" onclick="startTest('${id}')">
-            ${best !== null ? '🔄 Refaire le test' : '▶ Commencer'}
+            ${best !== null ? '🔄 Retake test' : '▶ Start'}
           </button>
         `;
         grid.appendChild(div);
@@ -197,7 +197,7 @@
     }
 
     // =========================================================
-    // ENRICHISSEMENT DES SCORES — breakdown par partie + conversion
+    // SCORE ENRICHMENT — per-part breakdown + conversion
     // =========================================================
     function enrichScore(s) {
       const TEST = TESTS_DATA[s.testId];
@@ -209,12 +209,12 @@
     }
 
     // =========================================================
-    // RÉCAP PAR TOEIC (regroupe Listening + Reading d'un même baseId)
+    // SUMMARY PER TOEIC (groups Listening + Reading of the same baseId)
     // =========================================================
     function renderSummary(enriched) {
       const section = document.getElementById('summary-section');
       if (!enriched.length) {
-        section.innerHTML = '<p class="empty-msg">Aucun résultat enregistré pour le moment.</p>';
+        section.innerHTML = '<p class="empty-msg">No results recorded yet.</p>';
         return;
       }
       // group by baseId, keep the most recent attempt per section
@@ -245,18 +245,18 @@
     }
 
     // =========================================================
-    // ÉVOLUTION — graphique Chart.js
+    // PROGRESS OVER TIME — Chart.js chart
     // =========================================================
     function renderEvolution(enriched) {
       const ctx = document.getElementById('evolution-chart');
-      if (!enriched.length) { ctx.parentElement.innerHTML = '<p class="empty-msg">Pas encore assez de données pour une courbe d\'évolution.</p>'; return; }
+      if (!enriched.length) { ctx.parentElement.innerHTML = '<p class="empty-msg">Not enough data yet for a progress chart.</p>'; return; }
       if (typeof Chart === 'undefined') {
-        ctx.parentElement.innerHTML = '<p class="empty-msg">Le graphique n\'a pas pu se charger (réseau bloqué). Le détail par tentative ci-dessous reste disponible.</p>';
+        ctx.parentElement.innerHTML = '<p class="empty-msg">The chart could not load (network blocked). The attempt details below are still available.</p>';
         return;
       }
 
       const sorted = [...enriched].sort((a, b) => new Date(a.date) - new Date(b.date));
-      const labels = sorted.map(s => new Date(s.date).toLocaleDateString('fr-FR', { day:'2-digit', month:'short' }));
+      const labels = sorted.map(s => new Date(s.date).toLocaleDateString('en-GB', { day:'2-digit', month:'short' }));
       const listeningData = sorted.map(s => s.TEST.section === 'L' ? s.converted : null);
       const readingData   = sorted.map(s => s.TEST.section === 'R' ? s.converted : null);
 
@@ -278,12 +278,12 @@
     }
 
     // =========================================================
-    // DÉTAIL PAR TENTATIVE
+    // ATTEMPT DETAILS
     // =========================================================
     function renderAttempts(enriched) {
       const section = document.getElementById('attempts-section');
       if (!enriched.length) {
-        section.innerHTML = '<p class="empty-msg">Aucune tentative enregistrée.</p>';
+        section.innerHTML = '<p class="empty-msg">No attempts recorded yet.</p>';
         return;
       }
       const sorted = [...enriched].sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -291,7 +291,7 @@
         <div class="table-scroll">
         <table class="attempts-table">
           <thead><tr>
-            <th>Test</th><th>Section</th><th>Détail par partie</th><th>Score brut</th><th>/495</th><th>Niveau</th><th>Date</th>
+            <th>Test</th><th>Section</th><th>Part breakdown</th><th>Raw score</th><th>/495</th><th>Level</th><th>Date</th>
           </tr></thead>
           <tbody>${sorted.map(s => {
             const pct = Math.round(s.score / s.total * 100);
@@ -300,7 +300,7 @@
               const label = partCanonById(pid).label;
               return `<span class="part-chip">${label}: ${b.correct}/${b.max}</span>`;
             }).join('');
-            const d = new Date(s.date).toLocaleDateString('fr-FR', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+            const d = new Date(s.date).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
             return `<tr>
               <td>${s.TEST.name}</td>
               <td>${s.TEST.part}</td>
@@ -328,7 +328,7 @@
       } catch (e) {
         console.error('Dashboard render error:', e);
         document.getElementById('summary-section').innerHTML =
-          '<p class="empty-msg">Une erreur est survenue pendant l\'affichage. Réessaie de recharger la page.</p>';
+          '<p class="empty-msg">An error occurred while displaying results. Try reloading the page.</p>';
       } finally {
         document.getElementById('loading').style.display = 'none';
         document.getElementById('content').style.display = 'block';
