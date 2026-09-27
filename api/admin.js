@@ -58,23 +58,62 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: 'Unknown resource' });
   }
 
-  // POST — approve or revoke a student account.
+  // POST — approve/revoke one account, approve all pending at once, or
+  // reset a student's secret code.
   if (req.method === 'POST') {
-    if (resource !== 'approval') return res.status(400).json({ error: 'Unknown resource' });
-    const { nom, approved } = req.body || {};
-    const nomUpper = (nom || '').trim().toUpperCase();
-    if (!nomUpper || typeof approved !== 'boolean') return res.status(400).json({ error: 'Missing data' });
+    if (resource === 'approval') {
+      const { nom, approved } = req.body || {};
+      const nomUpper = (nom || '').trim().toUpperCase();
+      if (!nomUpper || typeof approved !== 'boolean') return res.status(400).json({ error: 'Missing data' });
 
-    for (let attempt = 0; attempt < 3; attempt++) {
-      const file = await ghGet('data/students.json', token);
-      const students = file?.data?.students || [];
-      const idx = students.findIndex(s => s.nom === nomUpper);
-      if (idx < 0) return res.status(404).json({ error: 'Student not found' });
-      students[idx] = { ...students[idx], approved };
-      const ok = await ghPut('data/students.json', { students }, file?.sha, token);
-      if (ok) return res.json({ success: true });
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const file = await ghGet('data/students.json', token);
+        const students = file?.data?.students || [];
+        const idx = students.findIndex(s => s.nom === nomUpper);
+        if (idx < 0) return res.status(404).json({ error: 'Student not found' });
+        students[idx] = { ...students[idx], approved };
+        const ok = await ghPut('data/students.json', { students }, file?.sha, token);
+        if (ok) return res.json({ success: true });
+      }
+      return res.status(500).json({ error: 'SHA conflict — try again.' });
     }
-    return res.status(500).json({ error: 'SHA conflict — try again.' });
+
+    if (resource === 'approve-all') {
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const file = await ghGet('data/students.json', token);
+        const students = file?.data?.students || [];
+        let count = 0;
+        const updated = students.map(s => {
+          if (s.approved === false) { count++; return { ...s, approved: true }; }
+          return s;
+        });
+        if (count === 0) return res.json({ success: true, count: 0 });
+        const ok = await ghPut('data/students.json', { students: updated }, file?.sha, token);
+        if (ok) return res.json({ success: true, count });
+      }
+      return res.status(500).json({ error: 'SHA conflict — try again.' });
+    }
+
+    // resource=reset-code — admin sets a new codeHash for a student
+    // (the plaintext code is hashed client-side and never sent in the clear).
+    if (resource === 'reset-code') {
+      const { nom, codeHash } = req.body || {};
+      const nomUpper = (nom || '').trim().toUpperCase();
+      if (!nomUpper || !codeHash) return res.status(400).json({ error: 'Missing data' });
+
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const file = await ghGet('data/students.json', token);
+        const students = file?.data?.students || [];
+        const idx = students.findIndex(s => s.nom === nomUpper);
+        if (idx < 0) return res.status(404).json({ error: 'Student not found' });
+        students[idx] = { ...students[idx], codeHash };
+        const ok = await ghPut('data/students.json', { students }, file?.sha, token);
+        if (ok) return res.json({ success: true });
+      }
+      return res.status(500).json({ error: 'SHA conflict — try again.' });
+    }
+
+    return res.status(400).json({ error: 'Unknown resource' });
   }
 
   // DELETE — wipe all results (resource=scores), or remove one student
