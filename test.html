@@ -118,11 +118,14 @@
     .progress-bar { background: var(--gold); border-radius: 10px; height: 8px; transition: width 0.3s; }
     .progress-label { font-size: 0.78rem; color: var(--muted); text-align: right; }
     .btn-jump {
-      background: var(--cream); border: 1px solid var(--gold); color: var(--dark-gold);
-      border-radius: 20px; padding: 0.3rem 0.8rem; font-size: 0.75rem; cursor: pointer;
-      font-family: 'Source Serif 4', serif; font-weight: 600; white-space: nowrap;
+      position: fixed; right: 1.2rem; bottom: 1.2rem; z-index: 90;
+      background: var(--navy); border: 2px solid var(--gold); color: var(--gold);
+      border-radius: 30px; padding: 0.7rem 1.3rem; font-size: 0.85rem; cursor: pointer;
+      font-family: 'Playfair Display', serif; font-weight: 700; white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(30,58,95,0.35);
     }
-    .btn-jump:hover { background: var(--light-gold); }
+    .btn-jump:hover { background: var(--dark-gold); color: var(--navy); border-color: var(--dark-gold); }
+    .btn-jump:active { transform: scale(0.96); }
     .qcard.jump-highlight { animation: jumpFlash 1.2s ease; }
     @keyframes jumpFlash { 0%,100% { box-shadow: none; } 30% { box-shadow: 0 0 0 3px var(--gold); } }
 
@@ -206,10 +209,7 @@
       <div class="progress-bar-wrap">
         <div class="progress-bar" id="progress-bar" style="width:0%"></div>
       </div>
-      <div class="progress-label" style="display:flex;justify-content:space-between;align-items:center;gap:0.6rem">
-        <button id="btn-jump" class="btn-jump" onclick="jumpToUnanswered()" style="display:none">⬇ Next unanswered</button>
-        <span><span id="answered-count">0</span> / <span id="total-count">100</span> answered</span>
-      </div>
+      <div class="progress-label"><span id="answered-count">0</span> / <span id="total-count">100</span> answered</div>
 
       <div id="questions-root"></div>
 
@@ -218,6 +218,8 @@
       </div>
     </div>
   </main>
+
+  <button id="btn-jump" class="btn-jump" onclick="jumpToUnanswered()" style="display:none">⬇ Next unanswered</button>
 
   <footer>Copyright Marc Vasseur — Polytech Lille</footer>
 
