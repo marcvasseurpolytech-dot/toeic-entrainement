@@ -3,6 +3,8 @@
     "iibc2-t1-listening": true,
     "iibc2-t1-reading": true,
     "iibc2-t2-listening": true,
-    "iibc2-t2-reading": true
+    "iibc2-t2-reading": true,
+    "iibc2-t3-listening": true,
+    "iibc2-t3-reading": true
   }
 }
