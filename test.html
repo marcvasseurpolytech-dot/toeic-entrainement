@@ -224,6 +224,19 @@ if (!student) window.location.href = 'index.html';
 const TEST = TESTS_DATA[testId];
 if (!TEST) { alert('Test not found.'); window.location.href = 'dashboard.html'; }
 
+// Guard against direct-URL access to a test the admin has closed.
+(async () => {
+  try {
+    const r = await fetch('/api/access');
+    const data = await r.json();
+    const isOpen = (data.tests || {})[testId] !== false;
+    if (!isOpen) {
+      alert('This test is currently closed by the administrator.');
+      window.location.href = 'dashboard.html';
+    }
+  } catch (e) { /* if the check fails, don't block the student */ }
+})();
+
 const answers = new Array(TEST.keys.length).fill(null);
 let timeLeft  = TEST.duration || 0;
 let timerInterval = null;
