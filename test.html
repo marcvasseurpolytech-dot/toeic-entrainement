@@ -224,14 +224,25 @@ if (!student) window.location.href = 'index.html';
 const TEST = TESTS_DATA[testId];
 if (!TEST) { alert('Test not found.'); window.location.href = 'dashboard.html'; }
 
-// Guard against direct-URL access to a test the admin has closed.
+// Guard against direct-URL access to a test the admin has closed, or a
+// test this student has already completed (one attempt per test).
 (async () => {
   try {
-    const r = await fetch('/api/access');
-    const data = await r.json();
-    const isOpen = (data.tests || {})[testId] !== false;
+    const [accessR, scoresR] = await Promise.all([
+      fetch('/api/access'),
+      fetch(`/api/scores?nom=${encodeURIComponent(student.nom)}`)
+    ]);
+    const accessData = await accessR.json();
+    const isOpen = (accessData.tests || {})[testId] !== false;
     if (!isOpen) {
       alert('This test is currently closed by the administrator.');
+      window.location.href = 'dashboard.html';
+      return;
+    }
+    const scoresData = await scoresR.json();
+    const already = (scoresData.scores || []).some(s => s.testId === testId);
+    if (already) {
+      alert('You have already completed this test. Only one attempt is allowed.');
       window.location.href = 'dashboard.html';
     }
   } catch (e) { /* if the check fails, don't block the student */ }
@@ -545,7 +556,7 @@ async function submitTest(auto = false) {
 
   // Save to API
   try {
-    await fetch('/api/scores', {
+    const saveR = await fetch('/api/scores', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -557,7 +568,12 @@ async function submitTest(auto = false) {
         date:   new Date().toISOString()
       })
     });
-  } catch(e) { /* fail silently — result already shown */ }
+    if (!saveR.ok) {
+      const errData = await saveR.json().catch(() => ({}));
+      panel.insertAdjacentHTML('beforeend',
+        `<p style="color:#c0392b;font-size:0.85rem;margin-top:1rem">⚠️ ${errData.error || 'Your score could not be saved.'}</p>`);
+    }
+  } catch(e) { /* network failure — result already shown to the student */ }
 }
 </script>
 </body>
