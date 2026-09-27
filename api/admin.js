@@ -1,8 +1,8 @@
 const REPO = 'marcvasseurpolytech-dot/toeic-entrainement';
 const API  = 'https://api.github.com';
 
-// Admin code hash — sha256('1234') — change this before deploying
-const ADMIN_HASH = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4';
+// Admin code — même mot de passe que Suivi Scores TOEIC
+const ADMIN_HASH = 'f7ff32b790557d7601029bc0b296115f82e18d799b6e27ba0c6202fdbd1f2a08';
 
 const crypto = require('crypto');
 
