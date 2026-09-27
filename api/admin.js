@@ -127,6 +127,24 @@ module.exports = async (req, res) => {
       return res.json({ success: true, removed });
     }
 
+    // resource=score&nom=...&testId=... — remove one completed attempt so
+    // the student's one-attempt limit is reset for that specific test.
+    if (resource === 'score') {
+      const nom    = (req.query?.nom || '').trim().toUpperCase();
+      const testId = req.query?.testId || '';
+      if (!nom || !testId) return res.status(400).json({ error: 'Missing data' });
+
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const scoresFile = await ghGet('data/scores.json', token);
+        const before = scoresFile?.data?.scores || [];
+        const after = before.filter(s => !(s.nom === nom && s.testId === testId));
+        const removed = after.length !== before.length;
+        const ok = await ghPut('data/scores.json', { scores: after }, scoresFile?.sha, token);
+        if (ok) return res.json({ success: true, removed });
+      }
+      return res.status(500).json({ error: 'SHA conflict — try again.' });
+    }
+
     return res.status(400).json({ error: 'Unknown resource' });
   }
 
