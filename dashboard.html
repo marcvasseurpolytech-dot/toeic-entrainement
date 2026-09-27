@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mon Tableau de Bord — TOEIC</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
   <style>
     :root {
       --navy: #1e3a5f; --gold: #c9a84c; --cream: #f8f4ee;
       --light-gold: #e8d5a3; --dark-gold: #a07830; --border: #d4c5a9;
-      --success: #2e7d52; --muted: #6b7280;
+      --success: #2e7d52; --muted: #6b7280; --error: #c0392b;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Source Serif 4', serif; background: var(--cream); color: #1a1a2e; min-height: 100vh; }
@@ -26,12 +27,15 @@
       font-family: 'Source Serif 4', serif; transition: all 0.2s;
     }
     .btn-logout:hover { background: var(--light-gold); color: var(--navy); }
-    main { max-width: 860px; margin: 0 auto; padding: 2rem 1rem; }
+    main { max-width: 960px; margin: 0 auto; padding: 2rem 1rem; }
     h2 {
       font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--navy);
       border-bottom: 2px solid var(--light-gold); padding-bottom: 0.5rem; margin-bottom: 1.2rem;
     }
-    .tests-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
+    section { margin-bottom: 2.5rem; }
+
+    /* Available tests */
+    .tests-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
     .test-card {
       background: #fff; border: 1px solid var(--border); border-top: 4px solid var(--gold);
       border-radius: 6px; padding: 1.2rem; display: flex; flex-direction: column; gap: 0.8rem;
@@ -54,18 +58,47 @@
     }
     .btn-start:hover { background: var(--dark-gold); }
     .btn-start:disabled { background: #ccc; cursor: not-allowed; }
-    .scores-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-    .scores-table th {
-      background: var(--navy); color: var(--gold); text-align: left;
-      padding: 0.6rem 0.8rem; font-family: 'Playfair Display', serif; font-weight: 400;
+
+    /* Score summary cards (per TOEIC group) */
+    .summary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1rem; }
+    .summary-card {
+      background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 1.1rem;
     }
-    .scores-table td { padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--border); }
-    .scores-table tr:hover td { background: #fdf8f0; }
-    .score-pct { font-weight: 600; color: var(--navy); }
+    .summary-card h3 { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--navy); margin-bottom: 0.7rem; }
+    .summary-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 0.85rem; padding: 0.25rem 0; }
+    .summary-row .lbl { color: var(--muted); }
+    .summary-row .val { font-weight: 700; color: var(--navy); }
+    .summary-row.total { border-top: 1px solid var(--border); margin-top: 0.4rem; padding-top: 0.5rem; }
+    .summary-row.total .val { font-size: 1.15rem; }
+    .cecrl-chip {
+      display: inline-block; background: var(--navy); color: var(--gold);
+      font-size: 0.68rem; font-weight: 700; padding: 0.12rem 0.45rem; border-radius: 3px; margin-left: 0.4rem;
+    }
+
+    /* Evolution chart */
+    .chart-wrap { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 1.2rem; }
+    .chart-wrap canvas { max-height: 280px; }
+
+    /* Detailed attempts table */
+    .attempts-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; background: #fff; }
+    .attempts-table th {
+      background: var(--navy); color: var(--gold); text-align: left;
+      padding: 0.55rem 0.7rem; font-family: 'Playfair Display', serif; font-weight: 400;
+    }
+    .attempts-table td { padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .attempts-table tr:hover td { background: #fdf8f0; }
+    .part-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .part-chip {
+      background: var(--cream); border: 1px solid var(--border); border-radius: 3px;
+      font-size: 0.7rem; padding: 0.1rem 0.4rem; white-space: nowrap;
+    }
+    .score-pct { font-weight: 600; }
     .score-pct.good { color: var(--success); }
-    .score-pct.bad  { color: #c0392b; }
+    .score-pct.bad  { color: var(--error); }
+
     .empty-msg { color: var(--muted); font-size: 0.9rem; padding: 1rem 0; font-style: italic; }
     .loading { color: var(--muted); font-style: italic; padding: 2rem 0; text-align: center; }
+    .table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 6px; }
     footer { text-align: center; font-size: 0.75rem; color: #999; padding: 1.5rem; border-top: 1px solid var(--border); margin-top: 2rem; }
   </style>
 </head>
@@ -82,70 +115,33 @@
     <div id="loading" class="loading">Chargement de tes résultats…</div>
 
     <div id="content" style="display:none">
-      <h2>Tests disponibles</h2>
-      <div class="tests-grid" id="tests-grid"></div>
+      <section>
+        <h2>Tests disponibles</h2>
+        <div class="tests-grid" id="tests-grid"></div>
+      </section>
 
-      <h2>Mes résultats</h2>
-      <div id="scores-section">
-        <p class="empty-msg">Aucun résultat enregistré pour le moment.</p>
-      </div>
+      <section>
+        <h2>Mes scores par TOEIC</h2>
+        <div id="summary-section"><p class="empty-msg">Aucun résultat enregistré pour le moment.</p></div>
+      </section>
+
+      <section>
+        <h2>Évolution</h2>
+        <div class="chart-wrap"><canvas id="evolution-chart"></canvas></div>
+      </section>
+
+      <section>
+        <h2>Détail par tentative</h2>
+        <div id="attempts-section"><p class="empty-msg">Aucune tentative enregistrée.</p></div>
+      </section>
     </div>
   </main>
 
   <footer>Copyright Marc Vasseur — Polytech Lille</footer>
 
-  <script>
-    const TESTS = [
-      {
-        id: 'iibc2-t1-listening',
-        name: 'IIBC 2 — Test 1',
-        part: 'Listening',
-        questions: 100,
-        duration: '45 min',
-        open: true
-      },
-      {
-        id: 'iibc2-t1-reading',
-        name: 'IIBC 2 — Test 1',
-        part: 'Reading',
-        questions: 100,
-        duration: '75 min',
-        open: false
-      },
-      {
-        id: 'iibc2-t2-listening',
-        name: 'IIBC 2 — Test 2',
-        part: 'Listening',
-        questions: 100,
-        duration: '45 min',
-        open: false
-      },
-      {
-        id: 'iibc2-t2-reading',
-        name: 'IIBC 2 — Test 2',
-        part: 'Reading',
-        questions: 100,
-        duration: '75 min',
-        open: false
-      },
-      {
-        id: 'iibc3-t1-listening',
-        name: 'IIBC 3 — Test 1',
-        part: 'Listening',
-        questions: 100,
-        duration: '45 min',
-        open: false
-      },
-      {
-        id: 'iibc3-t1-reading',
-        name: 'IIBC 3 — Test 1',
-        part: 'Reading',
-        questions: 100,
-        duration: '75 min',
-        open: false
-      }
-    ];
-
+<script src="tests-data.js"></script>
+<script src="scoring.js"></script>
+<script>
     const student = JSON.parse(sessionStorage.getItem('student') || 'null');
     if (!student) window.location.href = 'index.html';
 
@@ -171,69 +167,163 @@
       return '';
     }
 
+    // =========================================================
+    // TESTS DISPONIBLES
+    // =========================================================
     function renderTests(scores) {
       const grid = document.getElementById('tests-grid');
       grid.innerHTML = '';
-      TESTS.forEach(t => {
-        const myScores = scores.filter(s => s.testId === t.id);
+      Object.entries(TESTS_DATA).forEach(([id, t]) => {
+        const myScores = scores.filter(s => s.testId === id);
         const best = myScores.length ? Math.max(...myScores.map(s => s.score)) : null;
-        const locked = !t.open;
         const div = document.createElement('div');
-        div.className = 'test-card' + (locked ? ' locked' : '');
-        const badge = locked ? '<span class="badge locked">Bientôt disponible</span>'
-                    : best !== null ? `<span class="badge done">Meilleur score : ${best}/100</span>`
+        div.className = 'test-card';
+        const badge = best !== null ? `<span class="badge done">Meilleur score : ${best}/100</span>`
                     : '<span class="badge open">Disponible</span>';
         div.innerHTML = `
           <h3>${t.name}</h3>
-          <div class="meta">📋 ${t.part} &nbsp;·&nbsp; ${t.questions} questions &nbsp;·&nbsp; ${t.duration}</div>
+          <div class="meta">📋 ${t.part} &nbsp;·&nbsp; ${t.keys.length} questions ${t.audioControlled ? '&nbsp;·&nbsp; 🎧 audio' : ''}</div>
           ${badge}
-          <button class="btn-start" ${locked ? 'disabled' : ''} onclick="startTest('${t.id}')">
-            ${locked ? 'Non disponible' : best !== null ? '🔄 Refaire le test' : '▶ Commencer'}
+          <button class="btn-start" onclick="startTest('${id}')">
+            ${best !== null ? '🔄 Refaire le test' : '▶ Commencer'}
           </button>
         `;
         grid.appendChild(div);
       });
     }
 
-    function renderScores(scores) {
-      const section = document.getElementById('scores-section');
-      if (!scores.length) {
-        section.innerHTML = '<p class="empty-msg">Aucun résultat enregistré pour le moment.</p>';
-        return;
-      }
-      const sorted = [...scores].sort((a, b) => new Date(b.date) - new Date(a.date));
-      section.innerHTML = `
-        <table class="scores-table">
-          <thead><tr>
-            <th>Test</th><th>Partie</th><th>Score</th><th>Date</th>
-          </tr></thead>
-          <tbody>${sorted.map(s => {
-            const pct = Math.round(s.score / s.total * 100);
-            const testName = TESTS.find(t => t.id === s.testId)?.name || s.testId;
-            const part     = TESTS.find(t => t.id === s.testId)?.part || '';
-            const d = new Date(s.date).toLocaleDateString('fr-FR', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
-            return `<tr>
-              <td>${testName}</td>
-              <td>${part}</td>
-              <td><span class="score-pct ${pctClass(pct)}">${s.score}/${s.total} (${pct}%)</span></td>
-              <td>${d}</td>
-            </tr>`;
-          }).join('')}</tbody>
-        </table>
-      `;
-    }
-
     function startTest(testId) {
       window.location.href = `test.html?id=${testId}&nom=${encodeURIComponent(student.nom)}`;
     }
 
+    // =========================================================
+    // ENRICHISSEMENT DES SCORES — breakdown par partie + conversion
+    // =========================================================
+    function enrichScore(s) {
+      const TEST = TESTS_DATA[s.testId];
+      if (!TEST) return null;
+      const breakdown = computePartBreakdown(TEST, s.answers || []);
+      const converted = convertedSectionScore(TEST.section, s.score);
+      const cecrl = cecrlForTable(converted, TEST.section === 'L' ? CECRL_LISTENING : CECRL_READING);
+      return { ...s, TEST, breakdown, converted, cecrl };
+    }
+
+    // =========================================================
+    // RÉCAP PAR TOEIC (regroupe Listening + Reading d'un même baseId)
+    // =========================================================
+    function renderSummary(enriched) {
+      const section = document.getElementById('summary-section');
+      if (!enriched.length) {
+        section.innerHTML = '<p class="empty-msg">Aucun résultat enregistré pour le moment.</p>';
+        return;
+      }
+      // group by baseId, keep the most recent attempt per section
+      const byBase = {};
+      enriched.forEach(s => {
+        const base = s.TEST.baseId;
+        if (!byBase[base]) byBase[base] = {};
+        const cur = byBase[base][s.TEST.section];
+        if (!cur || new Date(s.date) > new Date(cur.date)) byBase[base][s.TEST.section] = s;
+      });
+
+      const cards = Object.entries(byBase).map(([base, sec]) => {
+        const l = sec.L, r = sec.R;
+        const lConv = l ? l.converted : null;
+        const rConv = r ? r.converted : null;
+        const total = (l && r) ? lConv + rConv : null;
+        const name = (l || r).TEST.name;
+        return `
+          <div class="summary-card">
+            <h3>${name}</h3>
+            <div class="summary-row"><span class="lbl">Listening</span><span class="val">${lConv !== null ? lConv + '/495' : '—'}${lConv !== null ? `<span class="cecrl-chip">${l.cecrl}</span>` : ''}</span></div>
+            <div class="summary-row"><span class="lbl">Reading</span><span class="val">${rConv !== null ? rConv + '/495' : '—'}${rConv !== null ? `<span class="cecrl-chip">${r.cecrl}</span>` : ''}</span></div>
+            <div class="summary-row total"><span class="lbl">Total</span><span class="val">${total !== null ? total + '/990' : '—'}${total !== null ? `<span class="cecrl-chip">${cecrlFor(total)}</span>` : ''}</span></div>
+          </div>
+        `;
+      }).join('');
+      section.innerHTML = `<div class="summary-grid">${cards}</div>`;
+    }
+
+    // =========================================================
+    // ÉVOLUTION — graphique Chart.js
+    // =========================================================
+    function renderEvolution(enriched) {
+      const ctx = document.getElementById('evolution-chart');
+      if (!enriched.length) { ctx.parentElement.innerHTML = '<p class="empty-msg">Pas encore assez de données pour une courbe d\'évolution.</p>'; return; }
+
+      const sorted = [...enriched].sort((a, b) => new Date(a.date) - new Date(b.date));
+      const labels = sorted.map(s => new Date(s.date).toLocaleDateString('fr-FR', { day:'2-digit', month:'short' }));
+      const listeningData = sorted.map(s => s.TEST.section === 'L' ? s.converted : null);
+      const readingData   = sorted.map(s => s.TEST.section === 'R' ? s.converted : null);
+
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            { label: 'Listening /495', data: listeningData, borderColor: '#1e3a5f', backgroundColor: '#1e3a5f', spanGaps: true, tension: 0.25 },
+            { label: 'Reading /495',   data: readingData,   borderColor: '#c9a84c', backgroundColor: '#c9a84c', spanGaps: true, tension: 0.25 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'bottom' } },
+          scales: { y: { min: 0, max: 495 } }
+        }
+      });
+    }
+
+    // =========================================================
+    // DÉTAIL PAR TENTATIVE
+    // =========================================================
+    function renderAttempts(enriched) {
+      const section = document.getElementById('attempts-section');
+      if (!enriched.length) {
+        section.innerHTML = '<p class="empty-msg">Aucune tentative enregistrée.</p>';
+        return;
+      }
+      const sorted = [...enriched].sort((a, b) => new Date(b.date) - new Date(a.date));
+      section.innerHTML = `
+        <div class="table-scroll">
+        <table class="attempts-table">
+          <thead><tr>
+            <th>Test</th><th>Section</th><th>Détail par partie</th><th>Score brut</th><th>/495</th><th>Niveau</th><th>Date</th>
+          </tr></thead>
+          <tbody>${sorted.map(s => {
+            const pct = Math.round(s.score / s.total * 100);
+            const chips = s.TEST.partIds.map(pid => {
+              const b = s.breakdown[pid];
+              const label = partCanonById(pid).label;
+              return `<span class="part-chip">${label}: ${b.correct}/${b.max}</span>`;
+            }).join('');
+            const d = new Date(s.date).toLocaleDateString('fr-FR', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+            return `<tr>
+              <td>${s.TEST.name}</td>
+              <td>${s.TEST.part}</td>
+              <td><div class="part-chips">${chips}</div></td>
+              <td><span class="score-pct ${pctClass(pct)}">${s.score}/${s.total}</span></td>
+              <td>${s.converted}</td>
+              <td><span class="cecrl-chip">${s.cecrl}</span></td>
+              <td>${d}</td>
+            </tr>`;
+          }).join('')}</tbody>
+        </table>
+        </div>
+      `;
+    }
+
     (async () => {
       const scores = await loadScores();
+      const enriched = scores.map(enrichScore).filter(Boolean);
+
       renderTests(scores);
-      renderScores(scores);
+      renderSummary(enriched);
+      renderEvolution(enriched);
+      renderAttempts(enriched);
+
       document.getElementById('loading').style.display = 'none';
       document.getElementById('content').style.display = 'block';
     })();
-  </script>
+</script>
 </body>
 </html>
