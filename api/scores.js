@@ -41,13 +41,16 @@ module.exports = async (req, res) => {
     const file = await ghGet(FILE, token);
     const all  = file?.data?.scores || [];
     const mine = all.filter(s => s.nom === nom).map(s => ({
-      testId: s.testId, score: s.score, total: s.total, date: s.date, answers: s.answers || []
+      testId: s.testId, score: s.score, total: s.total, date: s.date,
+      answers: s.answers || [], retakeGranted: !!s.retakeGranted
     }));
     return res.json({ scores: mine });
   }
 
-  // POST — save a new score. One attempt per student per test: reject if
-  // this student already has a completed score for this testId.
+  // POST — save a new score. One attempt per student per test, UNLESS an
+  // admin has explicitly granted a retake on that student's most recent
+  // attempt for this test (retakeGranted: true) — the old attempt stays
+  // in the record for history; this new one is saved as a fresh entry.
   if (req.method === 'POST') {
     const { nom, testId, score, total, answers, date } = req.body || {};
     if (!nom || !testId || score === undefined || !total) {
@@ -58,7 +61,10 @@ module.exports = async (req, res) => {
     for (let attempt = 0; attempt < 3; attempt++) {
       const file   = await ghGet(FILE, token);
       const scores = file?.data?.scores || [];
-      if (scores.some(s => s.nom === nomUpper && s.testId === testId)) {
+      const mine = scores.filter(s => s.nom === nomUpper && s.testId === testId)
+                         .sort((a, b) => new Date(b.date) - new Date(a.date));
+      const latest = mine[0];
+      if (latest && !latest.retakeGranted) {
         return res.status(409).json({ error: 'You have already completed this test. Only one attempt is allowed.' });
       }
       scores.push({
