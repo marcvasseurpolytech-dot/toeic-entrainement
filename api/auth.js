@@ -33,10 +33,10 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const token = process.env.GITHUB_TOKEN;
-  if (!token) return res.status(500).json({ error: 'Token manquant' });
+  if (!token) return res.status(500).json({ error: 'Missing token' });
 
   const { action, nom, prenom, dept, codeHash } = req.body || {};
-  if (!nom || !codeHash) return res.status(400).json({ error: 'Données manquantes' });
+  if (!nom || !codeHash) return res.status(400).json({ error: 'Missing data' });
 
   const nomUpper = nom.trim().toUpperCase();
 
@@ -45,14 +45,14 @@ module.exports = async (req, res) => {
 
   if (action === 'login') {
     const s = students.find(x => x.nom === nomUpper && x.codeHash === codeHash);
-    if (!s) return res.status(401).json({ error: 'Nom ou code incorrect.' });
+    if (!s) return res.status(401).json({ error: 'Incorrect name or code.' });
     return res.json({ student: { nom: s.nom, prenom: s.prenom, dept: s.dept } });
   }
 
   if (action === 'signup') {
-    if (!prenom || !dept) return res.status(400).json({ error: 'Tous les champs sont requis.' });
+    if (!prenom || !dept) return res.status(400).json({ error: 'All fields are required.' });
     if (students.find(x => x.nom === nomUpper)) {
-      return res.status(409).json({ error: `Le nom "${nomUpper}" est déjà enregistré. Connecte-toi plutôt.` });
+      return res.status(409).json({ error: `The name "${nomUpper}" is already registered. Please log in instead.` });
     }
     const newStudent = {
       nom: nomUpper,
@@ -63,9 +63,9 @@ module.exports = async (req, res) => {
     };
     students.push(newStudent);
     const ok = await ghPut(FILE, { students }, file?.sha, token);
-    if (!ok) return res.status(500).json({ error: 'Erreur lors de l\'enregistrement.' });
+    if (!ok) return res.status(500).json({ error: 'Error while saving.' });
     return res.json({ student: { nom: nomUpper, prenom: prenom.trim(), dept: dept.trim() } });
   }
 
-  return res.status(400).json({ error: 'Action inconnue.' });
+  return res.status(400).json({ error: 'Unknown action.' });
 };
