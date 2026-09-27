@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TOEIC Entraînement Complet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:  #1e3a5f;
+      --gold:  #c9a84c;
+      --cream: #f8f4ee;
+      --light-gold: #e8d5a3;
+      --dark-gold:  #a07830;
+      --border: #d4c5a9;
+      --success: #2e7d52;
+      --error:   #c0392b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Source Serif 4', serif;
+      background: var(--cream);
+      color: #1a1a2e;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: var(--navy);
+      color: var(--cream);
+      padding: 2rem 1.5rem 1.5rem;
+      text-align: center;
+      border-bottom: 3px solid var(--gold);
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+    }
+    header p {
+      font-size: 0.85rem;
+      color: var(--light-gold);
+      margin-top: 0.4rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--gold);
+      border-radius: 6px;
+      width: 100%;
+      max-width: 420px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(30,58,95,0.10);
+    }
+    .tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 1.8rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .tab {
+      flex: 1;
+      padding: 0.6rem 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: #666;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+      font-family: 'Source Serif 4', serif;
+    }
+    .tab.active {
+      color: var(--navy);
+      font-weight: 600;
+      border-bottom-color: var(--gold);
+    }
+    .form-group { margin-bottom: 1.1rem; }
+    label {
+      display: block;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--navy);
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.65rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 1rem;
+      font-family: 'Source Serif 4', serif;
+      background: var(--cream);
+      transition: border-color 0.2s;
+    }
+    input:focus { outline: none; border-color: var(--navy); background: #fff; }
+    input[type="number"] { letter-spacing: 0.2em; font-size: 1.1rem; }
+    .hint {
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 0.3rem;
+    }
+    .btn {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--navy);
+      color: var(--cream);
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-family: 'Playfair Display', serif;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: var(--dark-gold); }
+    .btn:disabled { background: #aaa; cursor: not-allowed; }
+    .msg {
+      padding: 0.7rem 1rem;
+      border-radius: 4px;
+      font-size: 0.88rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .msg.error   { background: #fde8e8; color: var(--error); border: 1px solid #f5c6cb; display: block; }
+    .msg.success { background: #e6f4ec; color: var(--success); border: 1px solid #b8dfc8; display: block; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      padding: 1.2rem;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TOEIC — Entraînement Complet</h1>
+    <p>Portail Étudiant &nbsp;·&nbsp; Polytech Lille</p>
+  </header>
+
+  <main>
+    <div class="card">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('login')">Se connecter</div>
+        <div class="tab" onclick="switchTab('signup')">Créer mon profil</div>
+      </div>
+
+      <!-- LOGIN -->
+      <div class="panel active" id="panel-login">
+        <div class="msg" id="login-msg"></div>
+        <div class="form-group">
+          <label>Nom de famille</label>
+          <input type="text" id="login-nom" placeholder="Ex : DUPONT" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label>Code secret (4 chiffres)</label>
+          <input type="number" id="login-code" placeholder="0000" min="0" max="9999" autocomplete="off">
+          <div class="hint">Le code que tu as choisi à la création de ton profil.</div>
+        </div>
+        <button class="btn" onclick="doLogin()">Se connecter</button>
+      </div>
+
+      <!-- SIGNUP -->
+      <div class="panel" id="panel-signup">
+        <div class="msg" id="signup-msg"></div>
+        <div class="form-group">
+          <label>Nom de famille</label>
+          <input type="text" id="signup-nom" placeholder="Ex : DUPONT" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label>Prénom</label>
+          <input type="text" id="signup-prenom" placeholder="Ex : Jean" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label>Département / Groupe</label>
+          <input type="text" id="signup-dept" placeholder="Ex : GI3 — GR2" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label>Code secret (4 chiffres)</label>
+          <input type="number" id="signup-code" placeholder="0000" min="0" max="9999" autocomplete="off">
+          <div class="hint">Choisis un code que tu retiendras. Il ne pourra pas être récupéré.</div>
+        </div>
+        <div class="form-group">
+          <label>Confirmer le code</label>
+          <input type="number" id="signup-code2" placeholder="0000" min="0" max="9999" autocomplete="off">
+        </div>
+        <button class="btn" onclick="doSignup()">Créer mon profil</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>Copyright Marc Vasseur — Polytech Lille</footer>
+
+  <script>
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', (tab === 'login') === (i === 0)));
+      document.getElementById('panel-login').classList.toggle('active', tab === 'login');
+      document.getElementById('panel-signup').classList.toggle('active', tab === 'signup');
+    }
+
+    function padCode(code) {
+      return String(parseInt(code) || 0).padStart(4, '0');
+    }
+
+    async function sha256(text) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function showMsg(id, text, type) {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.className = 'msg ' + type;
+    }
+
+    async function doLogin() {
+      const nom  = document.getElementById('login-nom').value.trim().toUpperCase();
+      const code = padCode(document.getElementById('login-code').value);
+      if (!nom || code.length !== 4) { showMsg('login-msg', 'Remplis les deux champs.', 'error'); return; }
+      const codeHash = await sha256(code);
+      const btn = document.querySelector('#panel-login .btn');
+      btn.disabled = true; btn.textContent = 'Vérification…';
+      try {
+        const r = await fetch('/api/auth', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ action:'login', nom, codeHash })
+        });
+        const data = await r.json();
+        if (!r.ok) { showMsg('login-msg', data.error || 'Erreur.', 'error'); return; }
+        sessionStorage.setItem('student', JSON.stringify(data.student));
+        window.location.href = 'dashboard.html';
+      } catch(e) {
+        showMsg('login-msg', 'Erreur réseau.', 'error');
+      } finally {
+        btn.disabled = false; btn.textContent = 'Se connecter';
+      }
+    }
+
+    async function doSignup() {
+      const nom    = document.getElementById('signup-nom').value.trim().toUpperCase();
+      const prenom = document.getElementById('signup-prenom').value.trim();
+      const dept   = document.getElementById('signup-dept').value.trim();
+      const code   = padCode(document.getElementById('signup-code').value);
+      const code2  = padCode(document.getElementById('signup-code2').value);
+      if (!nom || !prenom || !dept) { showMsg('signup-msg', 'Tous les champs sont requis.', 'error'); return; }
+      if (code.length !== 4 || isNaN(parseInt(code))) { showMsg('signup-msg', 'Le code doit être 4 chiffres.', 'error'); return; }
+      if (code !== code2) { showMsg('signup-msg', 'Les deux codes ne correspondent pas.', 'error'); return; }
+      const codeHash = await sha256(code);
+      const btn = document.querySelector('#panel-signup .btn');
+      btn.disabled = true; btn.textContent = 'Création…';
+      try {
+        const r = await fetch('/api/auth', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ action:'signup', nom, prenom, dept, codeHash })
+        });
+        const data = await r.json();
+        if (!r.ok) { showMsg('signup-msg', data.error || 'Erreur.', 'error'); return; }
+        sessionStorage.setItem('student', JSON.stringify(data.student));
+        window.location.href = 'dashboard.html';
+      } catch(e) {
+        showMsg('signup-msg', 'Erreur réseau.', 'error');
+      } finally {
+        btn.disabled = false; btn.textContent = 'Créer mon profil';
+      }
+    }
+
+    // Enter key support
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      if (document.getElementById('panel-login').classList.contains('active')) doLogin();
+      else doSignup();
+    });
+
+    // Already logged in?
+    if (sessionStorage.getItem('student')) window.location.href = 'dashboard.html';
+  </script>
+</body>
+</html>
