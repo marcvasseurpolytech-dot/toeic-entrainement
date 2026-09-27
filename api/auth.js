@@ -46,6 +46,11 @@ module.exports = async (req, res) => {
   if (action === 'login') {
     const s = students.find(x => x.nom === nomUpper && x.codeHash === codeHash);
     if (!s) return res.status(401).json({ error: 'Incorrect name or code.' });
+    // Accounts created before the approval system existed have no
+    // `approved` field — treat those as already approved.
+    if (s.approved === false) {
+      return res.status(403).json({ error: 'Your account is pending administrator approval. Please check back later.', pending: true });
+    }
     return res.json({ student: { nom: s.nom, prenom: s.prenom, dept: s.dept } });
   }
 
@@ -59,12 +64,14 @@ module.exports = async (req, res) => {
       prenom: prenom.trim(),
       dept: dept.trim(),
       codeHash,
+      approved: false,
       createdAt: new Date().toISOString()
     };
     students.push(newStudent);
     const ok = await ghPut(FILE, { students }, file?.sha, token);
     if (!ok) return res.status(500).json({ error: 'Error while saving.' });
-    return res.json({ student: { nom: nomUpper, prenom: prenom.trim(), dept: dept.trim() } });
+    // Do NOT log the student in — their account needs admin approval first.
+    return res.json({ pending: true, student: { nom: nomUpper, prenom: prenom.trim(), dept: dept.trim() } });
   }
 
   return res.status(400).json({ error: 'Unknown action.' });
