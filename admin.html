@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin — TOEIC Entraînement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --navy:#1e3a5f; --gold:#c9a84c; --cream:#f8f4ee; --light-gold:#e8d5a3; --dark-gold:#a07830; --border:#d4c5a9; --success:#2e7d52; --error:#c0392b; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Source Serif 4',serif; background:var(--cream); color:#1a1a2e; min-height:100vh; }
+    header { background:var(--navy); color:var(--cream); padding:1.2rem 1.5rem; border-bottom:3px solid var(--gold); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; }
+    header h1 { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--gold); }
+    .badge-admin { background:var(--gold); color:var(--navy); font-size:0.72rem; font-weight:700; padding:0.2rem 0.6rem; border-radius:20px; letter-spacing:0.06em; text-transform:uppercase; }
+    .gate { display:flex; align-items:center; justify-content:center; min-height:80vh; }
+    .gate-card { background:#fff; border:1px solid var(--border); border-top:4px solid var(--gold); border-radius:6px; padding:2rem; width:100%; max-width:360px; }
+    .gate-card h2 { font-family:'Playfair Display',serif; color:var(--navy); margin-bottom:1.2rem; }
+    label { display:block; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--navy); font-weight:600; margin-bottom:0.4rem; }
+    input { width:100%; padding:0.65rem 0.8rem; border:1px solid var(--border); border-radius:4px; font-size:1rem; font-family:'Source Serif 4',serif; background:var(--cream); margin-bottom:1rem; }
+    .btn { width:100%; padding:0.75rem; background:var(--navy); color:var(--cream); border:none; border-radius:4px; font-size:1rem; font-family:'Playfair Display',serif; cursor:pointer; }
+    .btn:hover { background:var(--dark-gold); }
+    .msg-err { color:var(--error); font-size:0.85rem; margin-bottom:0.8rem; }
+    main { max-width:1100px; margin:0 auto; padding:2rem 1rem; }
+    h2 { font-family:'Playfair Display',serif; font-size:1.15rem; color:var(--navy); border-bottom:2px solid var(--light-gold); padding-bottom:0.5rem; margin-bottom:1.2rem; }
+    .toolbar { display:flex; gap:0.8rem; margin-bottom:1rem; flex-wrap:wrap; align-items:center; }
+    .toolbar select, .toolbar input[type=text] { padding:0.4rem 0.7rem; border:1px solid var(--border); border-radius:4px; font-size:0.88rem; font-family:'Source Serif 4',serif; background:var(--cream); width:auto; }
+    .btn-export { background:var(--gold); color:var(--navy); border:none; border-radius:4px; padding:0.4rem 1rem; font-size:0.85rem; cursor:pointer; font-weight:600; }
+    .btn-export:hover { background:var(--dark-gold); color:var(--cream); }
+    table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+    th { background:var(--navy); color:var(--gold); padding:0.6rem 0.8rem; text-align:left; font-family:'Playfair Display',serif; font-weight:400; }
+    td { padding:0.55rem 0.8rem; border-bottom:1px solid var(--border); }
+    tr:hover td { background:#fdf8f0; }
+    .pct.good { color:var(--success); font-weight:600; }
+    .pct.mid  { color:var(--dark-gold); font-weight:600; }
+    .pct.bad  { color:var(--error); font-weight:600; }
+    .section-title { background:#f3f4f6; padding:0.5rem 0.8rem; font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:#6b7280; border-bottom:1px solid var(--border); }
+    footer { text-align:center; font-size:0.75rem; color:#999; padding:1.5rem; border-top:1px solid var(--border); margin-top:2rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TOEIC — Entraînement Complet</h1>
+    <span class="badge-admin">Admin</span>
+  </header>
+
+  <!-- Gate -->
+  <div class="gate" id="gate">
+    <div class="gate-card">
+      <h2>Accès administrateur</h2>
+      <div class="msg-err" id="gate-err" style="display:none"></div>
+      <label>Code admin</label>
+      <input type="number" id="admin-code" placeholder="0000" autocomplete="off">
+      <button class="btn" onclick="checkAdmin()">Accéder</button>
+    </div>
+  </div>
+
+  <!-- Panel admin (hidden until auth) -->
+  <main id="admin-panel" style="display:none">
+    <h2>Vue d'ensemble — Résultats</h2>
+    <div class="toolbar">
+      <select id="filter-test" onchange="render()"><option value="">Tous les tests</option></select>
+      <input type="text" id="filter-nom" placeholder="Filtrer par nom…" oninput="render()">
+      <button class="btn-export" onclick="exportCSV()">⬇ Exporter CSV</button>
+    </div>
+    <div id="table-wrap"><p style="color:#9ca3af;font-style:italic">Chargement…</p></div>
+
+    <h2 style="margin-top:2.5rem">Étudiants inscrits</h2>
+    <div id="students-wrap"><p style="color:#9ca3af;font-style:italic">Chargement…</p></div>
+  </main>
+
+  <footer>Copyright Marc Vasseur — Polytech Lille</footer>
+
+  <script>
+    // Admin code hash — set ADMIN_HASH to sha256 of your chosen code
+    // Default code: 1234  → change before deploying
+    const ADMIN_HASH = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4'; // sha256('1234')
+
+    async function sha256(text) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+    }
+
+    async function checkAdmin() {
+      const code = String(parseInt(document.getElementById('admin-code').value) || 0).padStart(4,'0');
+      const h = await sha256(code);
+      if (h !== ADMIN_HASH) {
+        const err = document.getElementById('gate-err');
+        err.textContent = 'Code incorrect.'; err.style.display = 'block'; return;
+      }
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('admin-panel').style.display = 'block';
+      loadAll();
+    }
+
+    let allScores = [], allStudents = [];
+    const TEST_NAMES = {
+      'iibc2-t1-listening': 'IIBC 2 T1 Listening',
+      'iibc2-t1-reading':   'IIBC 2 T1 Reading',
+      'iibc2-t2-listening': 'IIBC 2 T2 Listening',
+      'iibc2-t2-reading':   'IIBC 2 T2 Reading',
+      'iibc3-t1-listening': 'IIBC 3 T1 Listening',
+      'iibc3-t1-reading':   'IIBC 3 T1 Reading'
+    };
+
+    async function loadAll() {
+      try {
+        const [sr, studr] = await Promise.all([
+          fetch('/api/admin?resource=scores').then(r => r.json()),
+          fetch('/api/admin?resource=students').then(r => r.json())
+        ]);
+        allScores   = sr.scores   || [];
+        allStudents = studr.students || [];
+
+        // Populate test filter
+        const sel = document.getElementById('filter-test');
+        const testIds = [...new Set(allScores.map(s => s.testId))];
+        testIds.forEach(id => {
+          const opt = document.createElement('option');
+          opt.value = id; opt.textContent = TEST_NAMES[id] || id;
+          sel.appendChild(opt);
+        });
+
+        render();
+        renderStudents();
+      } catch(e) {
+        document.getElementById('table-wrap').innerHTML = '<p style="color:red">Erreur de chargement.</p>';
+      }
+    }
+
+    function pctClass(p) { return p >= 75 ? 'good' : p >= 50 ? 'mid' : 'bad'; }
+
+    function render() {
+      const testFilter = document.getElementById('filter-test').value;
+      const nomFilter  = document.getElementById('filter-nom').value.trim().toUpperCase();
+      let rows = allScores.filter(s =>
+        (!testFilter || s.testId === testFilter) &&
+        (!nomFilter  || s.nom.includes(nomFilter))
+      ).sort((a,b) => new Date(b.date) - new Date(a.date));
+
+      if (!rows.length) {
+        document.getElementById('table-wrap').innerHTML = '<p style="color:#9ca3af;font-style:italic">Aucun résultat.</p>';
+        return;
+      }
+      const student = allStudents.reduce((m, s) => { m[s.nom] = s; return m; }, {});
+      document.getElementById('table-wrap').innerHTML = `
+        <table>
+          <thead><tr><th>Nom</th><th>Prénom</th><th>Dept</th><th>Test</th><th>Score</th><th>%</th><th>Date</th></tr></thead>
+          <tbody>${rows.map(s => {
+            const pct = Math.round(s.score / s.total * 100);
+            const stu = student[s.nom] || {};
+            const d = new Date(s.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+            return `<tr>
+              <td>${s.nom}</td>
+              <td>${stu.prenom||'-'}</td>
+              <td>${stu.dept||'-'}</td>
+              <td>${TEST_NAMES[s.testId]||s.testId}</td>
+              <td>${s.score}/${s.total}</td>
+              <td><span class="pct ${pctClass(pct)}">${pct}%</span></td>
+              <td>${d}</td>
+            </tr>`;
+          }).join('')}</tbody>
+        </table>
+        <p style="font-size:0.78rem;color:#9ca3af;margin-top:0.5rem">${rows.length} résultat(s)</p>
+      `;
+    }
+
+    function renderStudents() {
+      if (!allStudents.length) {
+        document.getElementById('students-wrap').innerHTML = '<p style="color:#9ca3af;font-style:italic">Aucun étudiant inscrit.</p>';
+        return;
+      }
+      document.getElementById('students-wrap').innerHTML = `
+        <table>
+          <thead><tr><th>Nom</th><th>Prénom</th><th>Département</th><th>Inscrit le</th></tr></thead>
+          <tbody>${allStudents.map(s => {
+            const d = s.createdAt ? new Date(s.createdAt).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'}) : '-';
+            return `<tr><td>${s.nom}</td><td>${s.prenom}</td><td>${s.dept}</td><td>${d}</td></tr>`;
+          }).join('')}</tbody>
+        </table>
+        <p style="font-size:0.78rem;color:#9ca3af;margin-top:0.5rem">${allStudents.length} étudiant(s)</p>
+      `;
+    }
+
+    function exportCSV() {
+      const testFilter = document.getElementById('filter-test').value;
+      const nomFilter  = document.getElementById('filter-nom').value.trim().toUpperCase();
+      const student = allStudents.reduce((m, s) => { m[s.nom] = s; return m; }, {});
+      let rows = allScores.filter(s =>
+        (!testFilter || s.testId === testFilter) &&
+        (!nomFilter  || s.nom.includes(nomFilter))
+      );
+      const header = ['Nom','Prenom','Dept','Test','Score','Total','Pct','Date'];
+      const lines  = rows.map(s => {
+        const stu = student[s.nom] || {};
+        const pct = Math.round(s.score / s.total * 100);
+        const d   = new Date(s.date).toLocaleDateString('fr-FR');
+        return [s.nom, stu.prenom||'', stu.dept||'', TEST_NAMES[s.testId]||s.testId, s.score, s.total, pct+'%', d].join(',');
+      });
+      const csv  = [header.join(','), ...lines].join('\n');
+      const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+      const a    = document.createElement('a'); a.href = URL.createObjectURL(blob);
+      a.download = 'toeic-entrainement.csv'; a.click();
+    }
+
+    document.getElementById('admin-code').addEventListener('keydown', e => { if (e.key === 'Enter') checkAdmin(); });
+  </script>
+</body>
+</html>
