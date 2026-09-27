@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
     const file = await ghGet(FILE, token);
     const all  = file?.data?.scores || [];
     const mine = all.filter(s => s.nom === nom).map(s => ({
-      testId: s.testId, score: s.score, total: s.total, date: s.date
+      testId: s.testId, score: s.score, total: s.total, date: s.date, answers: s.answers || []
     }));
     return res.json({ scores: mine });
   }
