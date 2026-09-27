@@ -522,7 +522,8 @@
         if (s.TEST) {
           s.TEST.partIds.forEach(pid => {
             const b = s.breakdown[pid];
-            row[partCanonById(pid).label] = `${b.correct}/${b.max}`;
+            const pct = Math.round(b.correct / b.max * 100);
+            row[partCanonById(pid).label] = `${pct}% (${b.correct}/${b.max})`;
           });
         }
         return row;
