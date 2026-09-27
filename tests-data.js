@@ -77,6 +77,29 @@ const TESTS_DATA = {
     ]
   },
 
+  'iibc2-t2-reading': {
+    name: 'IIBC 2 — Test 2',
+    part: 'Reading',
+    section: 'R',
+    baseId: 'iibc2-t2',
+    audioControlled: false,
+    duration: 75 * 60,
+    partIds: ['p5', 'p6', 'p7'],
+    keys: [
+      // Part 5 (local 1-30 = Q101-130)
+      'D','A','D','A','C','D','B','D','C','C','A','C','B','B','C','B','D','A','C','D','B','A','B','A','C','C','C','D','D','B',
+      // Part 6 (local 31-46 = Q131-146)
+      'C','A','D','C','B','A','D','A','B','C','C','A','A','B','D','A',
+      // Part 7 (local 47-100 = Q147-200)
+      'B','A','B','A','B','C','B','D','C','A','B','A','A','C','B','C','B','A','D','B','A','D','B','C','C','C','A','D','A','A','B','C','D','C','A','B','D','A','C','A','A','B','C','C','A','D','B','A','A','A','B','C','D','D'
+    ],
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
+      { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
+      { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
   'iibc3-t1-listening': {
     name: 'IIBC 3 — Test 1',
     part: 'Listening',
@@ -100,9 +123,31 @@ const TESTS_DATA = {
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
+  },
+
+  'iibc3-t1-reading': {
+    name: 'IIBC 3 — Test 1',
+    part: 'Reading',
+    section: 'R',
+    baseId: 'iibc3-t1',
+    audioControlled: false,
+    duration: 75 * 60,
+    partIds: ['p5', 'p6', 'p7'],
+    keys: [
+      // Part 5 (local 1-30 = Q101-130)
+      'A','C','A','B','B','A','D','C','C','B','B','D','A','B','D','C','C','B','B','C','A','D','A','B','D','D','B','A','D','A',
+      // Part 6 (local 31-46 = Q131-146)
+      'C','B','A','A','C','A','C','D','D','D','A','B','D','B','D','A',
+      // Part 7 (local 47-100 = Q147-200)
+      'D','B','C','B','D','C','B','C','A','C','B','B','C','D','C','C','B','D','C','A','C','B','D','C','A','B','A','A','C','B','C','D','A','D','D','B','B','B','A','C','B','A','C','D','A','C','D','A','C','B','A','A','D','C'
+    ],
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
+      { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
+      { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
   }
 
-  // Reading tests (Parts 5-7) will be added here once the GF keys are provided.
-  // Pattern to follow: section:'R', baseId matching the listening counterpart
-  // (e.g. 'iibc2-t1'), partIds: ['p5','p6','p7'].
+  // All keys sourced from the answer-key PDF. IIBC 2 T1 additionally has a
+  // full booklet PDF; IIBC 2 T2 / IIBC 3 T1 don't (booklet buttons hidden).
 };
