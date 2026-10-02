@@ -45,7 +45,7 @@
       "prenom": "lola",
       "dept": "Booster 4A",
       "codeHash": "0f70422e0f7cb2e5887b8e901eeba1b212031be53bec3d2891ef341e419ca66d",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-02T07:04:29.913Z"
     },
     {
