@@ -37,7 +37,7 @@
       "prenom": "El Hadji Hamed",
       "dept": "IOT",
       "codeHash": "8742da12785603740b63323eeee1263c6e09260db66c2a9700615a5e84d96b1b",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-02T07:04:10.400Z"
     }
   ]
