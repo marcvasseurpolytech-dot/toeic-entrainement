@@ -4,7 +4,7 @@
       "nom": "ADAMOU",
       "testId": "iibc2-t1-listening",
       "answers": [
-        "A",
+        "B",
         null,
         null,
         null,
@@ -106,7 +106,7 @@
         null
       ],
       "startTime": 1790924588457,
-      "updatedAt": "2026-10-02T07:07:02.230Z"
+      "updatedAt": "2026-10-02T07:07:10.191Z"
     }
   ]
 }
