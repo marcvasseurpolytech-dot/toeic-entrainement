@@ -221,7 +221,7 @@
       "testId": "iibc2-t1-reading",
       "answers": [
         "C",
-        null,
+        "D",
         null,
         null,
         null,
@@ -322,7 +322,7 @@
         "B"
       ],
       "startTime": 1791472766341,
-      "updatedAt": "2026-10-08T16:09:48.589Z"
+      "updatedAt": "2026-10-08T16:10:01.066Z"
     }
   ]
 }
