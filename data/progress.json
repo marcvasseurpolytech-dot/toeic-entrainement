@@ -328,11 +328,11 @@
       "nom": "CARRE",
       "testId": "iibc2-t1-reading",
       "answers": [
-        null,
-        null,
-        null,
-        null,
-        null,
+        "C",
+        "D",
+        "B",
+        "C",
+        "A",
         null,
         null,
         null,
@@ -430,7 +430,7 @@
         null
       ],
       "startTime": 1792141661674,
-      "updatedAt": "2026-10-16T09:07:45.921Z"
+      "updatedAt": "2026-10-16T09:07:57.261Z"
     }
   ]
 }
