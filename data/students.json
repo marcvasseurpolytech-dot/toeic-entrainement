@@ -207,6 +207,14 @@
       "codeHash": "67b75961400e53222b0107d3e6c3b223d6de41c6875c202704ca580a7fece038",
       "approved": false,
       "createdAt": "2026-10-16T15:47:08.855Z"
+    },
+    {
+      "nom": "ADJASSIN",
+      "prenom": "Fidelux",
+      "dept": "GC1 - GR1",
+      "codeHash": "3ba982075eba89702c1637b9ce03d8a3d8b6dce9434dd07a4c30b5525ab27850",
+      "approved": false,
+      "createdAt": "2026-10-16T16:04:08.500Z"
     }
   ]
 }
