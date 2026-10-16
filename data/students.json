@@ -79,6 +79,14 @@
       "codeHash": "8cd6cb7e1601eb5dcd0a0d3d8f62c2dd8ee483819f9130a34259a217e927679f",
       "approved": false,
       "createdAt": "2026-10-16T14:34:09.177Z"
+    },
+    {
+      "nom": "HAINAUT",
+      "prenom": "Aurélien",
+      "dept": "ISIA3A - GROUPE 14",
+      "codeHash": "eedb339e78fb24575093ec6c48b5ebd2f368befe08f592e11aa515b380bb9b90",
+      "approved": false,
+      "createdAt": "2026-10-16T14:36:47.430Z"
     }
   ]
 }
