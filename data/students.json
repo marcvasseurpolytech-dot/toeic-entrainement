@@ -319,6 +319,14 @@
       "codeHash": "ed946f65d2c785d90e827c5ffd879ce3b49c68d4c88013074176a7e73bc58bcf",
       "approved": false,
       "createdAt": "2026-10-17T07:10:37.556Z"
+    },
+    {
+      "nom": "BERTIN",
+      "prenom": "Alan",
+      "dept": "GC3-GR14",
+      "codeHash": "0ee372d0a0fefa4431a2ece96d93c06f3984e8cb8d2d1c4003549e975413bf3e",
+      "approved": false,
+      "createdAt": "2026-10-17T07:10:51.404Z"
     }
   ]
 }
