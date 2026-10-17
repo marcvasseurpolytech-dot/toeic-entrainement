@@ -623,6 +623,14 @@
       "codeHash": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
       "approved": false,
       "createdAt": "2026-10-17T12:31:51.316Z"
+    },
+    {
+      "nom": "MACQUET",
+      "prenom": "Paul-Henri",
+      "dept": "3A GR2",
+      "codeHash": "6f6a4e56098cfd9af29e3ae549503b370211a4e94421457fe4cfd39a38a1fa08",
+      "approved": false,
+      "createdAt": "2026-10-17T12:35:25.679Z"
     }
   ]
 }
