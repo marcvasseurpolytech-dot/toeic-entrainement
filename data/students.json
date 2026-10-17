@@ -671,6 +671,14 @@
       "codeHash": "7b0838c2af7e6b1f3fe5a49c32dd459d997a931cee349ca6869f3c17cc838394",
       "approved": false,
       "createdAt": "2026-10-17T13:54:52.531Z"
+    },
+    {
+      "nom": "PLATH",
+      "prenom": "Léana",
+      "dept": "MAT3-GR2",
+      "codeHash": "4e893a5e600e9e6d353b97ebf9fe435808664c11a539baae96799d80eccc7a72",
+      "approved": false,
+      "createdAt": "2026-10-17T14:15:41.380Z"
     }
   ]
 }
