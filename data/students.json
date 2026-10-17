@@ -445,7 +445,7 @@
       "prenom": "Fatoumatou",
       "dept": "3A GC",
       "codeHash": "72f93cdffdd25a0cc5ed855d2388671b7e715ca09a8c844a90cb3e4e7398fc45",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T08:40:02.199Z"
     },
     {
@@ -453,7 +453,7 @@
       "prenom": "Khouloud",
       "dept": "Gr1",
       "codeHash": "3afc20e93f4a8c5281ad23fb3da6d548e6324de195e3de4d0865555f3e623762",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T08:40:15.321Z"
     },
     {
@@ -461,7 +461,7 @@
       "prenom": "Judith",
       "dept": "MECA ADE-ANG-8",
       "codeHash": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T08:48:45.988Z"
     },
     {
@@ -469,7 +469,7 @@
       "prenom": "Victor",
       "dept": "Meca 3",
       "codeHash": "560b29022e637e13a843d6e32927a666e6a00edf0dbef9b6c29495b34512a103",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T08:57:39.756Z"
     },
     {
@@ -477,7 +477,7 @@
       "prenom": "Quentin",
       "dept": "GC3",
       "codeHash": "f3b8f36ceb1a8fdaeb19ed367fe36d49de4b5a1971825d8dd7371f58f89bdef0",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T08:57:56.464Z"
     },
     {
@@ -485,7 +485,7 @@
       "prenom": "Victor",
       "dept": "Meca 3",
       "codeHash": "0d0c9bc37ae955b26c8bfecc22fcd072c4ea5ce95947a5051b5ed7399bff4f2e",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T09:01:05.662Z"
     },
     {
@@ -493,7 +493,7 @@
       "prenom": "Mylène",
       "dept": "GC Grp3",
       "codeHash": "e276f59bc5a81f2968dfb34b6324f7d59fea2723fd733bc9e70d65e848ef8f42",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T09:01:30.312Z"
     },
     {
@@ -501,7 +501,7 @@
       "prenom": "GOUN'MA JUSTIN",
       "dept": "M1 GC - GR1",
       "codeHash": "483029d526219f816e8e8f6a9de07b422633dba180ffc26faac22862a017519f",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T09:18:58.705Z"
     },
     {
@@ -509,7 +509,7 @@
       "prenom": "Augustin",
       "dept": "MAT 3",
       "codeHash": "6f6a4e56098cfd9af29e3ae549503b370211a4e94421457fe4cfd39a38a1fa08",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T09:24:44.289Z"
     },
     {
@@ -517,7 +517,7 @@
       "prenom": "Ereen geralda",
       "dept": "Iot",
       "codeHash": "b1ab1e892617f210425f658cf1d361b5489028c8771b56d845fe1c62c1fbc8b0",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T09:32:27.873Z"
     },
     {
@@ -525,7 +525,7 @@
       "prenom": "Sabry",
       "dept": "EUF GRP1",
       "codeHash": "c27ab1dc13eac84c9b242421162480f23e262181b24fed21fd54cb11a4ae1808",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T09:34:05.535Z"
     }
   ]
