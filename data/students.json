@@ -533,7 +533,7 @@
       "prenom": "LILIAN",
       "dept": "MECA 3",
       "codeHash": "da26b77becf8bcc17aa4e59a0205d8910373e5a25e0d7993fd5b2856c21ecdbb",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T10:09:47.072Z"
     },
     {
@@ -541,7 +541,7 @@
       "prenom": "Mohammed-Afdal",
       "dept": "GC3",
       "codeHash": "49df9bcdc4525530de9dbd9e677fe9e4897a1fe9b32e42ef1f9da60501739a00",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T10:17:18.236Z"
     },
     {
@@ -549,7 +549,7 @@
       "prenom": "Agathe",
       "dept": "MECA 3",
       "codeHash": "0e0c8d9c5fa46e66bd8293289e410bbc9e35da10a211a4d5c3e0b64a373db54f",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T10:18:16.776Z"
     },
     {
@@ -557,7 +557,7 @@
       "prenom": "Pape Youssou",
       "dept": "ISIA3",
       "codeHash": "8a376a996f6d7e958bbd68a87649296ea289ed2880de8b358cb91fa06aa3dfc6",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T10:21:25.707Z"
     },
     {
@@ -565,7 +565,7 @@
       "prenom": "Bertille",
       "dept": "GC4",
       "codeHash": "9e4067ac93c6febda554d724d453d78bf3e28a7742cdec57ee47c5c706fbe940",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T10:57:24.822Z"
     },
     {
@@ -573,7 +573,7 @@
       "prenom": "Hibatollah",
       "dept": "TC4",
       "codeHash": "ae92bee5080ffa3533774ef98ec7858b08a02fed6778ab5d2043d0c64028e2d6",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T11:04:10.668Z"
     },
     {
@@ -581,7 +581,7 @@
       "prenom": "Adam",
       "dept": "2IA - G2",
       "codeHash": "53f4041ba0cc8ed13c5a119242af44e60105ea5e486e4e8e3153e770c09261bb",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T11:20:10.197Z"
     },
     {
@@ -589,7 +589,7 @@
       "prenom": "Eva",
       "dept": "EIF ADE-ANG-8",
       "codeHash": "1678935c1983b059f61fc7e3564ce3b48a7c4d7c165d6cca2156fecf57755a3f",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T11:23:19.381Z"
     },
     {
@@ -597,7 +597,7 @@
       "prenom": "EMILE",
       "dept": "GR3",
       "codeHash": "e97776493f213d50b346f81e3f93a78aad1fd0f19c051a38bd8f88b43e46e5b5",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T11:38:11.600Z"
     },
     {
@@ -605,7 +605,7 @@
       "prenom": "Anatole",
       "dept": "EIF 3A",
       "codeHash": "df9d46565657e21f36797f3c60a06e557113b1117e56f093a869f1387fbfba66",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T11:57:32.256Z"
     },
     {
@@ -613,7 +613,7 @@
       "prenom": "Djervensley",
       "dept": "M1 GC",
       "codeHash": "fd47ac3c0fef2cbfd9191d333045a83103f8ea3e8af67bce23fa7852bdb9b020",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T12:11:55.572Z"
     },
     {
@@ -621,7 +621,7 @@
       "prenom": "Sacha",
       "dept": "TC3",
       "codeHash": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T12:31:51.316Z"
     },
     {
@@ -629,7 +629,7 @@
       "prenom": "Paul-Henri",
       "dept": "3A GR2",
       "codeHash": "6f6a4e56098cfd9af29e3ae549503b370211a4e94421457fe4cfd39a38a1fa08",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T12:35:25.679Z"
     },
     {
@@ -637,7 +637,7 @@
       "prenom": "Sionfoungo",
       "dept": "EIF3",
       "codeHash": "a20a2b7bb0842d5cf8a0c06c626421fd51ec103925c1819a51271f2779afa730",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T12:39:12.519Z"
     },
     {
@@ -645,7 +645,7 @@
       "prenom": "NC",
       "dept": "GR3",
       "codeHash": "a20a2b7bb0842d5cf8a0c06c626421fd51ec103925c1819a51271f2779afa730",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T12:56:49.933Z"
     },
     {
@@ -653,7 +653,7 @@
       "prenom": "Mathias",
       "dept": "EIF3 - GR14",
       "codeHash": "66d714cbcd03fde392ae31bb5fb6ee2bf56f2ba5920e1e0502d4827839ca4d12",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T13:31:52.954Z"
     },
     {
@@ -661,7 +661,7 @@
       "prenom": "Clara",
       "dept": "3A GBA",
       "codeHash": "78c72f67941a420cd4e5ee9fdabcaeaba6d72f16160915085f9802220fd83799",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T13:41:31.402Z"
     }
   ]
