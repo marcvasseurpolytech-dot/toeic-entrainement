@@ -607,6 +607,14 @@
       "codeHash": "df9d46565657e21f36797f3c60a06e557113b1117e56f093a869f1387fbfba66",
       "approved": false,
       "createdAt": "2026-10-17T11:57:32.256Z"
+    },
+    {
+      "nom": "CASSEUS",
+      "prenom": "Djervensley",
+      "dept": "M1 GC",
+      "codeHash": "fd47ac3c0fef2cbfd9191d333045a83103f8ea3e8af67bce23fa7852bdb9b020",
+      "approved": false,
+      "createdAt": "2026-10-17T12:11:55.572Z"
     }
   ]
 }
