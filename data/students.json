@@ -693,7 +693,7 @@
       "prenom": "Mame Diarra",
       "dept": "GC3",
       "codeHash": "41adefa80327159ba20be23d357d1a7ee5c0bfd399aff792efa58ac2cf8bb349",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T15:34:15.013Z"
     },
     {
@@ -701,7 +701,7 @@
       "prenom": "Hiba",
       "dept": "E.g.Meca3 - gr 8",
       "codeHash": "41c991eb6a66242c0454191244278183ce58cf4a6bcd372f799e4b9cc01886af",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T15:35:19.625Z"
     },
     {
@@ -709,7 +709,7 @@
       "prenom": "Tsiro Fanasina",
       "dept": "GC",
       "codeHash": "d852329eb1f82209e4c83c7a843552d9ee080716765cc96560189a2e982bef5a",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T15:36:02.173Z"
     },
     {
@@ -717,7 +717,7 @@
       "prenom": "Huseyin",
       "dept": "GR1",
       "codeHash": "0985b889a1fe4f4e1fb925061ac6fb2247f10875f5fcbe63eec2ab55ed68970e",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T15:38:49.233Z"
     }
   ]
