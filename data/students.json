@@ -391,6 +391,14 @@
       "codeHash": "f5e9b69ce10f94f87e393a6a8d557762e8b0a6b7a97bd26f1ba4576f0b59ed06",
       "approved": false,
       "createdAt": "2026-10-17T08:01:27.844Z"
+    },
+    {
+      "nom": "SCOUARNEC",
+      "prenom": "Erwann",
+      "dept": "IOT3-GR8",
+      "codeHash": "1a67316dfbb24cbd5a17450aa53cd9ae42cdc7b1f58d06ec71bdcf2c9ad1fb28",
+      "approved": false,
+      "createdAt": "2026-10-17T08:01:31.691Z"
     }
   ]
 }
