@@ -655,6 +655,14 @@
       "codeHash": "66d714cbcd03fde392ae31bb5fb6ee2bf56f2ba5920e1e0502d4827839ca4d12",
       "approved": false,
       "createdAt": "2026-10-17T13:31:52.954Z"
+    },
+    {
+      "nom": "NEGRI",
+      "prenom": "Clara",
+      "dept": "3A GBA",
+      "codeHash": "78c72f67941a420cd4e5ee9fdabcaeaba6d72f16160915085f9802220fd83799",
+      "approved": false,
+      "createdAt": "2026-10-17T13:41:31.402Z"
     }
   ]
 }
