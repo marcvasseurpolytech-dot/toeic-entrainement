@@ -389,7 +389,7 @@
       "prenom": "Igor",
       "dept": "MECA 3",
       "codeHash": "f5e9b69ce10f94f87e393a6a8d557762e8b0a6b7a97bd26f1ba4576f0b59ed06",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T08:01:27.844Z"
     },
     {
@@ -397,7 +397,7 @@
       "prenom": "Erwann",
       "dept": "IOT3-GR8",
       "codeHash": "1a67316dfbb24cbd5a17450aa53cd9ae42cdc7b1f58d06ec71bdcf2c9ad1fb28",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T08:01:31.691Z"
     },
     {
@@ -405,7 +405,7 @@
       "prenom": "Antoine",
       "dept": "MECA3",
       "codeHash": "6f6a4e56098cfd9af29e3ae549503b370211a4e94421457fe4cfd39a38a1fa08",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T08:09:31.055Z"
     },
     {
@@ -413,7 +413,7 @@
       "prenom": "Gabriel",
       "dept": "ISIA 3 - GRP14",
       "codeHash": "8b9d2f4109debd6fe156e6f94c9298d7ad9413d785a770eb96f7e84ccf5d4358",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T08:14:14.007Z"
     },
     {
@@ -421,7 +421,7 @@
       "prenom": "Quentin",
       "dept": "ISIA3",
       "codeHash": "460143e6473f0614a14d7265357cf0b504c78ef4f81ccae0dd6f42ae4452317d",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T08:17:23.415Z"
     },
     {
@@ -429,7 +429,7 @@
       "prenom": "Mathilde",
       "dept": "2IA4",
       "codeHash": "eaf493e8af54e4fb893988a51b83b390a725e24bbe1575a50625c811c08ecb6f",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T08:31:22.152Z"
     },
     {
@@ -437,7 +437,7 @@
       "prenom": "Ahipeaud",
       "dept": "GC",
       "codeHash": "7d515793de41f4a1e80cc097f19223bfaa44c2d161382c669b9b7edc2b5e3280",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T08:35:56.165Z"
     }
   ]
