@@ -703,6 +703,14 @@
       "codeHash": "41c991eb6a66242c0454191244278183ce58cf4a6bcd372f799e4b9cc01886af",
       "approved": false,
       "createdAt": "2026-10-17T15:35:19.625Z"
+    },
+    {
+      "nom": "RAZAFIMANARIVO",
+      "prenom": "Tsiro Fanasina",
+      "dept": "GC",
+      "codeHash": "d852329eb1f82209e4c83c7a843552d9ee080716765cc96560189a2e982bef5a",
+      "approved": false,
+      "createdAt": "2026-10-17T15:36:02.173Z"
     }
   ]
 }
