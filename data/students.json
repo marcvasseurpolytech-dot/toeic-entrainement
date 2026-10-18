@@ -879,6 +879,14 @@
       "codeHash": "c2c2cbd7d05c03ab560138b5633fd4058c92247fad26e23accfc3e4eefa52c58",
       "approved": false,
       "createdAt": "2026-10-18T19:28:34.799Z"
+    },
+    {
+      "nom": "LEMOINE",
+      "prenom": "Théo",
+      "dept": "M1 GC G3",
+      "codeHash": "f6c9da6121853fcc02a24a3bc2d82fba916fe4e73622149627b97605d1dca2ec",
+      "approved": false,
+      "createdAt": "2026-10-18T20:09:47.427Z"
     }
   ]
 }
