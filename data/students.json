@@ -725,7 +725,7 @@
       "prenom": "Guillaume",
       "dept": "MECA3 -GR2",
       "codeHash": "9552e277ebcc7fa191292c6e900d94dfe6e837d8abf76a2da927d4530d2c8f69",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T16:01:30.309Z"
     },
     {
@@ -733,7 +733,7 @@
       "prenom": "Rayan",
       "dept": "ISIA-GR2",
       "codeHash": "cf8a6f1162e2758636254f6d02106289a71f60e2eef5db70ac6c0e5fb7378c9d",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T16:04:42.876Z"
     },
     {
@@ -741,7 +741,7 @@
       "prenom": "Amen Allah",
       "dept": "IOT3",
       "codeHash": "6f6a4e56098cfd9af29e3ae549503b370211a4e94421457fe4cfd39a38a1fa08",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T18:27:10.236Z"
     },
     {
@@ -749,7 +749,7 @@
       "prenom": "Doaa",
       "dept": "M1 GC - GR1",
       "codeHash": "77459b9b941bcb4714d0c121313c900ecf30541d158eb2b9b178cdb8eca6457e",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T18:45:06.456Z"
     },
     {
@@ -757,7 +757,7 @@
       "prenom": "Kholoud",
       "dept": "M1 GC-GR1",
       "codeHash": "483029d526219f816e8e8f6a9de07b422633dba180ffc26faac22862a017519f",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T18:45:07.353Z"
     },
     {
@@ -765,7 +765,7 @@
       "prenom": "Eg.Ahmed",
       "dept": "E.g IOT",
       "codeHash": "ed946f65d2c785d90e827c5ffd879ce3b49c68d4c88013074176a7e73bc58bcf",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-17T18:59:07.803Z"
     }
   ]
