@@ -903,6 +903,14 @@
       "codeHash": "985c8ff3642f2d61753f9172e0f3b34361c6a92deedd9688d0857501f62a9494",
       "approved": false,
       "createdAt": "2026-10-18T20:43:08.738Z"
+    },
+    {
+      "nom": "LOUESDON",
+      "prenom": "Ethan",
+      "dept": "MAT3",
+      "codeHash": "a20a2b7bb0842d5cf8a0c06c626421fd51ec103925c1819a51271f2779afa730",
+      "approved": false,
+      "createdAt": "2026-10-18T21:37:03.985Z"
     }
   ]
 }
