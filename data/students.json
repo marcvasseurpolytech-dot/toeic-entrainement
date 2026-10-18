@@ -805,7 +805,7 @@
       "prenom": "Thomas",
       "dept": "TC3",
       "codeHash": "fe91a760983d401d9b679fb092b689488d1f46d92f3af5e9e93363326f3e8aa4",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T13:05:09.161Z"
     },
     {
@@ -813,7 +813,7 @@
       "prenom": "Rémi",
       "dept": "M1GC-GR3",
       "codeHash": "4e3f79891e92947d976e0db11f58ab66dc379b0ad276dc606844af5925659ce6",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T14:39:07.319Z"
     },
     {
@@ -821,7 +821,7 @@
       "prenom": "Yacine",
       "dept": "ISIA 3",
       "codeHash": "61f5869c42cc56c113f931c7ed19126205121938aaa9ccede69b20ec83a300e1",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T16:02:37.633Z"
     },
     {
@@ -829,7 +829,7 @@
       "prenom": "Adriel",
       "dept": "M1-GC",
       "codeHash": "a7bb4472588958f3423a69c1f8a922f367b3c8e5fc72dfc8d138f646943d0b44",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T16:10:31.390Z"
     },
     {
@@ -837,7 +837,7 @@
       "prenom": "Rojoaritiana",
       "dept": "MASTER GC GRP3",
       "codeHash": "b281bc2c616cb3c3a097215fdc9397ae87e6e06b156cc34e656be7a1a9ce8839",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T16:19:30.955Z"
     },
     {
@@ -845,7 +845,7 @@
       "prenom": "ILIES",
       "dept": "GC3-GR1",
       "codeHash": "9f69998560dcfd8016442e0a32e959191df095817a164ce844c64ec5a8b0cc1b",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T16:24:22.492Z"
     }
   ]
