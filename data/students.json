@@ -773,7 +773,7 @@
       "prenom": "Mathis",
       "dept": "Meca3",
       "codeHash": "c4fe6b6dbe94790f232013154cb80fc5dd3ec9106d433492f20f038b1ce25656",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T09:52:02.678Z"
     },
     {
@@ -781,7 +781,7 @@
       "prenom": "E.g. Ahmed",
       "dept": "E.g. IOT",
       "codeHash": "ed946f65d2c785d90e827c5ffd879ce3b49c68d4c88013074176a7e73bc58bcf",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T09:54:37.252Z"
     },
     {
@@ -789,7 +789,7 @@
       "prenom": "Gurwal",
       "dept": "MAT4",
       "codeHash": "1787881c10bfe7224ce57ec04c89a556e5396446d5e51e0990ffe0e633f93a1a",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T10:37:37.487Z"
     }
   ]
