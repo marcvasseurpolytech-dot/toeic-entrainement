@@ -767,6 +767,14 @@
       "codeHash": "ed946f65d2c785d90e827c5ffd879ce3b49c68d4c88013074176a7e73bc58bcf",
       "approved": true,
       "createdAt": "2026-10-17T18:59:07.803Z"
+    },
+    {
+      "nom": "FOSSAERT",
+      "prenom": "Mathis",
+      "dept": "Meca3",
+      "codeHash": "c4fe6b6dbe94790f232013154cb80fc5dd3ec9106d433492f20f038b1ce25656",
+      "approved": false,
+      "createdAt": "2026-10-18T09:52:02.678Z"
     }
   ]
 }
