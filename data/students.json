@@ -911,6 +911,14 @@
       "codeHash": "a20a2b7bb0842d5cf8a0c06c626421fd51ec103925c1819a51271f2779afa730",
       "approved": false,
       "createdAt": "2026-10-18T21:37:03.985Z"
+    },
+    {
+      "nom": "DOS SANTOS",
+      "prenom": "Théo",
+      "dept": "EIF3 - GR1",
+      "codeHash": "b411746bdf09bde7f1fe70ddc8fa57241a0cb79d14d6e9c27e598635ca7dae4d",
+      "approved": false,
+      "createdAt": "2026-10-18T23:10:43.309Z"
     }
   ]
 }
