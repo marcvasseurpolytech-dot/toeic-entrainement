@@ -797,7 +797,7 @@
       "prenom": "Jihane",
       "dept": "GC-GR1",
       "codeHash": "77459b9b941bcb4714d0c121313c900ecf30541d158eb2b9b178cdb8eca6457e",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T12:52:05.224Z"
     }
   ]
