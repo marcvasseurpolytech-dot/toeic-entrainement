@@ -951,6 +951,14 @@
       "codeHash": "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0",
       "approved": false,
       "createdAt": "2026-10-19T08:21:51.662Z"
+    },
+    {
+      "nom": "GADJIOZO",
+      "prenom": "Seyram Mawudi",
+      "dept": "GC",
+      "codeHash": "ed823ec32c5d4e9ca9dd968bb0fe9366b7d904ce0cae615308ddd5b89f0e6a3a",
+      "approved": false,
+      "createdAt": "2026-10-19T10:23:56.403Z"
     }
   ]
 }
