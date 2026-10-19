@@ -853,7 +853,7 @@
       "prenom": "Matteo",
       "dept": "GC4 B",
       "codeHash": "90bbc9533a02213ffdf4d1482eb9b97a5feec554e33641d40f24777cbe5a8341",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T17:06:12.306Z"
     },
     {
@@ -861,7 +861,7 @@
       "prenom": "Eliot",
       "dept": "GC3",
       "codeHash": "eaf2067e34d6876930d2b304db688ab6b9d5064b7e682f7831297d39fbe01c92",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T18:52:22.453Z"
     },
     {
@@ -869,7 +869,7 @@
       "prenom": "Tidjy",
       "dept": "IOT3",
       "codeHash": "479de61e68a1f232b16498c726ae6afb6de766da18472e8fcbc4bcc5eb153d8b",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T19:12:38.217Z"
     },
     {
@@ -877,7 +877,7 @@
       "prenom": "Aissatou",
       "dept": "2ia4-GRP2",
       "codeHash": "c2c2cbd7d05c03ab560138b5633fd4058c92247fad26e23accfc3e4eefa52c58",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T19:28:34.799Z"
     },
     {
@@ -885,7 +885,7 @@
       "prenom": "Théo",
       "dept": "M1 GC G3",
       "codeHash": "f6c9da6121853fcc02a24a3bc2d82fba916fe4e73622149627b97605d1dca2ec",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T20:09:47.427Z"
     },
     {
@@ -893,7 +893,7 @@
       "prenom": "Paul",
       "dept": "GR8",
       "codeHash": "312055965ba244d9d5700657a81ddb5937aac2141cb3379b8cabb63c55061df0",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T20:10:38.111Z"
     },
     {
@@ -901,7 +901,7 @@
       "prenom": "Amira",
       "dept": "GM- G1",
       "codeHash": "985c8ff3642f2d61753f9172e0f3b34361c6a92deedd9688d0857501f62a9494",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T20:43:08.738Z"
     },
     {
@@ -909,7 +909,7 @@
       "prenom": "Ethan",
       "dept": "MAT3",
       "codeHash": "a20a2b7bb0842d5cf8a0c06c626421fd51ec103925c1819a51271f2779afa730",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T21:37:03.985Z"
     },
     {
@@ -917,7 +917,7 @@
       "prenom": "Théo",
       "dept": "EIF3 - GR1",
       "codeHash": "b411746bdf09bde7f1fe70ddc8fa57241a0cb79d14d6e9c27e598635ca7dae4d",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-18T23:10:43.309Z"
     },
     {
@@ -925,7 +925,7 @@
       "prenom": "DAVID",
       "dept": "ADE-ANG-8",
       "codeHash": "575a30bd2975cd02639884b04cc27006ac46473358f0d2f1380cd88abda303ba",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-19T01:11:51.747Z"
     },
     {
@@ -933,7 +933,7 @@
       "prenom": "Hassan",
       "dept": "GM group 2",
       "codeHash": "e41fbda961c9b0a19e1232a464bdf5a03c5b5568b12147ee234d4a473c425beb",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-19T06:29:20.863Z"
     }
   ]
