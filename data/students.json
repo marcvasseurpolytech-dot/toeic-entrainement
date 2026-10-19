@@ -919,6 +919,14 @@
       "codeHash": "b411746bdf09bde7f1fe70ddc8fa57241a0cb79d14d6e9c27e598635ca7dae4d",
       "approved": false,
       "createdAt": "2026-10-18T23:10:43.309Z"
+    },
+    {
+      "nom": "GARCIA GOMEZ",
+      "prenom": "DAVID",
+      "dept": "ADE-ANG-8",
+      "codeHash": "575a30bd2975cd02639884b04cc27006ac46473358f0d2f1380cd88abda303ba",
+      "approved": false,
+      "createdAt": "2026-10-19T01:11:51.747Z"
     }
   ]
 }
