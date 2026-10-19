@@ -943,6 +943,14 @@
       "codeHash": "7ac41629d179aed0db4e78bd0f8dc44ad2f453ab59a487eafbb1bddb6d2ff3ef",
       "approved": false,
       "createdAt": "2026-10-19T07:53:34.554Z"
+    },
+    {
+      "nom": "MANSUY",
+      "prenom": "Jules",
+      "dept": "MAT3-Gr4",
+      "codeHash": "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0",
+      "approved": false,
+      "createdAt": "2026-10-19T08:21:51.662Z"
     }
   ]
 }
