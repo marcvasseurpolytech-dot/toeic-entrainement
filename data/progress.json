@@ -437,7 +437,7 @@
       "testId": "toeics7-reading",
       "answers": [
         "C",
-        null,
+        "B",
         null,
         null,
         null,
@@ -538,7 +538,7 @@
         null
       ],
       "startTime": 1792499090570,
-      "updatedAt": "2026-10-20T12:26:12.344Z"
+      "updatedAt": "2026-10-20T12:26:44.848Z"
     }
   ]
 }
