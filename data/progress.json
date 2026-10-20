@@ -570,7 +570,7 @@
         "A",
         "B",
         "C",
-        null,
+        "C",
         null,
         null,
         null,
@@ -646,7 +646,7 @@
         null
       ],
       "startTime": 1792503369597,
-      "updatedAt": "2026-10-20T13:51:08.953Z"
+      "updatedAt": "2026-10-20T13:51:37.498Z"
     },
     {
       "nom": "BRENKMAN",
