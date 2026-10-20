@@ -622,7 +622,7 @@
         "C",
         "B",
         "C",
-        null,
+        "A",
         null,
         null,
         null,
@@ -646,7 +646,7 @@
         null
       ],
       "startTime": 1792501150630,
-      "updatedAt": "2026-10-20T13:35:50.896Z"
+      "updatedAt": "2026-10-20T13:36:00.978Z"
     },
     {
       "nom": "BRICOUT",
