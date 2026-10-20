@@ -869,7 +869,7 @@
       "testId": "toeics7-listening",
       "answers": [
         "C",
-        null,
+        "A",
         null,
         null,
         null,
@@ -970,7 +970,7 @@
         null
       ],
       "startTime": 1792504885957,
-      "updatedAt": "2026-10-20T14:04:22.168Z"
+      "updatedAt": "2026-10-20T14:07:51.586Z"
     }
   ]
 }
