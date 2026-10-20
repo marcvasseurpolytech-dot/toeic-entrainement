@@ -1111,6 +1111,14 @@
       "codeHash": "431688497f68c837444127cbac14cadba2a943709304af1da765781f49e02ac8",
       "approved": true,
       "createdAt": "2026-10-20T14:27:01.228Z"
+    },
+    {
+      "nom": "LECLERCQ",
+      "prenom": "Antoine",
+      "dept": "GC3 - GR14",
+      "codeHash": "25f9b3ab7e7d3634a79eab88d59a0b4592d42384900dfc10ecc481af5b8dfd3d",
+      "approved": false,
+      "createdAt": "2026-10-20T17:17:07.345Z"
     }
   ]
 }
