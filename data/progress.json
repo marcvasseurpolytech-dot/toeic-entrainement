@@ -762,7 +762,7 @@
       "answers": [
         "A",
         "C",
-        null,
+        "C",
         null,
         null,
         null,
@@ -862,7 +862,7 @@
         null
       ],
       "startTime": 1792512265066,
-      "updatedAt": "2026-10-20T16:05:39.961Z"
+      "updatedAt": "2026-10-20T16:05:59.704Z"
     }
   ]
 }
