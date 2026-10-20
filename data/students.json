@@ -941,7 +941,7 @@
       "prenom": "mohamed",
       "dept": "GM1",
       "codeHash": "7ac41629d179aed0db4e78bd0f8dc44ad2f453ab59a487eafbb1bddb6d2ff3ef",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-19T07:53:34.554Z"
     },
     {
@@ -949,7 +949,7 @@
       "prenom": "Jules",
       "dept": "MAT3-Gr4",
       "codeHash": "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-19T08:21:51.662Z"
     },
     {
@@ -957,7 +957,7 @@
       "prenom": "Seyram Mawudi",
       "dept": "GC",
       "codeHash": "ed823ec32c5d4e9ca9dd968bb0fe9366b7d904ce0cae615308ddd5b89f0e6a3a",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-19T10:23:56.403Z"
     },
     {
@@ -965,7 +965,7 @@
       "prenom": "Cheikhany",
       "dept": "GR3",
       "codeHash": "f39c31383ad312d96660bbce50a04e40a0a933308ef330290ecf93711344976d",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-19T10:42:42.156Z"
     },
     {
@@ -973,7 +973,7 @@
       "prenom": "Lilya",
       "dept": "Gr1 gc",
       "codeHash": "39d5ce6249548c318a5f0b6bf0a3e2f234750a9741b6ce2f9eff8670bc7cd7af",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-19T14:07:35.489Z"
     },
     {
@@ -981,7 +981,7 @@
       "prenom": "BOUCHRA",
       "dept": "GC3",
       "codeHash": "524beeec873cb78924f03e60f2b9a7313873df5881f0654eaead2d581336e643",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-19T16:47:36.093Z"
     }
   ]
