@@ -1079,6 +1079,14 @@
       "codeHash": "862952ddccaf02d8b0b4769112b0f26c0af6cd4ae815b088d689c954cc09ee8b",
       "approved": false,
       "createdAt": "2026-10-20T12:07:20.590Z"
+    },
+    {
+      "nom": "MIDAVAINE",
+      "prenom": "Clement",
+      "dept": "GC2A4",
+      "codeHash": "6d0cefe4c0ded1cd8ff2da4e69475dc5b83c7defea8f182200c5a3c18f2a0d46",
+      "approved": false,
+      "createdAt": "2026-10-20T12:07:27.229Z"
     }
   ]
 }
