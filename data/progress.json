@@ -1086,7 +1086,7 @@
       "answers": [
         "B",
         "B",
-        null,
+        "D",
         null,
         null,
         null,
@@ -1186,7 +1186,7 @@
         null
       ],
       "startTime": 1792506698016,
-      "updatedAt": "2026-10-20T14:32:24.813Z"
+      "updatedAt": "2026-10-20T14:32:44.403Z"
     }
   ]
 }
