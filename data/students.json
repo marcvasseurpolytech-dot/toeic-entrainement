@@ -1109,7 +1109,7 @@
       "prenom": "Reda",
       "dept": "MASTER GM",
       "codeHash": "431688497f68c837444127cbac14cadba2a943709304af1da765781f49e02ac8",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-20T14:27:01.228Z"
     }
   ]
