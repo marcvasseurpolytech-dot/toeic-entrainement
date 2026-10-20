@@ -858,11 +858,11 @@
         "D",
         "A",
         "C",
-        null,
-        null
+        "B",
+        "A"
       ],
       "startTime": 1792505307518,
-      "updatedAt": "2026-10-20T14:55:27.792Z"
+      "updatedAt": "2026-10-20T14:55:35.333Z"
     },
     {
       "nom": "GARDEZ",
