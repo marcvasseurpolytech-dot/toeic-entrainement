@@ -1007,6 +1007,14 @@
       "codeHash": "0a95adbf8581859ae0cc477127abeaf4ad89916405c41855af8fbc482e1634e8",
       "approved": false,
       "createdAt": "2026-10-20T12:06:16.025Z"
+    },
+    {
+      "nom": "LEBRUMAN",
+      "prenom": "Romaric",
+      "dept": "GC2A4",
+      "codeHash": "07625cda1ed6dad6aa4cf70c899207812c2b8bc99e2f0774bc321e9b6573113c",
+      "approved": false,
+      "createdAt": "2026-10-20T12:06:19.988Z"
     }
   ]
 }
