@@ -1101,7 +1101,7 @@
       "prenom": "Clément",
       "dept": "Gc2A4",
       "codeHash": "be63eccb7b3825f0859ad5293b877aaf3c4e936377dd8234b0ec7ef8b043d6ef",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-20T12:08:36.217Z"
     }
   ]
