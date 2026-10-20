@@ -544,8 +544,8 @@
       "nom": "BRICOUT",
       "testId": "toeics7-listening",
       "answers": [
-        "C",
         "B",
+        "A",
         null,
         null,
         null,
@@ -646,7 +646,7 @@
         null
       ],
       "startTime": 1792500107695,
-      "updatedAt": "2026-10-20T12:44:14.269Z"
+      "updatedAt": "2026-10-20T12:44:40.562Z"
     }
   ]
 }
