@@ -1084,7 +1084,7 @@
       "nom": "GARDEZ",
       "testId": "toeics7-reading",
       "answers": [
-        null,
+        "B",
         null,
         null,
         null,
@@ -1186,7 +1186,7 @@
         null
       ],
       "startTime": 1792506698016,
-      "updatedAt": "2026-10-20T14:31:43.746Z"
+      "updatedAt": "2026-10-20T14:32:11.752Z"
     }
   ]
 }
