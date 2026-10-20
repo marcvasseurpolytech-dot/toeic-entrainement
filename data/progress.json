@@ -661,12 +661,12 @@
         "A",
         "B",
         "A",
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
+        "B",
+        "D",
+        "A",
+        "B",
+        "B",
+        "B",
         null,
         null,
         null,
@@ -754,7 +754,7 @@
         null
       ],
       "startTime": 1792503241162,
-      "updatedAt": "2026-10-20T13:39:11.922Z"
+      "updatedAt": "2026-10-20T13:39:58.072Z"
     },
     {
       "nom": "GARDEZ",
