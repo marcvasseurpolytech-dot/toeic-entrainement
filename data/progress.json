@@ -611,9 +611,9 @@
         "B",
         "D",
         "C",
-        null,
-        null,
-        null,
+        "A",
+        "B",
+        "C",
         null,
         null,
         null,
@@ -646,7 +646,7 @@
         null
       ],
       "startTime": 1792500107695,
-      "updatedAt": "2026-10-20T13:11:46.181Z"
+      "updatedAt": "2026-10-20T13:13:04.801Z"
     },
     {
       "nom": "LE MOAL",
