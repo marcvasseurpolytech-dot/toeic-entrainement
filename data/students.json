@@ -989,7 +989,7 @@
       "prenom": "Noé",
       "dept": "GC2A4",
       "codeHash": "ec2d220d50cb8f49dd8aa4981ca2322b010b778ab71573d91983bca49e8cc91c",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-20T12:06:03.695Z"
     },
     {
@@ -997,7 +997,7 @@
       "prenom": "Meryem",
       "dept": "GC2A4",
       "codeHash": "cbfad02f9ed2a8d1e08d8f74f5303e9eb93637d47f82ab6f1c15871cf8dd0481",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-20T12:06:06.926Z"
     },
     {
@@ -1005,7 +1005,7 @@
       "prenom": "Pierre",
       "dept": "GC2A4",
       "codeHash": "0a95adbf8581859ae0cc477127abeaf4ad89916405c41855af8fbc482e1634e8",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-20T12:06:16.025Z"
     },
     {
@@ -1013,7 +1013,7 @@
       "prenom": "Romaric",
       "dept": "GC2A4",
       "codeHash": "07625cda1ed6dad6aa4cf70c899207812c2b8bc99e2f0774bc321e9b6573113c",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-20T12:06:19.988Z"
     },
     {
@@ -1021,7 +1021,7 @@
       "prenom": "Sokhna",
       "dept": "GC2A4",
       "codeHash": "d74fe97872d8a425b5263add13d51a1066bf0b2cdd5e368d316dfe31048b2104",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-20T12:06:21.789Z"
     },
     {
@@ -1029,7 +1029,7 @@
       "prenom": "Mats",
       "dept": "GC2A4",
       "codeHash": "5909daa6fb5cf239d52027367f111ecd9c280866d73f8bd47cda43ef5495af6a",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-20T12:06:23.184Z"
     },
     {
@@ -1037,7 +1037,7 @@
       "prenom": "Thomas",
       "dept": "GC2A4",
       "codeHash": "9aaf689fbcdfe9f64a071f9cbe28ae44193fa218e72af24456f44bed64583b4d",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-20T12:06:28.559Z"
     },
     {
@@ -1045,7 +1045,7 @@
       "prenom": "Fantin",
       "dept": "GC2A4",
       "codeHash": "152e69cf3c8e76c8d8b0aed924ddd1708e4c68624611af33d52c2c2814dd5df9",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-20T12:06:35.325Z"
     },
     {
@@ -1053,7 +1053,7 @@
       "prenom": "Vanengelandt",
       "dept": "GC2A4",
       "codeHash": "78f9110cf588bd30afae93e571cd302097208933596793c8d07d9eaff8a2b456",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-20T12:06:37.439Z"
     },
     {
@@ -1061,7 +1061,7 @@
       "prenom": "Louis",
       "dept": "GC2A4",
       "codeHash": "7e831593833c68e3f2f6323a7d176d98fe2dd518e6847f813f528a513679333d",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-20T12:06:42.486Z"
     },
     {
@@ -1069,7 +1069,7 @@
       "prenom": "mathias",
       "dept": "GC2A4",
       "codeHash": "4235d033441def62c1ea71655385fe6f2b4acd0458059c4ed2fc495e5129326e",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-20T12:06:45.075Z"
     }
   ]
