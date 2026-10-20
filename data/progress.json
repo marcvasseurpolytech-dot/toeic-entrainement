@@ -698,8 +698,8 @@
         "D",
         "D",
         "D",
-        null,
-        null,
+        "B",
+        "D",
         null,
         null,
         null,
@@ -754,7 +754,7 @@
         null
       ],
       "startTime": 1792500315248,
-      "updatedAt": "2026-10-20T13:06:45.110Z"
+      "updatedAt": "2026-10-20T13:11:23.342Z"
     },
     {
       "nom": "BRENKMAN",
