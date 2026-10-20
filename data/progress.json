@@ -835,7 +835,7 @@
         "A",
         "C",
         "D",
-        null,
+        "B",
         null,
         null,
         null,
@@ -862,7 +862,7 @@
         null
       ],
       "startTime": 1792506698016,
-      "updatedAt": "2026-10-20T15:20:38.870Z"
+      "updatedAt": "2026-10-20T15:23:12.140Z"
     },
     {
       "nom": "ASLAN",
