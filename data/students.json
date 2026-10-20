@@ -1095,6 +1095,14 @@
       "codeHash": "a486e5558353d0a590552ea5e0b0ccf4d2d9a1ea92d319b2ad5711e9ba10deb1",
       "approved": true,
       "createdAt": "2026-10-20T12:07:52.203Z"
+    },
+    {
+      "nom": "BRICOUT",
+      "prenom": "Clément",
+      "dept": "Gc2A4",
+      "codeHash": "be63eccb7b3825f0859ad5293b877aaf3c4e936377dd8234b0ec7ef8b043d6ef",
+      "approved": false,
+      "createdAt": "2026-10-20T12:08:36.217Z"
     }
   ]
 }
