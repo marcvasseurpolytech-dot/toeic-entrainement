@@ -916,7 +916,7 @@
         "B",
         "C",
         "C",
-        null,
+        "C",
         null,
         null,
         null,
@@ -970,7 +970,7 @@
         null
       ],
       "startTime": 1792505307518,
-      "updatedAt": "2026-10-20T14:31:46.619Z"
+      "updatedAt": "2026-10-20T14:32:00.497Z"
     },
     {
       "nom": "GARDEZ",
