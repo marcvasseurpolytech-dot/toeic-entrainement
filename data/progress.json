@@ -732,7 +732,7 @@
         "B",
         "C",
         "B",
-        null,
+        "B",
         null,
         null,
         null,
@@ -754,7 +754,7 @@
         null
       ],
       "startTime": 1792504556427,
-      "updatedAt": "2026-10-20T14:42:28.287Z"
+      "updatedAt": "2026-10-20T14:44:05.100Z"
     },
     {
       "nom": "GOOSSENS",
