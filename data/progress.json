@@ -842,7 +842,7 @@
         "A",
         "B",
         "D",
-        null,
+        "B",
         null,
         null,
         null,
@@ -862,7 +862,7 @@
         null
       ],
       "startTime": 1792569908770,
-      "updatedAt": "2026-10-21T08:53:46.159Z"
+      "updatedAt": "2026-10-21T08:54:36.233Z"
     },
     {
       "nom": "THIAW",
