@@ -976,7 +976,7 @@
       "nom": "THIAW",
       "testId": "toeics7-reading",
       "answers": [
-        null,
+        "B",
         null,
         null,
         null,
@@ -1078,7 +1078,7 @@
         null
       ],
       "startTime": 1792570591065,
-      "updatedAt": "2026-10-21T08:16:35.453Z"
+      "updatedAt": "2026-10-21T08:17:01.408Z"
     }
   ]
 }
