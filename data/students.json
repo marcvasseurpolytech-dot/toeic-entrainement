@@ -1117,7 +1117,7 @@
       "prenom": "Antoine",
       "dept": "GC3 - GR14",
       "codeHash": "25f9b3ab7e7d3634a79eab88d59a0b4592d42384900dfc10ecc481af5b8dfd3d",
-      "approved": false,
+      "approved": true,
       "createdAt": "2026-10-20T17:17:07.345Z"
     }
   ]
