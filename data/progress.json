@@ -809,7 +809,7 @@
         "C",
         "D",
         "D",
-        null,
+        "A",
         null,
         null,
         null,
@@ -862,7 +862,7 @@
         null
       ],
       "startTime": 1792569908770,
-      "updatedAt": "2026-10-21T08:29:26.611Z"
+      "updatedAt": "2026-10-21T08:30:24.280Z"
     },
     {
       "nom": "BEURTHERET",
