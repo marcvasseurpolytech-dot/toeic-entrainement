@@ -760,7 +760,7 @@
       "nom": "CAREL",
       "testId": "toeics7-reading",
       "answers": [
-        null,
+        "B",
         null,
         null,
         null,
@@ -862,7 +862,7 @@
         null
       ],
       "startTime": 1792569908770,
-      "updatedAt": "2026-10-21T08:05:13.181Z"
+      "updatedAt": "2026-10-21T08:05:56.789Z"
     }
   ]
 }
