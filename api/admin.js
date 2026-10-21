@@ -1,4 +1,4 @@
-const REPO = 'marcvasseurpolytech-dot/toeic-entrainement';
+const REPO = process.env.DATA_REPO || 'marcvasseurpolytech-dot/toeic-entrainement';
 const API  = 'https://api.github.com';
 
 // Admin code — même mot de passe que Suivi Scores TOEIC

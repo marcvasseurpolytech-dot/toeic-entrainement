@@ -1,4 +1,4 @@
-const REPO = 'marcvasseurpolytech-dot/toeic-entrainement';
+const REPO = process.env.DATA_REPO || 'marcvasseurpolytech-dot/toeic-entrainement';
 const FILE = 'data/scores.json';
 const API  = 'https://api.github.com';
 
