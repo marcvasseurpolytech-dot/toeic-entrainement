@@ -492,44 +492,84 @@
       }
     }
 
-    function exportXLSX() {
-      if (typeof XLSX === 'undefined') { alert('Excel export library failed to load (network blocked?). Please reload the page.'); return; }
+    // One row per student and per test: Listening + Reading combined, with the
+    // 7-part breakdown and the final /990 score. Latest attempt of each section is used.
+    function buildExportRows() {
       const testFilter = document.getElementById('filter-test').value;
       const deptFilter = document.getElementById('filter-dept').value;
       const nomFilter  = document.getElementById('filter-nom').value.trim().toUpperCase();
+      const baseFilter = testFilter && TESTS_DATA[testFilter] ? TESTS_DATA[testFilter].baseId : '';
       const student = allStudents.reduce((m, s) => { m[s.nom] = s; return m; }, {});
-      let rows = allScores.filter(s =>
-        (!testFilter || s.testId === testFilter) &&
-        (!nomFilter  || s.nom.includes(nomFilter)) &&
-        (!deptFilter || (student[s.nom] && student[s.nom].dept === deptFilter))
-      ).map(enrichScore);
 
-      if (!rows.length) { alert('No results to export.'); return; }
-
-      const data = rows.map(s => {
-        const stu = student[s.nom] || {};
-        const d = new Date(s.date).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
-        const row = {
-          'Last Name': s.nom,
-          'First Name': stu.prenom || '',
-          'Department': stu.dept || '',
-          'Test': testLabel(s.testId),
-          'Score': `${s.score}/${s.total}`,
-          '/495': s.converted ?? '',
-          'Level': s.cecrl,
-          'Date': d
-        };
-        if (s.TEST) {
-          s.TEST.partIds.forEach(pid => {
-            const b = s.breakdown[pid];
-            const pct = Math.round(b.correct / b.max * 100);
-            row[partCanonById(pid).label] = `${pct}% (${b.correct}/${b.max})`;
-          });
-        }
-        return row;
+      // Latest attempt per student + test section
+      const latest = {};
+      allScores.forEach(s => {
+        const T = TESTS_DATA[s.testId];
+        if (!T) return;
+        if (baseFilter && T.baseId !== baseFilter) return;
+        if (nomFilter && !s.nom.includes(nomFilter)) return;
+        if (deptFilter && !(student[s.nom] && student[s.nom].dept === deptFilter)) return;
+        const key = s.nom + '||' + T.baseId + '||' + T.section;
+        if (!latest[key] || new Date(s.date) > new Date(latest[key].date)) latest[key] = s;
       });
 
+      // Group sections by student + test
+      const groups = {};
+      Object.values(latest).forEach(s => {
+        const T = TESTS_DATA[s.testId];
+        const key = s.nom + '||' + T.baseId;
+        const g = groups[key] || (groups[key] = { nom: s.nom, baseId: T.baseId, testName: T.name, L: null, R: null });
+        g[T.section] = enrichScore(s);
+      });
+
+      const fmtDate = d => new Date(d).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+
+      return Object.values(groups).map(g => {
+        const stu = student[g.nom] || {};
+        const L = g.L, R = g.R;
+        const total = (L && R) ? L.converted + R.converted : null;
+        const row = {
+          'Last Name': g.nom,
+          'First Name': stu.prenom || '',
+          'Department': stu.dept || '',
+          'Test': g.testName,
+          'Listening (/100)': L ? L.score : '',
+          'Listening (/495)': L ? L.converted : '',
+          'Listening level': L ? L.cecrl : '',
+          'Reading (/100)': R ? R.score : '',
+          'Reading (/495)': R ? R.converted : '',
+          'Reading level': R ? R.cecrl : '',
+          'Total (/990)': total ?? '',
+          'Level': total !== null ? cecrlFor(total) : '',
+          'Status': (L && R) ? 'Complete' : (L ? 'Reading missing' : 'Listening missing')
+        };
+        PARTS_CANON.forEach(p => {
+          const src = p.section === 'L' ? L : R;
+          const b = src && src.breakdown[p.id];
+          row[`${p.label} (/${p.max})`] = b ? b.correct : '';
+        });
+        row['Listening date'] = L ? fmtDate(L.date) : '';
+        row['Reading date']   = R ? fmtDate(R.date) : '';
+        row._sort = [stu.dept || '', g.nom, g.testName];
+        return row;
+      }).sort((a, b) => {
+        for (let i = 0; i < 3; i++) {
+          const c = String(a._sort[i]).localeCompare(String(b._sort[i]), 'fr', { sensitivity: 'base' });
+          if (c) return c;
+        }
+        return 0;
+      }).map(r => { delete r._sort; return r; });
+    }
+
+    function exportXLSX() {
+      if (typeof XLSX === 'undefined') { alert('Excel export library failed to load (network blocked?). Please reload the page.'); return; }
+      const data = buildExportRows();
+      if (!data.length) { alert('No results to export.'); return; }
+
       const ws = XLSX.utils.json_to_sheet(data);
+      ws['!cols'] = Object.keys(data[0]).map(k => ({ wch: Math.max(k.length + 2, 10) }));
+      ws['!freeze'] = { xSplit: 0, ySplit: 1 };
+      ws['!autofilter'] = { ref: ws['!ref'] };
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Results');
       XLSX.writeFile(wb, 'toeic-entrainement.xlsx');
