@@ -269,6 +269,8 @@ if (!isReview) (async () => {
 const answers = new Array(TEST.keys.length).fill(null);
 let timeLeft  = TEST.duration || 0;
 let timerInterval = null;
+let timerStarted = false;
+let timerDeadline = 0;
 let submitted = false;
 
 // =========================================================
@@ -278,10 +280,22 @@ let submitted = false;
 const STORAGE_KEY = `toeic-progress::${testId}::${student.nom}`;
 let sessionStartTime = Date.now();
 
+// Snapshot of the student's state. timeLeft is the remaining time in
+// seconds (timed tests only), so the countdown resumes where it stopped.
+function progressPayload() {
+  return {
+    nom: student.nom, testId, answers, startTime: sessionStartTime,
+    timeLeft: (!TEST.audioControlled && timerStarted) ? timeLeft : null,
+    savedAt: Date.now()
+  };
+}
+
 function saveProgress() {
+  if (submitted) return;
   try {
+    const p = progressPayload();
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      answers, startTime: sessionStartTime
+      answers: p.answers, startTime: p.startTime, timeLeft: p.timeLeft, savedAt: p.savedAt
     }));
   } catch(e) { /* storage full or unavailable — server save still runs */ }
 }
@@ -318,20 +332,29 @@ async function flushServerSave() {
     await fetch('/api/progress', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nom: student.nom, testId, answers, startTime: sessionStartTime
-      })
+      body: JSON.stringify(progressPayload())
     });
   } catch(e) { /* will retry on next change or periodic flush */ }
 }
 // Safety net: flush periodically even without new answers, and on unload
 setInterval(flushServerSave, 20000);
-window.addEventListener('beforeunload', () => {
-  if (serverSaveDirty && navigator.sendBeacon) {
-    navigator.sendBeacon('/api/progress', new Blob([JSON.stringify({
-      nom: student.nom, testId, answers, startTime: sessionStartTime
-    })], { type: 'application/json' }));
+// When the student leaves or hides the page, push the latest answers AND
+// the remaining time to the server (timed tests: always, once started).
+function flushOnLeave() {
+  if (submitted || isReview) return;
+  if (!TEST.audioControlled && !timerStarted) return;
+  if (TEST.audioControlled && !serverSaveDirty) return;
+  serverSaveDirty = false;
+  saveProgress();
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon('/api/progress', new Blob([JSON.stringify(progressPayload())],
+      { type: 'application/json' }));
   }
+}
+window.addEventListener('beforeunload', flushOnLeave);
+window.addEventListener('pagehide', flushOnLeave);
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') flushOnLeave();
 });
 
 async function fetchServerProgress() {
@@ -381,6 +404,8 @@ function renderBooklet() {
 function beginTimedTest() {
   document.getElementById('start-section').style.display = 'none';
   sessionStartTime = Date.now();
+  timeLeft = TEST.duration;
+  timerStarted = true;
   saveProgress();
   scheduleServerSave();
   startTimer();
@@ -403,27 +428,39 @@ if (isReview) {
   document.getElementById('btn-jump').style.display = '';
   // Restore progress: prefer local (same device), fall back to server
   (async () => {
-    let saved = loadProgress();
-    let fromServer = false;
-    if (!saved || !Array.isArray(saved.answers) || saved.answers.length !== TEST.keys.length) {
-      const serverEntry = await fetchServerProgress();
-      if (serverEntry && Array.isArray(serverEntry.answers) && serverEntry.answers.length === TEST.keys.length) {
-        saved = serverEntry;
-        fromServer = true;
-      }
+    const isValid = e => e && Array.isArray(e.answers) && e.answers.length === TEST.keys.length;
+    const local = loadProgress();
+    const serverEntry = await fetchServerProgress();
+    const validLocal  = isValid(local) ? local : null;
+    const validServer = isValid(serverEntry) ? serverEntry : null;
+
+    // Use the most recent snapshot (local vs server), so a stale copy on
+    // another device can never overwrite newer answers or give extra time.
+    let saved = validLocal, fromServer = false;
+    if (validServer && (!validLocal ||
+        (validLocal.savedAt !== undefined && (validServer.savedAt ?? -1) > validLocal.savedAt))) {
+      saved = validServer;
+      fromServer = true;
     }
 
-    if (saved && Array.isArray(saved.answers) && saved.answers.length === TEST.keys.length) {
+    if (saved) {
       sessionStartTime = saved.startTime || Date.now();
       saved.answers.forEach((a, i) => { if (a) selectAnswer(i + 1, a, false); });
       document.getElementById('restore-banner').style.display = 'block';
       if (fromServer) saveProgress(); // mirror into localStorage too
 
       if (!TEST.audioControlled) {
-        // Already started earlier — resume the countdown directly, no button.
-        const elapsed = Math.floor((Date.now() - sessionStartTime) / 1000);
-        timeLeft = TEST.duration - elapsed;
+        // Already started earlier: resume with the remaining time saved
+        // when the student left (the clock does not run while away).
+        if (typeof saved.timeLeft === 'number') {
+          timeLeft = Math.min(TEST.duration, Math.floor(saved.timeLeft));
+        } else {
+          // Older in-progress sessions without saved remaining time
+          const elapsed = Math.floor((Date.now() - sessionStartTime) / 1000);
+          timeLeft = TEST.duration - elapsed;
+        }
         if (timeLeft <= 0) { timeLeft = 0; submitTest(true); return; }
+        timerStarted = true;
         startTimer();
       }
     } else {
@@ -514,10 +551,14 @@ function jumpToUnanswered() {
 // TIMER
 // =========================================================
 function startTimer() {
+  timerStarted = true;
+  timerDeadline = Date.now() + timeLeft * 1000;
   updateTimerDisplay();
   timerInterval = setInterval(() => {
-    timeLeft--;
+    // Computed from a deadline, so throttled background tabs do not drift
+    timeLeft = Math.max(0, Math.ceil((timerDeadline - Date.now()) / 1000));
     updateTimerDisplay();
+    saveProgress(); // local only: keeps the remaining time accurate to the second
     if (timeLeft <= 0) { clearInterval(timerInterval); submitTest(true); }
   }, 1000);
 }

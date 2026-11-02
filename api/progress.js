@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
 
   // POST — upsert in-progress answers (debounced client-side, not per keystroke)
   if (req.method === 'POST') {
-    const { nom, testId, answers, startTime } = req.body || {};
+    const { nom, testId, answers, startTime, timeLeft, savedAt } = req.body || {};
     if (!nom || !testId || !Array.isArray(answers)) {
       return res.status(400).json({ error: 'Missing data' });
     }
@@ -56,7 +56,12 @@ module.exports = async (req, res) => {
       const file = await ghGet(FILE, token);
       const all  = file?.data?.progress || [];
       const idx  = all.findIndex(p => p.nom === nomUpper && p.testId === testId);
-      const entry = { nom: nomUpper, testId, answers, startTime, updatedAt: new Date().toISOString() };
+      const entry = {
+        nom: nomUpper, testId, answers, startTime,
+        timeLeft: Number.isFinite(timeLeft) ? Math.max(0, Math.floor(timeLeft)) : null,
+        savedAt: Number.isFinite(savedAt) ? savedAt : null,
+        updatedAt: new Date().toISOString()
+      };
       if (idx >= 0) all[idx] = entry; else all.push(entry);
       const ok = await ghPut(FILE, { progress: all }, file?.sha, token);
       if (ok) return res.json({ success: true });
