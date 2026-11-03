@@ -43,20 +43,7 @@ function cecrlForTable(score, table) {
   return '< A1';
 }
 
-// Given a TEST definition (from tests-data.js) and a stored answers[] array,
-// returns { p1:{correct,max}, p2:{...}, ... } for the parts covered by that test.
-function computePartBreakdown(TEST, answers) {
-  const out = {};
-  TEST.parts.forEach((part, i) => {
-    const pid = TEST.partIds[i];
-    let correct = 0;
-    for (let q = part.start; q <= part.end; q++) {
-      if (answers[q - 1] === TEST.keys[q - 1]) correct++;
-    }
-    out[pid] = { correct, max: part.end - part.start + 1 };
-  });
-  return out;
-}
+// Per-part counts are computed by the server (api/_lib.js grade) and returned as `parts`.
 
 // Raw section score (0-100) converted to the /495 ETS scale for that section.
 function convertedSectionScore(section, raw) {

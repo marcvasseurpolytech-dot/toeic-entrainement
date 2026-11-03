@@ -187,7 +187,7 @@
       `${student.prenom} ${student.nom} — ${student.dept}`;
 
     function logout() {
-      sessionStorage.removeItem('student');
+      sessionStorage.removeItem('student'); sessionStorage.removeItem('studentAuth');
       window.location.href = 'index.html';
     }
 
@@ -236,7 +236,7 @@
         const label = !isOpen ? 'Not available' : retakeGranted ? '🔄 Retake' : completed ? '✓ Completed' : '▶ Start';
         div.innerHTML = `
           <h3>${t.name}</h3>
-          <div class="meta">📋 ${t.part} &nbsp;·&nbsp; ${t.keys.length} questions ${t.audioControlled ? '&nbsp;·&nbsp; 🎧 audio' : ''}</div>
+          <div class="meta">📋 ${t.part} &nbsp;·&nbsp; ${t.total} questions ${t.audioControlled ? '&nbsp;·&nbsp; 🎧 audio' : ''}</div>
           ${badge}
           <button class="btn-start" ${canStart ? '' : 'disabled'} onclick="startTest('${id}')">${label}</button>
           ${completed ? '<div class="meta" style="text-align:center">One attempt per test — already used</div>' : ''}
@@ -255,7 +255,7 @@
     function enrichScore(s) {
       const TEST = TESTS_DATA[s.testId];
       if (!TEST) return null;
-      const breakdown = computePartBreakdown(TEST, s.answers || []);
+      const breakdown = s.parts || {};
       const converted = convertedSectionScore(TEST.section, s.score);
       const cecrl = cecrlForTable(converted, TEST.section === 'L' ? CECRL_LISTENING : CECRL_READING);
       return { ...s, TEST, breakdown, converted, cecrl };

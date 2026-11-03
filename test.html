@@ -350,7 +350,9 @@ const params  = new URLSearchParams(window.location.search);
 const testId  = params.get('id');
 const isReview = params.get('review') === '1';
 const student = JSON.parse(sessionStorage.getItem('student') || 'null');
-if (!student) window.location.href = 'index.html';
+// Sessions opened before the server-side grading update have no stored code proof: log in again
+// (saved progress is restored after logging back in).
+if (!student || !sessionStorage.getItem('studentAuth')) { sessionStorage.removeItem('student'); window.location.href = 'index.html'; }
 
 const TEST = TESTS_DATA[testId];
 if (!TEST) { alert('Test not found.'); window.location.href = 'dashboard.html'; }
@@ -383,7 +385,7 @@ if (!isReview) (async () => {
   } catch (e) { /* if the check fails, don't block the student */ }
 })();
 
-const answers = new Array(TEST.keys.length).fill(null);
+const answers = new Array(TEST.total).fill(null);
 let timeLeft  = TEST.duration || 0;
 let timerInterval = null;
 let timerStarted = false;
@@ -537,7 +539,7 @@ function cleanDash(str) { return String(str).replace(/\s*[\u2014\u2013]\s*/g, ' 
 document.getElementById('header-title').textContent = `${cleanDash(TEST.name)} | ${TEST.part}`;
 document.getElementById('start-title').textContent = `${TEST.part} test`;
 document.getElementById('start-minutes').textContent = Math.round((TEST.duration || 0) / 60);
-document.getElementById('total-count').textContent  = TEST.keys.length;
+document.getElementById('total-count').textContent  = TEST.total;
 if (!TEST.audioControlled) document.getElementById('timer').style.display = '';
 
 renderBooklet();
@@ -551,7 +553,7 @@ if (isReview) {
   document.getElementById('btn-jump').style.display = '';
   // Restore progress: prefer local (same device), fall back to server
   (async () => {
-    const isValid = e => e && Array.isArray(e.answers) && e.answers.length === TEST.keys.length;
+    const isValid = e => e && Array.isArray(e.answers) && e.answers.length === TEST.total;
     const local = loadProgress();
     const serverEntry = await fetchServerProgress();
     const validLocal  = isValid(local) ? local : null;
@@ -665,7 +667,7 @@ document.addEventListener('keydown', e => {
 
 function updateProgress() {
   const done  = answers.filter(a => a !== null).length;
-  const total = TEST.keys.length;
+  const total = TEST.total;
   document.getElementById('answered-count').textContent = done;
   document.getElementById('progress-bar').style.width = (done / total * 100) + '%';
   const remaining = total - done;
@@ -721,9 +723,9 @@ function updateTimerDisplay() {
 // =========================================================
 // GRADING — shared by live submission and review mode
 // =========================================================
-function gradeAndRender(userAnswers) {
+function gradeAndRender(userAnswers, keys) {
   let correct = 0, wrong = 0, blank = 0;
-  TEST.keys.forEach((key, i) => {
+  keys.forEach((key, i) => {
     if (userAnswers[i] === null || userAnswers[i] === undefined) blank++;
     else if (userAnswers[i] === key) correct++;
     else wrong++;
@@ -731,14 +733,14 @@ function gradeAndRender(userAnswers) {
 
   const panel = document.getElementById('results-panel');
   panel.style.display = 'block';
-  document.getElementById('score-big').innerHTML  = `${correct}<span>/${TEST.keys.length}</span>`;
-  const pctScore = Math.round(correct / TEST.keys.length * 100);
+  document.getElementById('score-big').innerHTML  = `${correct}<span>/${TEST.total}</span>`;
+  const pctScore = Math.round(correct / TEST.total * 100);
   document.getElementById('score-pct').textContent = `${pctScore}%`;
   document.getElementById('score-ring').style.setProperty('--p', pctScore);
   document.getElementById('part-bars').innerHTML = TEST.parts.map(part => {
     const n = part.end - part.start + 1;
     let c = 0;
-    for (let q = part.start; q <= part.end; q++) if (userAnswers[q - 1] === TEST.keys[q - 1]) c++;
+    for (let q = part.start; q <= part.end; q++) if (userAnswers[q - 1] === keys[q - 1]) c++;
     return `<div class="part-bar"><div class="part-bar-top"><span>${cleanDash(part.name)}</span><span>${c} / ${n}</span></div>` +
            `<div class="part-bar-track"><div class="part-bar-fill" style="width:${Math.round(c / n * 100)}%"></div></div></div>`;
   }).join('');
@@ -747,7 +749,7 @@ function gradeAndRender(userAnswers) {
   document.getElementById('stat-blank').textContent   = blank;
   panel.scrollIntoView({ behavior: 'smooth' });
 
-  TEST.keys.forEach((key, i) => {
+  keys.forEach((key, i) => {
     const qNum = i + 1;
     const card = document.getElementById(`q-${qNum}`);
     if (!card) return;
@@ -786,8 +788,16 @@ async function initReviewMode() {
   banner.style.display = 'block';
 
   try {
-    const r = await fetch(`/api/scores?nom=${encodeURIComponent(student.nom)}`);
+    const auth = sessionStorage.getItem('studentAuth');
+    if (!auth) {
+      alert('Please log in again to review your answers.');
+      sessionStorage.removeItem('student');
+      window.location.href = 'index.html';
+      return;
+    }
+    const r = await fetch(`/api/scores?nom=${encodeURIComponent(student.nom)}&review=${encodeURIComponent(testId)}`, { headers: { 'X-Code-Hash': auth } });
     const data = await r.json();
+    if (!r.ok || !data.keys) throw new Error(data.error || 'review failed');
     const entry = (data.scores || []).filter(s => s.testId === testId)
                                        .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
     if (!entry) {
@@ -797,7 +807,7 @@ async function initReviewMode() {
     }
     entry.answers.forEach((a, i) => { if (a) answers[i] = a; });
     submitted = true;
-    gradeAndRender(answers);
+    gradeAndRender(answers, data.keys);
   } catch (e) {
     alert('Could not load your submitted answers.');
     window.location.href = 'dashboard.html';
@@ -807,16 +817,53 @@ async function initReviewMode() {
 // =========================================================
 // SUBMIT
 // =========================================================
+let submitting = false;
 async function submitTest(auto = false) {
-  if (submitted) return;
+  if (submitted || submitting) return;
   const unanswered = answers.filter(a => a === null).length;
   if (!auto && unanswered > 0) {
     if (!confirm(`You have ${unanswered} unanswered question(s). Submit anyway?`)) return;
   }
+  submitting = true;
   clearInterval(timerInterval);
-  submitted = true;
+  const btns = document.querySelectorAll('.btn-submit-top, .submit-section button');
+  btns.forEach(b => { b.disabled = true; });
 
-  const { correct } = gradeAndRender(answers);
+  // The answer key is kept on the server: the answers are sent, the server grades
+  // them, saves the attempt and sends the corrected result back.
+  let data = null, errMsg = '';
+  try {
+    const saveR = await fetch('/api/scores', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nom:    student.nom,
+        codeHash: sessionStorage.getItem('studentAuth') || undefined,
+        testId: testId,
+        answers: answers,
+        startedAt:  new Date(sessionStartTime).toISOString(),
+        elapsedSec: Math.round((Date.now() - sessionStartTime) / 1000)
+      })
+    });
+    data = await saveR.json().catch(() => ({}));
+    if (!saveR.ok) { errMsg = data.error || 'Your answers could not be saved.'; data = null; }
+  } catch(e) { errMsg = 'Network error. Your answers are still on this page.'; }
+
+  if (!data || !data.keys) {
+    // Nothing was graded or saved: keep the answers and let the student try again.
+    submitting = false;
+    btns.forEach(b => { b.disabled = false; });
+    saveProgress();
+    if (!auto && !TEST.audioControlled && timerStarted && timeLeft > 0) startTimer();
+    const msg = errMsg + ' Press Submit again to retry.';
+    if (auto) { setTimeout(() => submitTest(true), 5000); alert(msg + ' A new attempt will be made in a few seconds.'); }
+    else alert(msg);
+    return;
+  }
+
+  submitted = true;
+  submitting = false;
+  gradeAndRender(answers, data.keys);
   document.getElementById('btn-jump').style.display = 'none';
   document.getElementById('restore-banner').style.display = 'none';
   document.getElementById('time-track').classList.remove('on');
@@ -824,30 +871,8 @@ async function submitTest(auto = false) {
   // Progress no longer needed once submitted — clear both stores
   clearProgress();
   clearServerProgress();
-
-  // Save to API
-  try {
-    const saveR = await fetch('/api/scores', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nom:    student.nom,
-        testId: testId,
-        score:  correct,
-        total:  TEST.keys.length,
-        answers: answers,
-        date:   new Date().toISOString(),
-        startedAt:  new Date(sessionStartTime).toISOString(),
-        elapsedSec: Math.round((Date.now() - sessionStartTime) / 1000)
-      })
-    });
-    if (!saveR.ok) {
-      const errData = await saveR.json().catch(() => ({}));
-      document.getElementById('results-panel').insertAdjacentHTML('beforeend',
-        `<p style="color:#c0392b;font-size:0.85rem;margin-top:1rem">⚠️ ${errData.error || 'Your score could not be saved.'}</p>`);
-    }
-  } catch(e) { /* network failure — result already shown to the student */ }
 }
+
 </script>
 </body>
 </html>

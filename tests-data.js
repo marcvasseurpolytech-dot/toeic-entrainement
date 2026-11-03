@@ -1,4 +1,6 @@
 // Shared across test.html / dashboard.html / admin.html
+// NOTE: the answer keys are NOT in this file any more. They live in api/_keys.js (server only);
+// grading is done by /api/scores. Each test only declares its number of questions (total).
 // partIds map each test's local parts[] (index order) to the canonical
 // TOEIC part ids (p1..p7) used by scoring.js for the ETS conversion grid.
 const TESTS_DATA = {
@@ -11,15 +13,7 @@ const TESTS_DATA = {
     audioUrl: 'https://drive.google.com/file/d/1IUDU5a8JnSF_Y40oZeKtaDQ-y1Fn52r-/view',
     bookletUrl: 'booklets/iibc2-t1.pdf',
     partIds: ['p1', 'p2', 'p3', 'p4'],
-    keys: [
-      'D','D','C','A','B','B',
-      'C','A','B','C','B','A','B','C','C','B','B','C','B','B','C','A','B','A','A','B','A','A','B','B','C',
-      'D','C','B','C','D','A','D','B','A','A','B','D','B','C','D','A','C','B','A',
-      'C','B','B','A','D','A','C','A','C','A','B','B','A','B','C','D','A','A','B','C',
-      'D','C','B','D','A','C','B','C','D','B',
-      'D','C','D','C','A','B','D','D','C','A',
-      'B','A','C','B','C','A','B','D','C','A'
-    ],
+    total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
       { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
@@ -37,14 +31,7 @@ const TESTS_DATA = {
     duration: 75 * 60,
     bookletUrl: 'booklets/iibc2-t1.pdf',
     partIds: ['p5', 'p6', 'p7'],
-    keys: [
-      // Part 5 (local 1-30 = Q101-130)
-      'C','D','B','C','A','D','D','A','A','B','C','A','B','B','A','B','A','A','C','C','D','D','A','B','C','C','D','D','B','C',
-      // Part 6 (local 31-46 = Q131-146)
-      'C','A','C','B','D','C','B','A','C','B','D','A','C','A','B','D',
-      // Part 7 (local 47-100 = Q147-200)
-      'A','D','D','B','C','D','C','D','B','A','C','B','C','A','D','B','A','B','D','D','C','C','A','D','B','D','D','C','A','D','B','D','A','B','A','D','C','B','C','B','C','A','B','D','B','A','D','C','B','B','C','B','A','D'
-    ],
+    total: 100,
     parts: [
       { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
       { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
@@ -60,15 +47,7 @@ const TESTS_DATA = {
     audioControlled: true,
     audioUrl: 'https://drive.google.com/file/d/1Q3vRuocFQchcqASTIsdZ64Grq4Omz9Ur/view?usp=sharing',
     partIds: ['p1', 'p2', 'p3', 'p4'],
-    keys: [
-      'C','D','A','C','B','C',
-      'A','A','A','B','B','C','A','A','A','C','B','A','C','B','C','C','A','C','A','B','C','A','B','C','B',
-      'D','C','A','C','D','B','B','C','A','B','B','A','A','B','D','D','A','C','A',
-      'C','B','D','A','B','A','B','D','A','A','B','C','D','B','C','A','B','B','D','C',
-      'D','D','C','B','B','A','D','A','C','B',
-      'D','A','C','A','D','C','B','D','D','B',
-      'A','B','D','C','A','C','A','B','C','C'
-    ],
+    total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
       { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
@@ -85,14 +64,7 @@ const TESTS_DATA = {
     audioControlled: false,
     duration: 75 * 60,
     partIds: ['p5', 'p6', 'p7'],
-    keys: [
-      // Part 5 (local 1-30 = Q101-130)
-      'D','A','D','A','C','D','B','D','C','C','A','C','B','B','C','B','D','A','C','D','B','A','B','A','C','C','C','D','D','B',
-      // Part 6 (local 31-46 = Q131-146)
-      'C','A','D','C','B','A','D','A','B','C','C','A','A','B','D','A',
-      // Part 7 (local 47-100 = Q147-200)
-      'B','A','B','A','B','C','B','D','C','A','B','A','A','C','B','C','B','A','D','B','A','D','B','C','C','C','A','D','A','A','B','C','D','C','A','B','D','A','C','A','A','B','C','C','A','D','B','A','A','A','B','C','D','D'
-    ],
+    total: 100,
     parts: [
       { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
       { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
@@ -109,15 +81,7 @@ const TESTS_DATA = {
     audioUrl: 'https://drive.google.com/file/d/1Nj89BmvU4PVxWfOqvgyUDMijAF_Inm7R/view?usp=sharing',
     bookletUrl: 'https://drive.google.com/file/d/1e7rUPX5LSKi0-Gvna9rcpIjadg7a_PAB/view?usp=sharing',
     partIds: ['p1', 'p2', 'p3', 'p4'],
-    keys: [
-      'A','C','D','A','C','B',
-      'B','A','C','A','B','B','C','B','C','A','C','B','A','C','B','A','C','B','A','B','C','A','B','A','B',
-      'B','C','A','A','B','B','A','D','B','C','B','A','C','B','B','C','D','B','C','A',
-      'D','A','C','B','A','C','B','D','B','C','C','C','C','D','A','C','B','A','C',
-      'A','B','D','C','A','D','D','B','C','C',
-      'A','B','C','C','A','A','A','C','A','A',
-      'A','D','C','C','B','D','C','C','A','D'
-    ],
+    total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
       { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
@@ -135,14 +99,7 @@ const TESTS_DATA = {
     duration: 75 * 60,
     bookletUrl: 'https://drive.google.com/file/d/1e7rUPX5LSKi0-Gvna9rcpIjadg7a_PAB/view?usp=sharing',
     partIds: ['p5', 'p6', 'p7'],
-    keys: [
-      // Part 5 (local 1-30 = Q101-130)
-      'B','A','B','A','B','C','D','B','C','A','C','A','B','B','C','D','C','B','A','A','C','C','A','A','C','D','C','A','D','A',
-      // Part 6 (local 31-46 = Q131-146)
-      'C','A','D','B','B','D','A','C','C','D','B','B','D','C','C','B',
-      // Part 7 (local 47-100 = Q147-200)
-      'D','B','C','A','C','B','B','B','C','A','B','A','C','B','B','C','C','D','B','C','D','B','C','A','C','A','B','C','B','A','B','C','C','B','C','D','A','A','B','A','B','D','C','D','D','A','C','D','D','A','B','D','A','B'
-    ],
+    total: 100,
     parts: [
       { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
       { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
@@ -159,12 +116,7 @@ const TESTS_DATA = {
     audioUrl: 'https://drive.google.com/file/d/1jdoPY_zE9wZzqVKKPk6g5J2prt4AEHr1/view?usp=sharing',
     bookletUrl: 'https://drive.google.com/file/d/1A6M1ZkszCR8nKlHFG6zVl2Q2Euc6PAcD/view?usp=sharing',
     partIds: ['p1', 'p2', 'p3', 'p4'],
-    keys: [
-      'C','A','D','B','D','A',
-      'C','C','A','C','B','B','B','C','A','C','B','A','B','C','C','A','C','A','B','C','C','A','C','B','A',
-      'C','A','A','C','A','D','A','B','B','A','C','B','B','D','B','D','C','B','D','A','C','C','D','B','C','A','B','D','B','A','A','C','D','B','D','C','A','B','C',
-      'C','A','C','D','D','C','B','C','D','D','C','A','C','A','D','B','C','A','B','A','A','A','B','D','C','D','A','A','B','A'
-    ],
+    total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
       { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
@@ -182,14 +134,7 @@ const TESTS_DATA = {
     duration: 75 * 60,
     bookletUrl: 'https://drive.google.com/file/d/1A6M1ZkszCR8nKlHFG6zVl2Q2Euc6PAcD/view?usp=sharing',
     partIds: ['p5', 'p6', 'p7'],
-    keys: [
-      // Part 5 (local 1-30 = Q101-130)
-      'D','B','D','A','C','D','A','B','A','B','D','A','B','B','B','C','C','A','D','B','A','D','B','C','C','C','A','C','C','A',
-      // Part 6 (local 31-46 = Q131-146)
-      'D','B','A','C','C','A','D','C','A','B','B','D','B','C','D','A',
-      // Part 7 (local 47-100 = Q147-200)
-      'B','D','D','A','D','B','D','A','B','A','C','A','D','C','D','C','D','A','D','A','C','B','C','D','C','B','A','C','C','B','A','C','C','A','B','D','A','A','C','B','D','D','A','D','C','C','D','D','A','D','C','B','C','B'
-    ],
+    total: 100,
     parts: [
       { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
       { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
@@ -206,12 +151,7 @@ const TESTS_DATA = {
     audioUrl: 'https://drive.google.com/file/d/13EjucN3m1CJWO8wfHKZEq_4gdUFTLr5e/view',
     bookletUrl: 'https://drive.google.com/file/d/1O1GgRZQc-u2Pnuc5iuSrcgJYZIOXdYNk/view?usp=sharing',
     partIds: ['p1', 'p2', 'p3', 'p4'],
-    keys: [
-      'D','A','C','B','D','D',
-      'B','A','C','A','B','C','B','C','C','C','B','B','A','B','B','C','B','A','A','A','C','C','A','B','B',
-      'B','D','A','C','A','D','D','D','A','A','C','B','C','B','C','D','B','B','A','C','C','B','A','D','B','A','C','C','A','A','A','B','B','B','D','B','B','A','B',
-      'D','C','C','B','C','A','C','C','D','A','D','C','A','B','D','D','B','D','C','C','B','B','A','C','B','C','A','D','A','B'
-    ],
+    total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
       { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
@@ -229,14 +169,7 @@ const TESTS_DATA = {
     duration: 75 * 60,
     bookletUrl: 'https://drive.google.com/file/d/1O1GgRZQc-u2Pnuc5iuSrcgJYZIOXdYNk/view?usp=sharing',
     partIds: ['p5', 'p6', 'p7'],
-    keys: [
-      // Part 5 (local 1-30 = Q101-130)
-      'D','B','D','B','A','A','C','B','C','A','B','D','B','C','A','D','C','B','D','B','A','B','C','D','C','A','C','A','A','B',
-      // Part 6 (local 31-46 = Q131-146)
-      'C','B','A','D','C','B','D','A','C','A','B','D','B','A','C','D',
-      // Part 7 (local 47-100 = Q147-200)
-      'A','D','C','B','B','D','C','B','A','B','A','C','A','B','D','A','D','B','C','A','B','C','D','C','A','B','A','C','D','A','B','D','C','C','B','C','D','D','A','C','A','B','D','D','C','A','B','A','B','B','A','A','C','D'
-    ],
+    total: 100,
     parts: [
       { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
       { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
@@ -253,12 +186,7 @@ const TESTS_DATA = {
     audioUrl: 'https://drive.google.com/file/d/176kDtbJGLBnMxXh9Iciqp4zpjoomy4aU/view?usp=sharing',
     bookletUrl: 'https://drive.google.com/file/d/1m0Q0CyPPmeat0hdpc-g96jIpG2ICgpBe/view?usp=sharing',
     partIds: ['p1', 'p2', 'p3', 'p4'],
-    keys: [
-      'C','A','B','A','D','A',
-      'C','C','C','A','C','C','A','B','B','C','A','B','B','A','C','A','B','B','A','C','B','C','A','B','B',
-      'A','D','B','C','B','D','C','A','A','C','B','A','B','D','C','C','A','D','C','B','D','B','B','A','A','B','D','B','D','A','C','A','B','B','D','B','B','D','C',
-      'A','B','D','B','D','B','C','B','B','C','A','D','C','D','C','C','B','A','D','B','C','A','D','D','A','C','A','D','C','A'
-    ],
+    total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
       { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
@@ -276,14 +204,7 @@ const TESTS_DATA = {
     duration: 75 * 60,
     bookletUrl: 'https://drive.google.com/file/d/1m0Q0CyPPmeat0hdpc-g96jIpG2ICgpBe/view?usp=sharing',
     partIds: ['p5', 'p6', 'p7'],
-    keys: [
-      // Part 5 (local 1-30 = Q101-130)
-      'D','B','C','D','C','A','C','A','B','A','A','B','D','C','B','D','B','C','B','B','A','B','A','A','D','C','D','A','B','B',
-      // Part 6 (local 31-46 = Q131-146)
-      'C','B','D','A','A','D','C','B','A','C','C','B','D','C','B','A',
-      // Part 7 (local 47-100 = Q147-200)
-      'D','D','B','C','A','B','D','C','C','D','B','D','B','C','D','A','C','A','D','C','B','C','B','B','D','B','C','B','B','C','A','D','C','D','B','B','D','B','D','A','A','B','C','D','C','A','C','D','B','D','B','C','D','A'
-    ],
+    total: 100,
     parts: [
       { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
       { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },

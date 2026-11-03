@@ -265,6 +265,7 @@
           return;
         }
         sessionStorage.setItem('student', JSON.stringify(data.student));
+        sessionStorage.setItem('studentAuth', codeHash);
         window.location.href = 'dashboard.html';
       } catch(e) {
         showMsg('login-msg', 'Network error.', 'error');

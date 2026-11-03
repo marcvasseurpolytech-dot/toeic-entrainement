@@ -1,66 +1,71 @@
-const REPO = process.env.DATA_REPO || 'marcvasseurpolytech-dot/toeic-entrainement';
+const { KEYS, ghGet, ghPut, hasTest, grade, cleanAnswers, verifyStudent } = require('./_lib');
+
 const FILE = 'data/scores.json';
-const API  = 'https://api.github.com';
-
-async function ghGet(path, token) {
-  const r = await fetch(`${API}/repos/${REPO}/contents/${path}`, {
-    headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github.v3+json' }
-  });
-  if (!r.ok) return null;
-  const d = await r.json();
-  return { data: JSON.parse(Buffer.from(d.content, 'base64').toString('utf8')), sha: d.sha };
-}
-
-async function ghPut(path, content, sha, token) {
-  const body = {
-    message: `update ${path}`,
-    content: Buffer.from(JSON.stringify(content, null, 2)).toString('base64')
-  };
-  if (sha) body.sha = sha;
-  const r = await fetch(`${API}/repos/${REPO}/contents/${path}`, {
-    method: 'PUT',
-    headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
-  return r.ok;
-}
+// Browsers that were already open on a test before the server-side grading was
+// deployed do not send the student's code yet. Accept that for a short grace period.
+const LEGACY_UNTIL = Date.parse('2026-11-07T00:00:00Z');
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Code-Hash');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const token = process.env.GITHUB_TOKEN;
   if (!token) return res.status(500).json({ error: 'Missing token' });
 
-  // GET — fetch scores for a student
+  // GET: a student's attempts. Scores and per-part counts are always computed from
+  // the stored answers with the current keys. The answer key of one test is only
+  // returned for review, and only to the student who proves their identity.
   if (req.method === 'GET') {
     const nom = (req.query?.nom || '').trim().toUpperCase();
     if (!nom) return res.status(400).json({ error: 'Name required' });
     const file = await ghGet(FILE, token);
     const all  = file?.data?.scores || [];
-    const mine = all.filter(s => s.nom === nom).map(s => ({
-      testId: s.testId, score: s.score, total: s.total, date: s.date,
-      answers: s.answers || [], retakeGranted: !!s.retakeGranted
-    }));
-    return res.json({ scores: mine });
+    const mine = all.filter(s => s.nom === nom).map(s => {
+      const live = hasTest(s.testId) && Array.isArray(s.answers) && s.answers.length === KEYS[s.testId].total
+        ? grade(s.testId, s.answers) : null;
+      return {
+        testId: s.testId, score: live ? live.score : s.score, total: s.total, date: s.date,
+        answers: s.answers || [], retakeGranted: !!s.retakeGranted,
+        parts: live ? live.parts : null
+      };
+    });
+    const out = { scores: mine };
+    const reviewId = req.query?.review;
+    if (reviewId) {
+      if (!hasTest(reviewId) || !mine.some(s => s.testId === reviewId)) {
+        return res.status(404).json({ error: 'No submitted attempt for this test.' });
+      }
+      if (!(await verifyStudent(nom, req.headers['x-code-hash'], token))) {
+        return res.status(401).json({ error: 'Please log in again.' });
+      }
+      out.keys = KEYS[reviewId].keys;
+    }
+    return res.json(out);
   }
 
-  // POST — save a new score. One attempt per student per test, UNLESS an
-  // admin has explicitly granted a retake on that student's most recent
-  // attempt for this test (retakeGranted: true) — the old attempt stays
-  // in the record for history; this new one is saved as a fresh entry.
+  // POST: save an attempt. The client sends only the answers; the score is computed
+  // here. One attempt per student per test, unless an admin granted a retake on the
+  // latest attempt (the old attempt stays in the record for history).
   if (req.method === 'POST') {
-    const { nom, testId, score, total, answers, date, startedAt, elapsedSec } = req.body || {};
+    const { nom, testId, answers, date, startedAt, elapsedSec, codeHash } = req.body || {};
+    if (!nom || !testId || !hasTest(testId)) return res.status(400).json({ error: 'Missing data' });
+    const clean = cleanAnswers(testId, answers);
+    if (!clean) return res.status(400).json({ error: 'Invalid answers' });
+
+    if (codeHash) {
+      if (!(await verifyStudent(nom, codeHash, token))) return res.status(401).json({ error: 'Please log in again.' });
+    } else if (Date.now() > LEGACY_UNTIL) {
+      return res.status(401).json({ error: 'Please log in again.' });
+    }
+
     // Timing data (used by the admin to flag Listening attempts that were paused or replayed)
     const startedAtOk = typeof startedAt === 'string' && !isNaN(Date.parse(startedAt)) ? new Date(startedAt).toISOString() : undefined;
     const elapsedOk = Number.isFinite(elapsedSec) && elapsedSec >= 0 && elapsedSec < 86400 ? Math.round(elapsedSec) : undefined;
-    if (!nom || !testId || score === undefined || !total) {
-      return res.status(400).json({ error: 'Missing data' });
-    }
+
     const nomUpper = nom.trim().toUpperCase();
-    // Retry loop for SHA conflicts
+    const result = grade(testId, clean);
     for (let attempt = 0; attempt < 3; attempt++) {
       const file   = await ghGet(FILE, token);
       const scores = file?.data?.scores || [];
@@ -73,15 +78,15 @@ module.exports = async (req, res) => {
       scores.push({
         nom: nomUpper,
         testId,
-        score: parseInt(score),
-        total: parseInt(total),
-        answers: answers || [],
-        date: date || new Date().toISOString(),
+        score: result.score,
+        total: result.total,
+        answers: clean,
+        date: new Date().toISOString(),
         ...(startedAtOk && { startedAt: startedAtOk }),
         ...(elapsedOk !== undefined && { elapsedSec: elapsedOk })
       });
       const ok = await ghPut(FILE, { scores }, file?.sha, token);
-      if (ok) return res.json({ success: true });
+      if (ok) return res.json({ success: true, score: result.score, total: result.total, parts: result.parts, keys: KEYS[testId].keys });
     }
     return res.status(500).json({ error: 'SHA conflict — try again.' });
   }

@@ -93,6 +93,17 @@
     .legend li { display:flex; align-items:center; gap:0.5rem; padding:0.2rem 0; }
     .legend .dot { width:12px; height:12px; border-radius:3px; flex-shrink:0; }
     .legend .cnt { color:#6b7280; margin-left:0.4rem; }
+    .hint { font-size:0.8rem; color:#6b7280; margin-bottom:0.9rem; }
+    .chk { font-size:0.85rem; display:flex; align-items:center; gap:0.35rem; text-transform:none; letter-spacing:normal; font-weight:400; color:var(--text, #333); margin:0; }
+    .qbar { display:flex; height:10px; border-radius:3px; overflow:hidden; background:#eee; min-width:120px; }
+    .qbar i { display:block; height:100%; }
+    .qbar .ok { background:var(--success); } .qbar .no { background:#e0a39a; } .qbar .bl { background:#d1d5db; }
+    .flag { display:inline-block; border-radius:4px; padding:0.1rem 0.45rem; font-size:0.7rem; font-weight:700; white-space:nowrap; }
+    .flag.strong { background:var(--error); color:#fff; }
+    .flag.weak { background:#fdecea; color:var(--error); border:1px solid var(--error); }
+    .dist b { color:var(--success); } .dist u { text-decoration:none; color:var(--error); font-weight:700; }
+    .stale-note { background:#fff6e5; border:1px solid var(--light-gold); border-radius:6px; padding:0.6rem 0.9rem; margin-bottom:1rem; font-size:0.85rem; }
+    .stale-note a { color:var(--navy); font-weight:700; cursor:pointer; text-decoration:underline; }
     footer { text-align:center; font-size:0.75rem; color:#999; padding:1.5rem; border-top:1px solid var(--border); margin-top:2rem; }
   </style>
 </head>
@@ -120,6 +131,7 @@
     <nav class="tabs" role="tablist">
       <button class="tab active" data-tab="tests" role="tab" onclick="showTab('tests')">Tests</button>
       <button class="tab" data-tab="results" role="tab" onclick="showTab('results')">Results</button>
+      <button class="tab" data-tab="questions" role="tab" onclick="showTab('questions')">Questions</button>
       <button class="tab" data-tab="students" role="tab" onclick="showTab('students')">Students <span class="tab-badge" id="pending-badge" style="display:none"></span></button>
     </nav>
 
@@ -136,6 +148,7 @@
     <!-- RESULTS -->
     <section class="tab-panel" id="tab-results" hidden>
       <h2>Results</h2>
+      <div id="stale-note"></div>
       <div class="chart-card">
         <h3>Level distribution</h3>
         <div class="toolbar" style="margin-bottom:0.8rem">
@@ -175,6 +188,32 @@
       <div class="pager" id="pager-results"></div>
     </section>
 
+    <!-- QUESTIONS -->
+    <section class="tab-panel" id="tab-questions" hidden>
+      <h2>Question analysis</h2>
+      <p class="hint">For each question: how many students got it right and what they chose. A question is flagged when most students (or most of the top third) pick the same answer, and it is not the one in the key: the key may be wrong.</p>
+      <div class="toolbar">
+        <select id="q-test" onchange="loadAnalysis()"></select>
+        <label class="chk"><input type="checkbox" id="q-flagged" onchange="renderAnalysis()"> Flagged only</label>
+        <select id="q-sort" onchange="renderAnalysis()">
+          <option value="num">Order: question number</option>
+          <option value="hard">Order: hardest first</option>
+        </select>
+        <span id="q-info" class="hint" style="margin:0"></span>
+      </div>
+      <div id="q-wrap"><p class="hint">Choose a test.</p></div>
+
+      <div class="chart-card" style="margin-top:1.5rem">
+        <h3>Recalculate scores</h3>
+        <p class="hint">After correcting an answer key, stored scores must be updated. This compares each stored attempt with the current keys and shows what would change. A dated backup of the results file is saved before anything is written.</p>
+        <div class="toolbar">
+          <select id="rs-test"></select>
+          <button class="btn-export" onclick="previewRescore()">Preview changes</button>
+        </div>
+        <div id="rs-out"></div>
+      </div>
+    </section>
+
     <!-- STUDENTS -->
     <section class="tab-panel" id="tab-students" hidden>
       <h2 id="students-heading">Registered students</h2>
@@ -208,28 +247,66 @@
   <script src="scoring.js"></script>
   <script src="dept.js"></script>
   <script>
-    // Admin code — same password as Suivi Scores TOEIC
-    const ADMIN_HASH = 'f7ff32b790557d7601029bc0b296115f82e18d799b6e27ba0c6202fdbd1f2a08';
-
+    // Admin login: the password is verified by the server, which returns a signed session
+    // token (12 h). Nothing secret is stored in this page.
     async function sha256(text) {
       const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
       return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
     }
 
-    async function checkAdmin() {
-      const code = document.getElementById('admin-code').value;
-      const h = await sha256(code);
-      if (h !== ADMIN_HASH) {
-        const err = document.getElementById('gate-err');
-        err.textContent = 'Incorrect code.'; err.style.display = 'block'; return;
-      }
+    const getToken = () => { try { return sessionStorage.getItem('adminToken') || ''; } catch(e) { return ''; } };
+    const authHeaders = () => ({ Authorization: 'Bearer ' + getToken() });
+
+    function showGate(msg) {
+      try { sessionStorage.removeItem('adminToken'); } catch(e) {}
+      document.getElementById('admin-panel').style.display = 'none';
+      document.getElementById('gate').style.display = '';
+      const err = document.getElementById('gate-err');
+      if (msg) { err.textContent = msg; err.style.display = 'block'; } else err.style.display = 'none';
+    }
+
+    // An expired or invalid session sends the admin back to the login screen.
+    const _fetch = window.fetch.bind(window);
+    window.fetch = async (url, opts) => {
+      const r = await _fetch(url, opts);
+      if (r.status === 403 && /^\/api\/(admin|access)/.test(String(url)) && getToken()) showGate('Session expired. Please log in again.');
+      return r;
+    };
+
+    function enterPanel() {
       document.getElementById('gate').style.display = 'none';
       document.getElementById('admin-panel').style.display = 'block';
       const h0 = location.hash.slice(1);
-      showTab(['tests','results','students'].includes(h0) ? h0 : 'tests');
+      showTab(['tests','results','students','questions'].includes(h0) ? h0 : 'tests');
       loadAll();
       loadAccess();
     }
+
+    async function checkAdmin() {
+      const err = document.getElementById('gate-err');
+      err.style.display = 'none';
+      const code = document.getElementById('admin-code').value;
+      try {
+        const r = await fetch('/api/admin?resource=login', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: code })
+        });
+        const d = await r.json().catch(() => ({}));
+        if (!r.ok || !d.token) { err.textContent = d.error || 'Incorrect code.'; err.style.display = 'block'; return; }
+        sessionStorage.setItem('adminToken', d.token);
+        document.getElementById('admin-code').value = '';
+        enterPanel();
+      } catch(e) { err.textContent = 'Network error.'; err.style.display = 'block'; }
+    }
+
+    // Resume an existing session on page reload
+    (async () => {
+      if (!getToken()) return;
+      try {
+        const r = await _fetch('/api/admin?resource=ping', { headers: authHeaders() });
+        if (r.ok) enterPanel(); else showGate();
+      } catch(e) {}
+    })();
 
     let allScores = [], allStudents = [], openTests = null;
     const PAGE_SIZE = 25;
@@ -370,7 +447,7 @@
       try {
         const r = await fetch('/api/access', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-Admin-Hash': ADMIN_HASH },
+          headers: { 'Content-Type': 'application/json', ...authHeaders() },
           body: JSON.stringify({ testId, open })
         });
         if (!r.ok) throw new Error();
@@ -392,7 +469,7 @@
         const tests = Object.fromEntries(ids.map(id => [id, open]));
         const r = await fetch('/api/access', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-Admin-Hash': ADMIN_HASH },
+          headers: { 'Content-Type': 'application/json', ...authHeaders() },
           body: JSON.stringify({ tests })
         });
         if (!r.ok) throw new Error();
@@ -411,15 +488,107 @@
       bulkSetAccess(true, document.getElementById('btn-open-all'), '🔓 Open all tests');
     }
 
+
+    // =========================================================
+    // QUESTION ANALYSIS + RESCORE (server computes everything; the keys never reach this page)
+    // =========================================================
+    let analysis = null;
+    function fillQuestionTests() {
+      const opts = Object.keys(TESTS_DATA).map(id => `<option value="${esc(id)}">${esc(testLabel(id))}</option>`).join('');
+      document.getElementById('q-test').innerHTML = '<option value="">Select a test…</option>' + opts;
+      document.getElementById('rs-test').innerHTML = '<option value="">All tests</option>' + opts;
+    }
+
+    async function loadAnalysis() {
+      const id = document.getElementById('q-test').value;
+      const wrap = document.getElementById('q-wrap');
+      if (!id) { analysis = null; wrap.innerHTML = '<p class="hint">Choose a test.</p>'; document.getElementById('q-info').textContent = ''; return; }
+      wrap.innerHTML = '<p class="hint">Loading…</p>';
+      try {
+        const r = await fetch('/api/admin?resource=analysis&testId=' + encodeURIComponent(id), { headers: authHeaders() });
+        if (!r.ok) throw new Error();
+        analysis = await r.json();
+        renderAnalysis();
+      } catch(e) { wrap.innerHTML = '<p style="color:red">Loading error.</p>'; }
+    }
+
+    function renderAnalysis() {
+      if (!analysis) return;
+      const flaggedOnly = document.getElementById('q-flagged').checked;
+      const sort = document.getElementById('q-sort').value;
+      let qs = analysis.questions.slice();
+      const nFlag = qs.filter(q => q.suspect).length;
+      document.getElementById('q-info').textContent = `${analysis.n} student${analysis.n === 1 ? '' : 's'} (latest attempt each) · ${nFlag} flagged`;
+      if (flaggedOnly) qs = qs.filter(q => q.suspect);
+      if (sort === 'hard') qs.sort((a, b) => (a.pct ?? 101) - (b.pct ?? 101) || a.q - b.q);
+      const wrap = document.getElementById('q-wrap');
+      if (!analysis.n) { wrap.innerHTML = '<p class="hint">No attempts for this test yet.</p>'; return; }
+      if (!qs.length) { wrap.innerHTML = '<p class="hint">No flagged question.</p>'; return; }
+      const rows = qs.map(q => {
+        const n = q.n || 1;
+        const bad = n - q.correct - q.counts.blank;
+        const dist = ['A','B','C','D'].map(l => {
+          const c = q.counts[l];
+          return l === q.key ? `<b>${l}:${c}</b>` : (q.suspect && l === q.suggested ? `<u>${l}:${c}</u>` : `${l}:${c}`);
+        }).join(' · ') + (q.counts.blank ? ` · –:${q.counts.blank}` : '');
+        const flag = q.suspect ? `<span class="flag ${q.suspect}" title="${q.suspect === 'strong' ? 'Most of the top third chose another answer' : 'Most students chose another answer'}">${q.suspect === 'strong' ? 'KEY?' : 'check'} → ${q.suggested}</span>` : '';
+        const cls = q.pct == null ? '' : q.pct >= 70 ? 'good' : q.pct >= 40 ? 'mid' : 'bad';
+        const paperNo = analysis.testId.endsWith('-reading') ? ` <span class="sub" title="Number on the paper booklet">(paper ${q.q + 100})</span>` : '';
+        return `<tr><td><b>${q.q}</b>${paperNo} <span class="sub">${esc((q.part || '').toUpperCase())}</span></td>
+          <td>${q.key}</td>
+          <td><div class="qbar" title="${q.correct} right, ${bad} wrong, ${q.counts.blank} blank"><i class="ok" style="width:${q.correct / n * 100}%"></i><i class="no" style="width:${bad / n * 100}%"></i><i class="bl" style="width:${q.counts.blank / n * 100}%"></i></div></td>
+          <td><span class="pct ${cls}">${q.pct == null ? '–' : q.pct + '%'}</span></td>
+          <td class="dist">${dist}</td><td>${flag}</td></tr>`;
+      }).join('');
+      wrap.innerHTML = `<div style="overflow-x:auto"><table><thead><tr><th>Q</th><th>Key</th><th>Answers</th><th>Right</th><th>Choices (key in bold)</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    }
+
+    async function previewRescore() {
+      const testId = document.getElementById('rs-test').value;
+      const out = document.getElementById('rs-out');
+      out.innerHTML = '<p class="hint">Checking…</p>';
+      try {
+        const r = await fetch('/api/admin?resource=rescore-preview&testId=' + encodeURIComponent(testId), { headers: authHeaders() });
+        if (!r.ok) throw new Error();
+        const d = await r.json();
+        if (!d.count) { out.innerHTML = '<p class="hint" style="color:var(--success)">✓ All stored scores already match the current keys.</p>'; return; }
+        const rows = d.changes.slice(0, 15).map(c => `<tr><td>${esc(c.nom)}</td><td>${esc(testLabel(c.testId))}</td><td>${c.from} → <b>${c.to}</b></td></tr>`).join('');
+        out.innerHTML = `<p style="margin-bottom:0.6rem"><b>${d.count}</b> attempt${d.count === 1 ? '' : 's'} would change${d.count > 15 ? ' (first 15 shown)' : ''}.</p>
+          <div style="overflow-x:auto"><table><thead><tr><th>Student</th><th>Test</th><th>Score</th></tr></thead><tbody>${rows}</tbody></table></div>
+          <div class="toolbar" style="margin-top:0.8rem"><button class="btn-export" onclick="applyRescore()">Apply and save (backup first)</button></div>`;
+      } catch(e) { out.innerHTML = '<p style="color:red">Could not check the scores.</p>'; }
+    }
+
+    async function applyRescore() {
+      const testId = document.getElementById('rs-test').value;
+      if (!confirm(`Recalculate ${testId ? 'this test' : 'all tests'} now? A backup is saved first.`)) return;
+      const out = document.getElementById('rs-out');
+      out.innerHTML = '<p class="hint">Saving…</p>';
+      try {
+        const r = await fetch('/api/admin?resource=rescore', {
+          method: 'POST', headers: { 'Content-Type': 'application/json', ...authHeaders() },
+          body: JSON.stringify({ testId })
+        });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.error || '');
+        out.innerHTML = `<p class="hint" style="color:var(--success)">✓ ${d.count} attempt${d.count === 1 ? '' : 's'} updated.${d.backup ? ' Backup: <code>' + esc(d.backup) + '</code>' : ''}</p>`;
+        await loadAll();
+      } catch(e) { out.innerHTML = `<p style="color:red">Not saved: ${esc(e.message || 'error')}.</p>`; }
+    }
+
     async function loadAll() {
       try {
-        const headers = { 'X-Admin-Hash': ADMIN_HASH };
+        const headers = { ...authHeaders() };
         const [sr, studr] = await Promise.all([
           fetch('/api/admin?resource=scores', { headers }).then(r => r.json()),
           fetch('/api/admin?resource=students', { headers }).then(r => r.json())
         ]);
         allScores   = sr.scores   || [];
         allStudents = studr.students || [];
+        if (!document.getElementById('q-test').options.length) fillQuestionTests();
+        const nStale = allScores.filter(x => x.storedScore !== undefined).length;
+        document.getElementById('stale-note').innerHTML = nStale
+          ? `<div class="stale-note">⚠ ${nStale} stored score${nStale === 1 ? ' differs' : 's differ'} from the current answer keys (shown values are already the corrected ones). <a onclick="showTab('questions');document.getElementById('rs-out').scrollIntoView()">Save them in the Questions tab</a>.</div>` : '';
 
         // Populate test filter
         const sel = document.getElementById('filter-test');
@@ -455,7 +624,7 @@
       try {
         const r = await fetch('/api/admin?resource=approve-all', {
           method: 'POST',
-          headers: { 'X-Admin-Hash': ADMIN_HASH }
+          headers: { ...authHeaders() }
         });
         if (!r.ok) throw new Error();
         await loadAll();
@@ -481,7 +650,7 @@
       try {
         const r = await fetch('/api/admin?resource=scores', {
           method: 'DELETE',
-          headers: { 'X-Admin-Hash': ADMIN_HASH }
+          headers: { ...authHeaders() }
         });
         if (!r.ok) throw new Error();
         alert('All results have been deleted.');
@@ -504,7 +673,7 @@
       try {
         const r = await fetch('/api/admin?resource=grant-retake', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-Admin-Hash': ADMIN_HASH },
+          headers: { 'Content-Type': 'application/json', ...authHeaders() },
           body: JSON.stringify({ nom, testId, date })
         });
         if (!r.ok) throw new Error();
@@ -522,7 +691,7 @@
     function enrichScore(s) {
       const TEST = TESTS_DATA[s.testId];
       if (!TEST) return { ...s, TEST: null, breakdown: {}, converted: null, cecrl: '—' };
-      const breakdown = computePartBreakdown(TEST, s.answers || []);
+      const breakdown = s.parts || {};
       const converted = convertedSectionScore(TEST.section, s.score);
       const cecrl = cecrlForTable(converted, TEST.section === 'L' ? CECRL_LISTENING : CECRL_READING);
       return { ...s, TEST, breakdown, converted, cecrl };
@@ -785,7 +954,7 @@
         const codeHash = await sha256(newCode);
         const r = await fetch('/api/admin?resource=reset-code', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-Admin-Hash': ADMIN_HASH },
+          headers: { 'Content-Type': 'application/json', ...authHeaders() },
           body: JSON.stringify({ nom, codeHash })
         });
         if (!r.ok) throw new Error();
@@ -800,7 +969,7 @@
       try {
         const r = await fetch('/api/admin?resource=approval', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-Admin-Hash': ADMIN_HASH },
+          headers: { 'Content-Type': 'application/json', ...authHeaders() },
           body: JSON.stringify({ nom, approved })
         });
         if (!r.ok) throw new Error();
@@ -825,7 +994,7 @@
       try {
         const r = await fetch(`/api/admin?resource=student&nom=${encodeURIComponent(nom)}`, {
           method: 'DELETE',
-          headers: { 'X-Admin-Hash': ADMIN_HASH }
+          headers: { ...authHeaders() }
         });
         if (!r.ok) throw new Error();
         await loadAll();

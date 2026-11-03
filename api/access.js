@@ -2,8 +2,7 @@ const REPO = process.env.DATA_REPO || 'marcvasseurpolytech-dot/toeic-entrainemen
 const FILE = 'data/access.json';
 const API  = 'https://api.github.com';
 
-// Admin code — same password as Suivi Scores TOEIC
-const ADMIN_HASH = 'f7ff32b790557d7601029bc0b296115f82e18d799b6e27ba0c6202fdbd1f2a08';
+const { isAdmin } = require('./_lib');
 
 async function ghGet(path, token) {
   const r = await fetch(`${API}/repos/${REPO}/contents/${path}`, {
@@ -31,7 +30,7 @@ async function ghPut(path, content, sha, token) {
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Hash');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const token = process.env.GITHUB_TOKEN;
@@ -49,8 +48,7 @@ module.exports = async (req, res) => {
   // Body { tests: { id1: bool, id2: bool, ... } } updates several at once
   // in a single write (used for "close all" / "open all").
   if (req.method === 'POST') {
-    const hash = req.headers['x-admin-hash'];
-    if (!hash || hash !== ADMIN_HASH) return res.status(403).json({ error: 'Unauthorized' });
+    if (!isAdmin(req)) return res.status(403).json({ error: 'Unauthorized' });
 
     const { testId, open, tests: bulkTests } = req.body || {};
 

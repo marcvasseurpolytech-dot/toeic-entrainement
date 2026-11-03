@@ -1,48 +1,94 @@
-const REPO = process.env.DATA_REPO || 'marcvasseurpolytech-dot/toeic-entrainement';
-const API  = 'https://api.github.com';
+const { KEYS, ghGet, ghPut, hasTest, grade, checkAdminPassword, issueAdminToken, isAdmin, throttled, noteFailure, clearFailures } = require('./_lib');
 
-// Admin code — même mot de passe que Suivi Scores TOEIC
-const ADMIN_HASH = 'f7ff32b790557d7601029bc0b296115f82e18d799b6e27ba0c6202fdbd1f2a08';
+const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-const crypto = require('crypto');
-
-async function ghGet(path, token) {
-  const r = await fetch(`${API}/repos/${REPO}/contents/${path}`, {
-    headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github.v3+json' }
+// Latest attempt per student for one test
+function latestPerStudent(scores, testId) {
+  const m = {};
+  scores.filter(s => s.testId === testId && Array.isArray(s.answers)).forEach(s => {
+    if (!m[s.nom] || new Date(s.date) > new Date(m[s.nom].date)) m[s.nom] = s;
   });
-  if (!r.ok) return null;
-  const d = await r.json();
-  return { data: JSON.parse(Buffer.from(d.content, 'base64').toString('utf8')), sha: d.sha };
+  return Object.values(m);
 }
 
-async function ghPut(path, content, sha, token) {
-  const body = {
-    message: `admin reset ${path}`,
-    content: Buffer.from(JSON.stringify(content, null, 2)).toString('base64')
-  };
-  if (sha) body.sha = sha;
-  const r = await fetch(`${API}/repos/${REPO}/contents/${path}`, {
-    method: 'PUT',
-    headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
+// Per-question statistics for one test (latest attempt of each student)
+function analyse(testId, scores) {
+  const T = KEYS[testId];
+  const atts = latestPerStudent(scores, testId).filter(a => a.answers.length === T.total);
+  const n = atts.length;
+  const totals = atts.map(a => grade(testId, a.answers).score).sort((a, b) => a - b);
+  const cut = totals.length ? totals[Math.floor(totals.length * 2 / 3)] : 0;   // top third threshold
+  const strong = atts.filter(a => grade(testId, a.answers).score >= cut && n >= 6);
+  const partOf = q => (T.parts.find(p => q >= p.start && q <= p.end) || {}).id;
+  const questions = [];
+  for (let q = 1; q <= T.total; q++) {
+    const key = T.keys[q - 1];
+    const cnt = { A: 0, B: 0, C: 0, D: 0, blank: 0 };
+    atts.forEach(a => { const v = a.answers[q - 1]; if (cnt[v] !== undefined) cnt[v]++; else cnt.blank++; });
+    const correct = cnt[key] || 0;
+    let topWrong = null;
+    ['A', 'B', 'C', 'D'].forEach(l => { if (l !== key && cnt[l] > 0 && (!topWrong || cnt[l] > cnt[topWrong])) topWrong = l; });
+    // Top third of students by total score: what do they answer?
+    const sc = { A: 0, B: 0, C: 0, D: 0 };
+    strong.forEach(a => { if (sc[a.answers[q - 1]] !== undefined) sc[a.answers[q - 1]]++; });
+    let strongTop = null;
+    ['A', 'B', 'C', 'D'].forEach(l => { if (sc[l] > 0 && (!strongTop || sc[l] > sc[strongTop])) strongTop = l; });
+    const strongShare = strong.length && strongTop ? sc[strongTop] / strong.length : 0;
+    let suspect = null, suggested = null;
+    // Flags need a reasonable sample, otherwise ordinary tricky distractors look suspicious.
+    if (n >= 8) {
+      if (strongTop && strongTop !== key && strong.length >= 3 && strongShare >= 0.7 && sc[strongTop] > sc[key]) { suspect = 'strong'; suggested = strongTop; }
+      else if (topWrong && cnt[topWrong] >= 2 * correct && cnt[topWrong] / n >= 0.5) { suspect = 'weak'; suggested = topWrong; }
+    }
+    questions.push({
+      q, part: partOf(q), key, n, counts: cnt, correct,
+      pct: n ? Math.round(correct / n * 100) : null,
+      topWrong, suspect, suggested
+    });
+  }
+  return { testId, n, questions };
+}
+
+// Re-score stored attempts against the current keys.
+function rescoreList(scores, testId) {
+  const changes = [];
+  const out = scores.map(s => {
+    if ((testId && s.testId !== testId) || !hasTest(s.testId) || !Array.isArray(s.answers) || s.answers.length !== KEYS[s.testId].total) return s;
+    const g = grade(s.testId, s.answers);
+    if (g.score === s.score && g.total === s.total) return s;
+    changes.push({ nom: s.nom, testId: s.testId, date: s.date, from: s.score, to: g.score });
+    return { ...s, score: g.score, total: g.total };
   });
-  return r.ok;
+  return { out, changes };
 }
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Hash');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') return res.status(200).end();
-
-  // Auth via header or query param
-  const hash = req.headers['x-admin-hash'] || req.query?.hash;
-  if (!hash || hash !== ADMIN_HASH) return res.status(403).json({ error: 'Unauthorized' });
 
   const token = process.env.GITHUB_TOKEN;
   if (!token)  return res.status(500).json({ error: 'Missing token' });
 
   const resource = req.query?.resource || 'scores';
+
+  // Login: the password is checked here and never leaves the server.
+  if (req.method === 'POST' && resource === 'login') {
+    if (throttled(req)) return res.status(429).json({ error: 'Too many attempts. Try again in a few minutes.' });
+    const { password } = req.body || {};
+    if (!checkAdminPassword(password)) {
+      noteFailure(req);
+      await sleep(800);
+      return res.status(401).json({ error: 'Incorrect code.' });
+    }
+    clearFailures(req);
+    return res.json(issueAdminToken());
+  }
+
+  // Everything else needs a valid signed session token.
+  if (!isAdmin(req)) return res.status(403).json({ error: 'Unauthorized' });
+  if (resource === 'ping') return res.json({ ok: true });
 
   if (req.method === 'GET') {
     if (resource === 'students') {
@@ -53,7 +99,29 @@ module.exports = async (req, res) => {
     }
     if (resource === 'scores') {
       const file = await ghGet('data/scores.json', token);
-      return res.json({ scores: file?.data?.scores || [] });
+      // Scores and per-part counts are recomputed from the answers with the current keys;
+      // the stored value is exposed when it differs (stale after a key correction).
+      const scores = (file?.data?.scores || []).map(s => {
+        if (!hasTest(s.testId) || !Array.isArray(s.answers) || s.answers.length !== KEYS[s.testId].total) return s;
+        const g = grade(s.testId, s.answers);
+        return { ...s, score: g.score, total: g.total, parts: g.parts, ...(g.score !== s.score && { storedScore: s.score }) };
+      });
+      return res.json({ scores });
+    }
+    // Per-question analysis of one test
+    if (resource === 'analysis') {
+      const testId = req.query?.testId;
+      if (!hasTest(testId)) return res.status(400).json({ error: 'Unknown test' });
+      const file = await ghGet('data/scores.json', token);
+      return res.json(analyse(testId, file?.data?.scores || []));
+    }
+    // Dry run: which stored scores would change after re-scoring with the current keys?
+    if (resource === 'rescore-preview') {
+      const testId = req.query?.testId || '';
+      if (testId && !hasTest(testId)) return res.status(400).json({ error: 'Unknown test' });
+      const file = await ghGet('data/scores.json', token);
+      const { changes } = rescoreList(file?.data?.scores || [], testId);
+      return res.json({ count: changes.length, changes: changes.slice(0, 200) });
     }
     return res.status(400).json({ error: 'Unknown resource' });
   }
@@ -130,6 +198,25 @@ module.exports = async (req, res) => {
         scores[idx] = { ...scores[idx], retakeGranted: true };
         const ok = await ghPut('data/scores.json', { scores }, file?.sha, token);
         if (ok) return res.json({ success: true });
+      }
+      return res.status(500).json({ error: 'SHA conflict — try again.' });
+    }
+
+    // Re-score stored attempts with the current keys. A dated copy of the file is
+    // saved under data/backups/ first, so any recalculation can be undone.
+    if (resource === 'rescore') {
+      const testId = (req.body && req.body.testId) || '';
+      if (testId && !hasTest(testId)) return res.status(400).json({ error: 'Unknown test' });
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const file = await ghGet('data/scores.json', token);
+        const { out, changes } = rescoreList(file?.data?.scores || [], testId);
+        if (!changes.length) return res.json({ success: true, count: 0 });
+        const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+        const backupPath = `data/backups/scores-${stamp}.json`;
+        const okB = await ghPut(backupPath, file.data, null, token, `backup before rescore ${testId || 'all'}`);
+        if (!okB) return res.status(500).json({ error: 'Backup failed, nothing was changed.' });
+        const ok = await ghPut('data/scores.json', { scores: out }, file.sha, token, `rescore ${testId || 'all'} (${changes.length})`);
+        if (ok) return res.json({ success: true, count: changes.length, backup: backupPath });
       }
       return res.status(500).json({ error: 'SHA conflict — try again.' });
     }
