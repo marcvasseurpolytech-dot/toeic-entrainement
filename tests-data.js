@@ -295,3 +295,8 @@ const TESTS_DATA = {
   // full booklet PDF; IIBC 2 T2 doesn't (booklet button hidden); IIBC 2 T3
   // links directly to the Drive booklet rather than a locally-hosted copy.
 };
+
+// Expected length of a Listening test's audio track, in seconds. A test can set
+// its own `audioDuration`; otherwise the official TOEIC Listening length is used.
+const DEFAULT_AUDIO_DURATION = 45 * 60;
+function audioDurationSec(T) { return (T && T.audioDuration) || DEFAULT_AUDIO_DURATION; }

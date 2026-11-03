@@ -836,7 +836,9 @@ async function submitTest(auto = false) {
         score:  correct,
         total:  TEST.keys.length,
         answers: answers,
-        date:   new Date().toISOString()
+        date:   new Date().toISOString(),
+        startedAt:  new Date(sessionStartTime).toISOString(),
+        elapsedSec: Math.round((Date.now() - sessionStartTime) / 1000)
       })
     });
     if (!saveR.ok) {

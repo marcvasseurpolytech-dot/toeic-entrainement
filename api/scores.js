@@ -52,7 +52,10 @@ module.exports = async (req, res) => {
   // attempt for this test (retakeGranted: true) — the old attempt stays
   // in the record for history; this new one is saved as a fresh entry.
   if (req.method === 'POST') {
-    const { nom, testId, score, total, answers, date } = req.body || {};
+    const { nom, testId, score, total, answers, date, startedAt, elapsedSec } = req.body || {};
+    // Timing data (used by the admin to flag Listening attempts that were paused or replayed)
+    const startedAtOk = typeof startedAt === 'string' && !isNaN(Date.parse(startedAt)) ? new Date(startedAt).toISOString() : undefined;
+    const elapsedOk = Number.isFinite(elapsedSec) && elapsedSec >= 0 && elapsedSec < 86400 ? Math.round(elapsedSec) : undefined;
     if (!nom || !testId || score === undefined || !total) {
       return res.status(400).json({ error: 'Missing data' });
     }
@@ -73,7 +76,9 @@ module.exports = async (req, res) => {
         score: parseInt(score),
         total: parseInt(total),
         answers: answers || [],
-        date: date || new Date().toISOString()
+        date: date || new Date().toISOString(),
+        ...(startedAtOk && { startedAt: startedAtOk }),
+        ...(elapsedOk !== undefined && { elapsedSec: elapsedOk })
       });
       const ok = await ghPut(FILE, { scores }, file?.sha, token);
       if (ok) return res.json({ success: true });
