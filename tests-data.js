@@ -207,10 +207,10 @@ const TESTS_DATA = {
     bookletUrl: 'https://drive.google.com/file/d/1O1GgRZQc-u2Pnuc5iuSrcgJYZIOXdYNk/view?usp=sharing',
     partIds: ['p1', 'p2', 'p3', 'p4'],
     keys: [
-      'D','A','B','B','D','A',
-      'B','A','C','A','B','C','B','C','C','B','B','B','A','B','B','C','B','C','A','C','C','C','A','B','B',
-      'B','B','A','C','A','D','D','C','A','A','C','B','C','B','C','D','C','C','B','B','A','B','A','D','B','A','C','C','C','A','A','B','B','B','D','D','C','B','C',
-      'A','C','C','D','A','D','B','C','D','A','D','C','D','D','D','B','D','C','C','D','B','D','D','C','B','B','A','D','A','B'
+      'D','A','C','B','D','D',
+      'B','A','C','A','B','C','B','C','C','C','B','B','A','B','B','C','B','A','A','A','C','C','A','B','B',
+      'B','D','A','C','A','D','D','D','A','A','C','B','C','B','C','D','B','B','A','C','C','B','A','D','B','A','C','C','A','A','A','B','B','B','D','B','B','A','B',
+      'D','C','C','B','C','A','C','C','D','A','D','C','A','B','D','D','B','D','C','C','B','B','A','C','B','C','A','D','A','B'
     ],
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
@@ -231,11 +231,11 @@ const TESTS_DATA = {
     partIds: ['p5', 'p6', 'p7'],
     keys: [
       // Part 5 (local 1-30 = Q101-130)
-      'D','B','D','B','A','A','C','B','C','A','B','D','B','C','A','D','C','B','C','B','A','B','C','C','C','A','C','A','A','B',
+      'D','B','D','B','A','A','C','B','C','A','B','D','B','C','A','D','C','B','D','B','A','B','C','D','C','A','C','A','A','B',
       // Part 6 (local 31-46 = Q131-146)
-      'C','B','A','D','A','C','D','A','B','D','B','A','D','B','A','C',
+      'C','B','A','D','C','B','D','A','C','A','B','D','B','A','C','D',
       // Part 7 (local 47-100 = Q147-200)
-      'A','D','C','B','B','D','B','B','A','B','A','C','A','B','D','B','C','A','B','C','D','C','A','B','A','C','D','A','B','C','D','C','C','B','C','C','D','A','B','D','D','A','B','D','D','A','C','A','B','A','B','A','C','D'
+      'A','D','C','B','B','D','C','B','A','B','A','C','A','B','D','A','D','B','C','A','B','C','D','C','A','B','A','C','D','A','B','D','C','C','B','C','D','D','A','C','A','B','D','D','C','A','B','A','B','B','A','A','C','D'
     ],
     parts: [
       { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
