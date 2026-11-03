@@ -3,183 +3,291 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TOEIC — Test</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
+  <title>TOEIC | Test</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:wght@300;400;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --navy: #1e3a5f; --gold: #c9a84c; --cream: #f8f4ee;
+      --navy: #1e3a5f; --navy-deep: #162c49; --gold: #c9a84c; --cream: #f8f4ee;
       --light-gold: #e8d5a3; --dark-gold: #a07830; --border: #d4c5a9;
-      --success: #2e7d52; --error: #c0392b;
+      --success: #2e7d52; --error: #c0392b; --muted: #6b6f7b; --ink: #1a1a2e;
+      --radius: 10px;
+      --shadow-sm: 0 1px 2px rgba(30,58,95,.08), 0 2px 8px rgba(30,58,95,.06);
+      --shadow-md: 0 6px 22px rgba(30,58,95,.16);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Source Serif 4', serif; background: var(--cream); color: #1a1a2e; }
+    html { scroll-padding-top: 5rem; }
+    body {
+      font-family: 'Source Serif 4', serif; color: var(--ink); line-height: 1.5;
+      background: radial-gradient(1200px 500px at 50% -120px, #fffdf8 0%, var(--cream) 70%) fixed;
+      min-height: 100vh;
+    }
+
+    /* Header with built-in time bar */
     .sticky-header {
       position: sticky; top: 0; z-index: 100;
-      background: var(--navy); color: var(--cream);
-      padding: 0.8rem 1.2rem; border-bottom: 3px solid var(--gold);
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+      background: linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+      color: var(--cream); padding: 0.7rem 1.2rem calc(0.7rem + 4px);
+      display: flex; align-items: center; gap: 0.8rem;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.22);
     }
-    .sticky-header h1 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--gold); }
+    .sticky-header h1 {
+      flex: 1; min-width: 0; font-family: 'Playfair Display', serif; font-size: 1rem;
+      color: var(--gold); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
     .timer-display {
-      font-size: 1.4rem; font-weight: 700; letter-spacing: 0.1em;
-      color: var(--light-gold); font-family: 'JetBrains Mono', monospace;
+      font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; font-weight: 700;
+      letter-spacing: 0.06em; font-variant-numeric: tabular-nums;
+      color: var(--light-gold); background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(232,213,163,0.35); border-radius: 999px; padding: 0.2rem 0.85rem;
+      transition: color .3s, border-color .3s, background .3s;
     }
-    .timer-display.urgent { color: #ff6b6b; animation: pulse 1s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+    .timer-display.warning { color: #ffd479; border-color: #ffd479; }
+    .timer-display.urgent {
+      color: #ff9a9a; border-color: #ff6b6b; background: rgba(255,107,107,0.14);
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.55} }
+    .time-track { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(255,255,255,0.14); display: none; }
+    .time-track.on { display: block; }
+    .time-bar { height: 100%; width: 100%; background: var(--gold); transition: width 1s linear, background .4s; }
+    .time-bar.warning { background: #f0b43c; }
+    .time-bar.urgent  { background: #ff6b6b; }
     .btn-submit-top {
-      background: var(--gold); color: var(--navy); border: none; border-radius: 4px;
+      background: var(--gold); color: var(--navy); border: none; border-radius: 6px;
       padding: 0.5rem 1.2rem; font-size: 0.85rem; cursor: pointer;
       font-family: 'Playfair Display', serif; font-weight: 700; letter-spacing: 0.04em;
+      transition: background .15s, transform .1s;
     }
     .btn-submit-top:hover { background: var(--light-gold); }
-    main { max-width: 780px; margin: 0 auto; padding: 1.5rem 1rem; }
+    .btn-submit-top:active { transform: scale(0.97); }
+
+    main { max-width: 800px; margin: 0 auto; padding: 1.5rem 1rem 2rem; }
+
+    /* Info blocks */
     .audio-block {
-      background: var(--navy); color: var(--cream); border-radius: 8px;
-      padding: 1.2rem 1.5rem; margin-bottom: 2rem;
+      background: linear-gradient(160deg, var(--navy), var(--navy-deep)); color: var(--cream);
+      border-radius: var(--radius); padding: 1.2rem 1.5rem; margin-bottom: 1.6rem; box-shadow: var(--shadow-md);
     }
     .audio-block h3 { font-family: 'Playfair Display', serif; color: var(--gold); margin-bottom: 0.3rem; }
-    .audio-block p { font-size: 0.82rem; color: var(--light-gold); margin-bottom: 0.9rem; }
-    .audio-embed-wrap { border-radius: 6px; overflow: hidden; background: #000; }
+    .audio-block p { font-size: 0.85rem; color: var(--light-gold); margin-bottom: 0.9rem; }
+    .audio-embed-wrap { border-radius: 8px; overflow: hidden; background: #000; }
     .audio-embed-wrap iframe { display: block; width: 100%; height: 90px; border: 0; }
     .audio-missing {
       background: rgba(255,255,255,0.08); border: 1px dashed var(--light-gold);
       border-radius: 6px; padding: 1rem; font-size: 0.85rem; color: var(--light-gold); text-align: center;
     }
-    .part-header {
-      background: var(--navy); color: var(--cream);
-      padding: 0.7rem 1.2rem; border-radius: 4px; margin: 1.8rem 0 1rem;
-      font-family: 'Playfair Display', serif; font-size: 1rem;
-      display: flex; align-items: center; gap: 0.8rem;
-    }
-    .part-header .range { font-size: 0.78rem; color: var(--light-gold); margin-left: auto; letter-spacing: 0.05em; }
-
-    /* Answer sheet — multi-column bubble grid, smartphone-friendly */
-    .qsheet {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
-      gap: 0.6rem;
-      margin-bottom: 0.5rem;
-    }
-    .qcard {
-      background: #fff; border: 1px solid var(--border); border-radius: 8px;
-      padding: 0.55rem 0.4rem; display: flex; flex-direction: column; align-items: center;
-      gap: 0.45rem; text-align: center; transition: border-color 0.2s;
-    }
-    .qcard.answered { border-color: var(--gold); border-width: 2px; }
-    .qcard.correct  { border-color: var(--success); border-width: 2px; background: #f0faf4; }
-    .qcard.wrong    { border-color: var(--error); border-width: 2px; background: #fdf2f2; }
-    .qcard .qnum {
-      font-family: 'Playfair Display', serif; font-weight: 700; color: var(--navy); font-size: 0.85rem;
-    }
-    .bubbles { display: flex; gap: 0.32rem; flex-wrap: wrap; justify-content: center; }
-    .bubble {
-      width: 34px; height: 34px; min-width: 34px; border-radius: 50%;
-      border: 2px solid #1a1a2e; display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 0.9rem; color: #1a1a2e; background: #fff;
-      cursor: pointer; user-select: none; transition: transform 0.1s;
-    }
-    .bubble:active { transform: scale(0.9); }
-    .bubble.selected    { background: #111; border-color: #111; color: #fff; }
-    .bubble.correct-ans { background: var(--success); border-color: var(--success); color: #fff; }
-    .bubble.wrong-ans    { background: var(--error); border-color: var(--error); color: #fff; }
-    .q-feedback { font-size: 0.68rem; color: var(--muted); }
-    .restore-banner {
-      background: #e6f4ec; color: var(--success); border: 1px solid #b8dfc8;
-      border-radius: 4px; padding: 0.7rem 1rem; font-size: 0.85rem; margin-bottom: 1.2rem; display: none;
-    }
-    @media (max-width: 420px) {
-      .qsheet { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 0.45rem; }
-      .bubble { width: 30px; height: 30px; min-width: 30px; font-size: 0.82rem; }
-    }
-
-    /* Results panel */
-    .results-panel {
-      background: #fff; border: 1px solid var(--border); border-top: 5px solid var(--gold);
-      border-radius: 6px; padding: 2rem; margin-bottom: 2rem; text-align: center; display: none;
-    }
-    .results-panel h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--navy); margin-bottom: 0.5rem; }
-    .score-big { font-size: 3.5rem; font-weight: 700; color: var(--navy); line-height: 1; }
-    .score-big span { font-size: 1.2rem; color: var(--muted); }
-    .score-pct { font-size: 1.1rem; color: var(--dark-gold); margin: 0.3rem 0 1rem; }
-    .stats-row { display: flex; justify-content: center; gap: 2rem; margin: 1.2rem 0; flex-wrap: wrap; }
-    .stat { text-align: center; }
-    .stat .val { font-size: 1.5rem; font-weight: 700; }
-    .stat .lbl { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
-    .stat.good .val { color: var(--success); }
-    .stat.bad  .val { color: var(--error); }
-    .btn-dashboard {
-      background: var(--navy); color: var(--cream); border: none; border-radius: 4px;
-      padding: 0.8rem 1.8rem; font-size: 1rem; cursor: pointer;
-      font-family: 'Playfair Display', serif; letter-spacing: 0.05em;
-    }
-    .btn-dashboard:hover { background: var(--dark-gold); }
-
-    .progress-bar-wrap { background: #e5e7eb; border-radius: 10px; height: 8px; margin: 1rem 0; }
-    .progress-bar { background: var(--gold); border-radius: 10px; height: 8px; transition: width 0.3s; }
-    .progress-label { font-size: 0.78rem; color: var(--muted); text-align: right; }
-    .btn-jump {
-      position: fixed; right: 1.2rem; bottom: 1.2rem; z-index: 90;
-      background: var(--navy); border: 2px solid var(--gold); color: var(--gold);
-      border-radius: 30px; padding: 0.7rem 1.3rem; font-size: 0.85rem; cursor: pointer;
-      font-family: 'Playfair Display', serif; font-weight: 700; white-space: nowrap;
-      box-shadow: 0 4px 16px rgba(30,58,95,0.35);
-    }
-    .btn-jump:hover { background: var(--dark-gold); color: var(--navy); border-color: var(--dark-gold); }
-    .btn-jump:active { transform: scale(0.96); }
-    .qcard.jump-highlight { animation: jumpFlash 1.2s ease; }
-    @keyframes jumpFlash { 0%,100% { box-shadow: none; } 30% { box-shadow: 0 0 0 3px var(--gold); } }
-
-    .submit-section { text-align: center; padding: 2rem 0; }
-    .btn-submit-main {
-      background: var(--navy); color: var(--cream); border: none; border-radius: 4px;
-      padding: 0.9rem 2.5rem; font-size: 1.05rem; cursor: pointer;
-      font-family: 'Playfair Display', serif; letter-spacing: 0.05em;
-    }
-    .btn-submit-main:hover { background: var(--dark-gold); }
     .booklet-block {
-      background: #fff; border: 1px solid var(--border); border-left: 4px solid var(--gold);
-      border-radius: 8px; padding: 1rem 1.3rem; margin-bottom: 1.2rem;
+      background: #fff; border: 1px solid var(--border); border-left: 5px solid var(--gold);
+      border-radius: var(--radius); padding: 1rem 1.3rem; margin-bottom: 1.2rem; box-shadow: var(--shadow-sm);
       display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
     }
     .booklet-block p { font-size: 0.85rem; color: var(--muted); }
     .btn-booklet {
-      background: var(--navy); color: var(--cream); border: none; border-radius: 4px;
+      background: var(--navy); color: var(--cream); border: none; border-radius: 6px;
       padding: 0.6rem 1.1rem; font-size: 0.88rem; cursor: pointer; white-space: nowrap;
       font-family: 'Playfair Display', serif; text-decoration: none; display: inline-block;
+      transition: background .15s;
     }
     .btn-booklet:hover { background: var(--dark-gold); }
+
     .start-block {
-      background: var(--navy); color: var(--cream); border-radius: 8px;
-      padding: 1.2rem 1.5rem; margin-bottom: 2rem; text-align: center;
+      background: linear-gradient(160deg, var(--navy), var(--navy-deep)); color: var(--cream);
+      border-radius: 14px; padding: 1.6rem 1.5rem; margin-bottom: 1.8rem; text-align: center;
+      box-shadow: var(--shadow-md); border-top: 4px solid var(--gold);
     }
-    .start-block h3 { font-family: 'Playfair Display', serif; color: var(--gold); margin-bottom: 0.4rem; }
-    .start-block p { font-size: 0.85rem; color: var(--light-gold); margin-bottom: 1rem; }
+    .start-block h3 { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: var(--gold); margin-bottom: 0.9rem; }
+    .start-facts { list-style: none; display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 1.1rem; flex-wrap: wrap; }
+    .start-facts li {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(232,213,163,0.28);
+      border-radius: 10px; padding: 0.55rem 1.1rem; min-width: 96px;
+    }
+    .start-facts b { display: block; font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; color: var(--cream); }
+    .start-facts span { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--light-gold); }
+    .start-block p { font-size: 0.9rem; color: var(--light-gold); margin: 0 auto 1.2rem; max-width: 520px; }
     .btn-begin {
-      background: var(--gold); color: var(--navy); border: none; border-radius: 4px;
-      padding: 0.85rem 2rem; font-size: 1rem; cursor: pointer; font-weight: 700;
+      background: var(--gold); color: var(--navy); border: none; border-radius: 8px;
+      padding: 0.9rem 2.2rem; font-size: 1.05rem; cursor: pointer; font-weight: 700;
       font-family: 'Playfair Display', serif; letter-spacing: 0.04em;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25); transition: background .15s, transform .1s;
     }
     .btn-begin:hover { background: var(--light-gold); }
-    footer { text-align: center; font-size: 0.75rem; color: #999; padding: 1.5rem; border-top: 1px solid var(--border); margin-top: 2rem; }
+    .btn-begin:active { transform: scale(0.97); }
+
+    .restore-banner {
+      background: #eaf5ee; color: #24603f; border: 1px solid #b8dfc8; border-left: 5px solid var(--success);
+      border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.9rem; margin-bottom: 1.2rem; display: none;
+    }
+
+    /* Progress */
+    .progress-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 0.8rem 1.1rem 0.9rem; margin-bottom: 0.4rem; box-shadow: var(--shadow-sm);
+    }
+    .progress-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+    .progress-title { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--navy); }
+    .progress-label { font-size: 0.85rem; color: var(--muted); }
+    .progress-label b { color: var(--navy); font-size: 1.05rem; }
+    .progress-bar-wrap { background: #ece5d4; border-radius: 10px; height: 10px; margin: 0.55rem 0 0.35rem; overflow: hidden; }
+    .progress-bar { background: linear-gradient(90deg, var(--dark-gold), var(--gold)); border-radius: 10px; height: 10px; transition: width 0.35s ease; }
+    .progress-foot { font-size: 0.75rem; color: var(--muted); text-align: right; }
+
+    /* Part headers */
+    .part-header {
+      background: var(--navy); color: var(--cream);
+      padding: 0.65rem 1.1rem; border-radius: 8px; border-left: 5px solid var(--gold);
+      margin: 2rem 0 0.9rem; font-family: 'Playfair Display', serif; font-size: 1rem;
+      display: flex; align-items: center; gap: 0.8rem; box-shadow: var(--shadow-sm);
+    }
+    .part-header .range {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--light-gold);
+      margin-left: auto; letter-spacing: 0.04em; background: rgba(255,255,255,0.1);
+      border-radius: 999px; padding: 0.15rem 0.65rem; white-space: nowrap;
+    }
+
+    /* Answer sheet: multi-column bubble grid, smartphone friendly */
+    .qsheet { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 0.65rem; margin-bottom: 0.5rem; }
+    .qcard {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 0.6rem 0.4rem 0.7rem; display: flex; flex-direction: column; align-items: center;
+      gap: 0.5rem; text-align: center; box-shadow: var(--shadow-sm);
+      transition: border-color .2s, box-shadow .2s, background .2s;
+    }
+    .qcard:hover { border-color: var(--gold); }
+    .qcard.answered {
+      border-color: var(--gold); background: linear-gradient(180deg, #fffdf7, #fbf4e1);
+      box-shadow: inset 0 0 0 1px var(--gold), var(--shadow-sm);
+    }
+    .qcard.correct { border-color: var(--success); background: #f0faf4; box-shadow: inset 0 0 0 1px var(--success); }
+    .qcard.wrong   { border-color: var(--error);   background: #fdf2f2; box-shadow: inset 0 0 0 1px var(--error); }
+    .qcard .qnum { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--navy); font-size: 0.9rem; }
+    .qcard.answered .qnum::after { content: "\2713"; color: var(--dark-gold); margin-left: 0.3rem; font-size: 0.78rem; }
+    .bubbles { display: flex; gap: 0.32rem; flex-wrap: wrap; justify-content: center; }
+    .bubble {
+      width: 38px; height: 38px; min-width: 38px; border-radius: 50%;
+      border: 2px solid var(--navy); display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.92rem; color: var(--navy); background: #fff;
+      cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;
+      transition: transform .1s, background .15s, color .15s, box-shadow .15s;
+    }
+    .bubble:hover { background: var(--light-gold); }
+    .bubble:active { transform: scale(0.9); }
+    .bubble:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+    .bubble.selected    { background: #111; border-color: #111; color: #fff; box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--gold); }
+    .bubble.correct-ans { background: var(--success); border-color: var(--success); color: #fff; box-shadow: none; }
+    .bubble.wrong-ans   { background: var(--error); border-color: var(--error); color: #fff; box-shadow: none; }
+    .q-feedback { font-size: 0.7rem; color: var(--muted); min-height: 0; }
+    .qcard.wrong .q-feedback { color: var(--error); font-weight: 600; }
+    .qcard.jump-highlight { animation: jumpFlash 1.2s ease; }
+    @keyframes jumpFlash { 0%,100% { box-shadow: var(--shadow-sm); } 30% { box-shadow: 0 0 0 4px var(--gold); } }
+
+    /* Results panel */
+    .results-panel {
+      background: #fff; border: 1px solid var(--border); border-top: 5px solid var(--gold);
+      border-radius: 14px; padding: 2rem 1.5rem; margin-bottom: 2rem; text-align: center; display: none;
+      box-shadow: var(--shadow-md);
+    }
+    .results-panel h2 { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--navy); }
+    .score-ring {
+      --p: 0; width: 172px; height: 172px; margin: 1rem auto 1.2rem; border-radius: 50%;
+      background: conic-gradient(var(--gold) calc(var(--p) * 1%), #ece5d4 0);
+      display: grid; place-items: center;
+    }
+    .score-ring-inner {
+      width: 138px; height: 138px; border-radius: 50%; background: #fff;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      box-shadow: inset 0 0 0 1px var(--border);
+    }
+    .score-big { font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 700; color: var(--navy); line-height: 1; }
+    .score-big span { font-size: 1rem; color: var(--muted); font-weight: 400; }
+    .score-pct { font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: var(--dark-gold); margin-top: 0.3rem; }
+    .stats-row { display: flex; justify-content: center; gap: 0.8rem; margin: 0.4rem 0 1.4rem; flex-wrap: wrap; }
+    .stat { text-align: center; background: var(--cream); border: 1px solid var(--border); border-top: 3px solid var(--border); border-radius: 8px; padding: 0.6rem 1.2rem; min-width: 104px; }
+    .stat .val { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; }
+    .stat .lbl { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+    .stat.good { border-top-color: var(--success); } .stat.good .val { color: var(--success); }
+    .stat.bad  { border-top-color: var(--error); }   .stat.bad  .val { color: var(--error); }
+    .part-bars { max-width: 460px; margin: 0 auto 1.3rem; text-align: left; }
+    .part-bar { margin-bottom: 0.7rem; }
+    .part-bar-top { display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--navy); margin-bottom: 0.2rem; gap: 1rem; }
+    .part-bar-top span:last-child { font-family: 'JetBrains Mono', monospace; color: var(--muted); white-space: nowrap; }
+    .part-bar-track { background: #ece5d4; border-radius: 8px; height: 8px; overflow: hidden; }
+    .part-bar-fill { height: 100%; border-radius: 8px; background: linear-gradient(90deg, var(--dark-gold), var(--gold)); }
+    .results-hint { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.2rem; }
+    .btn-dashboard {
+      background: var(--navy); color: var(--cream); border: none; border-radius: 8px;
+      padding: 0.8rem 1.8rem; font-size: 1rem; cursor: pointer;
+      font-family: 'Playfair Display', serif; letter-spacing: 0.05em; transition: background .15s;
+    }
+    .btn-dashboard:hover { background: var(--dark-gold); }
+
+    /* Floating button and submit */
+    .btn-jump {
+      position: fixed; right: 1.2rem; bottom: calc(1.2rem + env(safe-area-inset-bottom, 0px)); z-index: 90;
+      background: var(--navy); border: 2px solid var(--gold); color: var(--gold);
+      border-radius: 30px; padding: 0.7rem 1.3rem; font-size: 0.85rem; cursor: pointer;
+      font-family: 'Playfair Display', serif; font-weight: 700; white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(30,58,95,0.35); transition: background .15s, color .15s;
+    }
+    .btn-jump:hover { background: var(--dark-gold); color: var(--navy); border-color: var(--dark-gold); }
+    .btn-jump:active { transform: scale(0.96); }
+    .submit-section { text-align: center; padding: 2rem 0 3rem; }
+    .btn-submit-main {
+      background: var(--navy); color: var(--cream); border: none; border-radius: 8px;
+      padding: 0.95rem 2.6rem; font-size: 1.05rem; cursor: pointer;
+      font-family: 'Playfair Display', serif; letter-spacing: 0.05em;
+      box-shadow: var(--shadow-md); transition: background .15s, transform .1s;
+    }
+    .btn-submit-main:hover { background: var(--dark-gold); }
+    .btn-submit-main:active { transform: scale(0.98); }
+    footer { text-align: center; font-size: 0.75rem; color: #8a8a8a; padding: 1.5rem 1.5rem 5rem; border-top: 1px solid var(--border); margin-top: 1rem; }
+
+    @media (max-width: 480px) {
+      .sticky-header { padding-left: 0.9rem; padding-right: 0.9rem; gap: 0.5rem; }
+      .timer-display { font-size: 1.05rem; padding: 0.15rem 0.65rem; }
+      .btn-submit-top { padding: 0.45rem 0.9rem; }
+      .qsheet { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.5rem; }
+      .qcard { padding: 0.5rem 0.3rem 0.6rem; }
+      .bubbles { gap: 0.25rem; }
+      .bubble { width: 34px; height: 34px; min-width: 34px; font-size: 0.86rem; }
+      .part-header { font-size: 0.92rem; }
+      .results-panel { padding: 1.5rem 1rem; }
+      .start-block { padding: 1.4rem 1rem; }
+      .start-facts { flex-wrap: nowrap; gap: 0.5rem; }
+      .start-facts li { flex: 1; min-width: 0; padding: 0.5rem 0.3rem; }
+      .btn-jump { right: 0.8rem; padding: 0.65rem 1.1rem; }
+    }
+    @media (max-width: 370px) {
+      .bubble { width: 31px; height: 31px; min-width: 31px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
   </style>
 </head>
 <body>
   <div class="sticky-header">
-    <h1 id="header-title">TOEIC — Loading…</h1>
-    <div class="timer-display" id="timer" style="display:none">--:--</div>
+    <h1 id="header-title">TOEIC | Loading…</h1>
+    <div class="timer-display" id="timer" style="display:none" aria-live="off">--:--</div>
     <button class="btn-submit-top" onclick="submitTest()">Finish</button>
+    <div class="time-track" id="time-track"><div class="time-bar" id="time-bar"></div></div>
   </div>
 
   <main>
     <div class="results-panel" id="results-panel">
       <h2>Results</h2>
-      <div class="score-big" id="score-big">--<span>/100</span></div>
-      <div class="score-pct" id="score-pct">---%</div>
+      <div class="score-ring" id="score-ring">
+        <div class="score-ring-inner">
+          <div class="score-big" id="score-big">--<span>/100</span></div>
+          <div class="score-pct" id="score-pct">---%</div>
+        </div>
+      </div>
       <div class="stats-row">
         <div class="stat good"><div class="val" id="stat-correct">-</div><div class="lbl">Correct</div></div>
         <div class="stat bad"><div class="val" id="stat-wrong">-</div><div class="lbl">Wrong</div></div>
         <div class="stat"><div class="val" id="stat-blank">-</div><div class="lbl">Unanswered</div></div>
       </div>
+      <div class="part-bars" id="part-bars"></div>
+      <p class="results-hint">Scroll down to review every answer: green is correct, red is wrong.</p>
       <button class="btn-dashboard" onclick="window.location.href='dashboard.html'">← Back to dashboard</button>
     </div>
 
@@ -193,23 +301,32 @@
       </div>
 
       <div id="start-section" style="display:none" class="start-block">
-        <h3>⏱ Reading Test — 75 minutes</h3>
-        <p>The timer starts the moment you click. Make sure you have your booklet ready before you begin.</p>
+        <h3 id="start-title">Reading test</h3>
+        <ul class="start-facts">
+          <li><b id="start-minutes">75</b><span>minutes</span></li>
+          <li><b>1</b><span>attempt</span></li>
+          <li><b>Auto</b><span>save</span></li>
+        </ul>
+        <p>The timer starts the moment you click. Make sure you have your booklet ready before you begin. Your answers and remaining time are saved automatically.</p>
         <button class="btn-begin" onclick="beginTimedTest()">▶ Start the timer</button>
       </div>
 
       <div id="audio-section" style="display:none" class="audio-block">
         <h3>🎧 Test audio</h3>
-        <p>The audio sets the pace of the test — no timer, answer as you listen.</p>
+        <p>The audio sets the pace of the test: no timer, answer as you listen.</p>
         <div id="audio-embed-target"></div>
       </div>
 
       <div class="restore-banner" id="restore-banner">✓ Your progress has been restored automatically.</div>
 
-      <div class="progress-bar-wrap">
-        <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+      <div class="progress-card">
+        <div class="progress-head">
+          <span class="progress-title">Progress</span>
+          <span class="progress-label"><b id="answered-count">0</b> / <span id="total-count">100</span> answered</span>
+        </div>
+        <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+        <div class="progress-foot"><span id="remaining-count">100</span> remaining</div>
       </div>
-      <div class="progress-label"><span id="answered-count">0</span> / <span id="total-count">100</span> answered</div>
 
       <div id="questions-root"></div>
 
@@ -414,13 +531,19 @@ function beginTimedTest() {
 // =========================================================
 // INIT
 // =========================================================
-document.getElementById('header-title').textContent = `${TEST.name} — ${TEST.part}`;
+// Display helper: names in tests-data.js contain long dashes; show a bar instead
+function cleanDash(str) { return String(str).replace(/\s*[\u2014\u2013]\s*/g, ' | '); }
+
+document.getElementById('header-title').textContent = `${cleanDash(TEST.name)} | ${TEST.part}`;
+document.getElementById('start-title').textContent = `${TEST.part} test`;
+document.getElementById('start-minutes').textContent = Math.round((TEST.duration || 0) / 60);
 document.getElementById('total-count').textContent  = TEST.keys.length;
 if (!TEST.audioControlled) document.getElementById('timer').style.display = '';
 
 renderBooklet();
 renderAudio();
 renderQuestions();
+updateProgress();
 
 if (isReview) {
   initReviewMode();
@@ -460,6 +583,8 @@ if (isReview) {
           timeLeft = TEST.duration - elapsed;
         }
         if (timeLeft <= 0) { timeLeft = 0; submitTest(true); return; }
+        document.getElementById('restore-banner').innerHTML =
+          `✓ Progress restored: your answers are back and <b>${fmtTime(timeLeft)}</b> remain on the clock.`;
         timerStarted = true;
         startTimer();
       }
@@ -485,7 +610,7 @@ function renderQuestions() {
   TEST.parts.forEach(part => {
     const ph = document.createElement('div');
     ph.className = 'part-header';
-    ph.innerHTML = `<span>${part.name}</span><span class="range">Q${part.start} – Q${part.end}</span>`;
+    ph.innerHTML = `<span>${cleanDash(part.name)}</span><span class="range">Q${part.start} to Q${part.end}</span>`;
     root.appendChild(ph);
 
     const sheet = document.createElement('div');
@@ -505,7 +630,7 @@ function buildQuestionCard(qNum, choices) {
   let inner = `<div class="qnum">${qNum}</div>`;
   inner += `<div class="bubbles" id="choices-${qNum}">`;
   choices.forEach(c => {
-    inner += `<div class="bubble" data-q="${qNum}" data-choice="${c}" onclick="selectAnswer(${qNum},'${c}')">${c}</div>`;
+    inner += `<div class="bubble" role="button" tabindex="0" aria-pressed="false" aria-label="Question ${qNum}, answer ${c}" data-q="${qNum}" data-choice="${c}" onclick="selectAnswer(${qNum},'${c}')">${c}</div>`;
   });
   inner += `</div><div class="q-feedback" id="feedback-${qNum}"></div>`;
 
@@ -522,6 +647,7 @@ function selectAnswer(qNum, choice, persist = true) {
   answers[idx] = choice;
   document.querySelectorAll(`[data-q="${qNum}"]`).forEach(el => {
     el.classList.toggle('selected', el.dataset.choice === choice);
+    el.setAttribute('aria-pressed', el.dataset.choice === choice ? 'true' : 'false');
   });
   const card = document.getElementById(`q-${qNum}`);
   if (card) card.classList.add('answered');
@@ -529,11 +655,22 @@ function selectAnswer(qNum, choice, persist = true) {
   if (persist) { saveProgress(); scheduleServerSave(); }
 }
 
+// Keyboard support: Enter or Space picks the focused bubble
+document.addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('bubble')) {
+    e.preventDefault();
+    e.target.click();
+  }
+});
+
 function updateProgress() {
   const done  = answers.filter(a => a !== null).length;
   const total = TEST.keys.length;
   document.getElementById('answered-count').textContent = done;
   document.getElementById('progress-bar').style.width = (done / total * 100) + '%';
+  const remaining = total - done;
+  document.getElementById('remaining-count').textContent = remaining;
+  document.getElementById('btn-jump').textContent = remaining > 0 ? `⬇ Next unanswered (${remaining})` : '✓ All answered';
 }
 
 function jumpToUnanswered() {
@@ -563,12 +700,22 @@ function startTimer() {
   }, 1000);
 }
 
+function fmtTime(sec) {
+  return `${String(Math.floor(sec / 60)).padStart(2,'0')}:${String(sec % 60).padStart(2,'0')}`;
+}
+
 function updateTimerDisplay() {
-  const m = Math.floor(timeLeft / 60);
-  const s = timeLeft % 60;
   const el = document.getElementById('timer');
-  el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  el.textContent = fmtTime(timeLeft);
+  el.classList.toggle('warning', timeLeft <= 900 && timeLeft > 300);
   el.classList.toggle('urgent', timeLeft <= 300);
+  if (TEST.duration) {
+    document.getElementById('time-track').classList.add('on');
+    const bar = document.getElementById('time-bar');
+    bar.style.width = Math.max(0, Math.min(100, timeLeft / TEST.duration * 100)) + '%';
+    bar.classList.toggle('warning', timeLeft <= 900 && timeLeft > 300);
+    bar.classList.toggle('urgent', timeLeft <= 300);
+  }
 }
 
 // =========================================================
@@ -585,7 +732,16 @@ function gradeAndRender(userAnswers) {
   const panel = document.getElementById('results-panel');
   panel.style.display = 'block';
   document.getElementById('score-big').innerHTML  = `${correct}<span>/${TEST.keys.length}</span>`;
-  document.getElementById('score-pct').textContent = `${Math.round(correct / TEST.keys.length * 100)}%`;
+  const pctScore = Math.round(correct / TEST.keys.length * 100);
+  document.getElementById('score-pct').textContent = `${pctScore}%`;
+  document.getElementById('score-ring').style.setProperty('--p', pctScore);
+  document.getElementById('part-bars').innerHTML = TEST.parts.map(part => {
+    const n = part.end - part.start + 1;
+    let c = 0;
+    for (let q = part.start; q <= part.end; q++) if (userAnswers[q - 1] === TEST.keys[q - 1]) c++;
+    return `<div class="part-bar"><div class="part-bar-top"><span>${cleanDash(part.name)}</span><span>${c} / ${n}</span></div>` +
+           `<div class="part-bar-track"><div class="part-bar-fill" style="width:${Math.round(c / n * 100)}%"></div></div></div>`;
+  }).join('');
   document.getElementById('stat-correct').textContent = correct;
   document.getElementById('stat-wrong').textContent   = wrong;
   document.getElementById('stat-blank').textContent   = blank;
@@ -626,7 +782,7 @@ async function initReviewMode() {
   document.querySelector('.submit-section').style.display = 'none';
   document.getElementById('btn-jump').style.display = 'none';
   const banner = document.getElementById('restore-banner');
-  banner.textContent = '📖 Reviewing your submitted answers — read only, nothing will be saved.';
+  banner.textContent = '📖 Reviewing your submitted answers (read only, nothing will be saved).';
   banner.style.display = 'block';
 
   try {
@@ -661,6 +817,9 @@ async function submitTest(auto = false) {
   submitted = true;
 
   const { correct } = gradeAndRender(answers);
+  document.getElementById('btn-jump').style.display = 'none';
+  document.getElementById('restore-banner').style.display = 'none';
+  document.getElementById('time-track').classList.remove('on');
 
   // Progress no longer needed once submitted — clear both stores
   clearProgress();
