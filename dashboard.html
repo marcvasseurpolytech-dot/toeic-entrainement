@@ -74,6 +74,9 @@
     .weak li { display:flex; justify-content:space-between; gap:0.6rem; padding:0.2rem 0; }
     .weak .pct-bad { color:#c0392b; font-weight:700; white-space:nowrap; }
     .weak .pct-mid { color:#d07a1c; font-weight:700; white-space:nowrap; }
+    .weak .pct-low { color:#b08a00; font-weight:700; white-space:nowrap; }
+    .weak .tag-low { font-size:0.65rem; font-weight:700; color:#fff; background:#d4a017; border-radius:3px; padding:0.05rem 0.35rem; margin-left:0.35rem; vertical-align:middle; }
+    .weak .goal { display:block; font-size:0.68rem; color:#9ca3af; }
     .weak .tag { font-size:0.65rem; font-weight:700; color:#fff; background:#c0392b; border-radius:3px; padding:0.05rem 0.35rem; margin-left:0.35rem; vertical-align:middle; }
     .pies { display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; margin-top:0.9rem; padding-top:0.8rem; border-top:1px solid var(--border); }
     .pie-title { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.07em; color:#6b7280; text-align:center; margin-bottom:0.3rem; }
@@ -261,31 +264,50 @@
     // =========================================================
     // SUMMARY PER TOEIC (groups Listening + Reading of the same baseId)
     // =========================================================
-    // Weakest parts of the latest attempts (Listening + Reading of one TOEIC).
-    // Below 50% = priority, below 65% = to improve. Shows at most 3 parts.
+    // Safe zone per part (share of questions that must be right to be out of danger).
+    // Part 2: 20/25, Part 5: 25/30, Part 6: 12/16 (set by the teacher); the other
+    // parts use a similar ~75-83% target. Below the safe zone the warning is graduated:
+    //   >= 85% of the target: "almost there" (yellow)
+    //   >= 70% of the target: "to improve" (orange)
+    //   <  70% of the target: "priority" (red)
+    const SAFE_ZONE = { p1: 5/6, p2: 20/25, p3: 30/39, p4: 23/30, p5: 25/30, p6: 12/16, p7: 41/54 };
+    function partLevel(pid, correct, max) {
+      const target = Math.ceil((SAFE_ZONE[pid] || 0.75) * max - 1e-9);
+      if (correct >= target) return { level: 0, target };
+      const ratio = correct / target;
+      return { level: ratio >= 0.85 ? 1 : ratio >= 0.70 ? 2 : 3, target, ratio };
+    }
+    const LEVEL_INFO = {
+      1: { cls: 'pct-low', tag: 'ALMOST', tagCls: 'tag-low' },
+      2: { cls: 'pct-mid', tag: '', tagCls: '' },
+      3: { cls: 'pct-bad', tag: 'PRIORITY', tagCls: 'tag' }
+    };
+
+    // Parts below their safe zone for the latest attempts (Listening + Reading of one TOEIC).
     function weakParts(attempts) {
       const items = [];
       attempts.filter(Boolean).forEach(att => {
         const T = att.TEST;
         T.parts.forEach((part, i) => {
-          const b = att.breakdown[T.partIds[i]];
+          const pid = T.partIds[i], b = att.breakdown[pid];
           if (!b || !b.max) return;
-          items.push({ name: part.name, correct: b.correct, max: b.max, pct: Math.round(b.correct / b.max * 100) });
+          const lv = partLevel(pid, b.correct, b.max);
+          items.push({ name: part.name, correct: b.correct, max: b.max, pct: Math.round(b.correct / b.max * 100), ...lv });
         });
       });
-      items.sort((a, b) => a.pct - b.pct);
       return items;
     }
     function weakBoxHTML(attempts) {
       const items = weakParts(attempts);
       if (!items.length) return '';
-      const weak = items.filter(x => x.pct < 65).slice(0, 3);
+      const weak = items.filter(x => x.level > 0).sort((a, b) => a.ratio - b.ratio).slice(0, 4);
       if (!weak.length) {
-        const low = items[0];
-        return `<div class="weak ok"><div class="weak-title">✓ No weak part</div>Well done. Your lowest part is ${low.name} (${low.correct}/${low.max}, ${low.pct}%).</div>`;
+        return `<div class="weak ok"><div class="weak-title">✓ All parts in the safe zone</div>Well done, keep it up.</div>`;
       }
-      return `<div class="weak"><div class="weak-title">⚠ Work on these first</div><ul>${weak.map(x =>
-        `<li><span>${x.name}${x.pct < 50 ? '<span class="tag">PRIORITY</span>' : ''}</span><span class="${x.pct < 50 ? 'pct-bad' : 'pct-mid'}">${x.correct}/${x.max} · ${x.pct}%</span></li>`).join('')}</ul></div>`;
+      return `<div class="weak"><div class="weak-title">⚠ Work on these first</div><ul>${weak.map(x => {
+        const info = LEVEL_INFO[x.level];
+        return `<li><span>${x.name}${info.tag ? `<span class="${info.tagCls}">${info.tag}</span>` : ''}<span class="goal">goal: ${x.target}/${x.max}</span></span><span class="${info.cls}">${x.correct}/${x.max} · ${x.pct}%</span></li>`;
+      }).join('')}</ul></div>`;
     }
 
     function renderSummary(enriched) {
