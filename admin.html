@@ -76,6 +76,8 @@
     .pager button { background:#fff; border:1px solid var(--border); border-radius:4px; padding:0.3rem 0.8rem; font-size:0.8rem; cursor:pointer; color:var(--navy); font-family:inherit; }
     .pager button:hover:not(:disabled) { background:var(--navy); color:#fff; }
     .pager button:disabled { opacity:0.4; cursor:default; }
+    .sub { display:block; font-size:0.72rem; color:#6b7280; }
+    .sec-cell .chips { margin-top:0.25rem; }
     .raw-dept { display:block; font-size:0.68rem; color:#9ca3af; }
     .toolbar .spacer { margin-left:auto; }
     .chart-card { background:#fff; border:1px solid var(--border); border-top:3px solid var(--gold); border-radius:6px; padding:1rem 1.2rem; margin-bottom:1.5rem; }
@@ -145,6 +147,10 @@
         <select id="filter-test" onchange="resPage=1;render()"><option value="">All tests</option></select>
         <select id="filter-dept" onchange="resPage=1;render()"><option value="">All departments</option></select>
         <input type="text" id="filter-nom" placeholder="Filter by name…" oninput="resPage=1;render()">
+        <select id="view-res" onchange="resPage=1;render()" title="View">
+          <option value="combined">One line per student and test</option>
+          <option value="attempts">All attempts (detail)</option>
+        </select>
         <select id="sort-res" onchange="resPage=1;render()" title="Sort">
           <option value="date-desc">Newest first</option>
           <option value="date-asc">Oldest first</option>
@@ -513,7 +519,92 @@
       return { ...s, TEST, breakdown, converted, cecrl };
     }
 
+    function renderCombined() {
+      const testFilter = document.getElementById('filter-test').value;
+      const deptFilter = document.getElementById('filter-dept').value;
+      const nomFilter  = document.getElementById('filter-nom').value.trim().toUpperCase();
+      const baseFilter = testFilter && TESTS_DATA[testFilter] ? TESTS_DATA[testFilter].baseId : '';
+      const student = allStudents.reduce((m, s) => { m[s.nom] = s; return m; }, {});
+
+      // Latest attempt per student, test and section (Listening / Reading)
+      const latest = {};
+      allScores.forEach(s => {
+        const T = TESTS_DATA[s.testId];
+        if (!T) return;
+        if (baseFilter && T.baseId !== baseFilter) return;
+        if (nomFilter && !s.nom.includes(nomFilter)) return;
+        if (deptFilter && !(student[s.nom] && deptOf(student[s.nom]) === deptFilter)) return;
+        const key = s.nom + '||' + T.baseId + '||' + T.section;
+        if (!latest[key] || new Date(s.date) > new Date(latest[key].date)) latest[key] = s;
+      });
+      const groups = {};
+      Object.values(latest).forEach(s => {
+        const T = TESTS_DATA[s.testId];
+        const key = s.nom + '||' + T.baseId;
+        const g = groups[key] || (groups[key] = { nom: s.nom, baseId: T.baseId, testName: T.name, L: null, R: null });
+        g[T.section] = enrichScore(s);
+      });
+      let rows = Object.values(groups);
+      rows.forEach(g => {
+        g.date = [g.L, g.R].filter(Boolean).map(x => x.date).sort().pop();
+        const parts = [g.L, g.R].filter(Boolean);
+        g.pct = parts.reduce((t, x) => t + x.score / x.total, 0) / parts.length;
+      });
+
+      const byName = (a, b) => (a.nom + (student[a.nom]?.prenom || '')).localeCompare(b.nom + (student[b.nom]?.prenom || ''), 'fr', { sensitivity: 'base' }) || a.testName.localeCompare(b.testName);
+      const byDate = (a, b) => new Date(a.date) - new Date(b.date);
+      rows.sort({
+        'date-desc': (a, b) => byDate(b, a), 'date-asc': byDate,
+        'name-asc': byName, 'name-desc': (a, b) => byName(b, a),
+        'score-desc': (a, b) => b.pct - a.pct || byDate(b, a), 'score-asc': (a, b) => a.pct - b.pct || byDate(b, a)
+      }[document.getElementById('sort-res').value]);
+
+      const totalRows = rows.length;
+      const maxPage = Math.max(1, Math.ceil(totalRows / PAGE_SIZE));
+      if (resPage > maxPage) resPage = maxPage;
+      document.getElementById('pager-results').innerHTML = pagerHTML(totalRows, resPage, 'goResPage', 'line(s)');
+      if (!rows.length) {
+        document.getElementById('table-wrap').innerHTML = '<p style="color:#9ca3af;font-style:italic">No results.</p>';
+        return;
+      }
+      rows = rows.slice((resPage - 1) * PAGE_SIZE, resPage * PAGE_SIZE);
+
+      const secCell = a => {
+        if (!a) return '<span style="color:#9ca3af">—</span>';
+        const chips = a.TEST.partIds.map(pid => `<span class="chip">${partCanonById(pid).label}: ${a.breakdown[pid].correct}/${a.breakdown[pid].max}</span>`).join('');
+        return `<div class="sec-cell"><strong>${a.score}/${a.total}</strong><span class="sub">${a.converted}/495 · ${a.cecrl}</span><div class="chips">${chips}</div></div>`;
+      };
+      const retakeBtn = (a, label) => {
+        if (!a) return '';
+        if (a.retakeGranted) return `<span class="badge-granted" title="Retake granted for ${label}">🔓 ${label}</span>`;
+        const n = a.nom.replace(/'/g, "\\'"), d = a.date.replace(/'/g, "\\'");
+        return `<button class="btn-retake" title="Allow one more ${label} attempt" onclick="allowRetake('${n}', '${a.testId}', '${d}')">🔄 ${label}</button>`;
+      };
+      document.getElementById('table-wrap').innerHTML = `
+        <table>
+          <thead><tr><th>Last name</th><th>First name</th><th>Dept</th><th>Test</th><th>Listening</th><th>Reading</th><th>Total /990</th><th>Date</th><th>Retake</th></tr></thead>
+          <tbody>${rows.map(g => {
+            const stu = student[g.nom] || {};
+            const d = new Date(g.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+            const total = (g.L && g.R) ? g.L.converted + g.R.converted : null;
+            return `<tr>
+              <td>${esc(g.nom)}</td>
+              <td>${esc(stu.prenom || '-')}</td>
+              <td title="${esc(stu.dept)}">${esc(stu.dept ? deptOf(stu) : '-')}</td>
+              <td>${esc(g.testName)}</td>
+              <td>${secCell(g.L)}</td>
+              <td>${secCell(g.R)}</td>
+              <td>${total !== null ? `<strong>${total}</strong><span class="sub">${cecrlFor(total)}</span>` : '<span style="color:#9ca3af">—</span>'}</td>
+              <td>${d}</td>
+              <td style="white-space:nowrap">${retakeBtn(g.L, 'L')} ${retakeBtn(g.R, 'R')}</td>
+            </tr>`;
+          }).join('')}</tbody>
+        </table>
+      `;
+    }
+
     function render() {
+      if (document.getElementById('view-res').value === 'combined') return renderCombined();
       const testFilter = document.getElementById('filter-test').value;
       const deptFilter = document.getElementById('filter-dept').value;
       const nomFilter  = document.getElementById('filter-nom').value.trim().toUpperCase();
