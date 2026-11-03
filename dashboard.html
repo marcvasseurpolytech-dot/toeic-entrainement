@@ -270,12 +270,15 @@
     //   >= 85% of the target: "almost there" (yellow)
     //   >= 70% of the target: "to improve" (orange)
     //   <  70% of the target: "priority" (red)
-    const SAFE_ZONE = { p1: 5/6, p2: 20/25, p3: 30/39, p4: 23/30, p5: 25/30, p6: 12/16, p7: 41/54 };
+    const SAFE_ZONE = { p1: 6/6, p2: 20/25, p3: 30/39, p4: 23/30, p5: 25/30, p6: 12/16, p7: 41/54 };
+    // Part 1 has only 6 questions: 6/6 is the goal, 5/6 is "almost", 4/6 is orange, 3/6 or less is red.
+    const LEVEL_CUTS = { p1: [0.8, 0.6] };
     function partLevel(pid, correct, max) {
       const target = Math.ceil((SAFE_ZONE[pid] || 0.75) * max - 1e-9);
       if (correct >= target) return { level: 0, target };
       const ratio = correct / target;
-      return { level: ratio >= 0.85 ? 1 : ratio >= 0.70 ? 2 : 3, target, ratio };
+      const [yellow, orange] = LEVEL_CUTS[pid] || [0.85, 0.70];
+      return { level: ratio >= yellow ? 1 : ratio >= orange ? 2 : 3, target, ratio };
     }
     const LEVEL_INFO = {
       1: { cls: 'pct-low', tag: 'ALMOST', tagCls: 'tag-low' },
