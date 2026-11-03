@@ -66,7 +66,11 @@
     .btn-start:disabled { background: #ccc; cursor: not-allowed; }
 
     /* Score summary cards (per TOEIC group) */
-    .summary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1rem; }
+    .pies { display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; margin-top:0.9rem; padding-top:0.8rem; border-top:1px solid var(--border); }
+    .pie-title { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.07em; color:#6b7280; text-align:center; margin-bottom:0.3rem; }
+    .pie-canvas { position:relative; height:150px; }
+    .pie-empty { font-size:0.75rem; color:#9ca3af; font-style:italic; text-align:center; padding:3rem 0; }
+    .summary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
     .summary-card {
       background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 1.1rem;
     }
@@ -275,10 +279,39 @@
             <div class="summary-row"><span class="lbl">Listening</span><span class="val">${lConv !== null ? lConv + '/495' : '—'}${lConv !== null ? `<span class="cecrl-chip">${l.cecrl}</span>` : ''}</span></div>
             <div class="summary-row"><span class="lbl">Reading</span><span class="val">${rConv !== null ? rConv + '/495' : '—'}${rConv !== null ? `<span class="cecrl-chip">${r.cecrl}</span>` : ''}</span></div>
             <div class="summary-row total"><span class="lbl">Total</span><span class="val">${total !== null ? total + '/990' : '—'}${total !== null ? `<span class="cecrl-chip">${cecrlFor(total)}</span>` : ''}</span></div>
+            <div class="pies">
+              ${['L', 'R'].map(sec => `<div class="pie-box"><div class="pie-title">${sec === 'L' ? 'Listening' : 'Reading'}</div>${
+                (sec === 'L' ? l : r) ? `<div class="pie-canvas"><canvas id="pie-${base}-${sec}" aria-label="${sec === 'L' ? 'Listening' : 'Reading'} answers breakdown"></canvas></div>` : '<div class="pie-empty">Not taken yet</div>'
+              }</div>`).join('')}
+            </div>
           </div>
         `;
       }).join('');
       section.innerHTML = `<div class="summary-grid">${cards}</div>`;
+      if (typeof Chart === 'undefined') return;
+      Object.entries(byBase).forEach(([base, sec]) => {
+        ['L', 'R'].forEach(k => {
+          const att = sec[k], cv = document.getElementById(`pie-${base}-${k}`);
+          if (!att || !cv) return;
+          const total = att.total || 100;
+          const blank = Math.min(total - att.score, (att.answers || []).slice(0, total).filter(a => !a).length);
+          const wrong = Math.max(0, total - att.score - blank);
+          new Chart(cv, {
+            type: 'pie',
+            data: {
+              labels: ['Correct', 'Incorrect', 'Unanswered'],
+              datasets: [{ data: [att.score, wrong, blank], backgroundColor: ['#2e7d52', '#c0392b', '#c4c4c4'], borderColor: '#fff', borderWidth: 2 }]
+            },
+            options: {
+              responsive: true, maintainAspectRatio: false,
+              plugins: {
+                legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 11 } } },
+                tooltip: { callbacks: { label: c => ` ${c.label}: ${c.parsed} / ${total}` } }
+              }
+            }
+          });
+        });
+      });
     }
 
     // =========================================================
