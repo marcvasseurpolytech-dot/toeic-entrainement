@@ -78,6 +78,14 @@
     .pager button:disabled { opacity:0.4; cursor:default; }
     .raw-dept { display:block; font-size:0.68rem; color:#9ca3af; }
     .toolbar .spacer { margin-left:auto; }
+    .chart-card { background:#fff; border:1px solid var(--border); border-top:3px solid var(--gold); border-radius:6px; padding:1rem 1.2rem; margin-bottom:1.5rem; }
+    .chart-card h3 { font-family:'Playfair Display',serif; font-size:1rem; color:var(--navy); margin-bottom:0.7rem; }
+    .chart-body { display:flex; gap:1.8rem; align-items:center; flex-wrap:wrap; }
+    .chart-body svg { width:190px; height:190px; flex-shrink:0; }
+    .legend { list-style:none; font-size:0.85rem; }
+    .legend li { display:flex; align-items:center; gap:0.5rem; padding:0.2rem 0; }
+    .legend .dot { width:12px; height:12px; border-radius:3px; flex-shrink:0; }
+    .legend .cnt { color:#6b7280; margin-left:0.4rem; }
     footer { text-align:center; font-size:0.75rem; color:#999; padding:1.5rem; border-top:1px solid var(--border); margin-top:2rem; }
   </style>
 </head>
@@ -121,10 +129,30 @@
     <!-- RESULTS -->
     <section class="tab-panel" id="tab-results" hidden>
       <h2>Results</h2>
+      <div class="chart-card">
+        <h3>Level distribution</h3>
+        <div class="toolbar" style="margin-bottom:0.8rem">
+          <select id="chart-test" onchange="renderChart()"></select>
+          <select id="chart-section" onchange="renderChart()">
+            <option value="L">Listening</option>
+            <option value="R">Reading</option>
+            <option value="T">Total (/990)</option>
+          </select>
+        </div>
+        <div class="chart-body" id="chart-body"></div>
+      </div>
       <div class="toolbar">
         <select id="filter-test" onchange="resPage=1;render()"><option value="">All tests</option></select>
         <select id="filter-dept" onchange="resPage=1;render()"><option value="">All departments</option></select>
         <input type="text" id="filter-nom" placeholder="Filter by name…" oninput="resPage=1;render()">
+        <select id="sort-res" onchange="resPage=1;render()" title="Sort">
+          <option value="date-desc">Newest first</option>
+          <option value="date-asc">Oldest first</option>
+          <option value="name-asc">Name A → Z</option>
+          <option value="name-desc">Name Z → A</option>
+          <option value="score-desc">Highest score</option>
+          <option value="score-asc">Lowest score</option>
+        </select>
         <button class="btn-export" onclick="exportXLSX()">⬇ Export Excel</button>
         <button id="btn-reset" class="btn-reset" onclick="resetAllScores()">🗑 Reset all results</button>
       </div>
@@ -143,6 +171,14 @@
           <option value="approved">Approved</option>
         </select>
         <select id="stu-dept" onchange="stuPage=1;renderStudents()"><option value="">All departments</option></select>
+        <select id="sort-stu" onchange="stuPage=1;renderStudents()" title="Sort">
+          <option value="pending">Pending first, then A → Z</option>
+          <option value="name-asc">Name A → Z</option>
+          <option value="name-desc">Name Z → A</option>
+          <option value="date-desc">Newest registration</option>
+          <option value="date-asc">Oldest registration</option>
+          <option value="dept-asc">Department A → Z</option>
+        </select>
         <button id="btn-approve-all" class="btn-export spacer" onclick="approveAll()">✅ Approve all pending</button>
       </div>
       <div id="students-wrap"><p style="color:#9ca3af;font-style:italic">Loading…</p></div>
@@ -203,6 +239,62 @@
     }
     function goResPage(n) { resPage = n; render(); document.getElementById('tab-results').scrollIntoView({ block: 'start' }); }
     function goStuPage(n) { stuPage = n; renderStudents(); document.getElementById('tab-students').scrollIntoView({ block: 'start' }); }
+
+    const LEVELS = ['C1','B2','B1','A2','A1','< A1'];
+    const LEVEL_COLORS = { 'C1':'#1e3a5f', 'B2':'#2e7d52', 'B1':'#c9a84c', 'A2':'#e08a3c', 'A1':'#c0392b', '< A1':'#9ca3af' };
+
+    function fillChartTests() {
+      const sel = document.getElementById('chart-test');
+      const keep = sel.value;
+      const bases = {};
+      Object.values(TESTS_DATA).forEach(t => { bases[t.baseId] = t.name; });
+      const ids = Object.keys(bases);
+      sel.innerHTML = ids.map(id => `<option value="${esc(id)}">${esc(bases[id])}</option>`).join('');
+      sel.value = ids.includes(keep) ? keep : (ids.includes('iibc1-t2') ? 'iibc1-t2' : ids[0]);
+    }
+
+    function renderChart() {
+      const base = document.getElementById('chart-test').value;
+      const section = document.getElementById('chart-section').value;
+      const latest = {};
+      allScores.forEach(s => {
+        const T = TESTS_DATA[s.testId];
+        if (!T || T.baseId !== base) return;
+        const k = s.nom + '|' + T.section;
+        if (!latest[k] || new Date(s.date) > new Date(latest[k].date)) latest[k] = s;
+      });
+      const byStudent = {};
+      Object.values(latest).forEach(s => { (byStudent[s.nom] = byStudent[s.nom] || {})[TESTS_DATA[s.testId].section] = enrichScore(s); });
+      const counts = Object.fromEntries(LEVELS.map(l => [l, 0]));
+      let n = 0, skipped = 0;
+      Object.values(byStudent).forEach(g => {
+        let level;
+        if (section === 'T') {
+          if (!g.L || !g.R) { skipped++; return; }
+          level = cecrlFor(g.L.converted + g.R.converted);
+        } else {
+          if (!g[section]) return;
+          level = g[section].cecrl;
+        }
+        if (level in counts) { counts[level]++; n++; }
+      });
+      const body = document.getElementById('chart-body');
+      if (!n) { body.innerHTML = '<p style="color:#9ca3af;font-style:italic">No results for this selection.</p>'; return; }
+      let a0 = -Math.PI / 2, paths = '';
+      const R = 90, C = 95;
+      LEVELS.filter(l => counts[l]).forEach(l => {
+        const frac = counts[l] / n;
+        if (frac >= 0.9999) { paths += `<circle cx="${C}" cy="${C}" r="${R}" fill="${LEVEL_COLORS[l]}"><title>${l}: ${counts[l]}</title></circle>`; return; }
+        const a1 = a0 + frac * 2 * Math.PI, large = frac > 0.5 ? 1 : 0;
+        const x0 = C + R * Math.cos(a0), y0 = C + R * Math.sin(a0), x1 = C + R * Math.cos(a1), y1 = C + R * Math.sin(a1);
+        paths += `<path d="M${C},${C} L${x0.toFixed(2)},${y0.toFixed(2)} A${R},${R} 0 ${large} 1 ${x1.toFixed(2)},${y1.toFixed(2)} Z" fill="${LEVEL_COLORS[l]}" stroke="#fff" stroke-width="2"><title>${l}: ${counts[l]} (${Math.round(frac * 100)}%)</title></path>`;
+        a0 = a1;
+      });
+      const legend = LEVELS.filter(l => counts[l]).map(l =>
+        `<li><span class="dot" style="background:${LEVEL_COLORS[l]}"></span><strong>${l}</strong><span class="cnt">${counts[l]} student(s), ${Math.round(counts[l] / n * 100)}%</span></li>`).join('');
+      const note = section === 'T' && skipped ? `<li style="color:#9ca3af;font-size:0.75rem;margin-top:0.4rem">${skipped} student(s) excluded: only one section done</li>` : '';
+      body.innerHTML = `<svg viewBox="0 0 190 190" role="img" aria-label="Level distribution">${paths}</svg><ul class="legend">${legend}<li style="margin-top:0.4rem;color:#6b7280">Total: ${n} student(s)</li>${note}</ul>`;
+    }
 
     function fillDeptSelect(sel, keep) {
       const counts = {};
@@ -328,9 +420,11 @@
         fillDeptSelect(document.getElementById('filter-dept'), document.getElementById('filter-dept').value);
         fillDeptSelect(document.getElementById('stu-dept'), document.getElementById('stu-dept').value);
         updateSummary();
+        fillChartTests();
 
         render();
         renderStudents();
+        renderChart();
       } catch(e) {
         document.getElementById('table-wrap').innerHTML = '<p style="color:red">Loading error.</p>';
       }
@@ -428,7 +522,16 @@
         (!testFilter || s.testId === testFilter) &&
         (!nomFilter  || s.nom.includes(nomFilter)) &&
         (!deptFilter || (student[s.nom] && deptOf(student[s.nom]) === deptFilter))
-      ).sort((a,b) => new Date(b.date) - new Date(a.date)).map(enrichScore);
+      ).map(enrichScore);
+      const sortKey = document.getElementById('sort-res').value;
+      const byName = (a, b) => (a.nom + (student[a.nom]?.prenom || '')).localeCompare(b.nom + (student[b.nom]?.prenom || ''), 'fr', { sensitivity: 'base' });
+      const byDate = (a, b) => new Date(a.date) - new Date(b.date);
+      const pct = x => x.score / x.total;
+      rows.sort({
+        'date-desc': (a, b) => byDate(b, a), 'date-asc': byDate,
+        'name-asc': (a, b) => byName(a, b) || byDate(b, a), 'name-desc': (a, b) => byName(b, a) || byDate(b, a),
+        'score-desc': (a, b) => pct(b) - pct(a) || byDate(b, a), 'score-asc': (a, b) => pct(a) - pct(b) || byDate(b, a)
+      }[sortKey]);
 
       const totalRows = rows.length;
       const maxPage = Math.max(1, Math.ceil(totalRows / PAGE_SIZE));
@@ -500,10 +603,15 @@
         (!status || (status === 'pending') === !isApproved(s)) &&
         (!deptSel || deptOf(s) === deptSel) &&
         (!q || `${s.nom} ${s.prenom} ${s.dept} ${deptOf(s)}`.toUpperCase().includes(q))
-      ).sort((a, b) => {
-        if (isApproved(a) !== isApproved(b)) return isApproved(a) ? 1 : -1; // pending first
-        return (a.nom + a.prenom).localeCompare(b.nom + b.prenom, 'fr', { sensitivity: 'base' });
-      });
+      );
+      const nameCmp = (a, b) => (a.nom + a.prenom).localeCompare(b.nom + b.prenom, 'fr', { sensitivity: 'base' });
+      const regTime = x => x.createdAt ? new Date(x.createdAt).getTime() : 0;
+      sorted.sort({
+        'pending': (a, b) => (isApproved(a) !== isApproved(b) ? (isApproved(a) ? 1 : -1) : nameCmp(a, b)),
+        'name-asc': nameCmp, 'name-desc': (a, b) => nameCmp(b, a),
+        'date-desc': (a, b) => regTime(b) - regTime(a) || nameCmp(a, b), 'date-asc': (a, b) => regTime(a) - regTime(b) || nameCmp(a, b),
+        'dept-asc': (a, b) => deptOf(a).localeCompare(deptOf(b), 'fr', { numeric: true }) || nameCmp(a, b)
+      }[document.getElementById('sort-stu').value]);
       const totalStu = sorted.length;
       const maxStu = Math.max(1, Math.ceil(totalStu / PAGE_SIZE));
       if (stuPage > maxStu) stuPage = maxStu;
