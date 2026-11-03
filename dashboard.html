@@ -66,6 +66,15 @@
     .btn-start:disabled { background: #ccc; cursor: not-allowed; }
 
     /* Score summary cards (per TOEIC group) */
+    .weak { margin-top:0.9rem; padding:0.7rem 0.8rem; border-radius:4px; border:1px solid #e8d5a3; background:#fef9ec; font-size:0.8rem; }
+    .weak.ok { background:#e6f4ec; border-color:#b9dfc9; }
+    .weak-title { font-weight:700; color:#a07830; margin-bottom:0.4rem; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.05em; }
+    .weak.ok .weak-title { color:#2e7d52; }
+    .weak ul { list-style:none; }
+    .weak li { display:flex; justify-content:space-between; gap:0.6rem; padding:0.2rem 0; }
+    .weak .pct-bad { color:#c0392b; font-weight:700; white-space:nowrap; }
+    .weak .pct-mid { color:#d07a1c; font-weight:700; white-space:nowrap; }
+    .weak .tag { font-size:0.65rem; font-weight:700; color:#fff; background:#c0392b; border-radius:3px; padding:0.05rem 0.35rem; margin-left:0.35rem; vertical-align:middle; }
     .pies { display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; margin-top:0.9rem; padding-top:0.8rem; border-top:1px solid var(--border); }
     .pie-title { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.07em; color:#6b7280; text-align:center; margin-bottom:0.3rem; }
     .pie-canvas { position:relative; height:150px; }
@@ -252,6 +261,33 @@
     // =========================================================
     // SUMMARY PER TOEIC (groups Listening + Reading of the same baseId)
     // =========================================================
+    // Weakest parts of the latest attempts (Listening + Reading of one TOEIC).
+    // Below 50% = priority, below 65% = to improve. Shows at most 3 parts.
+    function weakParts(attempts) {
+      const items = [];
+      attempts.filter(Boolean).forEach(att => {
+        const T = att.TEST;
+        T.parts.forEach((part, i) => {
+          const b = att.breakdown[T.partIds[i]];
+          if (!b || !b.max) return;
+          items.push({ name: part.name, correct: b.correct, max: b.max, pct: Math.round(b.correct / b.max * 100) });
+        });
+      });
+      items.sort((a, b) => a.pct - b.pct);
+      return items;
+    }
+    function weakBoxHTML(attempts) {
+      const items = weakParts(attempts);
+      if (!items.length) return '';
+      const weak = items.filter(x => x.pct < 65).slice(0, 3);
+      if (!weak.length) {
+        const low = items[0];
+        return `<div class="weak ok"><div class="weak-title">✓ No weak part</div>Well done. Your lowest part is ${low.name} (${low.correct}/${low.max}, ${low.pct}%).</div>`;
+      }
+      return `<div class="weak"><div class="weak-title">⚠ Work on these first</div><ul>${weak.map(x =>
+        `<li><span>${x.name}${x.pct < 50 ? '<span class="tag">PRIORITY</span>' : ''}</span><span class="${x.pct < 50 ? 'pct-bad' : 'pct-mid'}">${x.correct}/${x.max} · ${x.pct}%</span></li>`).join('')}</ul></div>`;
+    }
+
     function renderSummary(enriched) {
       const section = document.getElementById('summary-section');
       if (!enriched.length) {
@@ -284,6 +320,7 @@
                 (sec === 'L' ? l : r) ? `<div class="pie-canvas"><canvas id="pie-${base}-${sec}" aria-label="${sec === 'L' ? 'Listening' : 'Reading'} answers breakdown"></canvas></div>` : '<div class="pie-empty">Not taken yet</div>'
               }</div>`).join('')}
             </div>
+            ${weakBoxHTML([l, r])}
           </div>
         `;
       }).join('');
