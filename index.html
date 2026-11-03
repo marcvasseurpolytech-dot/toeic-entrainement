@@ -105,6 +105,16 @@
       background: var(--cream);
       transition: border-color 0.2s;
     }
+    select {
+      width: 100%;
+      padding: 0.65rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 1rem;
+      font-family: 'Source Serif 4', serif;
+      background: var(--cream);
+    }
+    select:focus { outline: none; border-color: var(--navy); background: #fff; }
     input:focus { outline: none; border-color: var(--navy); background: #fff; }
     input[type="number"] { letter-spacing: 0.2em; font-size: 1.1rem; }
     .hint {
@@ -189,8 +199,13 @@
           <input type="text" id="signup-prenom" placeholder="E.g. John" autocomplete="off">
         </div>
         <div class="form-group">
-          <label>Department / Group</label>
-          <input type="text" id="signup-dept" placeholder="E.g. GI3 — GR2" autocomplete="off">
+          <label>Department / Year</label>
+          <select id="signup-dept" onchange="onDeptChange()"></select>
+          <input type="text" id="signup-dept-other" placeholder="Type your department" autocomplete="off" style="display:none;margin-top:0.5rem">
+        </div>
+        <div class="form-group">
+          <label>Group (optional)</label>
+          <input type="text" id="signup-group" placeholder="E.g. GR14" autocomplete="off">
         </div>
         <div class="form-group">
           <label>Secret code (4 digits)</label>
@@ -208,6 +223,7 @@
 
   <footer>Copyright Marc Vasseur — Polytech Lille &nbsp;·&nbsp; <a href="admin.html" style="color:inherit">Admin access</a></footer>
 
+  <script src="dept.js"></script>
   <script>
     function switchTab(tab) {
       document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', (tab === 'login') === (i === 0)));
@@ -257,10 +273,24 @@
       }
     }
 
+    (function initDeptSelect() {
+      const sel = document.getElementById('signup-dept');
+      sel.innerHTML = '<option value="">— Choose —</option>' +
+        PROMOS.map(p => `<option value="${p}">${p}</option>`).join('') +
+        '<option value="__other">Other…</option>';
+    })();
+    function onDeptChange() {
+      const other = document.getElementById('signup-dept-other');
+      other.style.display = document.getElementById('signup-dept').value === '__other' ? 'block' : 'none';
+    }
+
     async function doSignup() {
       const nom    = document.getElementById('signup-nom').value.trim().toUpperCase();
       const prenom = document.getElementById('signup-prenom').value.trim();
-      const dept   = document.getElementById('signup-dept').value.trim();
+      const promo  = document.getElementById('signup-dept').value;
+      const baseDept = promo === '__other' ? document.getElementById('signup-dept-other').value.trim().toUpperCase() : promo;
+      const group  = document.getElementById('signup-group').value.trim().toUpperCase();
+      const dept   = baseDept ? (group ? `${baseDept} - ${group}` : baseDept) : '';
       const code   = padCode(document.getElementById('signup-code').value);
       const code2  = padCode(document.getElementById('signup-code2').value);
       if (!nom || !prenom || !dept) { showMsg('signup-msg', 'All fields are required.', 'error'); return; }
@@ -285,6 +315,9 @@
         document.getElementById('signup-nom').value = '';
         document.getElementById('signup-prenom').value = '';
         document.getElementById('signup-dept').value = '';
+        document.getElementById('signup-dept-other').value = '';
+        document.getElementById('signup-group').value = '';
+        onDeptChange();
         document.getElementById('signup-code').value = '';
         document.getElementById('signup-code2').value = '';
       } catch(e) {

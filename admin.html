@@ -58,6 +58,26 @@
     .chips { display:flex; flex-wrap:wrap; gap:0.3rem; }
     .chip { background:#f3f4f6; border:1px solid var(--border); border-radius:3px; font-size:0.7rem; padding:0.1rem 0.4rem; white-space:nowrap; }
     .section-title { background:#f3f4f6; padding:0.5rem 0.8rem; font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:#6b7280; border-bottom:1px solid var(--border); }
+    #table-wrap, #students-wrap { overflow-x:auto; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:0.8rem; margin-bottom:1.5rem; }
+    .stat { background:#fff; border:1px solid var(--border); border-top:3px solid var(--gold); border-radius:6px; padding:0.8rem 1rem; text-align:left; font-family:inherit; cursor:default; }
+    .stat .num { font-family:'Playfair Display',serif; font-size:1.7rem; color:var(--navy); line-height:1.1; }
+    .stat .lbl { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.07em; color:#6b7280; margin-top:0.2rem; }
+    .stat.alert { border-top-color:var(--error); background:#fffaf9; cursor:pointer; }
+    .stat.alert .num { color:var(--error); }
+    .tabs { display:flex; gap:0.3rem; border-bottom:2px solid var(--light-gold); margin-bottom:1.5rem; flex-wrap:wrap; }
+    .tab { background:none; border:none; border-bottom:3px solid transparent; margin-bottom:-2px; padding:0.6rem 1.1rem; font-family:'Playfair Display',serif; font-size:1rem; color:#6b7280; cursor:pointer; }
+    .tab:hover { color:var(--navy); }
+    .tab.active { color:var(--navy); border-bottom-color:var(--gold); font-weight:700; }
+    .tab-badge { display:inline-block; background:var(--error); color:#fff; font-family:'Source Serif 4',serif; font-size:0.7rem; font-weight:700; border-radius:10px; padding:0.05rem 0.45rem; margin-left:0.3rem; vertical-align:middle; }
+    .tab-panel[hidden] { display:none; }
+    .pager { display:flex; align-items:center; justify-content:space-between; gap:0.8rem; flex-wrap:wrap; margin-top:0.8rem; font-size:0.8rem; color:#6b7280; }
+    .pager .btns { display:flex; gap:0.4rem; align-items:center; }
+    .pager button { background:#fff; border:1px solid var(--border); border-radius:4px; padding:0.3rem 0.8rem; font-size:0.8rem; cursor:pointer; color:var(--navy); font-family:inherit; }
+    .pager button:hover:not(:disabled) { background:var(--navy); color:#fff; }
+    .pager button:disabled { opacity:0.4; cursor:default; }
+    .raw-dept { display:block; font-size:0.68rem; color:#9ca3af; }
+    .toolbar .spacer { margin-left:auto; }
     footer { text-align:center; font-size:0.75rem; color:#999; padding:1.5rem; border-top:1px solid var(--border); margin-top:2rem; }
   </style>
 </head>
@@ -80,28 +100,54 @@
 
   <!-- Panel admin (hidden until auth) -->
   <main id="admin-panel" style="display:none">
-    <h2>Test availability</h2>
-    <div class="toolbar">
-      <button id="btn-close-all" class="btn-reset" onclick="closeAllTests()">🔒 Close all tests</button>
-      <button id="btn-open-all" class="btn-export" onclick="openAllTests()">🔓 Open all tests</button>
-    </div>
-    <div id="access-wrap"><p style="color:#9ca3af;font-style:italic">Loading…</p></div>
+    <div class="cards" id="summary"></div>
 
-    <h2 style="margin-top:2.5rem">Overview — Results</h2>
-    <div class="toolbar">
-      <select id="filter-test" onchange="render()"><option value="">All tests</option></select>
-      <select id="filter-dept" onchange="render()"><option value="">All departments</option></select>
-      <input type="text" id="filter-nom" placeholder="Filter by name…" oninput="render()">
-      <button class="btn-export" onclick="exportXLSX()">⬇ Export Excel</button>
-      <button id="btn-reset" class="btn-reset" onclick="resetAllScores()">🗑 Reset all results</button>
-    </div>
-    <div id="table-wrap"><p style="color:#9ca3af;font-style:italic">Loading…</p></div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="tests" role="tab" onclick="showTab('tests')">Tests</button>
+      <button class="tab" data-tab="results" role="tab" onclick="showTab('results')">Results</button>
+      <button class="tab" data-tab="students" role="tab" onclick="showTab('students')">Students <span class="tab-badge" id="pending-badge" style="display:none"></span></button>
+    </nav>
 
-    <h2 id="students-heading" style="margin-top:2.5rem">Registered students</h2>
-    <div class="toolbar" id="students-toolbar" style="display:none">
-      <button id="btn-approve-all" class="btn-export" onclick="approveAll()">✅ Approve all pending</button>
-    </div>
-    <div id="students-wrap"><p style="color:#9ca3af;font-style:italic">Loading…</p></div>
+    <!-- TESTS -->
+    <section class="tab-panel" id="tab-tests">
+      <h2>Test availability</h2>
+      <div class="toolbar">
+        <button id="btn-close-all" class="btn-reset" style="margin-left:0" onclick="closeAllTests()">🔒 Close all tests</button>
+        <button id="btn-open-all" class="btn-export" onclick="openAllTests()">🔓 Open all tests</button>
+      </div>
+      <div id="access-wrap"><p style="color:#9ca3af;font-style:italic">Loading…</p></div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="tab-panel" id="tab-results" hidden>
+      <h2>Results</h2>
+      <div class="toolbar">
+        <select id="filter-test" onchange="resPage=1;render()"><option value="">All tests</option></select>
+        <select id="filter-dept" onchange="resPage=1;render()"><option value="">All departments</option></select>
+        <input type="text" id="filter-nom" placeholder="Filter by name…" oninput="resPage=1;render()">
+        <button class="btn-export" onclick="exportXLSX()">⬇ Export Excel</button>
+        <button id="btn-reset" class="btn-reset" onclick="resetAllScores()">🗑 Reset all results</button>
+      </div>
+      <div id="table-wrap"><p style="color:#9ca3af;font-style:italic">Loading…</p></div>
+      <div class="pager" id="pager-results"></div>
+    </section>
+
+    <!-- STUDENTS -->
+    <section class="tab-panel" id="tab-students" hidden>
+      <h2 id="students-heading">Registered students</h2>
+      <div class="toolbar" id="students-toolbar">
+        <input type="text" id="stu-search" placeholder="Search name or department…" oninput="stuPage=1;renderStudents()">
+        <select id="stu-status" onchange="stuPage=1;renderStudents()">
+          <option value="">All accounts</option>
+          <option value="pending">Pending approval</option>
+          <option value="approved">Approved</option>
+        </select>
+        <select id="stu-dept" onchange="stuPage=1;renderStudents()"><option value="">All departments</option></select>
+        <button id="btn-approve-all" class="btn-export spacer" onclick="approveAll()">✅ Approve all pending</button>
+      </div>
+      <div id="students-wrap"><p style="color:#9ca3af;font-style:italic">Loading…</p></div>
+      <div class="pager" id="pager-students"></div>
+    </section>
   </main>
 
   <footer>Copyright Marc Vasseur — Polytech Lille</footer>
@@ -109,6 +155,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="tests-data.js"></script>
   <script src="scoring.js"></script>
+  <script src="dept.js"></script>
   <script>
     // Admin code — same password as Suivi Scores TOEIC
     const ADMIN_HASH = 'f7ff32b790557d7601029bc0b296115f82e18d799b6e27ba0c6202fdbd1f2a08';
@@ -127,11 +174,60 @@
       }
       document.getElementById('gate').style.display = 'none';
       document.getElementById('admin-panel').style.display = 'block';
+      const h0 = location.hash.slice(1);
+      showTab(['tests','results','students'].includes(h0) ? h0 : 'tests');
       loadAll();
       loadAccess();
     }
 
-    let allScores = [], allStudents = [];
+    let allScores = [], allStudents = [], openTests = null;
+    const PAGE_SIZE = 25;
+    let resPage = 1, stuPage = 1;
+
+    const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const deptOf = stu => normDept(stu && stu.dept);
+
+    function showTab(name) {
+      document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+      document.querySelectorAll('.tab-panel').forEach(p => { p.hidden = p.id !== 'tab-' + name; });
+      try { history.replaceState(null, '', '#' + name); } catch(e) {}
+    }
+
+    function pagerHTML(total, page, fn, noun) {
+      const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+      const from = total ? (page - 1) * PAGE_SIZE + 1 : 0, to = Math.min(total, page * PAGE_SIZE);
+      return `<span>${from}–${to} of ${total} ${noun}</span>` + (pages > 1 ? `<span class="btns">
+        <button ${page <= 1 ? 'disabled' : ''} onclick="${fn}(${page - 1})">‹ Prev</button>
+        <span>Page ${page} / ${pages}</span>
+        <button ${page >= pages ? 'disabled' : ''} onclick="${fn}(${page + 1})">Next ›</button></span>` : '');
+    }
+    function goResPage(n) { resPage = n; render(); document.getElementById('tab-results').scrollIntoView({ block: 'start' }); }
+    function goStuPage(n) { stuPage = n; renderStudents(); document.getElementById('tab-students').scrollIntoView({ block: 'start' }); }
+
+    function fillDeptSelect(sel, keep) {
+      const counts = {};
+      allStudents.forEach(s => { const d = deptOf(s); counts[d] = (counts[d] || 0) + 1; });
+      const depts = Object.keys(counts).sort((a, b) => (a === NO_PROMO) - (b === NO_PROMO) || a.localeCompare(b, 'fr', { numeric: true }));
+      sel.innerHTML = '<option value="">All departments</option>' +
+        depts.map(d => `<option value="${esc(d)}">${esc(d)} (${counts[d]})</option>`).join('');
+      if (depts.includes(keep)) sel.value = keep;
+    }
+
+    function updateSummary() {
+      const pending = allStudents.filter(s => s.approved === false).length;
+      const avg = allScores.length ? Math.round(allScores.reduce((t, x) => t + x.score / x.total * 100, 0) / allScores.length) : null;
+      const total = Object.keys(TESTS_DATA).length;
+      const cards = [
+        ['num', allStudents.length, 'Students'],
+        ['num', allScores.length, 'Results submitted'],
+        ['num', avg !== null ? avg + '%' : '—', 'Average score'],
+        ['num', openTests === null ? '…' : `${openTests}/${total}`, 'Tests open']
+      ].map(c => `<div class="stat"><div class="num">${c[1]}</div><div class="lbl">${c[2]}</div></div>`).join('');
+      const alert = pending ? `<button class="stat alert" onclick="document.getElementById('stu-status').value='pending';stuPage=1;showTab('students');renderStudents()"><div class="num">${pending}</div><div class="lbl">Pending approval</div></button>` : '';
+      document.getElementById('summary').innerHTML = alert + cards;
+      const badge = document.getElementById('pending-badge');
+      badge.textContent = pending; badge.style.display = pending ? 'inline-block' : 'none';
+    }
 
     async function loadAccess() {
       try {
@@ -140,6 +236,7 @@
         const access = data.tests || {};
         const wrap = document.getElementById('access-wrap');
         const ids = Object.keys(TESTS_DATA);
+        openTests = ids.filter(id => access[id] !== false).length; updateSummary();
         wrap.innerHTML = `<div class="access-grid">${ids.map(id => {
           const t = TESTS_DATA[id];
           const isOpen = access[id] !== false;
@@ -170,6 +267,7 @@
           body: JSON.stringify({ testId, open })
         });
         if (!r.ok) throw new Error();
+        openTests = Math.max(0, Math.min(Object.keys(TESTS_DATA).length, (openTests || 0) + (open ? 1 : -1))); updateSummary();
       } catch(e) {
         alert('Could not update access — reverting.');
         checkboxEl.checked = !open;
@@ -226,19 +324,10 @@
           sel.appendChild(opt);
         });
 
-        // Populate department filter
-        const deptSel = document.getElementById('filter-dept');
-        const currentDept = deptSel.value;
-        deptSel.innerHTML = '<option value="">All departments</option>';
-        const depts = [...new Set(allStudents.map(s => s.dept).filter(Boolean))].sort();
-        depts.forEach(d => {
-          const opt = document.createElement('option');
-          opt.value = d; opt.textContent = d;
-          deptSel.appendChild(opt);
-        });
-        if (depts.includes(currentDept)) deptSel.value = currentDept;
-
-        document.getElementById('students-toolbar').style.display = 'flex';
+        // Populate department filters (normalised promo labels)
+        fillDeptSelect(document.getElementById('filter-dept'), document.getElementById('filter-dept').value);
+        fillDeptSelect(document.getElementById('stu-dept'), document.getElementById('stu-dept').value);
+        updateSummary();
 
         render();
         renderStudents();
@@ -338,13 +427,18 @@
       let rows = allScores.filter(s =>
         (!testFilter || s.testId === testFilter) &&
         (!nomFilter  || s.nom.includes(nomFilter)) &&
-        (!deptFilter || (student[s.nom] && student[s.nom].dept === deptFilter))
+        (!deptFilter || (student[s.nom] && deptOf(student[s.nom]) === deptFilter))
       ).sort((a,b) => new Date(b.date) - new Date(a.date)).map(enrichScore);
 
+      const totalRows = rows.length;
+      const maxPage = Math.max(1, Math.ceil(totalRows / PAGE_SIZE));
+      if (resPage > maxPage) resPage = maxPage;
+      document.getElementById('pager-results').innerHTML = pagerHTML(totalRows, resPage, 'goResPage', 'result(s)');
       if (!rows.length) {
         document.getElementById('table-wrap').innerHTML = '<p style="color:#9ca3af;font-style:italic">No results.</p>';
         return;
       }
+      rows = rows.slice((resPage - 1) * PAGE_SIZE, resPage * PAGE_SIZE);
       document.getElementById('table-wrap').innerHTML = `
         <table>
           <thead><tr><th>Last name</th><th>First name</th><th>Dept</th><th>Test</th><th>Part breakdown</th><th>Score</th><th>/495</th><th>Level</th><th>Date</th><th></th></tr></thead>
@@ -369,7 +463,7 @@
             return `<tr>
               <td>${s.nom}</td>
               <td>${stu.prenom||'-'}</td>
-              <td>${stu.dept||'-'}</td>
+              <td title="${esc(stu.dept)}">${esc(stu.dept ? deptOf(stu) : '-')}</td>
               <td>${testLabel(s.testId)}</td>
               <td><div class="chips">${chips}</div></td>
               <td>${s.score}/${s.total}</td>
@@ -380,15 +474,17 @@
             </tr>`;
           }).join('')}</tbody>
         </table>
-        <p style="font-size:0.78rem;color:#9ca3af;margin-top:0.5rem">${rows.length} result(s)</p>
       `;
     }
 
     function renderStudents() {
       if (!allStudents.length) {
         document.getElementById('students-wrap').innerHTML = '<p style="color:#9ca3af;font-style:italic">No students registered.</p>';
+        document.getElementById('pager-students').innerHTML = '';
+        updateSummary();
         return;
       }
+      updateSummary();
       // Accounts created before the approval system existed have no
       // `approved` field — treat those as already approved.
       const isApproved = s => s.approved !== false;
@@ -397,10 +493,26 @@
         pendingCount ? `Registered students (${pendingCount} pending approval)` : 'Registered students';
 
       const totalTests = Object.keys(TESTS_DATA).length;
-      const sorted = [...allStudents].sort((a, b) => {
-        if (isApproved(a) === isApproved(b)) return 0;
-        return isApproved(a) ? 1 : -1; // pending first
+      const q = document.getElementById('stu-search').value.trim().toUpperCase();
+      const status = document.getElementById('stu-status').value;
+      const deptSel = document.getElementById('stu-dept').value;
+      let sorted = allStudents.filter(s =>
+        (!status || (status === 'pending') === !isApproved(s)) &&
+        (!deptSel || deptOf(s) === deptSel) &&
+        (!q || `${s.nom} ${s.prenom} ${s.dept} ${deptOf(s)}`.toUpperCase().includes(q))
+      ).sort((a, b) => {
+        if (isApproved(a) !== isApproved(b)) return isApproved(a) ? 1 : -1; // pending first
+        return (a.nom + a.prenom).localeCompare(b.nom + b.prenom, 'fr', { sensitivity: 'base' });
       });
+      const totalStu = sorted.length;
+      const maxStu = Math.max(1, Math.ceil(totalStu / PAGE_SIZE));
+      if (stuPage > maxStu) stuPage = maxStu;
+      document.getElementById('pager-students').innerHTML = pagerHTML(totalStu, stuPage, 'goStuPage', 'student(s)');
+      if (!totalStu) {
+        document.getElementById('students-wrap').innerHTML = '<p style="color:#9ca3af;font-style:italic">No student matches these filters.</p>';
+        return;
+      }
+      sorted = sorted.slice((stuPage - 1) * PAGE_SIZE, stuPage * PAGE_SIZE);
 
       document.getElementById('students-wrap').innerHTML = `
         <table>
@@ -415,7 +527,7 @@
               ? Math.round(theirScores.reduce((sum, sc) => sum + (sc.score / sc.total * 100), 0) / theirScores.length)
               : null;
             return `<tr${approved ? '' : ' style="background:#fef9ec"'}>
-              <td>${s.nom}</td><td>${s.prenom}</td><td>${s.dept}</td><td>${d}</td>
+              <td>${esc(s.nom)}</td><td>${esc(s.prenom)}</td><td>${esc(deptOf(s))}${deptOf(s) !== String(s.dept || '').trim() ? `<span class="raw-dept">${esc(s.dept)}</span>` : ''}</td><td>${d}</td>
               <td>${testsDone}/${totalTests}</td>
               <td>${avgPct !== null ? `<span class="pct ${pctClass(avgPct)}">${avgPct}%</span>` : '—'}</td>
               <td>
@@ -431,7 +543,6 @@
             </tr>`;
           }).join('')}</tbody>
         </table>
-        <p style="font-size:0.78rem;color:#9ca3af;margin-top:0.5rem">${allStudents.length} student(s)</p>
       `;
     }
 
@@ -508,7 +619,7 @@
         if (!T) return;
         if (baseFilter && T.baseId !== baseFilter) return;
         if (nomFilter && !s.nom.includes(nomFilter)) return;
-        if (deptFilter && !(student[s.nom] && student[s.nom].dept === deptFilter)) return;
+        if (deptFilter && !(student[s.nom] && deptOf(student[s.nom]) === deptFilter)) return;
         const key = s.nom + '||' + T.baseId + '||' + T.section;
         if (!latest[key] || new Date(s.date) > new Date(latest[key].date)) latest[key] = s;
       });
@@ -531,7 +642,7 @@
         const row = {
           'Last Name': g.nom,
           'First Name': stu.prenom || '',
-          'Department': stu.dept || '',
+          'Department': stu.dept ? deptOf(stu) : '',
           'Test': g.testName,
           'Listening (/100)': L ? L.score : '',
           'Listening (/495)': L ? L.converted : '',
@@ -550,7 +661,7 @@
         });
         row['Listening date'] = L ? fmtDate(L.date) : '';
         row['Reading date']   = R ? fmtDate(R.date) : '';
-        row._sort = [stu.dept || '', g.nom, g.testName];
+        row._sort = [stu.dept ? deptOf(stu) : '', g.nom, g.testName];
         return row;
       }).sort((a, b) => {
         for (let i = 0; i < 3; i++) {
