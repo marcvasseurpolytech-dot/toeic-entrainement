@@ -199,9 +199,8 @@
           <input type="text" id="signup-prenom" placeholder="E.g. John" autocomplete="off">
         </div>
         <div class="form-group">
-          <label>Department / Year</label>
-          <select id="signup-dept" onchange="onDeptChange()"></select>
-          <input type="text" id="signup-dept-other" placeholder="Type your department" autocomplete="off" style="display:none;margin-top:0.5rem">
+          <label>Class / Time slot</label>
+          <select id="signup-dept"></select>
         </div>
         <div class="form-group">
           <label>Group (optional)</label>
@@ -277,19 +276,14 @@
     (function initDeptSelect() {
       const sel = document.getElementById('signup-dept');
       sel.innerHTML = '<option value="">— Choose —</option>' +
-        PROMOS.map(p => `<option value="${p}">${p}</option>`).join('') +
-        '<option value="__other">Other…</option>';
+        PROMOS.map(p => `<option value="${p}">${p}</option>`).join('');
     })();
-    function onDeptChange() {
-      const other = document.getElementById('signup-dept-other');
-      other.style.display = document.getElementById('signup-dept').value === '__other' ? 'block' : 'none';
-    }
 
     async function doSignup() {
       const nom    = document.getElementById('signup-nom').value.trim().toUpperCase();
       const prenom = document.getElementById('signup-prenom').value.trim();
       const promo  = document.getElementById('signup-dept').value;
-      const baseDept = promo === '__other' ? document.getElementById('signup-dept-other').value.trim().toUpperCase() : promo;
+      const baseDept = PROMOS.includes(promo) ? promo : '';
       const group  = document.getElementById('signup-group').value.trim().toUpperCase();
       const dept   = baseDept ? (group ? `${baseDept} - ${group}` : baseDept) : '';
       const code   = padCode(document.getElementById('signup-code').value);
@@ -316,9 +310,7 @@
         document.getElementById('signup-nom').value = '';
         document.getElementById('signup-prenom').value = '';
         document.getElementById('signup-dept').value = '';
-        document.getElementById('signup-dept-other').value = '';
         document.getElementById('signup-group').value = '';
-        onDeptChange();
         document.getElementById('signup-code').value = '';
         document.getElementById('signup-code2').value = '';
       } catch(e) {
