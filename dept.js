@@ -4,7 +4,7 @@
 // value to a promo label for display, filters and exports. Stored data is
 // never modified.
 // PROMOS = the only choices offered in the signup dropdown (no free typing).
-const PROMOS = ['TC3 8h','TC3 10h','TC3 14h','TC3 16h','TC4 8h','TC4 10h','TC4 14h','TC4 16h','TC2A3','TC2A5','M1 GC','M1 GM','Booster'];
+const PROMOS = ['TC3 8h','TC3 10h','TC3 14h','TC3 16h','TC4 8h','TC4 10h','TC4 14h','TC4 16h','TC2A3','TC2A4','M1 GC','M1 GM','Booster'];
 const NO_PROMO = 'Not specified';
 
 function normDept(raw) {
@@ -17,7 +17,7 @@ function normDept(raw) {
   if (/\b(M1|MASTER) ?GC\b|^M1GC/.test(c)) return 'M1 GC';
   if (/^GENIE CIVIL/.test(c)) return 'GC';
   if (/^BOOSTER/.test(c)) return 'Booster';
-  if ((m = c.match(/^TC ?2 ?A ?([35])(?![0-9])/))) return 'TC2A' + m[1];
+  if ((m = c.match(/^TC ?2 ?A ?([34])(?![0-9])/))) return 'TC2A' + m[1];
   if ((m = c.match(/^TC ?([34]) ?(8|10|14|16) ?H(?![A-Z0-9])/))) return 'TC' + m[1] + ' ' + m[2] + 'h';
   if ((m = c.match(/^(ISIA|IS|2IA|IOT|MECA|GBA|MAT|EIF|EUF|TC|GC)(?: ?(\d))?(?: ?A)?(?![A-Z0-9])/))) {
     const fam = m[1] === 'IS' ? 'ISIA' : m[1];
