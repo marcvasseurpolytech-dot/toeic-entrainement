@@ -1,4 +1,4 @@
-const { KEYS, ghGet, ghPut, hasTest, grade, checkAdminPassword, issueAdminToken, isAdmin, throttled, noteFailure, clearFailures } = require('./_lib');
+const { CLASSES, KEYS, ghGet, ghPut, hasTest, grade, checkAdminPassword, issueAdminToken, isAdmin, throttled, noteFailure, clearFailures } = require('./_lib');
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -175,6 +175,24 @@ module.exports = async (req, res) => {
         const idx = students.findIndex(s => s.nom === nomUpper);
         if (idx < 0) return res.status(404).json({ error: 'Student not found' });
         students[idx] = { ...students[idx], codeHash };
+        const ok = await ghPut('data/students.json', { students }, file?.sha, token);
+        if (ok) return res.json({ success: true });
+      }
+      return res.status(500).json({ error: 'SHA conflict — try again.' });
+    }
+
+    // resource=student-dept — admin corrects a student's class (must be in the list).
+    if (resource === 'student-dept') {
+      const { nom, dept } = req.body || {};
+      const nomUpper = (nom || '').trim().toUpperCase();
+      if (!nomUpper || !CLASSES.includes(dept)) return res.status(400).json({ error: 'Invalid class' });
+
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const file = await ghGet('data/students.json', token);
+        const students = file?.data?.students || [];
+        const idx = students.findIndex(s => s.nom === nomUpper);
+        if (idx < 0) return res.status(404).json({ error: 'Student not found' });
+        students[idx] = { ...students[idx], dept };
         const ok = await ghPut('data/students.json', { students }, file?.sha, token);
         if (ok) return res.json({ success: true });
       }
