@@ -60,9 +60,9 @@ module.exports = async (req, res) => {
   if (action === 'updateDept') {
     const s = students.find(x => x.nom === nomUpper && x.codeHash === codeHash);
     if (!s) return res.status(401).json({ error: 'Incorrect name or code.' });
-    const m = String(dept || '').trim().match(/^(.+?)(?: - (.{1,20}))?$/);
-    if (!m || !CLASSES.includes(m[1])) return res.status(400).json({ error: 'Please choose a class from the list.' });
-    s.dept = m[2] ? `${m[1]} - ${m[2].trim().toUpperCase()}` : m[1];
+    const d = String(dept || '').trim();
+    if (!CLASSES.includes(d)) return res.status(400).json({ error: 'Please choose a class from the list.' });
+    s.dept = d;
     const ok = await ghPut(FILE, { students }, file?.sha, token);
     if (!ok) return res.status(500).json({ error: 'Error while saving.' });
     return res.json({ student: { nom: s.nom, prenom: s.prenom, dept: s.dept } });

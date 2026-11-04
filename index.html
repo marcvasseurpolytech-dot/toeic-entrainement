@@ -195,10 +195,6 @@
           <label>Class / Time slot</label>
           <select id="update-dept"></select>
         </div>
-        <div class="form-group">
-          <label>Group (optional)</label>
-          <input type="text" id="update-group" placeholder="E.g. GR14" autocomplete="off">
-        </div>
         <button class="btn" onclick="saveDept()">Save and continue</button>
       </div>
 
@@ -216,10 +212,6 @@
         <div class="form-group">
           <label>Class / Time slot</label>
           <select id="signup-dept"></select>
-        </div>
-        <div class="form-group">
-          <label>Group (optional)</label>
-          <input type="text" id="signup-group" placeholder="E.g. GR14" autocomplete="off">
         </div>
         <div class="form-group">
           <label>Secret code (4 digits)</label>
@@ -298,15 +290,12 @@
       sel.innerHTML = '<option value="">— Choose —</option>' + PROMOS.map(p => `<option value="${p}">${p}</option>`).join('');
       const guess = normDept(stu.dept);
       if (PROMOS.includes(guess)) sel.value = guess;
-      const g = String(stu.dept || '').match(/ - ([^-]+)$/);
-      document.getElementById('update-group').value = g ? g[1].trim().toUpperCase() : '';
     }
 
     async function saveDept() {
       const stu = JSON.parse(sessionStorage.getItem('student') || 'null');
       const codeHash = sessionStorage.getItem('studentAuth');
       const base = document.getElementById('update-dept').value;
-      const group = document.getElementById('update-group').value.trim().toUpperCase();
       if (!stu || !codeHash) { location.reload(); return; }
       if (!PROMOS.includes(base)) { showMsg('dept-msg', 'Please choose your class.', 'error'); return; }
       const btn = document.querySelector('#panel-dept .btn');
@@ -315,7 +304,7 @@
         const r = await fetch('/api/auth', {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({ action:'updateDept', nom: stu.nom, dept: group ? `${base} - ${group}` : base, codeHash })
+          body: JSON.stringify({ action:'updateDept', nom: stu.nom, dept: base, codeHash })
         });
         const data = await r.json();
         if (!r.ok) { showMsg('dept-msg', data.error || 'Error.', 'error'); return; }
@@ -339,8 +328,7 @@
       const prenom = document.getElementById('signup-prenom').value.trim();
       const promo  = document.getElementById('signup-dept').value;
       const baseDept = PROMOS.includes(promo) ? promo : '';
-      const group  = document.getElementById('signup-group').value.trim().toUpperCase();
-      const dept   = baseDept ? (group ? `${baseDept} - ${group}` : baseDept) : '';
+      const dept   = baseDept;
       const code   = padCode(document.getElementById('signup-code').value);
       const code2  = padCode(document.getElementById('signup-code2').value);
       if (!nom || !prenom || !dept) { showMsg('signup-msg', 'All fields are required.', 'error'); return; }
@@ -365,7 +353,6 @@
         document.getElementById('signup-nom').value = '';
         document.getElementById('signup-prenom').value = '';
         document.getElementById('signup-dept').value = '';
-        document.getElementById('signup-group').value = '';
         document.getElementById('signup-code').value = '';
         document.getElementById('signup-code2').value = '';
       } catch(e) {
