@@ -187,6 +187,21 @@
         <button class="btn" onclick="doLogin()">Log in</button>
       </div>
 
+      <!-- UPDATE CLASS (existing students whose class is not in the list) -->
+      <div class="panel" id="panel-dept">
+        <div class="msg" id="dept-msg"></div>
+        <p style="margin-bottom:1rem">Please select your class from the list to continue.</p>
+        <div class="form-group">
+          <label>Class / Time slot</label>
+          <select id="update-dept"></select>
+        </div>
+        <div class="form-group">
+          <label>Group (optional)</label>
+          <input type="text" id="update-group" placeholder="E.g. GR14" autocomplete="off">
+        </div>
+        <button class="btn" onclick="saveDept()">Save and continue</button>
+      </div>
+
       <!-- SIGNUP -->
       <div class="panel" id="panel-signup">
         <div class="msg" id="signup-msg"></div>
@@ -265,11 +280,51 @@
         }
         sessionStorage.setItem('student', JSON.stringify(data.student));
         sessionStorage.setItem('studentAuth', codeHash);
+        // Existing accounts whose class is not in the dropdown list must pick one first.
+        if (!PROMOS.includes(normDept(data.student.dept))) { showDeptStep(data.student); return; }
         window.location.href = 'dashboard.html';
       } catch(e) {
         showMsg('login-msg', 'Network error.', 'error');
       } finally {
         btn.disabled = false; btn.textContent = 'Log in';
+      }
+    }
+
+    function showDeptStep(stu) {
+      document.querySelector('.tabs').style.display = 'none';
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel-dept').classList.add('active');
+      const sel = document.getElementById('update-dept');
+      sel.innerHTML = '<option value="">— Choose —</option>' + PROMOS.map(p => `<option value="${p}">${p}</option>`).join('');
+      const guess = normDept(stu.dept);
+      if (PROMOS.includes(guess)) sel.value = guess;
+      const g = String(stu.dept || '').match(/ - ([^-]+)$/);
+      document.getElementById('update-group').value = g ? g[1].trim().toUpperCase() : '';
+    }
+
+    async function saveDept() {
+      const stu = JSON.parse(sessionStorage.getItem('student') || 'null');
+      const codeHash = sessionStorage.getItem('studentAuth');
+      const base = document.getElementById('update-dept').value;
+      const group = document.getElementById('update-group').value.trim().toUpperCase();
+      if (!stu || !codeHash) { location.reload(); return; }
+      if (!PROMOS.includes(base)) { showMsg('dept-msg', 'Please choose your class.', 'error'); return; }
+      const btn = document.querySelector('#panel-dept .btn');
+      btn.disabled = true; btn.textContent = 'Saving…';
+      try {
+        const r = await fetch('/api/auth', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ action:'updateDept', nom: stu.nom, dept: group ? `${base} - ${group}` : base, codeHash })
+        });
+        const data = await r.json();
+        if (!r.ok) { showMsg('dept-msg', data.error || 'Error.', 'error'); return; }
+        sessionStorage.setItem('student', JSON.stringify(data.student));
+        window.location.href = 'dashboard.html';
+      } catch(e) {
+        showMsg('dept-msg', 'Network error.', 'error');
+      } finally {
+        btn.disabled = false; btn.textContent = 'Save and continue';
       }
     }
 

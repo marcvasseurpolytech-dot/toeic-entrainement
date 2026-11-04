@@ -1,6 +1,8 @@
 const REPO = process.env.DATA_REPO || 'marcvasseurpolytech-dot/toeic-entrainement';
 const FILE  = 'data/students.json';
 const API   = 'https://api.github.com';
+// Keep in sync with PROMOS in dept.js (signup dropdown).
+const CLASSES = ['TC3 8h','TC3 10h','TC3 14h','TC3 16h','TC4 8h','TC4 10h','TC4 14h','TC4 16h','TC2A3','TC2A5','M1 GC','M1 GM','Booster'];
 
 async function ghGet(path, token) {
   const r = await fetch(`${API}/repos/${REPO}/contents/${path}`, {
@@ -51,6 +53,18 @@ module.exports = async (req, res) => {
     if (s.approved === false) {
       return res.status(403).json({ error: 'Your account is pending administrator approval. Please check back later.', pending: true });
     }
+    return res.json({ student: { nom: s.nom, prenom: s.prenom, dept: s.dept } });
+  }
+
+  // Existing students pick their class from the list the next time they log in.
+  if (action === 'updateDept') {
+    const s = students.find(x => x.nom === nomUpper && x.codeHash === codeHash);
+    if (!s) return res.status(401).json({ error: 'Incorrect name or code.' });
+    const m = String(dept || '').trim().match(/^(.+?)(?: - (.{1,20}))?$/);
+    if (!m || !CLASSES.includes(m[1])) return res.status(400).json({ error: 'Please choose a class from the list.' });
+    s.dept = m[2] ? `${m[1]} - ${m[2].trim().toUpperCase()}` : m[1];
+    const ok = await ghPut(FILE, { students }, file?.sha, token);
+    if (!ok) return res.status(500).json({ error: 'Error while saving.' });
     return res.json({ student: { nom: s.nom, prenom: s.prenom, dept: s.dept } });
   }
 
