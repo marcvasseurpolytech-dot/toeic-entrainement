@@ -1138,5 +1138,560 @@ module.exports = {
     "fr": "<p><b>Document 1, courriel.</b> De : Carlos Mena, coordinateur du marché. À : tous les exposants. Date : 7 juillet. Objet : marché nocturne de Riverside, vendredi 17 juillet. Chers exposants, le marché nocturne de Riverside aura lieu le vendredi 17 juillet de 17 h à 22 h. Vous pouvez commencer l'installation à 14 h. Votre numéro de stand figure sur votre reçu de paiement, et un plan de la place est joint. Veuillez vous garer uniquement sur le parking C, indiqué sur le plan. Les parkings A et B sont réservés aux visiteurs. L'électricité n'est disponible que pour les stands côté rivière de la place, et elle doit être payée à l'avance. Comme le marché ferme à 22 h, tous les stands doivent être libérés avant 23 h.</p><p><b>Document 2, plan.</b> Place de Riverside. Les stands 1 à 6 sont du côté de la rue principale, les stands 7 à 12 du côté de la rivière. La scène et le parking C sont en bas du plan.</p><p><b>Document 3, reçu.</b> Marché nocturne de Riverside, reçu de paiement. Exposante : Nina Kowalski, Honey &amp; Hive. Date de paiement : 1er juillet (carte bancaire). Stand 9, vendredi 17 juillet : 60 $. Raccordement électrique : 15 $. Total payé : 75 $.</p>"
    }
   ]
+ },
+ "p7-test-c": {
+  "q": {
+   "147": "L'avis annonce que l'entreprise <em>will shut off the water</em> mardi de 9 h à 13 h : il prévient donc d'une coupure temporaire. Le remplacement d'une conduite en est la cause, pas un sujet de signalement de fuites, et aucun tarif n'est évoqué.",
+   "148": "<em>Residents are advised to store water for drinking and cooking before 9:00 A.M.</em> L'eau trouble concerne le retour du service, et le texte conseille alors de laisser couler le robinet, pas d'appeler. Aucune mention de voitures ni de fermeture de commerces.",
+   "149": "L'annonce énumère <em>weekly lawn mowing, hedge trimming, and flower bed planting</em> : c'est de l'entretien de pelouses et de jardins. Il n'est question ni de meubles, ni d'arrosage, ni de formation.",
+   "150": "<em>Sign up for the full season (April through October) before March 31, and your first two mowings are free.</em> Le devis gratuit est offert à tous sans condition de date, et la zone de 20 miles décrit seulement où l'entreprise travaille. Aucune offre de parrainage n'existe.",
+   "151": "Le camion arrive dans environ 40 minutes, soit vers 12 h, avant la présentation de 12 h 30. « That should be fine » signifie donc que le retard est acceptable. Elle continue d'ailleurs à préparer le stand : elle a toujours besoin des brochures.",
+   "152": "Marcus appelle <em>the courier</em> et parle du <em>truck</em> bloqué sur la route : les brochures voyagent par une société de livraison. L'imprimeur les a envoyées à 8 h, elles ne sont pas imprimées sur place, et Sofia dit seulement qu'elles doivent arriver avant la visite privée, sans les réserver à ce groupe.",
+   "153": "La ligne Equipment indique <em>Video camera (model VX-3) with tripod</em>. Aucun enregistreur audio, projecteur, éclairage ni haut-parleur n'apparaît sur le formulaire.",
+   "154": "La ligne Return due donne <em>Friday, November 13, 4:00 P.M.</em> Le lundi à 10 h est l'heure du retrait. Les autres combinaisons mélangent le jour et l'heure.",
+   "155": "La première phrase annonce que la compagnie <em>will begin weekend service</em> : le service s'étend. Les tarifs sont donnés comme information pratique mais ne changent pas, et les pendulaires ne sont cités que pour décrire la situation actuelle.",
+   "156": "Le texte cite la réduction de 50 % pour les habitants, la gratuité pour les moins de 12 ans et le café du pont supérieur. Les camions de livraison sont mentionnés, mais aucun tarif pour les véhicules n'est donné : c'est la seule option absente.",
+   "157": "Elle explique : <em>visitors kept asking us for Saturday and Sunday trips.</em> « Visitors have requested them » reformule cette phrase. Rien n'est dit sur des concurrents ni sur la population, et les pendulaires sont déjà servis en semaine.",
+   "158": "La lettre commence par <em>Thank you for your letter ... about the noise you experienced</em>, explique la cause, reconnaît l'erreur et propose un geste : c'est une réponse à une plainte. La rénovation est citée comme explication, pas comme annonce d'ouverture.",
+   "159": "<em>We would like to offer you one free night at the Lakeshore Grand.</em> Il ne s'agit ni d'un remboursement, ni d'un surclassement, ni d'un repas.",
+   "160": "« That early start » renvoie à un horaire déjà évoqué : la phrase doit suivre <em>the work began at 8:00 A.M.</em>, c'est-à-dire la position [3]. Placée en [2], elle n'aurait pas d'antécédent ; en [4], elle séparerait l'offre de ses modalités d'utilisation.",
+   "161": "Beth écrit : <em>her account still has no access to the shared drive.</em> L'ordinateur est déjà configuré, et c'est le responsable, pas la date de début, qui est absent jusqu'à mardi. Aucune adresse électronique erronée n'est évoquée.",
+   "162": "Il répond à la question d'Omar (<em>Can someone approve it for him?</em>) puis ajoute que la supérieure de Ken, Dana Cho, <em>can</em>. « I can't » signifie donc qu'il n'a pas le pouvoir d'approuver. Il propose lui-même d'envoyer le formulaire, il ne conteste pas la demande.",
+   "163": "Beth écrit : <em>Tina can start with e-mail and the intranet on Monday, and I'll add the drive once Dana signs.</em> Le lecteur partagé viendra plus tard.",
+   "164": "Dès la première phrase : <em>travel expenses will no longer be submitted on paper forms.</em> Le message décrit la nouvelle procédure par portail. Aucun retard de paiement ni aucune conférence n'est mentionné.",
+   "165": "<em>A receipt is required for every expense over $25. For smaller expenses, a short note is enough.</em> Le texte ne dit rien d'un non-remboursement, et le délai de dix jours ouvrables s'applique aux demandes en général.",
+   "166": "<em>We strongly encourage you to start using the portal now</em> : l'entreprise incite vivement, donc « urge ». « Oblige » est trop fort puisque le papier reste accepté jusqu'au 28 février, et « permit » ou « reward » ne rendent pas l'idée de pousser à agir.",
+   "167": "À partir du 1er février, les nouvelles demandes passent par le portail, et les déplacements antérieurs sont encore acceptés sur papier <em>until February 28</em>. On en déduit qu'après cette date le papier ne sera plus accepté du tout. Le texte ne parle ni d'application mobile ni de la cause d'éventuels retards.",
+   "168": "<em>All members enjoy fast Wi-Fi, free coffee and tea, and discounts at the café next door.</em> Le bureau personnel est propre à la formule Résident, l'impression est payante et les salles de réunion sont limitées en heures.",
+   "169": "La formule Résident donne <em>your own desk</em> et un accès 24 h sur 24 : elle convient à ceux qui veulent un poste fixe. Le Wi-Fi est offert à tous, le paiement annuel est une option générale et son prix mensuel (300 $) dépasse celui de la formule Flex (120 $).",
+   "170": "La formule Flex comprend un bureau en espace ouvert pendant 8 jours par mois et 2 heures de salle de réunion. Le bureau personnel avec accès 24 h sur 24 est réservé à la formule Résident : c'est la seule option qui n'est pas incluse.",
+   "171": "<em>Paying for a full year at once saves 15 percent.</em> La visite des locaux n'offre aucune réduction, et le café voisin propose ses propres remises, indépendantes de l'abonnement.",
+   "172": "La première phrase annonce que <em>employees may work from home up to two days per week</em>, et tout le reste précise les modalités. Le service informatique n'est cité que pour fournir du matériel.",
+   "173": "<em>Employees must have their schedule approved by their supervisor by September 28.</em> Le 14 septembre est la date de la note, le 25 septembre la date limite des demandes de matériel et le 5 octobre l'entrée en vigueur.",
+   "174": "<em>This policy will be reviewed after six months</em> : on l'examinera de nouveau pour juger de ses effets, donc « evaluated ». La politique ne sera ni répétée, ni publiée, ni défendue.",
+   "175": "« Those office days » renvoie aux jours de présence choisis par chaque équipe : la phrase doit suivre <em>Each team will decide which days are spent in the office</em>, c'est-à-dire la position [2]. En [1], « those office days » n'aurait pas d'antécédent ; en [3] et [4], le texte parle de l'approbation du planning puis de la joignabilité.",
+   "176": "L'affiche indique <em>$30 if you register by April 15. $40 after that date and on race day.</em> Les inscrits du jour paient donc plus cher. Le petit-déjeuner est offert à <em>every runner</em>, et le retrait des dossards du vendredi concerne ceux qui sont déjà inscrits.",
+   "177": "<em>Every runner receives a finisher's medal and a free breakfast.</em> Le T-shirt est facultatif et payant, et aucun billet de bus ni reçu de don n'est mentionné.",
+   "178": "Le courriel indique qu'il s'est inscrit le 12 avril, sans T-shirt. L'affiche fixe le tarif à 30 $ jusqu'au 15 avril : il a donc payé 30 $.",
+   "179": "Elle sera inscrite le 25 avril, donc après le 15 avril : 40 $, plus 12 $ pour le T-shirt, soit 52 $. Les montants de 30 $ et de 42 $ supposent une inscription avant la date limite.",
+   "180": "Il écrit qu'il ne peut pas se rendre au retrait des dossards et demande : <em>Could a friend collect my packet for me?</em> Il ne parle ni d'horaire, ni de gratuité pour sa fille, ni de changement de jour.",
+   "181": "L'ordre du jour place le point budgétaire à 11 h 15 avec <em>Carl Estrada</em>. Anita Voss ouvre à 9 h 00, Sandra Kim parle à 9 h 15 et Peter Lang à 10 h 15.",
+   "182": "Il demande à parler <em>right after your welcome</em>, c'est-à-dire plus tôt que son créneau de 10 h 15. Il ne renonce pas à la réunion et ne pose aucune question sur le lieu ni sur un nouveau sujet.",
+   "183": "Il part à 9 h 30 (courriel) et sa présentation est prévue à 10 h 15 (ordre du jour) : l'écart est de 45 minutes.",
+   "184": "Il écrit <em>My slides need the projector</em> : sa présentation comporte des diapositives projetées. Elle dure une heure exactement (de 10 h 15 à 11 h 15), et rien n'indique qu'elle ait été préparée par Anita ou donnée à Denver.",
+   "185": "<em>I hope you can accommodate my request</em> : on satisfait ou on accorde une demande, donc « grant ». « House » correspond au sens courant de loger quelqu'un, qui ne convient pas ici.",
+   "186": "Elle écrit : <em>I saw your listing and am interested in a two-bedroom apartment</em>, puis demande si un logement est disponible. C'est une demande de renseignements pour louer, pas une plainte ni une annulation.",
+   "187": "<em>Rent includes water and heating. Electricity and internet are paid by the tenant.</em> Les autres combinaisons mélangent les deux phrases.",
+   "188": "Dans sa réponse, M. Hale indique que l'appartement est au troisième étage, demande une pièce d'identité et un justificatif de revenus, et précise que le dépôt de garantie équivaut à un mois de loyer. Le prix du parking figure seulement dans l'annonce, pas dans son courriel.",
+   "189": "L'appartement à deux chambres coûte 1 400 $. Elle veut un bail de six mois, qui coûte 75 $ de plus par mois : 1 400 + 75 = 1 475 $. Le montant de 1 125 $ correspond à un appartement d'une chambre, et 1 535 $ inclurait une place de parking à 60 $.",
+   "190": "Elle ne reste que six mois, et l'annonce précise que le bail de 6 mois coûte <em>an extra $75 per month</em> par rapport au bail standard de 12 mois. Les animaux sont acceptés avec une caution, et le bail de six mois est plus court, pas plus long, que le bail standard.",
+   "191": "<em>All ingredients and aprons are provided.</em> Les livres de recettes, les repas à emporter et les certificats ne sont pas mentionnés.",
+   "192": "Mme Park s'inscrit à l'atelier de pâtes italiennes (courriel), qui a lieu le mardi 13 octobre (page web). Le 3 et le 24 octobre sont les dates des deux autres cours, et le 29 septembre est la date de la réponse du chef.",
+   "193": "Il écrit : <em>We will prepare a tomato sauce and a mushroom sauce, and no meat will be used.</em> Aucune crème, aucun emport ni vente n'est évoqué.",
+   "194": "<em>All ingredients and aprons are provided</em> : l'école les fournit, donc « supplied ». Les élèves ne les commandent pas, ne les rendent pas, et le texte ne dit pas qu'ils soient exigés.",
+   "195": "Le cours de pâtes coûte 80 $ par personne : 2 × 80 = 160 $, plus 90 $ pour le cours de pain, soit 250 $. Avec 10 % de réduction (25 $), le total est de 225 $. Le montant de 250 $ ignore la réduction, et 170 $ et 153 $ oublient la place du mari.",
+   "196": "<em>The bus will leave at 8:30 A.M.</em> Les élèves arrivent à l'école avant 8 h 00, le car arrive au musée à 9 h 15 et les activités commencent à 9 h 30.",
+   "197": "Le programme indique <em>Lunch in the picnic area</em> à midi. Le reçu montre que Ben a commandé un sandwich (<em>Sandwich lunch $6.00</em>) et le café du musée est fermé ce jour-là. La visite guidée a lieu le matin et le temps libre dans les galeries à 13 h 00.",
+   "198": "À 9 h 30, le groupe A suit la visite guidée et le groupe B l'atelier. À 10 h 45, <em>Groups switch activities</em> : le groupe A passe donc à l'atelier sur les phares. Le déjeuner est à 12 h 00 et le retour au car à 13 h 45.",
+   "199": "Le reçu indique <em>Total paid $24.00</em> : 18 $ pour la sortie et 6 $ pour le sandwich.",
+   "200": "<em>Please return the signed permission slip, together with payment, by Friday, May 8.</em> Le 4 mai est la date du courriel, le 6 mai celle du reçu de Mme Tran et le 13 mai le jour de la sortie."
+  },
+  "d": [
+   {
+    "vocab": [
+     [
+      "water service",
+      "alimentation en eau"
+     ],
+     [
+      "shut off",
+      "couper (l'eau, le courant)"
+     ],
+     [
+      "crew",
+      "équipe (d'ouvriers)"
+     ],
+     [
+      "main pipe",
+      "conduite principale"
+     ],
+     [
+      "be advised to",
+      "il est conseillé de"
+     ],
+     [
+      "store",
+      "stocker, mettre en réserve"
+     ],
+     [
+      "cloudy",
+      "trouble"
+     ]
+    ],
+    "fr": "<p>AVIS D'INTERRUPTION DU SERVICE D'EAU. Brookfield Water Utility coupera l'eau de toutes les maisons et de tous les commerces de la rue Alder, entre la Troisième Avenue et la Neuvième Avenue, le mardi 6 octobre, de 9 h 00 à 13 h 00. Des équipes remplaceront une vieille conduite principale.</p><p>Il est conseillé aux habitants de faire des réserves d'eau pour boire et cuisiner avant 9 h 00. Au retour du service, l'eau peut paraître trouble pendant un court moment. Laisser couler le robinet d'eau froide quelques minutes la rendra claire.</p><p>Des questions ? Appelez le 555-0192.</p>"
+   },
+   {
+    "vocab": [
+     [
+      "yard",
+      "jardin (devant ou derrière la maison)"
+     ],
+     [
+      "lawn mowing",
+      "tonte de pelouse"
+     ],
+     [
+      "hedge trimming",
+      "taille de haies"
+     ],
+     [
+      "flower bed",
+      "massif de fleurs"
+     ],
+     [
+      "estimate",
+      "devis"
+     ],
+     [
+      "no obligation",
+      "sans engagement"
+     ],
+     [
+      "sign up for",
+      "s'inscrire à"
+     ]
+    ],
+    "fr": "<p>GREENLINE LANDSCAPING (entretien d'espaces verts). Le printemps approche ! Laissez notre équipe préparer votre jardin pour la saison.</p><p>Tonte hebdomadaire, taille de haies et plantation de massifs de fleurs. Devis gratuits, sans engagement : appelez le 555-0147.</p><p>Inscrivez-vous pour la saison complète (d'avril à octobre) avant le 31 mars, et vos deux premières tontes sont gratuites.</p><p>Nous desservons les maisons situées à moins de 20 miles de Dunmore.</p>"
+   },
+   {
+    "vocab": [
+     [
+      "brochure",
+      "brochure, dépliant"
+     ],
+     [
+      "trade show",
+      "salon professionnel"
+     ],
+     [
+      "courier",
+      "coursier, société de livraison"
+     ],
+     [
+      "preview",
+      "présentation en avant-première"
+     ],
+     [
+      "stuck in traffic",
+      "bloqué dans les embouteillages"
+     ],
+     [
+      "set up",
+      "installer, mettre en place"
+     ],
+     [
+      "display table",
+      "table d'exposition"
+     ]
+    ],
+    "fr": "<p><b>Sofia Reyes (11 h 15)</b> : Marcus, les brochures ne sont pas encore arrivées au salon professionnel. L'imprimeur a dit qu'elles étaient parties à 8 h 00.</p><p><b>Marcus Webb (11 h 17)</b> : J'appelle le coursier tout de suite. En as-tu besoin avant l'arrivée des premiers visiteurs ?</p><p><b>Sofia Reyes (11 h 18)</b> : Oui. Un groupe de clients vient pour une présentation privée à 12 h 30.</p><p><b>Marcus Webb (11 h 21)</b> : Le coursier dit que le camion est bloqué dans les embouteillages sur la route 9. Il devrait arriver dans environ 40 minutes.</p><p><b>Sofia Reyes (11 h 22)</b> : Ça devrait aller. Je commence à installer la table d'exposition.</p>"
+   },
+   {
+    "vocab": [
+     [
+      "equipment",
+      "matériel, équipement"
+     ],
+     [
+      "reservation",
+      "réservation"
+     ],
+     [
+      "tripod",
+      "trépied"
+     ],
+     [
+      "pickup",
+      "retrait"
+     ],
+     [
+      "return due",
+      "retour prévu, date limite de retour"
+     ],
+     [
+      "approve",
+      "approuver"
+     ],
+     [
+      "late return",
+      "retour tardif"
+     ]
+    ],
+    "fr": "<p><b>Université de Westmont, réservation de matériel du laboratoire multimédia.</b> Demandé par : Dr Hannah Brooks, département de biologie. Matériel : caméra vidéo (modèle VX-3) avec trépied. Retrait : lundi 9 novembre, 10 h 00. Retour prévu : vendredi 13 novembre, 16 h 00. Objet : enregistrement d'entretiens pour un projet de recherche. Approuvé par : Alicia Moreno, responsable du laboratoire.</p><p>Le matériel doit être rapporté à l'accueil du laboratoire multimédia. Tout retour tardif est facturé 15 $ par jour. Les réservations peuvent être modifiées jusqu'à 24 heures avant le retrait.</p>"
+   },
+   {
+    "vocab": [
+     [
+      "weekend service",
+      "service du week-end"
+     ],
+     [
+      "commuter",
+      "travailleur pendulaire"
+     ],
+     [
+      "delivery truck",
+      "camion de livraison"
+     ],
+     [
+      "tourism",
+      "tourisme"
+     ],
+     [
+      "departure",
+      "départ"
+     ],
+     [
+      "discount",
+      "réduction"
+     ],
+     [
+      "upper deck",
+      "pont supérieur"
+     ]
+    ],
+    "fr": "<p><b>Le ferry ajoute des traversées le week-end.</b> PORT ALBERT (3 avril). La compagnie Albert Island Ferry a annoncé hier qu'elle commencera un service de week-end entre Port Albert et l'île Seal le 16 mai. Jusqu'à présent, le ferry ne circulait qu'en semaine et transportait surtout des travailleurs pendulaires et des camions de livraison.</p><p>« Le tourisme progresse chaque année, et les visiteurs n'arrêtaient pas de nous demander des traversées le samedi et le dimanche », a déclaré la présidente de la compagnie, Dina Marsh. Deux bateaux circuleront le week-end, avec un premier départ à 8 h 30 et un dernier retour à 19 h 00.</p><p>Les billets coûteront 12 $ pour les adultes. Les enfants de moins de 12 ans voyageront gratuitement et les habitants de l'île bénéficieront d'une réduction de 50 % sur présentation d'une pièce d'identité. La compagnie prévoit aussi d'ouvrir un petit café sur le pont supérieur d'ici juillet, mais la date exacte n'est pas fixée.</p>"
+   },
+   {
+    "vocab": [
+     [
+      "stay",
+      "séjour"
+     ],
+     [
+      "noise",
+      "bruit"
+     ],
+     [
+      "renovation",
+      "rénovation"
+     ],
+     [
+      "guest room",
+      "chambre d'hôtel"
+     ],
+     [
+      "wing",
+      "aile (d'un bâtiment)"
+     ],
+     [
+      "voucher",
+      "bon (de réduction ou d'offre)"
+     ],
+     [
+      "enclosed",
+      "ci-joint"
+     ]
+    ],
+    "fr": "<p>Lakeshore Grand Hotel, 85 Bay Road, Marlow, 22 juin. Chère Mme Tanaka,</p><p>Merci pour votre lettre du 15 juin au sujet du bruit que vous avez subi pendant votre séjour chez nous du 10 au 12 juin. Le bruit provenait de la rénovation de 30 chambres dans l'aile est, qui sera terminée d'ici le 31 août. Vous avez raison de dire que les travaux ont commencé à 8 h 00, plus tôt que ce que nos clients devraient avoir à supporter. Pour nous excuser, nous souhaitons vous offrir une nuit gratuite au Lakeshore Grand, valable jusqu'au 31 décembre. Pour en profiter, veuillez présenter le bon ci-joint lors de votre réservation et mentionner le code QUIET.</p><p>Cordialement, Rafael Duarte, directeur général.</p>"
+   },
+   {
+    "vocab": [
+     [
+      "analyst",
+      "analyste"
+     ],
+     [
+      "configured",
+      "configuré, paramétré"
+     ],
+     [
+      "shared drive",
+      "lecteur (dossier) partagé"
+     ],
+     [
+      "account",
+      "compte (informatique)"
+     ],
+     [
+      "approval",
+      "accord, autorisation"
+     ],
+     [
+      "on leave",
+      "en congé"
+     ],
+     [
+      "supervisor",
+      "supérieur hiérarchique"
+     ]
+    ],
+    "fr": "<p><b>Omar Haddad (9 h 41)</b> : Beth, notre nouvelle analyste, Tina Moore, commence lundi. Son ordinateur portable est-il prêt ?</p><p><b>Beth Sullivan (9 h 44)</b> : L'ordinateur est configuré, mais son compte n'a toujours pas accès au lecteur partagé. Il faut pour cela l'accord de son responsable.</p><p><b>Omar Haddad (9 h 45)</b> : Son responsable, Ken, est en congé jusqu'à mardi. Quelqu'un peut-il approuver à sa place ?</p><p><b>Raj Patel (9 h 48)</b> : Moi, je ne peux pas, mais sa supérieure, Dana Cho, le peut. Je lui envoie le formulaire.</p><p><b>Beth Sullivan (9 h 49)</b> : Parfait. Tina pourra commencer avec la messagerie et l'intranet lundi, et j'ajouterai le lecteur dès que Dana aura signé.</p><p><b>Omar Haddad (9 h 50)</b> : Très bien. Je demanderai à Dana de le signer aujourd'hui.</p>"
+   },
+   {
+    "vocab": [
+     [
+      "reimbursement",
+      "remboursement"
+     ],
+     [
+      "file a claim",
+      "déposer une demande (de remboursement)"
+     ],
+     [
+      "attach",
+      "joindre"
+     ],
+     [
+      "process",
+      "traiter (un dossier)"
+     ],
+     [
+      "receipt",
+      "reçu, ticket de caisse"
+     ],
+     [
+      "encourage",
+      "encourager, inciter"
+     ],
+     [
+      "individually",
+      "individuellement"
+     ]
+    ],
+    "fr": "<p>De : Valerie Cruz, service financier. À : tout le personnel commercial. Date : 11 janvier. Objet : nouvelle procédure de remboursement.</p><p>Chers collègues, à partir du 1er février, les frais de déplacement ne seront plus soumis sur des formulaires papier. Toutes les demandes devront être déposées via le portail du service financier, où vous pouvez joindre des reçus numérisés. Les demandes sont normalement traitées en dix jours ouvrables, et les paiements sont versés directement sur votre compte bancaire.</p><p>Un reçu est exigé pour toute dépense supérieure à 25 $. Pour les dépenses plus petites, une courte note suffit. Les demandes pour des déplacements effectués avant le 1er février seront encore acceptées sur papier jusqu'au 28 février, mais nous vous encourageons vivement à commencer à utiliser le portail dès maintenant.</p><p>Une session de formation aura lieu le 20 janvier à 14 h 00 en salle 5. Si vous ne pouvez pas y assister, Marcus Doyle, de notre équipe, peut vous recevoir individuellement. Merci de votre coopération.</p>"
+   },
+   {
+    "vocab": [
+     [
+      "membership",
+      "abonnement, adhésion"
+     ],
+     [
+      "day pass",
+      "pass à la journée"
+     ],
+     [
+      "open desk",
+      "bureau en espace partagé (sans place fixe)"
+     ],
+     [
+      "meeting room",
+      "salle de réunion"
+     ],
+     [
+      "access",
+      "accès"
+     ],
+     [
+      "per page",
+      "par page"
+     ],
+     [
+      "arrange a tour",
+      "organiser une visite"
+     ]
+    ],
+    "fr": "<p>www.hubspace.example/membership. Accueil | Sites | Abonnement | Contact. Choisissez votre abonnement Hubspace.</p><p>Pass journée : 25 $ par jour, bureau en espace ouvert. Formule Flex : 120 $ par mois, bureau en espace ouvert 8 jours par mois et 2 heures en salle de réunion. Formule Résident : 300 $ par mois, votre propre bureau, accès 24 h sur 24 et 10 heures en salle de réunion.</p><p>Tous les membres bénéficient d'un Wi-Fi rapide, de café et de thé gratuits, et de réductions au café voisin. L'impression coûte 10 centimes la page. Le temps de salle de réunion supplémentaire coûte 15 $ de l'heure.</p><p>Payer une année complète d'un coup fait économiser 15 %. Rendez-vous sur n'importe quel site pour organiser une visite.</p>"
+   },
+   {
+    "vocab": [
+     [
+      "hybrid",
+      "hybride (bureau et domicile)"
+     ],
+     [
+      "work from home",
+      "télétravailler"
+     ],
+     [
+      "approve",
+      "approuver, valider"
+     ],
+     [
+      "reachable",
+      "joignable"
+     ],
+     [
+      "headset",
+      "casque (avec micro)"
+     ],
+     [
+      "IT Help Desk",
+      "assistance informatique"
+     ],
+     [
+      "review",
+      "réexaminer, évaluer"
+     ]
+    ],
+    "fr": "<p>NOTE DE SERVICE. À : tout le personnel. De : Priya Anand, directrice des ressources humaines. Date : 14 septembre. Objet : organisation du travail hybride.</p><p>À partir du 5 octobre, les employés pourront travailler à domicile jusqu'à deux jours par semaine. Chaque équipe décidera des jours passés au bureau afin que tous les membres du groupe soient présents les mêmes jours. Les employés doivent faire approuver leur planning par leur supérieur d'ici le 28 septembre. Ceux qui travaillent à domicile doivent pouvoir être joints par téléphone ou par courriel pendant les heures normales, de 9 h 00 à 17 h 00. L'entreprise fournira un ordinateur portable et un casque à toute personne qui n'en a pas déjà. Les demandes doivent être envoyées au service d'assistance informatique avant le 25 septembre.</p><p>Cette politique sera réexaminée après six mois.</p>"
+   },
+   {
+    "vocab": [
+     [
+      "literacy",
+      "alphabétisation, maîtrise de la lecture"
+     ],
+     [
+      "proceeds",
+      "recettes, bénéfices"
+     ],
+     [
+      "race day",
+      "jour de la course"
+     ],
+     [
+      "finisher's medal",
+      "médaille de participation (à l'arrivée)"
+     ],
+     [
+      "packet pickup",
+      "retrait des dossards (et du kit)"
+     ],
+     [
+      "register",
+      "s'inscrire"
+     ],
+     [
+      "collect",
+      "récupérer, retirer"
+     ]
+    ],
+    "fr": "<p><b>Document 1, affiche.</b> Lakeside 10K pour l'alphabétisation. Samedi 16 mai, départ à 8 h 00, parc Cormorant. Toutes les recettes soutiennent le programme de lecture d'Eastfield. Inscription : 30 $ si vous vous inscrivez avant le 15 avril, 40 $ après cette date et le jour de la course. T-shirt de course facultatif : 12 $, à commander lors de l'inscription. Chaque coureur reçoit une médaille de finisher et un petit-déjeuner gratuit. Retrait des dossards : vendredi 15 mai, de 16 h 00 à 19 h 00, au parc Cormorant.</p><p><b>Document 2, courriel.</b> De : Jacob Lindqvist. À : info@lakeside10k.example. Date : 20 avril. Objet : question sur l'inscription. Chers organisateurs, je me suis inscrit au 10 km le 12 avril, sans T-shirt. Ma fille a décidé de courir avec moi, et nous prévoyons de l'inscrire le 25 avril. Elle voudrait aussi un T-shirt.</p><p>J'ai aussi un problème. Je voyagerai le vendredi 15 mai, donc je ne peux pas aller au retrait des dossards. Un ami pourrait-il récupérer mon dossard à ma place ? Cordialement, Jacob Lindqvist.</p>"
+   },
+   {
+    "vocab": [
+     [
+      "quarterly",
+      "trimestriel"
+     ],
+     [
+      "agenda",
+      "ordre du jour"
+     ],
+     [
+      "launch",
+      "lancement"
+     ],
+     [
+      "budget update",
+      "point sur le budget"
+     ],
+     [
+      "short notice",
+      "préavis court"
+     ],
+     [
+      "accommodate a request",
+      "répondre favorablement à une demande"
+     ],
+     [
+      "slides",
+      "diapositives"
+     ]
+    ],
+    "fr": "<p><b>Document 1, ordre du jour.</b> Orion Packaging, réunion trimestrielle de planification. Jeudi 11 juin, salle de conférence B. 9 h 00 : accueil (Anita Voss). 9 h 15 : lancement du nouveau produit (Sandra Kim). 10 h 00 : pause. 10 h 15 : résultats des ventes (Peter Lang). 11 h 15 : point budgétaire (Carl Estrada). 12 h 00 : déjeuner. Merci d'arriver avant 8 h 45 pour le café.</p><p><b>Document 2, courriel.</b> De : Peter Lang. À : Anita Voss. Date : 8 juin. Objet : réunion de jeudi. Chère Anita, je viens d'apprendre que mon vol pour Denver part à 11 h 30 jeudi, donc je dois partir pour l'aéroport à 9 h 30. Je sais que c'est un préavis court, mais j'espère que vous pourrez répondre favorablement à ma demande de prendre la parole juste après votre accueil.</p><p>Mes diapositives nécessitent le projecteur. Je vous les enverrai ce soir au cas où mon ordinateur poserait problème. Merci, Peter.</p>"
+   },
+   {
+    "vocab": [
+     [
+      "spacious",
+      "spacieux"
+     ],
+     [
+      "rent",
+      "loyer ; louer"
+     ],
+     [
+      "utilities",
+      "charges (eau, électricité, chauffage)"
+     ],
+     [
+      "lease",
+      "bail"
+     ],
+     [
+      "viewing",
+      "visite (d'un logement)"
+     ],
+     [
+      "proof of income",
+      "justificatif de revenus"
+     ],
+     [
+      "security deposit",
+      "dépôt de garantie"
+     ]
+    ],
+    "fr": "<p><b>Document 1, annonce web.</b> Maple Court Apartments, 14 Maple Street, Brighton. Appartements spacieux à trois minutes de la gare de Brighton. Une chambre : 1 050 $ par mois. Deux chambres : 1 400 $ par mois. Le loyer comprend l'eau et le chauffage. L'électricité et internet sont à la charge du locataire. Parking : 60 $ par mois et par place. Animaux acceptés avec une caution unique de 300 $. Bail standard : 12 mois. Un bail de 6 mois est possible pour 75 $ de plus par mois. Pour organiser une visite, appelez le 555-0166.</p><p><b>Document 2, courriel.</b> De : Elaine Whitfield. À : leasing@maplecourt.example. Date : 3 mars. Objet : appartement de deux chambres. Madame, Monsieur, j'ai vu votre annonce et je suis intéressée par un appartement de deux chambres pour ma fille et moi. Nous devrions emménager le 1er avril, mais seulement pour six mois, car je travaillerai à l'étranger à partir d'octobre. Nous avons aussi un petit chien.</p><p>Un logement est-il disponible ? Je pourrais le visiter ce samedi. Cordialement, Elaine Whitfield.</p><p><b>Document 3, courriel.</b> De : Gordon Hale, service de location. À : Elaine Whitfield. Date : 4 mars. Objet : RE : appartement de deux chambres. Madame Whitfield, oui, nous avons un appartement de deux chambres disponible le 1er avril. Il se trouve au troisième étage. Nous pouvons le montrer samedi à 10 h 00 ou à 14 h 00. Merci d'apporter une pièce d'identité avec photo et un justificatif de revenus à la visite.</p><p>Si vous décidez de louer, un dépôt de garantie égal à un mois de loyer sera dû à la signature du bail. Merci de m'indiquer l'horaire que vous préférez. Cordialement, Gordon Hale.</p>"
+   },
+   {
+    "vocab": [
+     [
+      "workshop",
+      "atelier"
+     ],
+     [
+      "class size",
+      "effectif d'un cours"
+     ],
+     [
+      "provided",
+      "fourni"
+     ],
+     [
+      "refund",
+      "remboursement"
+     ],
+     [
+      "credit",
+      "avoir"
+     ],
+     [
+      "meat-free",
+      "sans viande"
+     ],
+     [
+      "place",
+      "place (dans un cours)"
+     ]
+    ],
+    "fr": "<p><b>Document 1, page web.</b> Harvest Table, école de cuisine, cours d'automne. Techniques de découpe : samedi 3 octobre, de 10 h 00 à 13 h 00, 65 $. Atelier de pâtes italiennes : mardi 13 octobre, de 18 h 00 à 21 h 00, 80 $. Bases de la boulangerie : samedi 24 octobre, de 10 h 00 à 14 h 00, 90 $. Les classes sont limitées à 10 élèves. Tous les ingrédients et les tabliers sont fournis. Annulez au moins 7 jours avant un cours pour un remboursement complet. Les annulations plus tardives donnent droit à un avoir pour un futur cours.</p><p><b>Document 2, courriel.</b> De : Mina Park. À : registrations@harvesttable.example. Date : 28 septembre. Objet : cours d'automne. Bonjour, je voudrais m'inscrire à l'atelier de pâtes italiennes et aux Bases de la boulangerie. Je voudrais aussi amener mon mari au cours de pâtes, s'il y a de la place. Il est végétarien, alors je me demande si le cours comprend des recettes sans viande. Merci, Mina Park.</p><p><b>Document 3, courriel.</b> De : Luca Bianchi, chef-instructeur. À : Mina Park. Date : 29 septembre. Objet : RE : cours d'automne. Madame Park, merci de votre intérêt. Il reste trois places à l'atelier de pâtes, donc votre mari est le bienvenu. Nous préparerons une sauce tomate et une sauce aux champignons, sans aucune viande. Il reste aussi une place au cours de pain.</p><p>Comme vous vous inscrivez à deux cours, je peux vous offrir 10 % de réduction sur le total de votre commande. Merci d'envoyer le paiement sous trois jours pour conserver vos places. Cordialement, Luca Bianchi.</p>"
+   },
+   {
+    "vocab": [
+     [
+      "class trip",
+      "sortie scolaire"
+     ],
+     [
+      "packed lunch",
+      "panier-repas"
+     ],
+     [
+      "permission slip",
+      "autorisation parentale"
+     ],
+     [
+      "fee",
+      "frais, tarif"
+     ],
+     [
+      "picnic area",
+      "aire de pique-nique"
+     ],
+     [
+      "gallery",
+      "salle d'exposition"
+     ],
+     [
+      "receipt",
+      "reçu"
+     ]
+    ],
+    "fr": "<p><b>Document 1, courriel.</b> De : Paul Alvarez, enseignant de CM2. À : familles des élèves de CM2. Date : 4 mai. Objet : sortie scolaire au musée maritime. Chères familles, notre sortie scolaire au musée maritime aura lieu le mercredi 13 mai. Les élèves doivent arriver à l'école avant 8 h 00. Le car partira à 8 h 30 et reviendra à l'école vers 14 h 30.</p><p>Le prix de la sortie est de 18 $ par élève et couvre le car et l'entrée du musée. Le café du musée sera fermé ce jour-là. Les élèves peuvent apporter un panier-repas, ou commander un sandwich pour 6 $.</p><p>Merci de rendre l'autorisation signée, accompagnée du paiement, avant le vendredi 8 mai. Cordialement, Paul Alvarez.</p><p><b>Document 2, programme.</b> Musée maritime, programme des CM2, mercredi 13 mai. 8 h 30 : départ du car de l'école. 9 h 15 : arrivée au musée. 9 h 30 : groupe A, visite guidée « Navires et marins » ; groupe B, atelier sur les phares. 10 h 45 : les groupes échangent leurs activités. 12 h 00 : déjeuner dans l'aire de pique-nique. 13 h 00 : temps libre dans les galeries. 13 h 45 : départ du car du musée. 14 h 30 : arrivée à l'école.</p><p><b>Document 3, reçu.</b> École élémentaire d'Oakridge, reçu de paiement. Date : 6 mai. Parent : Lisa Tran. Élève : Ben Tran, CM2. Prix de la sortie (musée maritime) : 18,00 $. Sandwich : 6,00 $. Total payé : 24,00 $ (chèque n° 1042). Autorisation : reçue.</p>"
+   }
+  ]
  }
 };

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TOEIC Part 7 · Test C · Marc Vasseur | Polytech Lille</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@500;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1B2A4A;--gold:#C9A24B;--gold-d:#8a6a1c;--cream:#FAF5E8;--paper:#fffdf7;--ink:#1d2433;--line:#d9cfb4;--ok:#2f6b4f;--ko:#9b2c2c;--mute:#5b6577}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:'Source Serif 4',Georgia,serif;background:var(--cream);color:var(--ink);font-size:16px;line-height:1.55}
+#app{height:100vh;display:flex;flex-direction:column}
+header{background:var(--navy);color:var(--cream);display:flex;align-items:center;gap:14px;padding:9px 16px;flex-wrap:wrap}
+header h1{font-family:'Playfair Display',serif;font-weight:500;font-size:18px;margin:0;flex:1 1 220px}
+header h1 small{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.04em;font-weight:400}
+.navbar{display:flex;gap:6px;align-items:center}
+.navbar button{background:var(--gold);color:var(--navy);border:0;border-radius:4px;font-size:15px;line-height:1;padding:7px 11px;cursor:pointer}
+.navbar button:disabled{opacity:.35;cursor:default}
+.navbar select{font-family:'JetBrains Mono',monospace;font-size:12.5px;padding:7px 8px;border-radius:4px;border:1px solid var(--gold);background:var(--navy);color:var(--cream);max-width:320px}
+.timer{font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--gold);min-width:64px;text-align:right}
+.timer.warn{color:#f2b84b}
+.timer.late{color:#ff8f8f}
+main{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr}
+main.single{grid-template-columns:1fr}
+.pane{overflow:auto;padding:20px 26px}
+.left{background:var(--paper);border-right:1px solid var(--line)}
+.tag{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold-d);letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px}
+.doc{background:#fff;border:1px solid var(--navy);border-radius:4px;padding:14px 18px;font-size:15.5px}
+.doc p{margin:0 0 9px}
+.doc p:last-child{margin-bottom:0}
+.doc h3{font-family:'Playfair Display',serif;font-weight:700;text-align:center;font-size:17px;margin:0 0 10px;color:var(--navy)}
+.doc .meta{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--mute);border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:10px}
+.doc .msg{margin-bottom:9px}
+.doc .msg b{font-weight:600;color:var(--navy)}
+.doc .msg span.t{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--mute);margin-left:6px}
+.doc .msg div{margin-left:0}
+.doc table{width:100%;border-collapse:collapse;font-size:14.5px}
+.doc th,.doc td{border:1px solid var(--navy);padding:6px 9px;text-align:left;vertical-align:top}
+.doc th{background:#f1e8cb}
+.mk{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold-d)}
+.q{margin:0 0 20px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.q:last-of-type{border-bottom:0}
+.qt{margin:0 0 8px;font-weight:600}
+.qt .qn{font-family:'JetBrains Mono',monospace;color:var(--navy);margin-right:4px}
+.opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;font:inherit;color:inherit;background:transparent;border:1px solid transparent;border-radius:6px;padding:6px 9px;margin:2px 0;cursor:pointer}
+.opt:hover{background:#f7efd6}
+.opt .c{flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--navy);font-family:'JetBrains Mono',monospace;font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:1px;background:#fff}
+.opt.sel{background:#f1e4bd;border-color:var(--gold)}
+.opt.sel .c{background:var(--navy);color:var(--cream)}
+.locked .opt{cursor:default}
+.locked .opt:hover{background:transparent}
+.opt.ok{background:#e4f0e9;border-color:var(--ok)}
+.opt.ok .c{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opt.ko{background:#f6e3e3;border-color:var(--ko)}
+.opt.ko .c{background:var(--ko);color:#fff;border-color:var(--ko)}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 0}
+.bd{font-family:'JetBrains Mono',monospace;font-size:11px;border:1px solid var(--navy);color:var(--navy);border-radius:3px;padding:1px 6px;background:#fff}
+.bd.l{background:var(--navy);color:var(--cream)}
+.ex{margin-top:8px;padding:10px 12px;background:#fff;border-left:4px solid var(--gold);font-size:14.5px}
+.ex .v{font-weight:600}
+.ex .v.good{color:var(--ok)}
+.ex .v.bad{color:var(--ko)}
+.ex em{background:#fbf0cb;font-style:italic;padding:0 2px}
+.vocab{margin-top:14px;border:1px solid var(--navy);border-radius:6px;overflow:hidden}
+.vocab .vh{background:var(--navy);color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:12px;padding:6px 12px;letter-spacing:.04em;text-transform:uppercase}
+.vocab ul{list-style:none;margin:0;padding:8px 12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px 14px}
+.vocab li{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:4px;padding:5px 9px}
+.vocab .en{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--navy);font-weight:500}
+.vocab .fr{font-size:13.5px;color:var(--mute)}
+details.tr{margin-top:12px;border:1px solid var(--line);border-radius:6px;background:#fff;padding:8px 12px}
+details.tr summary{cursor:pointer;font-weight:600;color:var(--navy)}
+details.tr p{margin:8px 0 0;font-size:14.5px}
+footer{background:var(--navy);color:var(--cream);padding:6px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dots{display:flex;flex-wrap:wrap;gap:3px;flex:1 1 400px}
+.dot{width:23px;height:23px;border-radius:50%;border:1px solid var(--gold);font-family:'JetBrains Mono',monospace;font-size:9.5px;display:flex;align-items:center;justify-content:center;background:transparent;color:var(--cream);cursor:pointer;padding:0}
+.dot.a{background:var(--gold);color:var(--navy)}
+.dot.r{background:var(--ok);border-color:var(--ok);color:#fff}
+.dot.w{background:var(--ko);border-color:var(--ko);color:#fff}
+.brand{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#cfd6e6;text-align:right;line-height:1.35}
+.brand b{color:var(--gold);font-weight:500}
+.sheet{max-width:980px;margin:0 auto}
+.sheet h2,.res h2{font-family:'Playfair Display',serif;font-weight:700;color:var(--navy);margin:0 0 4px;font-size:26px}
+.sub{color:var(--mute);margin:0 0 16px;font-size:14.5px}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 28px;background:#fff;border:1px solid var(--navy);border-radius:6px;padding:14px 18px}
+.row{display:flex;align-items:center;gap:7px;border-bottom:1px dotted #cbbf9d;padding:3px 0;font-family:'JetBrains Mono',monospace;font-size:13px}
+.row .n{width:34px;text-align:right;color:var(--navy);margin-right:4px}
+.row.miss .n{color:var(--ko);font-weight:500}
+.bub{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--navy);background:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;color:var(--ink)}
+.bub.f{background:var(--navy);color:var(--cream)}
+.bub.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.bub.ko{background:var(--ko);border-color:var(--ko);color:#fff}
+.bub.rg{box-shadow:0 0 0 2px var(--gold)}
+.locked .bub{cursor:default}
+.btn{font:inherit;font-weight:600;border-radius:6px;padding:10px 20px;cursor:pointer;border:1px solid var(--navy)}
+.btn.p{background:var(--navy);color:var(--cream)}
+.btn.g{background:var(--gold);color:var(--navy);border-color:var(--gold-d)}
+.btn.s{background:#fff;color:var(--navy)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 6px;align-items:center}
+.warn-box{background:#fbf0cb;border:1px solid var(--gold);border-radius:6px;padding:10px 14px;margin-top:14px;font-size:14.5px}
+.res{max-width:900px;margin:0 auto}
+.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0 20px}
+.card{background:#fff;border:1px solid var(--navy);border-radius:8px;padding:14px 18px}
+.card .big{font-family:'Playfair Display',serif;font-size:34px;color:var(--navy);line-height:1.1}
+.card .lb{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold-d);letter-spacing:.05em;text-transform:uppercase}
+.card p{margin:6px 0 0;font-size:14.5px}
+.res h3{font-family:'Playfair Display',serif;color:var(--navy);margin:22px 0 8px;font-size:20px;font-weight:500}
+.bar .v{white-space:nowrap}
+.bar{display:grid;grid-template-columns:170px 1fr 130px;gap:10px;align-items:center;margin:6px 0;font-size:14.5px}
+.bar .tr{height:16px;background:#ece3c8;border-radius:3px;overflow:hidden}
+.bar .fl{height:100%;background:var(--navy)}
+.bar.weak .fl{background:var(--ko)}
+.bar.weak b{color:var(--ko)}
+.bar .v{font-family:'JetBrains Mono',monospace;font-size:12.5px;text-align:right}
+.tip{background:#fff;border-left:4px solid var(--ko);padding:10px 14px;margin-top:10px;font-size:14.5px}
+.tip.good{border-color:var(--ok)}
+.note{font-size:13px;color:var(--mute);margin-top:10px}
+#intro{position:fixed;inset:0;background:rgba(27,42,74,.94);display:flex;align-items:center;justify-content:center;padding:20px;z-index:10}
+#intro .box{background:var(--cream);border:2px solid var(--gold);border-radius:10px;max-width:640px;padding:26px 30px;max-height:92vh;overflow:auto}
+#intro h2{font-family:'Playfair Display',serif;font-weight:700;color:var(--navy);margin:0 0 6px;font-size:26px}
+#intro p{margin:8px 0;font-size:15px}
+#intro .en{font-style:italic;color:var(--navy)}
+#intro ul{margin:8px 0 14px 18px;padding:0;font-size:14.5px}
+.dlab{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold-d);letter-spacing:.05em;text-transform:uppercase;margin:16px 0 6px}
+.dlab:first-of-type{margin-top:0}
+.doc .num,.doc th.num{text-align:right}
+.inv .inv-head{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:14px;border-bottom:2px solid var(--navy);padding-bottom:8px;margin-bottom:8px}
+.inv .tot td{font-weight:600;background:#f1e8cb}
+.inv .note{font-size:13px;margin-top:9px;line-height:1.5}
+.itin .band{background:var(--navy);color:var(--cream);font-family:'Playfair Display',serif;padding:7px 12px;margin:-14px -18px 10px;font-size:16px}
+.ad{border:3px double var(--navy);text-align:center}
+.ad .banner{background:var(--gold);color:var(--navy);font-family:'Playfair Display',serif;font-weight:700;letter-spacing:.14em;padding:6px;margin:-14px -18px 12px}
+.web{border:1px solid #8c8a80;border-radius:6px;overflow:hidden;background:#fff;font-size:14.5px}
+.web .wbar{background:#e7e2d2;padding:6px 10px;display:flex;gap:6px;align-items:center}
+.web .wd{width:9px;height:9px;border-radius:50%;background:#b9b2a0}
+.web .url{margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:11.5px;background:#fff;border-radius:10px;padding:2px 12px;color:var(--mute);flex:1}
+.web .wtabs{background:var(--navy);color:var(--cream);display:flex;gap:20px;padding:6px 14px;font-size:13px}
+.web .wbody{padding:12px 16px}
+.web h4{font-family:'Playfair Display',serif;margin:0 0 8px;font-size:17px;color:var(--navy);font-weight:500}
+.web p{margin:8px 0 0}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.plan{border:1px solid var(--navy);border-radius:6px;text-align:center;padding:8px 6px;font-size:13.5px;background:#fffdf7}
+.plan b{display:block;font-family:'Playfair Display',serif;font-size:21px;color:var(--navy);font-weight:700}
+.plan small{color:var(--mute);font-size:12px}
+@media(max-width:860px){
+ main{grid-template-columns:1fr;grid-auto-rows:minmax(0,1fr)}
+ .left{border-right:0;border-bottom:1px solid var(--line)}
+ .cols{grid-template-columns:1fr}
+ .bar{grid-template-columns:100px 1fr 112px;gap:6px}
+ .pane{padding:14px 14px}
+}
+.timer{font-size:20px;font-weight:500;border-radius:6px;padding:2px 10px;min-width:82px;text-align:center}
+.timer.warn{color:#f2b84b}
+.timer.late{background:#d32f2f;color:#fff;font-weight:700;animation:tflash 1s steps(1,end) infinite}
+@keyframes tflash{0%{background:#d32f2f;color:#fff;box-shadow:0 0 0 3px rgba(211,47,47,.45)}50%{background:#fff;color:#d32f2f;box-shadow:0 0 0 3px rgba(255,255,255,.6)}}
+#hsubmit{padding:7px 16px}
+#hsubmit:disabled{opacity:.5;cursor:default}
+#lockbar{display:none;background:#9b2c2c;color:#fff;text-align:center;padding:8px 14px;font-weight:600;font-size:14.5px}
+#restore{display:none;background:#e5f1ea;color:#1f4d38;border-bottom:1px solid #b7d6c4;text-align:center;padding:6px 14px;font-size:14px}
+.opt:disabled,.bub:disabled{cursor:default}
+.dashlink{color:var(--gold);font-size:13px;text-decoration:none;border:1px solid var(--gold);border-radius:5px;padding:4px 9px}
+</style>
+</head>
+<body>
+<div id="app">
+ <header>
+  <h1>TOEIC Part 7 · Test C<small>Single, double and triple passages · Questions 147-200</small></h1>
+  <a class="dashlink" href="dashboard.html">Tableau de bord</a>
+  <div class="navbar">
+   <button type="button" id="prev" aria-label="Previous">&#9664;</button>
+   <select id="sel" aria-label="Choose a document"></select>
+   <button type="button" id="next" aria-label="Next">&#9654;</button>
+  </div>
+  <div class="timer" id="timer" aria-live="off">52:00</div>
+  <button type="button" class="btn g" id="hsubmit">Soumettre</button>
+ </header>
+ <div id="restore"></div>
+ <div id="lockbar" role="alert"></div>
+ <main id="main"></main>
+ <footer>
+  <div class="dots" id="dots"></div>
+  <div class="brand"><b>MARC VASSEUR | POLYTECH LILLE</b><br>Marc Vasseur · marc.vasseur@polytech-lille.fr</div>
+ </footer>
+</div>
+
+<div id="intro">
+ <div class="box">
+  <h2>TOEIC Part 7 · Test C</h2>
+  <p class="en"><b>Directions:</b> you will read signs, advertisements, messages, e-mails, memos, invoices, schedules, Web pages and plans. Some texts are single, others come in sets of two or three documents. Each text or set is followed by several questions. Choose the best answer, (A), (B), (C) or (D), by clicking it. Your choices are copied automatically to the answer sheet at the end.</p>
+  <p><b>Consignes :</b> 54 questions, dans le même format que le Part 7 officiel : 10 documents seuls (Q147-175), 2 ensembles de deux documents (Q176-185) et 3 ensembles de trois documents (Q186-200).</p>
+  <ul>
+   <li><b>Durée : 52 minutes</b>, soit les 75 minutes du Reading moins 15 minutes pour la Part 5 et 8 minutes pour la Part 6.</li>
+   <li>Le chrono démarre quand tu cliques. Tes réponses et le temps restant sont sauvegardés automatiquement : si tu fermes la page, tu reprends avec le temps qu'il te restait.</li>
+   <li>Dans les 5 dernières minutes, le chrono clignote en rouge.</li>
+   <li>À zéro, les réponses sont verrouillées et envoyées automatiquement. Tu peux aussi cliquer sur <b>Soumettre</b> à tout moment.</li>
+   <li>Un seul essai. Le score, ton niveau estimé (A1 à C1), les styles de questions à retravailler et la correction détaillée (vocabulaire et traduction) s'affichent après l'envoi.</li>
+  </ul>
+  <button type="button" class="btn g" id="go">Chargement...</button>
+ </div>
+</div>
+
+<script>
+var D={"DOCS":[{"kind":"notice","label":"Notice","range":"147-148","html":"<div class=\"doc\"><h3>NOTICE OF WATER SERVICE INTERRUPTION</h3><p>Brookfield Water Utility will shut off the water to all homes and businesses on Alder Street between Third Avenue and Ninth Avenue on Tuesday, October 6, from 9:00 A.M. to 1:00 P.M. Crews will be replacing an old main pipe.</p><p>Residents are advised to store water for drinking and cooking before 9:00 A.M. When service returns, the water may look cloudy for a short time. Running the cold tap for a few minutes will clear it.</p><p>Questions? Call 555-0192.</p></div>","qs":[{"n":147,"t":"Purpose","l":"A2","q":"What is the purpose of the notice?","o":["To explain how to read a monthly water bill","To ask residents to report leaking pipes","To announce an increase in the price of water","To warn residents about a temporary water shutoff"]},{"n":148,"t":"Detail","l":"A2","q":"What are residents advised to do before 9:00 A.M.?","o":["Move their parked cars from Alder Street","Close their businesses for the morning","Call the utility if the water looks cloudy","Store some water for drinking and cooking"]}]},{"kind":"advertisement","label":"Advertisement","range":"149-150","html":"<div class=\"doc ad\"><div class=\"banner\">GREENLINE LANDSCAPING</div><p>Spring is almost here! Let our team prepare your yard for the season.</p><p>Weekly lawn mowing, hedge trimming, and flower bed planting. <b>Free estimates, no obligation:</b> call 555-0147.</p><p>Sign up for the full season (April through October) before March 31, and your first two mowings are free.</p><p>We serve homes within 20 miles of Dunmore.</p></div>","qs":[{"n":149,"t":"Purpose","l":"A2","q":"What service does Greenline Landscaping offer?","o":["Care for lawns and gardens","Training in plant science","Delivery of outdoor furniture","Repair of sprinkler systems"]},{"n":150,"t":"Detail","l":"B1","q":"How can customers get two free mowings?","o":["By recommending the company to a neighbor","By living within 20 miles of the company's office","By signing up for the whole season before March 31","By requesting a free estimate during the month of March"]}]},{"kind":"text-message chain","label":"Text-message chain","range":"151-152","html":"<div class=\"doc\"><div class=\"msg\"><b>Sofia Reyes</b><span class=\"t\">11:15 A.M.</span><div>Marcus, the brochures haven't arrived at the trade show yet. The printer said they left at 8:00.</div></div><div class=\"msg\"><b>Marcus Webb</b><span class=\"t\">11:17 A.M.</span><div>I'll call the courier now. Do you need them before the first visitors arrive?</div></div><div class=\"msg\"><b>Sofia Reyes</b><span class=\"t\">11:18 A.M.</span><div>Yes. A client group is coming for a private preview at 12:30.</div></div><div class=\"msg\"><b>Marcus Webb</b><span class=\"t\">11:21 A.M.</span><div>The courier says the truck is stuck in traffic on Route 9. It should arrive in about 40 minutes.</div></div><div class=\"msg\"><b>Sofia Reyes</b><span class=\"t\">11:22 A.M.</span><div>That should be fine. I'll start setting up the display table.</div></div></div>","qs":[{"n":151,"t":"Intent","l":"B2","q":"At 11:22 A.M., what does Ms. Reyes most likely mean when she writes, \"That should be fine\"?","o":["She is satisfied with the courier's service.","She wants Mr. Webb to stop calling the courier.","The delivery will arrive in time for the preview.","She no longer needs the brochures at all."]},{"n":152,"t":"Inference","l":"B1","q":"What is indicated about the brochures?","o":["They were collected by Ms. Reyes earlier.","They were sent by a delivery company.","They are being printed at the trade show.","They are meant only for the client group."]}]},{"kind":"form","label":"Form","range":"153-154","html":"<div class=\"doc inv\"><div class=\"band\" style=\"background:var(--navy);color:var(--cream);font-family:'Playfair Display',serif;padding:7px 12px;margin:-14px -18px 10px;font-size:16px\">Westmont University · Media Lab Equipment Reservation</div><table><tr><th style=\"width:38%\">Requested by</th><td>Dr. Hannah Brooks, Department of Biology</td></tr><tr><th>Equipment</th><td>Video camera (model VX-3) with tripod</td></tr><tr><th>Pickup</th><td>Monday, November 9, 10:00 A.M.</td></tr><tr><th>Return due</th><td>Friday, November 13, 4:00 P.M.</td></tr><tr><th>Purpose</th><td>Recording interviews for a research project</td></tr><tr><th>Approved by</th><td>Alicia Moreno, Lab Manager</td></tr></table><div class=\"note\">Items must be returned to the Media Lab front desk. Late returns are charged $15 per day. Reservations may be changed up to 24 hours before pickup.</div></div>","qs":[{"n":153,"t":"Detail","l":"A2","q":"What is Dr. Brooks borrowing?","o":["A video camera and a tripod","A lighting kit and a speaker","A projector and a screen","A voice recorder and a laptop"]},{"n":154,"t":"Detail","l":"A2","q":"When must the equipment be returned?","o":["On Friday at 4:00 P.M.","On Monday at 10:00 A.M.","On Friday at 10:00 A.M.","On Thursday at 4:00 P.M."]}]},{"kind":"article","label":"Article","range":"155-157","html":"<div class=\"doc\"><h3>Ferry to Add Weekend Trips</h3><p><b>PORT ALBERT (April 3)</b> The Albert Island Ferry Company announced yesterday that it will begin weekend service between Port Albert and Seal Island on May 16. Until now, the ferry has run only on weekdays, carrying mostly commuters and delivery trucks.</p><p>\"Tourism has grown every year, and visitors kept asking us for Saturday and Sunday trips,\" said company president Dina Marsh. Two boats will operate on weekends, with the first departure at 8:30 A.M. and the last return at 7:00 P.M.</p><p>Tickets will cost $12 for adults. Children under 12 will ride free, and island residents will receive a 50 percent discount with identification. The company also plans to open a small café on the upper deck by July, although an exact date has not been set.</p></div>","qs":[{"n":155,"t":"Purpose","l":"B1","q":"Why was the article written?","o":["To introduce a tourism advertising campaign","To announce an expansion of ferry service","To report a change in ticket prices","To describe a new commuter timetable"]},{"n":156,"t":"NOT","l":"B2","q":"What is NOT mentioned in the article?","o":["A planned café on the boat","Free travel for young children","A discount for island residents","The cost of transporting vehicles"]},{"n":157,"t":"Detail","l":"B2","q":"According to Ms. Marsh, why is the company adding weekend trips?","o":["A competitor started a similar service.","Many visitors have requested them.","The island's population has increased.","Commuters need more daily departures."]}]},{"kind":"letter","label":"Letter","range":"158-160","html":"<div class=\"doc\"><div class=\"meta\">Lakeshore Grand Hotel<br>85 Bay Road, Marlow<br>June 22</div><p>Dear Ms. Tanaka:</p><p>Thank you for your letter of June 15 about the noise you experienced during your stay with us from June 10 to 12. <b>[1]</b> The noise came from a renovation of 30 guest rooms in the east wing, which will be completed by August 31. <b>[2]</b> You are right that the work began at 8:00 A.M., earlier than our guests should have to expect. <b>[3]</b> To apologize, we would like to offer you one free night at the Lakeshore Grand, valid until December 31. <b>[4]</b> To use it, please present the enclosed voucher when you make your reservation and mention the code QUIET.</p><p>Sincerely,<br>Rafael Duarte<br>General Manager</p></div>","qs":[{"n":158,"t":"Purpose","l":"B1","q":"What is the purpose of the letter?","o":["To ask for comments about a recent stay","To respond to a complaint about noise","To confirm a reservation for the summer","To announce the opening of new rooms"]},{"n":159,"t":"Detail","l":"B1","q":"What is Ms. Tanaka offered?","o":["A free night's stay","An upgrade to a larger room","A free meal at the restaurant","A refund of her June stay"]},{"n":160,"t":"Insert","l":"C1","q":"In which of the positions marked [1], [2], [3], and [4] does the following sentence best belong? \"That early start will not be repeated: the contractor must now wait until 10:00 A.M.\"","o":["[1]","[2]","[3]","[4]"]}]},{"kind":"online chat discussion","label":"Online chat discussion","range":"161-163","html":"<div class=\"doc\"><div class=\"msg\"><b>Omar Haddad</b><span class=\"t\">9:41 A.M.</span><div>Beth, our new analyst, Tina Moore, starts Monday. Is her laptop ready?</div></div><div class=\"msg\"><b>Beth Sullivan</b><span class=\"t\">9:44 A.M.</span><div>The laptop is configured, but her account still has no access to the shared drive. That needs her manager's approval.</div></div><div class=\"msg\"><b>Omar Haddad</b><span class=\"t\">9:45 A.M.</span><div>Her manager, Ken, is on leave until Tuesday. Can someone approve it for him?</div></div><div class=\"msg\"><b>Raj Patel</b><span class=\"t\">9:48 A.M.</span><div>I can't, but his supervisor, Dana Cho, can. I'll send her the form.</div></div><div class=\"msg\"><b>Beth Sullivan</b><span class=\"t\">9:49 A.M.</span><div>Great. Tina can start with e-mail and the intranet on Monday, and I'll add the drive once Dana signs.</div></div><div class=\"msg\"><b>Omar Haddad</b><span class=\"t\">9:50 A.M.</span><div>Perfect. I'll ask Dana to sign it today.</div></div></div>","qs":[{"n":161,"t":"Detail","l":"B1","q":"What problem does Ms. Sullivan mention?","o":["A start date has been moved to Tuesday.","A laptop has not yet been set up.","An e-mail address was entered incorrectly.","A new employee cannot yet open the shared drive."]},{"n":162,"t":"Intent","l":"B2","q":"At 9:48 A.M., what does Mr. Patel most likely mean when he writes, \"I can't\"?","o":["He is not authorized to approve the request.","He is too busy to help with the form today.","He does not know how to send the form.","He thinks the request is not necessary."]},{"n":163,"t":"Detail","l":"B1","q":"What will Ms. Moore be able to use on Monday?","o":["E-mail and the shared drive","Only the laptop, without any online systems","E-mail and the company intranet","The shared drive and the intranet"]}]},{"kind":"e-mail","label":"E-mail","range":"164-167","html":"<div class=\"doc\"><div class=\"meta\">From: Valerie Cruz, Finance Department<br>To: All sales staff<br>Date: January 11<br>Subject: New reimbursement procedure</div><p>Dear colleagues:</p><p>Starting February 1, travel expenses will no longer be submitted on paper forms. Instead, all claims must be filed through the Finance portal, where you can attach scanned receipts. Claims are normally processed within ten business days, and payments are made directly to your bank account.</p><p>A receipt is required for every expense over $25. For smaller expenses, a short note is enough. Claims for trips taken before February 1 will still be accepted on paper until February 28, but we strongly encourage you to start using the portal now.</p><p>A training session will take place on January 20 at 2:00 P.M. in Room 5. If you cannot attend, Marcus Doyle from our team can meet with you individually. Thank you for your cooperation.</p><p>Valerie Cruz</p></div>","qs":[{"n":164,"t":"Purpose","l":"B1","q":"Why did Ms. Cruz write the e-mail?","o":["To explain why payments have been delayed","To ask for receipts from last year's trips","To invite staff to a travel conference","To announce a new way to claim expenses"]},{"n":165,"t":"Detail","l":"B1","q":"What is true about expenses under $25?","o":["They must still be submitted on paper forms.","They are paid within one business day.","A short note is accepted instead of a receipt.","They are no longer reimbursed by the company."]},{"n":166,"t":"Vocab","l":"B2","q":"The word \"encourage\" in the e-mail is closest in meaning to","o":["urge","oblige","reward","permit"]},{"n":167,"t":"Inference","l":"C1","q":"What is most likely true about the paper forms?","o":["They will be replaced by a mobile application.","They will still be required for small expenses.","They will not be accepted at all after February 28.","They caused most of the payment delays."]}]},{"kind":"Web page","label":"Web page","range":"168-171","html":"<div class=\"doc web\"><div class=\"url\" style=\"font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--mute);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px\">www.hubspace.example/membership</div><div class=\"nav\" style=\"font-size:13.5px;color:var(--mute);margin-bottom:10px\">Home &nbsp;|&nbsp; Locations &nbsp;|&nbsp; <b>Membership</b> &nbsp;|&nbsp; Contact</div><h3 style=\"text-align:left\">Choose Your Hubspace Membership</h3><table><tr><th>Plan</th><th>Price</th><th>What you get</th></tr><tr><td>Day Pass</td><td>$25 per day</td><td>Open desk</td></tr><tr><td>Flex Plan</td><td>$120 per month</td><td>Open desk for 8 days a month and 2 hours in a meeting room</td></tr><tr><td>Resident Plan</td><td>$300 per month</td><td>Your own desk, 24-hour access, and 10 hours in a meeting room</td></tr></table><p style=\"margin-top:10px\">All members enjoy fast Wi-Fi, free coffee and tea, and discounts at the café next door. Printing costs 10 cents per page. Extra meeting-room time costs $15 per hour.</p><p>Paying for a full year at once saves 15 percent. Visit any location to arrange a tour.</p></div>","qs":[{"n":168,"t":"Detail","l":"B1","q":"What do all members receive?","o":["A personal desk","Free printing","Unlimited meeting-room use","Free coffee and tea"]},{"n":169,"t":"Inference","l":"B2","q":"What is suggested about the Resident Plan?","o":["It suits people who need a permanent workspace.","It must be paid for a year in advance.","It costs less per month than the Flex Plan.","It is the only plan that includes Wi-Fi access."]},{"n":170,"t":"NOT","l":"B2","q":"What is NOT included in the Flex Plan?","o":["Eight days of use each month","Access to an open desk","A personal desk with 24-hour access","Use of a meeting room"]},{"n":171,"t":"Detail","l":"B1","q":"How can a member save 15 percent?","o":["By arranging a tour of a location","By printing fewer pages each month","By using the café next door often","By paying for a full year at once"]}]},{"kind":"memo","label":"Memo","range":"172-175","html":"<div class=\"doc\"><div class=\"meta\">MEMO<br>To: All staff<br>From: Priya Anand, Director of Human Resources<br>Date: September 14<br>Subject: Hybrid work schedule</div><p>Beginning October 5, employees may work from home up to two days per week. <b>[1]</b> Each team will decide which days are spent in the office so that everyone in the group is present on the same days. <b>[2]</b> Employees must have their schedule approved by their supervisor by September 28. <b>[3]</b> Those who work from home are expected to be reachable by phone or e-mail during regular hours, from 9:00 A.M. to 5:00 P.M. <b>[4]</b> The company will provide a laptop and a headset to anyone who does not already have them. Requests should be sent to the IT Help Desk by September 25.</p><p>This policy will be reviewed after six months.</p></div>","qs":[{"n":172,"t":"Purpose","l":"B1","q":"What is the purpose of the memo?","o":["To explain a new work-from-home policy","To announce a reduction in working hours","To ask staff to return to the office full time","To introduce a new IT Help Desk"]},{"n":173,"t":"Detail","l":"B1","q":"By when must employees have their schedules approved?","o":["October 5","September 14","September 25","September 28"]},{"n":174,"t":"Vocab","l":"C1","q":"The word \"reviewed\" in the memo is closest in meaning to","o":["evaluated","repeated","published","defended"]},{"n":175,"t":"Insert","l":"C1","q":"In which of the positions marked [1], [2], [3], and [4] does the following sentence best belong? \"Meetings for the whole group will therefore be held on those office days.\"","o":["[1]","[2]","[3]","[4]"]}]},{"kind":"flyer and e-mail","label":"Flyer + e-mail","range":"176-180","html":"<div class=\"dlab\">Document 1 · Flyer</div><div class=\"doc ad\"><div class=\"banner\">LAKESIDE 10K FOR LITERACY</div><p><b>Saturday, May 16 · 8:00 A.M. start · Cormorant Park</b></p><p>All proceeds support the Eastfield Reading Program.</p><p><b>Registration:</b> $30 if you register by April 15. $40 after that date and on race day.<br><b>Optional race T-shirt:</b> $12, ordered when you register.</p><p>Every runner receives a finisher's medal and a free breakfast.</p><p><b>Packet pickup:</b> Friday, May 15, 4:00 to 7:00 P.M. at Cormorant Park.</p></div><div class=\"dlab\">Document 2 · E-mail</div><div class=\"doc\"><div class=\"meta\">From: Jacob Lindqvist<br>To: info@lakeside10k.example<br>Date: April 20<br>Subject: Registration question</div><p>Dear organizers:</p><p>I registered for the 10K on April 12, without a T-shirt. My daughter has now decided to run with me, and we plan to register her on April 25. She would like a T-shirt, too.</p><p>I also have a problem. I will be traveling on Friday, May 15, so I cannot go to the packet pickup. Could a friend collect my packet for me?</p><p>Sincerely,<br>Jacob Lindqvist</p></div>","qs":[{"n":176,"t":"Inference","l":"B1","q":"What is implied about runners who register on race day?","o":["They start earlier than the other runners.","They pay a higher fee than early registrants.","They must collect a packet on Friday.","They do not receive the free breakfast."]},{"n":177,"t":"Detail","l":"B1","q":"What does every runner receive?","o":["A free breakfast and a bus ticket","A T-shirt and a medal","A medal and a donation receipt","A medal and a free breakfast"]},{"n":178,"t":"Cross","l":"B2","q":"How much did Mr. Lindqvist pay to register?","o":["$42","$52","$30","$40"]},{"n":179,"t":"Cross","l":"B2","q":"How much will Mr. Lindqvist's daughter pay if she registers as planned and orders a T-shirt?","o":["$42","$52","$30","$40"]},{"n":180,"t":"Detail","l":"B1","q":"What does Mr. Lindqvist ask the organizers?","o":["Whether he can change his start time","Whether his daughter can run for free","Whether the race can be moved to Sunday","Whether a friend can collect his packet"]}]},{"kind":"agenda and e-mail","label":"Agenda + e-mail","range":"181-185","html":"<div class=\"dlab\">Document 1 · Agenda</div><div class=\"doc itin\"><div class=\"band\">Orion Packaging · Quarterly Planning Meeting</div><p style=\"margin:0 0 8px\"><b>Thursday, June 11 · Conference Room B</b></p><table><tr><th>Time</th><th>Topic</th><th>Speaker</th></tr><tr><td>9:00 A.M.</td><td>Welcome</td><td>Anita Voss</td></tr><tr><td>9:15 A.M.</td><td>New product launch</td><td>Sandra Kim</td></tr><tr><td>10:00 A.M.</td><td>Break</td><td></td></tr><tr><td>10:15 A.M.</td><td>Sales results</td><td>Peter Lang</td></tr><tr><td>11:15 A.M.</td><td>Budget update</td><td>Carl Estrada</td></tr><tr><td>12:00 P.M.</td><td>Lunch</td><td></td></tr></table><div class=\"note\" style=\"font-size:13px;margin-top:9px;line-height:1.5\">Please arrive by 8:45 A.M. for coffee.</div></div><div class=\"dlab\">Document 2 · E-mail</div><div class=\"doc\"><div class=\"meta\">From: Peter Lang<br>To: Anita Voss<br>Date: June 8<br>Subject: Thursday's meeting</div><p>Dear Anita:</p><p>I have just learned that my flight to Denver leaves at 11:30 on Thursday, so I must leave for the airport at 9:30. I realize this is short notice, but I hope you can accommodate my request to speak right after your welcome.</p><p>My slides need the projector. I will send them to you tonight in case there is a problem with my laptop.</p><p>Thank you,<br>Peter</p></div>","qs":[{"n":181,"t":"Detail","l":"B1","q":"Who will speak at 11:15 A.M.?","o":["Carl Estrada","Anita Voss","Peter Lang","Sandra Kim"]},{"n":182,"t":"Purpose","l":"B1","q":"Why did Mr. Lang write to Ms. Voss?","o":["To ask where the meeting will be held","To suggest a new topic for discussion","To cancel his attendance at the meeting","To ask for a change in the schedule"]},{"n":183,"t":"Cross","l":"B2","q":"How long before the scheduled start of his presentation does Mr. Lang plan to leave for the airport?","o":["Fifteen minutes","One hour","Forty-five minutes","Thirty minutes"]},{"n":184,"t":"Inference","l":"B2","q":"What is implied about Mr. Lang's presentation?","o":["It includes slides that will be projected.","It has already been given in Denver.","It will last more than an hour.","It was prepared by Ms. Voss."]},{"n":185,"t":"Vocab","l":"C1","q":"The word \"accommodate\" in the e-mail is closest in meaning to","o":["house","grant","challenge","record"]}]},{"kind":"listing and two e-mails","label":"Listing + two e-mails","range":"186-190","html":"<div class=\"dlab\">Document 1 · Web listing</div><div class=\"doc ad\"><div class=\"banner\">MAPLE COURT APARTMENTS</div><p>14 Maple Street, Brighton. Spacious apartments three minutes from Brighton Station.</p><table><tr><th>Apartment</th><th>Rent</th></tr><tr><td>One bedroom</td><td>$1,050 per month</td></tr><tr><td>Two bedrooms</td><td>$1,400 per month</td></tr></table><p style=\"margin-top:9px\">Rent includes water and heating. Electricity and internet are paid by the tenant. Parking: $60 per month per space. Pets are welcome with a one-time $300 deposit.</p><p>Standard lease: 12 months. A 6-month lease is available for an extra $75 per month. To arrange a viewing, call 555-0166.</p></div><div class=\"dlab\">Document 2 · E-mail</div><div class=\"doc\"><div class=\"meta\">From: Elaine Whitfield<br>To: leasing@maplecourt.example<br>Date: March 3<br>Subject: Two-bedroom apartment</div><p>Dear Sir or Madam:</p><p>I saw your listing and am interested in a two-bedroom apartment for my daughter and me. We would need to move in on April 1, but only for six months, because I will be working abroad from October. We also have a small dog.</p><p>Is a unit available? I could visit this Saturday.</p><p>Sincerely,<br>Elaine Whitfield</p></div><div class=\"dlab\">Document 3 · E-mail</div><div class=\"doc\"><div class=\"meta\">From: Gordon Hale, Leasing Office<br>To: Elaine Whitfield<br>Date: March 4<br>Subject: RE: Two-bedroom apartment</div><p>Dear Ms. Whitfield:</p><p>Yes, we have a two-bedroom apartment available on April 1. It is on the third floor. We can show it on Saturday at 10:00 A.M. or 2:00 P.M. Please bring a photo ID and proof of income to the viewing.</p><p>If you decide to rent, a security deposit equal to one month's rent will be due when you sign the lease. Please tell me which time you prefer.</p><p>Sincerely,<br>Gordon Hale</p></div>","qs":[{"n":186,"t":"Purpose","l":"B1","q":"Why did Ms. Whitfield write to Maple Court Apartments?","o":["To cancel a viewing she had scheduled","To ask about renting an apartment","To complain about the terms of a lease","To request a parking space for a guest"]},{"n":187,"t":"Detail","l":"B1","q":"What is included in the monthly rent?","o":["Electricity and internet","Heating and electricity","Water and heating","Water and internet"]},{"n":188,"t":"NOT","l":"B2","q":"What is NOT stated in Mr. Hale's e-mail?","o":["How much the security deposit will be","The monthly cost of parking","Which floor the apartment is on","What documents to bring to the viewing"]},{"n":189,"t":"Cross","l":"B2","q":"How much monthly rent will Ms. Whitfield pay, not counting parking?","o":["$1,125","$1,400","$1,475","$1,535"]},{"n":190,"t":"Inference","l":"C1","q":"What is most likely true about Ms. Whitfield's lease?","o":["It will be longer than the standard lease.","It will not permit her to keep a dog.","It will include a free parking space.","It will cost more each month than a 12-month lease."]}]},{"kind":"Web page and two e-mails","label":"Web page + two e-mails","range":"191-195","html":"<div class=\"dlab\">Document 1 · Web page</div><div class=\"doc web\"><div class=\"url\" style=\"font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--mute);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px\">www.harvesttable.example/classes</div><h3 style=\"text-align:left\">Harvest Table Cooking School · Fall Classes</h3><table><tr><th>Class</th><th>Date and time</th><th>Price</th></tr><tr><td>Knife Skills</td><td>Saturday, October 3, 10:00 A.M. to 1:00 P.M.</td><td>$65</td></tr><tr><td>Italian Pasta Workshop</td><td>Tuesday, October 13, 6:00 to 9:00 P.M.</td><td>$80</td></tr><tr><td>Bread Baking Basics</td><td>Saturday, October 24, 10:00 A.M. to 2:00 P.M.</td><td>$90</td></tr></table><p style=\"margin-top:10px\">Class size is limited to 10 students. All ingredients and aprons are provided.</p><p>Cancel at least 7 days before a class for a full refund. Later cancellations receive a credit toward a future class.</p></div><div class=\"dlab\">Document 2 · E-mail</div><div class=\"doc\"><div class=\"meta\">From: Mina Park<br>To: registrations@harvesttable.example<br>Date: September 28<br>Subject: Fall classes</div><p>Hello,</p><p>I would like to register for the Italian Pasta Workshop and for Bread Baking Basics. I would also like to bring my husband to the pasta class, if there is room. He is vegetarian, so I wonder whether the class includes meat-free recipes.</p><p>Thank you,<br>Mina Park</p></div><div class=\"dlab\">Document 3 · E-mail</div><div class=\"doc\"><div class=\"meta\">From: Luca Bianchi, Chef-Instructor<br>To: Mina Park<br>Date: September 29<br>Subject: RE: Fall classes</div><p>Dear Ms. Park:</p><p>Thank you for your interest. There are three places left in the pasta workshop, so your husband is welcome to join you. We will prepare a tomato sauce and a mushroom sauce, and no meat will be used. There is also one place left in the bread class.</p><p>Because you are registering for two classes, I can offer you 10 percent off your total order. Please send payment within three days to keep your places.</p><p>Sincerely,<br>Luca Bianchi</p></div>","qs":[{"n":191,"t":"Detail","l":"B1","q":"What does the school provide for students?","o":["Ingredients and aprons","Ingredients and a certificate","Ingredients and recipe books","Aprons and take-home meals"]},{"n":192,"t":"Cross","l":"B2","q":"On what date will Ms. Park attend the pasta workshop?","o":["October 24","October 13","October 3","September 29"]},{"n":193,"t":"Detail","l":"B1","q":"What does Mr. Bianchi say about the sauces?","o":["Students will take them home.","They will be sold after the class.","They will be made with cream.","They will not contain any meat."]},{"n":194,"t":"Vocab","l":"B2","q":"The word \"provided\" in the Web page is closest in meaning to","o":["ordered","required","supplied","returned"]},{"n":195,"t":"Cross","l":"C1","q":"How much will Ms. Park pay in total?","o":["$250","$225","$170","$153"]}]},{"kind":"e-mail, schedule, and receipt","label":"E-mail, schedule, and receipt","range":"196-200","html":"<div class=\"dlab\">Document 1 · E-mail</div><div class=\"doc\"><div class=\"meta\">From: Paul Alvarez, Grade 5 Teacher<br>To: Grade 5 families<br>Date: May 4<br>Subject: Class trip to the Maritime Museum</div><p>Dear families:</p><p>Our class trip to the Maritime Museum will take place on Wednesday, May 13. Students should arrive at school by 8:00 A.M. The bus will leave at 8:30 A.M. and return to school at about 2:30 P.M.</p><p>The trip fee is $18 per student and covers the bus and museum entry. The museum café will be closed that day. Students may bring a packed lunch, or they may order a sandwich lunch for $6.</p><p>Please return the signed permission slip, together with payment, by Friday, May 8.</p><p>Sincerely,<br>Paul Alvarez</p></div><div class=\"dlab\">Document 2 · Schedule</div><div class=\"doc itin\"><div class=\"band\">Maritime Museum · Grade 5 Schedule · Wednesday, May 13</div><table><tr><th>Time</th><th>Activity</th></tr><tr><td>8:30 A.M.</td><td>Bus leaves school</td></tr><tr><td>9:15 A.M.</td><td>Arrive at the museum</td></tr><tr><td>9:30 A.M.</td><td>Group A: Ships and Sailors tour<br>Group B: Lighthouse workshop</td></tr><tr><td>10:45 A.M.</td><td>Groups switch activities</td></tr><tr><td>12:00 P.M.</td><td>Lunch in the picnic area</td></tr><tr><td>1:00 P.M.</td><td>Free time in the galleries</td></tr><tr><td>1:45 P.M.</td><td>Bus leaves the museum</td></tr><tr><td>2:30 P.M.</td><td>Arrive at school</td></tr></table></div><div class=\"dlab\">Document 3 · Receipt</div><div class=\"doc inv\"><div class=\"band\" style=\"background:var(--navy);color:var(--cream);font-family:'Playfair Display',serif;padding:7px 12px;margin:-14px -18px 10px;font-size:16px\">Oakridge Elementary School · Payment Receipt</div><table><tr><th style=\"width:38%\">Date</th><td>May 6</td></tr><tr><th>Parent</th><td>Lisa Tran</td></tr><tr><th>Student</th><td>Ben Tran, Grade 5</td></tr><tr><th>Class trip fee (Maritime Museum)</th><td>$18.00</td></tr><tr><th>Sandwich lunch</th><td>$6.00</td></tr><tr><th>Total paid</th><td>$24.00 (check no. 1042)</td></tr></table><div class=\"note\">Permission slip: received.</div></div>","qs":[{"n":196,"t":"Detail","l":"A2","q":"What time will the bus leave school?","o":["8:00 A.M.","8:30 A.M.","9:15 A.M.","9:30 A.M."]},{"n":197,"t":"Cross","l":"B2","q":"What will Ben Tran most likely do at 12:00 P.M.?","o":["Explore the galleries on his own","Take part in a guided tour","Buy his lunch at the museum café","Eat a sandwich lunch in the picnic area"]},{"n":198,"t":"Inference","l":"B2","q":"What can be inferred about Group A at 10:45 A.M.?","o":["They will take part in the lighthouse workshop.","They will return to the bus.","They will repeat the guided tour.","They will have lunch in the picnic area."]},{"n":199,"t":"Detail","l":"B1","q":"How much did Ms. Tran pay in total?","o":["$6","$18","$24","$30"]},{"n":200,"t":"Detail","l":"B1","q":"By what date must permission slips be returned?","o":["May 4","May 8","May 6","May 13"]}]}],"TYPES":{"Detail":{"fr":"Détail","tip":"Repère les mots-clés de la question, puis cherche leur paraphrase dans le texte. Les bonnes réponses reformulent presque toujours les mots exacts du document."},"Purpose":{"fr":"Objet / but","tip":"Lis le titre, la première phrase et la dernière : le but du document s'y trouve presque toujours. Écarte les réponses qui ne reprennent qu'un détail."},"Inference":{"fr":"Inférence","tip":"La réponse n'est jamais écrite telle quelle. Demande-toi ce qui est forcément vrai d'après un ou deux indices, et méfie-toi des options plausibles mais non prouvées par le texte."},"NOT":{"fr":"NOT (intrus)","tip":"Vérifie chaque option dans le texte et barre celles qui y figurent. La bonne réponse est la seule qui est absente ou contredite."},"Intent":{"fr":"Intention (message)","tip":"Relis la phrase citée dans son contexte : elle réagit à ce qui précède. Ne la traduis pas mot à mot, cherche ce que la personne veut faire ou dire dans cet échange."},"Vocab":{"fr":"Vocabulaire en contexte","tip":"Remplace le mot par chaque option dans la phrase. Garde le sens imposé par le contexte, pas le sens le plus courant du mot."},"Cross":{"fr":"Croisement de documents","tip":"Repère d'abord quel document répond à la question, puis cherche l'information qui manque dans l'autre (date, nom, nombre, lieu). Le piège reprend presque toujours l'information d'un seul document : vérifie laquelle est la plus récente ou la plus précise."},"Insert":{"fr":"Insertion de phrase","tip":"Repère les mots de liaison et les pronoms de la phrase à insérer (After that, they, this...) et vérifie à quoi ils renvoient. Contrôle aussi la chronologie."}},"LEVELS":["A2","B1","B2","C1"],"LDESC":{"A1":"Tu comprends des mots et des panneaux très simples. Reprends le vocabulaire de base et entraîne-toi sur les documents courts (panneaux, annonces, horaires), où l'information est écrite telle quelle.","A2":"Tu comprends les documents courts et explicites (panneaux, annonces, horaires) quand l'information est écrite telle quelle. Prochain palier : les détails reformulés et le but d'un document courant.","B1":"Tu retrouves les détails reformulés et le but d'un document courant. Prochain palier : les inférences, les questions NOT, les intentions dans les messages et le croisement de documents.","B2":"Tu comprends la plupart des documents professionnels et sais relier les informations. Pour progresser : inférences fines, croisement de documents, insertion de phrase et vocabulaire en contexte.","C1":"Excellente maîtrise sur ce type de textes, y compris les inférences, les nuances de vocabulaire et le croisement de plusieurs documents."}};
+var DOCS=D.DOCS,TYPES=D.TYPES,LEVELS=D.LEVELS,LDESC=D.LDESC;
+var TEST_ID='p7-test-c',TOTAL_SEC=52*60;
+var params=new URLSearchParams(location.search),IS_REVIEW=params.get('review')==='1';
+var student=null;try{student=JSON.parse(sessionStorage.getItem('student')||'null');}catch(e){}
+var AUTH=sessionStorage.getItem('studentAuth');
+var BAD=!student||!AUTH;
+if(BAD){sessionStorage.removeItem('student');location.href='index.html';}
+
+var ALLQ=[];DOCS.forEach(function(d,i){d.qs.forEach(function(q){q.doc=i;ALLQ.push(q);});});
+var TOTAL=ALLQ.length;
+var S={ans:{},key:null,review:null,view:0,done:false,locked:false,started:false,sending:false,left:TOTAL_SEC,deadline:0,tid:null,start:Date.now(),ready:false};
+var SHEET=DOCS.length,RES=DOCS.length+1;
+var $=function(id){return document.getElementById(id);};
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function pad(n){return n<10?'0'+n:''+n;}
+function fmt(s){return pad(Math.floor(s/60))+':'+pad(s%60);}
+function A(q){return S.key?S.key[q.n-147]:-1;}
+function RV(){return S.review||{q:{},d:[]};}
+function frozen(){return S.done||S.locked;}
+
+/* ---------- persistence (same scheme as test.html) ---------- */
+var STORAGE_KEY='toeic-progress::'+TEST_ID+'::'+(student?student.nom:'');
+function toArr(){return ALLQ.map(function(q){return S.ans[q.n]===undefined?null:'ABCD'[S.ans[q.n]];});}
+function payload(){return {nom:student.nom,testId:TEST_ID,answers:toArr(),startTime:S.start,timeLeft:S.started?S.left:null,savedAt:Date.now()};}
+function saveLocal(){
+ if(S.done||!S.started)return;
+ try{var p=payload();localStorage.setItem(STORAGE_KEY,JSON.stringify({answers:p.answers,startTime:p.startTime,timeLeft:p.timeLeft,savedAt:p.savedAt}));}catch(e){}
+}
+function loadLocal(){try{var r=localStorage.getItem(STORAGE_KEY);return r?JSON.parse(r):null;}catch(e){return null;}}
+function clearLocal(){try{localStorage.removeItem(STORAGE_KEY);}catch(e){}}
+var dirty=false,saveT=null;
+function scheduleServerSave(){dirty=true;clearTimeout(saveT);saveT=setTimeout(flushServerSave,4000);}
+function flushServerSave(){
+ if(!dirty||S.done||!S.started)return;
+ dirty=false;
+ try{fetch('/api/progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload())}).catch(function(){});}catch(e){}
+}
+setInterval(flushServerSave,20000);
+function flushOnLeave(){
+ if(S.done||IS_REVIEW||!S.started)return;
+ dirty=false;saveLocal();
+ if(navigator.sendBeacon){navigator.sendBeacon('/api/progress',new Blob([JSON.stringify(payload())],{type:'application/json'}));}
+}
+window.addEventListener('beforeunload',flushOnLeave);
+window.addEventListener('pagehide',flushOnLeave);
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')flushOnLeave();});
+function fetchServerProgress(){
+ return fetch('/api/progress?nom='+encodeURIComponent(student.nom)+'&testId='+encodeURIComponent(TEST_ID)).then(function(r){return r.json();}).then(function(d){return d.progress||null;}).catch(function(){return null;});
+}
+function clearServerProgress(){
+ try{fetch('/api/progress?nom='+encodeURIComponent(student.nom)+'&testId='+encodeURIComponent(TEST_ID),{method:'DELETE'}).catch(function(){});}catch(e){}
+}
+
+/* ---------- views ---------- */
+function buildSelect(){
+ var h='';
+ DOCS.forEach(function(d,i){h+='<option value="'+i+'">'+d.range+' · '+d.label+'</option>';});
+ h+='<option value="'+SHEET+'">Answer sheet</option>';
+ if(S.done)h+='<option value="'+RES+'">Résultats</option>';
+ $('sel').innerHTML=h;
+ $('sel').value=S.view;
+}
+function lastView(){return S.done?RES:SHEET;}
+function dotsHTML(){
+ var h='';
+ ALLQ.forEach(function(q){
+  var c='dot';
+  if(S.done){c+=(S.ans[q.n]===A(q))?' r':' w';}
+  else if(S.ans[q.n]!==undefined){c+=' a';}
+  h+='<button type="button" class="'+c+'" data-doc="'+q.doc+'" data-q="'+q.n+'" aria-label="Question '+q.n+'">'+q.n+'</button>';
+ });
+ $('dots').innerHTML=h;
+}
+function optHTML(q){
+ var h='';
+ q.o.forEach(function(t,k){
+  var c='opt';
+  if(S.done){
+   if(k===A(q))c+=' ok';
+   else if(S.ans[q.n]===k)c+=' ko';
+  }else if(S.ans[q.n]===k){c+=' sel';}
+  h+='<button type="button" class="'+c+'"'+(frozen()?' disabled':'')+' data-n="'+q.n+'" data-k="'+k+'"><span class="c">'+'ABCD'[k]+'</span><span>'+esc(t)+'</span></button>';
+ });
+ return h;
+}
+function docView(i){
+ var d=DOCS[i],rv=RV();
+ var left='<div class="pane left"><div class="tag">Questions '+d.range+' refer to the following '+d.kind+'.</div>'+d.html+'</div>';
+ var r='<div class="pane right'+(frozen()?' locked':'')+'" id="rp">';
+ d.qs.forEach(function(q){
+  r+='<div class="q" id="q'+q.n+'"><p class="qt"><span class="qn">'+q.n+'.</span> '+esc(q.q)+'</p>'+optHTML(q);
+  if(S.done){
+   var mine=S.ans[q.n],good=mine===A(q);
+   r+='<div class="badges"><span class="bd">'+TYPES[q.t].fr+'</span><span class="bd l">Niveau '+q.l+'</span></div>';
+   r+='<div class="ex"><span class="v '+(good?'good':'bad')+'">'+(good?'Correct.':(mine===undefined?'Non répondu.':'Incorrect.'))+'</span> Bonne réponse : ('+'ABCD'[A(q)]+') '+esc(q.o[A(q)]).replace(/\.$/,'')+'.<br>'+(rv.q[q.n]||'')+'</div>';
+  }
+  r+='</div>';
+ });
+ if(S.done&&rv.d[i]){
+  r+='<div class="vocab"><div class="vh">Vocabulaire à retenir</div><ul>';
+  rv.d[i].vocab.forEach(function(v){r+='<li><span class="en">'+esc(v[0])+'</span><span class="fr">'+esc(v[1])+'</span></li>';});
+  r+='</ul></div>';
+  r+='<details class="tr"><summary>Traduction française du document</summary>'+rv.d[i].fr+'</details>';
+ }
+ r+='</div>';
+ return left+r;
+}
+function sheetView(){
+ var cols=[ALLQ.slice(0,18),ALLQ.slice(18,36),ALLQ.slice(36)];
+ var answered=Object.keys(S.ans).length;
+ var h='<div class="pane"><div class="sheet'+(frozen()?' locked':'')+'"><h2>Answer sheet</h2>';
+ h+='<p class="sub">Questions 147-200 · '+(S.done?'Correction : ta réponse est en couleur, la bonne réponse est cerclée d\'or.':'Tes réponses se reportent ici automatiquement. Tu peux aussi les modifier directement sur cette feuille.')+'</p><div class="cols">';
+ cols.forEach(function(col){
+  h+='<div>';
+  col.forEach(function(q){
+   var miss=!S.done&&S.ans[q.n]===undefined;
+   h+='<div class="row'+(miss?' miss':'')+'"><span class="n">'+q.n+'</span>';
+   for(var k=0;k<4;k++){
+    var c='bub';
+    if(S.done){
+     if(S.ans[q.n]===k)c+=(k===A(q)?' ok':' ko');
+     if(k===A(q))c+=' rg';
+    }else if(S.ans[q.n]===k){c+=' f';}
+    h+='<button type="button" class="'+c+'"'+(frozen()?' disabled':'')+' data-n="'+q.n+'" data-k="'+k+'" aria-label="Question '+q.n+' answer '+'ABCD'[k]+'">'+'ABCD'[k]+'</button>';
+   }
+   h+='</div>';
+  });
+  h+='</div>';
+ });
+ h+='</div>';
+ if(!S.done){
+  h+='<div class="actions"><button type="button" class="btn g" id="submit"'+(frozen()?' disabled':'')+'>Soumettre</button><span class="sub" style="margin:0">'+answered+' / '+TOTAL+' répondues</span></div>';
+ }else{
+  h+='<div class="actions"><button type="button" class="btn p" data-go="'+RES+'">Voir mes résultats</button><button type="button" class="btn s" data-go="0">Revoir la correction</button></div>';
+ }
+ h+='</div></div>';
+ return h;
+}
+function stats(){
+ var byL={},byT={},score=0;
+ LEVELS.forEach(function(l){byL[l]={n:0,ok:0};});
+ Object.keys(TYPES).forEach(function(t){byT[t]={n:0,ok:0};});
+ var byF={single:{n:0,ok:0},double:{n:0,ok:0},triple:{n:0,ok:0}};
+ ALLQ.forEach(function(q){
+  var ok=S.ans[q.n]===A(q);
+  if(ok)score++;
+  byL[q.l].n++;byT[q.t].n++;
+  if(ok){byL[q.l].ok++;byT[q.t].ok++;}
+  var f=q.n<=175?'single':(q.n<=185?'double':'triple');byF[f].n++;if(ok)byF[f].ok++;
+ });
+ var level='A1';
+ for(var i=0;i<LEVELS.length;i++){var s=byL[LEVELS[i]];if(s.ok/s.n>=0.6)level=LEVELS[i];else break;}
+ return {score:score,byL:byL,byT:byT,byF:byF,level:level};
+}
+function resView(){
+ var st=stats();
+ var pct=Math.round(st.score/TOTAL*100);
+ var h='<div class="pane"><div class="res"><h2>Résultats · Test C</h2><p class="sub">'+TOTAL+' questions · Part 7 complet (documents seuls, doubles et triples) · résultat enregistré dans ton tableau de bord</p>';
+ h+='<div class="score"><div class="card"><div class="lb">Score</div><div class="big">'+st.score+' / '+TOTAL+'</div><p>'+pct+' % de bonnes réponses</p></div>';
+ h+='<div class="card"><div class="lb">Niveau estimé (CECRL)</div><div class="big">'+st.level+'</div><p>'+LDESC[st.level]+'</p></div></div>';
+ h+='<h3>Réussite par niveau de difficulté</h3>';
+ LEVELS.forEach(function(l){
+  var s=st.byL[l];var p=Math.round(s.ok/s.n*100);
+  h+='<div class="bar"><span><b>'+l+'</b></span><div class="tr"><div class="fl" style="width:'+p+'%"></div></div><span class="v">'+s.ok+' / '+s.n+' · '+p+' %</span></div>';
+ });
+ h+='<p class="note">Règle : un palier est atteint quand tu réussis au moins 60 % des questions de ce niveau et de tous les niveaux inférieurs. Estimation indicative, à confirmer avec plusieurs séries.</p>';
+ h+='<h3>Réussite par format de document</h3>';
+ var FN={single:'Un document',double:'Deux documents',triple:'Trois documents'};
+ ['single','double','triple'].forEach(function(f){var s=st.byF[f];var p=Math.round(s.ok/s.n*100);h+='<div class="bar"><span><b>'+FN[f]+'</b></span><div class="tr"><div class="fl" style="width:'+p+'%"></div></div><span class="v">'+s.ok+' / '+s.n+' · '+p+' %</span></div>';});
+ var arr=Object.keys(st.byT).map(function(t){var s=st.byT[t];return {t:t,n:s.n,ok:s.ok,r:s.ok/s.n};});
+ arr.sort(function(a,b){return a.r-b.r||b.n-a.n;});
+ h+='<h3>Réussite par style de question</h3>';
+ arr.forEach(function(x,i){
+  var p=Math.round(x.r*100);
+  var weak=(i===0&&x.r<0.8);
+  h+='<div class="bar'+(weak?' weak':'')+'"><span><b>'+TYPES[x.t].fr+'</b></span><div class="tr"><div class="fl" style="width:'+p+'%"></div></div><span class="v">'+x.ok+' / '+x.n+' · '+p+' %</span></div>';
+ });
+ var w=arr[0];
+ if(w.r<0.8){
+  var also=arr.filter(function(x,i){return i>0&&x.r<0.5;}).map(function(x){return TYPES[x.t].fr;});
+  h+='<div class="tip"><b>Ton point faible : '+TYPES[w.t].fr+'</b> ('+w.ok+' / '+w.n+').<br>'+TYPES[w.t].tip+(also.length?'<br><br>À surveiller aussi : '+also.join(', ')+'.':'')+'</div>';
+ }else{
+  h+='<div class="tip good"><b>Aucune faiblesse marquée sur ce batch.</b> Tous les styles sont réussis à 80 % ou plus.</div>';
+ }
+ var wrong=ALLQ.filter(function(q){return S.ans[q.n]!==A(q);}).map(function(q){return q.n;});
+ h+='<h3>Questions à revoir</h3><p>'+(wrong.length?wrong.join(', ')+'. Ouvre la correction pour lire l\'explication, le vocabulaire et la traduction de chaque document.':'Aucune. Bravo !')+'</p>';
+ h+='<div class="actions"><button type="button" class="btn p" data-go="0">Voir la correction détaillée</button><button type="button" class="btn s" data-go="'+SHEET+'">Answer sheet corrigée</button><a class="btn s" href="dashboard.html" style="text-decoration:none;display:inline-block">Tableau de bord</a></div>';
+ h+='</div></div>';
+ return h;
+}
+function render(keepScroll){
+ var m=$('main');
+ var sc=0;var rp=document.querySelector('#main .right');if(keepScroll&&rp)sc=rp.scrollTop;
+ if(S.view<DOCS.length){m.className='';m.innerHTML=docView(S.view);}
+ else if(S.view===SHEET){m.className='single';m.innerHTML=sheetView();}
+ else{m.className='single';m.innerHTML=resView();}
+ buildSelect();dotsHTML();
+ $('prev').disabled=S.view===0;
+ $('next').disabled=S.view>=lastView();
+ $('hsubmit').style.display=(S.done||IS_REVIEW)?'none':'';
+ $('hsubmit').disabled=S.sending||!S.started;
+ var np=document.querySelector('#main .pane.right');if(np&&keepScroll)np.scrollTop=sc;
+}
+function go(v,qn){
+ if(v>lastView())v=lastView();
+ if(v<0)v=0;
+ S.view=v;render(false);
+ if(qn){var el=$('q'+qn);if(el&&el.scrollIntoView)el.scrollIntoView({block:'start'});}
+ else{var p=document.querySelector('#main .pane');if(p)p.scrollTop=0;}
+}
+
+/* ---------- answers ---------- */
+function setAns(n,k){
+ if(frozen()||IS_REVIEW||!S.started)return;
+ if(S.ans[n]===k){delete S.ans[n];}else{S.ans[n]=k;}
+ saveLocal();scheduleServerSave();
+ if(S.view<DOCS.length){
+  var box=$('q'+n);
+  if(box){var opts=box.querySelectorAll('.opt');for(var i=0;i<opts.length;i++){opts[i].classList.toggle('sel',S.ans[n]===i);}}
+ }else{render(true);return;}
+ dotsHTML();
+}
+
+/* ---------- clock ---------- */
+function updateTimer(){
+ var t=$('timer');
+ t.textContent=fmt(S.left);
+ t.className='timer'+(S.left<=300?' late':(S.left<=600?' warn':''));
+ t.setAttribute('aria-label','Temps restant '+fmt(S.left));
+}
+function tick(){
+ S.left=Math.max(0,Math.ceil((S.deadline-Date.now())/1000));
+ updateTimer();
+ if(S.left<=0){stopTimer();expire();}
+}
+function startTimer(){
+ stopTimer();
+ S.deadline=Date.now()+S.left*1000;
+ updateTimer();
+ S.tid=setInterval(tick,500);
+}
+function stopTimer(){if(S.tid){clearInterval(S.tid);S.tid=null;}}
+function expire(){
+ if(S.done||S.sending)return;
+ S.left=0;S.locked=true;updateTimer();
+ $('lockbar').style.display='block';
+ $('lockbar').textContent='Temps écoulé. Tes réponses sont verrouillées et envoyées automatiquement.';
+ render(true);
+ submit(true);
+}
+function beginTest(){
+ if(!S.ready)return;
+ $('intro').style.display='none';
+ S.start=Date.now();S.left=TOTAL_SEC;S.started=true;
+ saveLocal();scheduleServerSave();flushServerSave();
+ startTimer();render(false);
+}
+
+/* ---------- submit ---------- */
+function submit(auto){
+ if(S.done||S.sending||IS_REVIEW)return;
+ if(!auto){
+  var miss=TOTAL-Object.keys(S.ans).length;
+  var msg=miss>0?('Il reste '+miss+' question(s) sans réponse. Soumettre quand même ? Tu ne pourras plus modifier tes réponses.'):'Soumettre le test ? Tu ne pourras plus modifier tes réponses.';
+  if(!window.confirm(msg))return;
+ }
+ S.sending=true;S.locked=true;stopTimer();render(true);
+ var body={nom:student.nom,codeHash:AUTH,testId:TEST_ID,answers:toArr(),startedAt:new Date(S.start).toISOString(),elapsedSec:Math.max(0,TOTAL_SEC-S.left)};
+ fetch('/api/scores',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+ .then(function(r){return r.json().catch(function(){return {};}).then(function(d){return {ok:r.ok,status:r.status,d:d};});})
+ .then(function(x){
+  if(x.ok&&x.d.keys){
+   S.key=x.d.keys.map(function(l){return 'ABCD'.indexOf(l);});
+   S.review=x.d.review||null;
+   S.done=true;S.sending=false;
+   $('lockbar').style.display='none';
+   clearLocal();clearServerProgress();
+   S.view=RES;render(false);
+   var p=document.querySelector('#main .pane');if(p)p.scrollTop=0;
+   return;
+  }
+  throw {status:x.status,msg:(x.d&&x.d.error)||'Envoi impossible.'};
+ })
+ .catch(function(e){
+  S.sending=false;
+  var m=(e&&e.msg)||'Erreur réseau. Tes réponses sont toujours sur cette page.';
+  if(e&&e.status===409){alert(m);location.href='dashboard.html';return;}
+  if(e&&e.status===401){alert('Reconnecte-toi : '+m);saveLocal();flushOnLeave();location.href='index.html';return;}
+  if(auto||S.left<=0){
+   $('lockbar').style.display='block';
+   $('lockbar').textContent='Temps écoulé. Envoi en échec : '+m.replace(/\.$/,'')+'. Nouvelle tentative dans 5 secondes.';
+   render(true);
+   setTimeout(function(){submit(true);},5000);
+  }else{
+   S.locked=false;startTimer();render(true);
+   alert(m+' Appuie de nouveau sur Soumettre pour réessayer.');
+  }
+ });
+}
+
+/* ---------- review mode ---------- */
+function initReview(){
+ $('intro').style.display='none';$('timer').style.display='none';
+ fetch('/api/scores?nom='+encodeURIComponent(student.nom)+'&review='+encodeURIComponent(TEST_ID),{headers:{'X-Code-Hash':AUTH}})
+ .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
+ .then(function(x){
+  if(!x.ok||!x.d.keys)throw 0;
+  var mine=(x.d.scores||[]).filter(function(s){return s.testId===TEST_ID;}).sort(function(a,b){return new Date(b.date)-new Date(a.date);})[0];
+  if(!mine)throw 0;
+  ALLQ.forEach(function(q,i){var l=mine.answers[i];if(l)S.ans[q.n]='ABCD'.indexOf(l);});
+  S.key=x.d.keys.map(function(l){return 'ABCD'.indexOf(l);});
+  S.review=x.d.review||null;S.done=true;S.view=RES;render(false);
+ }).catch(function(){alert('Impossible de charger ta tentative.');location.href='dashboard.html';});
+}
+
+/* ---------- init ---------- */
+function init(){
+ render(false);
+ if(IS_REVIEW){initReview();return;}
+ $('go').disabled=true;$('go').textContent='Chargement...';
+ var guard=Promise.all([fetch('/api/access').then(function(r){return r.json();}),fetch('/api/scores?nom='+encodeURIComponent(student.nom)).then(function(r){return r.json();})])
+ .then(function(a){
+  if((a[0].tests||{})[TEST_ID]===false){alert('Ce test est fermé par l\'administrateur.');location.href='dashboard.html';return false;}
+  var mine=(a[1].scores||[]).filter(function(s){return s.testId===TEST_ID;}).sort(function(x,y){return new Date(y.date)-new Date(x.date);})[0];
+  if(mine&&!mine.retakeGranted){alert('Tu as déjà passé ce test. Un seul essai est autorisé.');location.href='dashboard.html';return false;}
+  return true;
+ }).catch(function(){return true;});
+ Promise.all([guard,fetchServerProgress()]).then(function(r){
+  if(r[0]===false)return;
+  var local=loadLocal(),srv=r[1];
+  var ok=function(e){return e&&Array.isArray(e.answers)&&e.answers.length===TOTAL&&typeof e.timeLeft==='number';};
+  var vl=ok(local)?local:null,vs=ok(srv)?srv:null;
+  var saved=vl;
+  if(vs&&(!vl||(vl.savedAt!==undefined&&(vs.savedAt||-1)>vl.savedAt)))saved=vs;
+  if(saved){
+   S.start=saved.startTime||Date.now();
+   saved.answers.forEach(function(l,i){var k='ABCD'.indexOf(l);if(l&&k>=0)S.ans[ALLQ[i].n]=k;});
+   S.left=Math.min(TOTAL_SEC,Math.max(0,Math.floor(saved.timeLeft)));
+   S.started=true;S.ready=true;
+   $('intro').style.display='none';
+   saveLocal();
+   if(S.left<=0){updateTimer();expire();return;}
+   $('restore').style.display='block';
+   $('restore').innerHTML='Progression restaurée : tes réponses sont revenues et il reste <b>'+fmt(S.left)+'</b> au chrono.';
+   startTimer();render(false);
+   setTimeout(function(){$('restore').style.display='none';},8000);
+  }else{
+   S.ready=true;$('go').disabled=false;$('go').textContent='Démarrer le chrono (52 min)';
+  }
+ });
+}
+
+document.addEventListener('click',function(e){
+ var el=e.target.closest?e.target.closest('button'):null;
+ if(!el||el.disabled)return;
+ if(el.classList.contains('opt')||el.classList.contains('bub')){setAns(+el.getAttribute('data-n'),+el.getAttribute('data-k'));return;}
+ if(el.classList.contains('dot')){go(+el.getAttribute('data-doc'),+el.getAttribute('data-q'));return;}
+ if(el.hasAttribute('data-go')){go(+el.getAttribute('data-go'));return;}
+ if(el.id==='submit'||el.id==='hsubmit'){submit(false);return;}
+});
+$('prev').addEventListener('click',function(){go(S.view-1);});
+$('next').addEventListener('click',function(){go(S.view+1);});
+$('sel').addEventListener('change',function(){go(+this.value);});
+$('go').addEventListener('click',beginTest);
+if(!BAD)init();
+
+</script>
+</body>
+</html>

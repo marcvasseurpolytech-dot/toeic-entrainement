@@ -248,6 +248,22 @@ const TESTS_DATA = {
     parts: [
       { name: 'Part 7 | Reading Comprehension', start: 1, end: 54, choices: ['A','B','C','D'] }
     ]
+  },
+
+  'p7-test-c': {
+    name: 'Part 7 Training | Test C',
+    part: 'Part 7',
+    section: 'P',
+    practice: true,
+    page: 'part7-c.html',
+    baseId: 'p7-c',
+    audioControlled: false,
+    duration: 52 * 60,
+    partIds: ['p7'],
+    total: 54,
+    parts: [
+      { name: 'Part 7 | Reading Comprehension', start: 1, end: 54, choices: ['A','B','C','D'] }
+    ]
   }
 };
 
