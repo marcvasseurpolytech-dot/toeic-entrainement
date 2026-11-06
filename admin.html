@@ -594,10 +594,12 @@
         // Populate test filter
         const sel = document.getElementById('filter-test');
         sel.innerHTML = '<option value="">All tests</option>';
-        const testIds = [...new Set(allScores.map(s => s.testId))];
+        // Part 7 training sets come first (and are always listed), then the full tests
+        const practiceIds = Object.keys(TESTS_DATA).filter(id => TESTS_DATA[id].practice);
+        const testIds = [...practiceIds, ...new Set(allScores.map(s => s.testId))].filter((id, i, arr) => arr.indexOf(id) === i);
         testIds.forEach(id => {
           const opt = document.createElement('option');
-          opt.value = id; opt.textContent = (TESTS_DATA[id] ? `${TESTS_DATA[id].name} — ${TESTS_DATA[id].part}` : id);
+          opt.value = id; opt.textContent = (TESTS_DATA[id] && TESTS_DATA[id].practice ? '★ ' : '') + (TESTS_DATA[id] ? `${TESTS_DATA[id].name} — ${TESTS_DATA[id].part}` : id);
           sel.appendChild(opt);
         });
 
