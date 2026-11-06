@@ -46,6 +46,8 @@ function cecrlForTable(score, table) {
 // Per-part counts are computed by the server (api/_lib.js grade) and returned as `parts`.
 
 // Raw section score (0-100) converted to the /495 ETS scale for that section.
+// Training sets (section 'P', e.g. the Part 7 drill) are not a full TOEIC section: no conversion.
 function convertedSectionScore(section, raw) {
+  if (section !== 'L' && section !== 'R') return null;
   return lookupScore(section === 'L' ? LISTENING_TABLE : READING_TABLE, raw);
 }

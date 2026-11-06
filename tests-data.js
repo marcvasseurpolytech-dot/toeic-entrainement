@@ -210,11 +210,29 @@ const TESTS_DATA = {
       { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
       { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
     ]
-  }
+  },
 
   // All keys sourced from the answer-key PDF. IIBC 2 T1 additionally has a
   // full booklet PDF; IIBC 2 T2 doesn't (booklet button hidden); IIBC 2 T3
   // links directly to the Drive booklet rather than a locally-hosted copy.
+
+  // Part 7 training set (not a full TOEIC section): own page, own 52-minute clock
+  // (75 min Reading minus 15 min for Part 5 and 8 min for Part 6).
+  'p7-test-a': {
+    name: 'Part 7 Training | Test A',
+    part: 'Part 7',
+    section: 'P',
+    practice: true,
+    page: 'part7-a.html',
+    baseId: 'p7-a',
+    audioControlled: false,
+    duration: 52 * 60,
+    partIds: ['p7'],
+    total: 54,
+    parts: [
+      { name: 'Part 7 | Reading Comprehension', start: 1, end: 54, choices: ['A','B','C','D'] }
+    ]
+  }
 };
 
 // Expected length of a Listening test's audio track, in seconds. A test can set

@@ -230,8 +230,8 @@
         const div = document.createElement('div');
         div.className = 'test-card' + (isOpen ? '' : ' locked');
         const badge = !isOpen ? '<span class="badge locked">Closed</span>'
-                    : retakeGranted ? `<span class="badge open">Retake granted — last: ${best}/100</span>`
-                    : completed ? `<span class="badge done">Completed: ${best}/100</span>`
+                    : retakeGranted ? `<span class="badge open">Retake granted — last: ${best}/${t.total}</span>`
+                    : completed ? `<span class="badge done">Completed: ${best}/${t.total}</span>`
                     : '<span class="badge open">Available</span>';
         const label = !isOpen ? 'Not available' : retakeGranted ? '🔄 Retake' : completed ? '✓ Completed' : '▶ Start';
         div.innerHTML = `
@@ -246,7 +246,7 @@
     }
 
     function startTest(testId) {
-      window.location.href = `test.html?id=${testId}&nom=${encodeURIComponent(student.nom)}`;
+      window.location.href = `${(TESTS_DATA[testId] && TESTS_DATA[testId].page) || 'test.html'}?id=${testId}&nom=${encodeURIComponent(student.nom)}`;
     }
 
     // =========================================================
@@ -256,6 +256,7 @@
       const TEST = TESTS_DATA[s.testId];
       if (!TEST) return null;
       const breakdown = s.parts || {};
+      if (TEST.practice) return { ...s, TEST, breakdown, converted: null, cecrl: '—', pct: Math.round(s.score / s.total * 100) };
       const converted = convertedSectionScore(TEST.section, s.score);
       const cecrl = cecrlForTable(converted, TEST.section === 'L' ? CECRL_LISTENING : CECRL_READING);
       return { ...s, TEST, breakdown, converted, cecrl };
@@ -313,9 +314,23 @@
       }).join('')}</ul></div>`;
     }
 
-    function renderSummary(enriched) {
+    // One card per Part 7 training set: latest attempt, with the same safe-zone warning.
+    function drillCardsHTML(drills) {
+      const latest = {};
+      drills.forEach(s => { if (!latest[s.testId] || new Date(s.date) > new Date(latest[s.testId].date)) latest[s.testId] = s; });
+      return Object.values(latest).map(s => `
+          <div class="summary-card">
+            <h3>${s.TEST.name}</h3>
+            <div class="summary-row"><span class="lbl">${s.TEST.part}</span><span class="val">${s.score}/${s.total} · ${s.pct}%</span></div>
+            ${weakBoxHTML([s])}
+          </div>`).join('');
+    }
+
+    function renderSummary(all) {
       const section = document.getElementById('summary-section');
-      if (!enriched.length) {
+      const enriched = all.filter(s => !s.TEST.practice);
+      const drills = all.filter(s => s.TEST.practice);
+      if (!all.length) {
         section.innerHTML = '<p class="empty-msg">No results recorded yet.</p>';
         return;
       }
@@ -349,7 +364,7 @@
           </div>
         `;
       }).join('');
-      section.innerHTML = `<div class="summary-grid">${cards}</div>`;
+      section.innerHTML = `<div class="summary-grid">${cards}${drillCardsHTML(drills)}</div>`;
       if (typeof Chart === 'undefined') return;
       Object.entries(byBase).forEach(([base, sec]) => {
         ['L', 'R'].forEach(k => {
@@ -391,6 +406,8 @@
       const labels = sorted.map(s => new Date(s.date).toLocaleDateString('en-GB', { day:'2-digit', month:'short' }));
       const listeningData = sorted.map(s => s.TEST.section === 'L' ? s.converted : null);
       const readingData   = sorted.map(s => s.TEST.section === 'R' ? s.converted : null);
+      const drillData     = sorted.map(s => s.TEST.practice ? s.pct : null);
+      const hasDrill = drillData.some(v => v !== null);
 
       new Chart(ctx, {
         type: 'line',
@@ -398,13 +415,17 @@
           labels,
           datasets: [
             { label: 'Listening /495', data: listeningData, borderColor: '#1e3a5f', backgroundColor: '#1e3a5f', spanGaps: true, tension: 0.25 },
-            { label: 'Reading /495',   data: readingData,   borderColor: '#c9a84c', backgroundColor: '#c9a84c', spanGaps: true, tension: 0.25 }
+            { label: 'Reading /495',   data: readingData,   borderColor: '#c9a84c', backgroundColor: '#c9a84c', spanGaps: true, tension: 0.25 },
+            ...(hasDrill ? [{ label: 'Part 7 training (% correct, right axis)', data: drillData, borderColor: '#2e7d52', backgroundColor: '#2e7d52', borderDash: [6, 4], yAxisID: 'y2', spanGaps: true, tension: 0.25 }] : [])
           ]
         },
         options: {
           responsive: true,
           plugins: { legend: { position: 'bottom' } },
-          scales: { y: { min: 0, max: 495 } }
+          scales: {
+            y: { min: 0, max: 495 },
+            ...(hasDrill ? { y2: { position: 'right', min: 0, max: 100, grid: { drawOnChartArea: false }, ticks: { callback: v => v + '%' } } } : {})
+          }
         }
       });
     }
@@ -438,8 +459,8 @@
               <td>${s.TEST.part}</td>
               <td><div class="part-chips">${chips}</div></td>
               <td><span class="score-pct ${pctClass(pct)}">${s.score}/${s.total}</span></td>
-              <td>${s.converted}</td>
-              <td><span class="cecrl-chip">${s.cecrl}</span></td>
+              <td>${s.converted !== null ? s.converted : '—'}</td>
+              <td>${s.cecrl === '—' ? '—' : `<span class="cecrl-chip">${s.cecrl}</span>`}</td>
               <td>${d}</td>
               <td><button class="btn-review" onclick="reviewTest('${s.testId}')">📖 Review</button></td>
             </tr>`;
@@ -450,7 +471,7 @@
     }
 
     function reviewTest(testId) {
-      window.location.href = `test.html?id=${testId}&review=1`;
+      window.location.href = `${(TESTS_DATA[testId] && TESTS_DATA[testId].page) || 'test.html'}?id=${testId}&review=1`;
     }
 
     function renderProgressCounter(scores) {

@@ -1507,4 +1507,11 @@ module.exports = {
    "A"
   ]
  }
+,
+ "p7-test-a": {
+  "section": "P",
+  "total": 54,
+  "parts": [{ "id": "p7", "start": 1, "end": 54 }],
+  "keys": ["C","B","A","D","A","C","B","D","A","B","D","B","D","C","A","C","D","B","A","C","A","B","C","D","D","B","D","C","A","A","D","C","B","D","C","A","B","D","B","A","C","D","A","B","C","A","C","A","D","B","D","A","C","B"]
+ }
 };

@@ -1,3 +1,4 @@
+const REVIEW = require('./_review');
 const { KEYS, ghGet, ghPut, hasTest, grade, cleanAnswers, verifyStudent } = require('./_lib');
 
 const FILE = 'data/scores.json';
@@ -41,6 +42,7 @@ module.exports = async (req, res) => {
         return res.status(401).json({ error: 'Please log in again.' });
       }
       out.keys = KEYS[reviewId].keys;
+      if (REVIEW[reviewId]) out.review = REVIEW[reviewId];
     }
     return res.json(out);
   }
@@ -86,7 +88,7 @@ module.exports = async (req, res) => {
         ...(elapsedOk !== undefined && { elapsedSec: elapsedOk })
       });
       const ok = await ghPut(FILE, { scores }, file?.sha, token);
-      if (ok) return res.json({ success: true, score: result.score, total: result.total, parts: result.parts, keys: KEYS[testId].keys });
+      if (ok) return res.json({ success: true, score: result.score, total: result.total, parts: result.parts, keys: KEYS[testId].keys, ...(REVIEW[testId] && { review: REVIEW[testId] }) });
     }
     return res.status(500).json({ error: 'SHA conflict — try again.' });
   }

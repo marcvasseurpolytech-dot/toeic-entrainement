@@ -693,6 +693,7 @@
       const TEST = TESTS_DATA[s.testId];
       if (!TEST) return { ...s, TEST: null, breakdown: {}, converted: null, cecrl: '—' };
       const breakdown = s.parts || {};
+      if (TEST.practice) return { ...s, TEST, breakdown, converted: null, cecrl: '—' };
       const converted = convertedSectionScore(TEST.section, s.score);
       const cecrl = cecrlForTable(converted, TEST.section === 'L' ? CECRL_LISTENING : CECRL_READING);
       return { ...s, TEST, breakdown, converted, cecrl };
@@ -742,14 +743,14 @@
       Object.values(latest).forEach(s => {
         const T = TESTS_DATA[s.testId];
         const key = s.nom + '||' + T.baseId;
-        const g = groups[key] || (groups[key] = { nom: s.nom, baseId: T.baseId, testName: T.name, L: null, R: null });
+        const g = groups[key] || (groups[key] = { nom: s.nom, baseId: T.baseId, testName: T.name, L: null, R: null, P: null });
         g[T.section] = enrichScore(s);
       });
       let rows = Object.values(groups);
       if (document.getElementById('timing-res').value === 'flag') rows = rows.filter(g => timingFlag(g.L));
       rows.forEach(g => {
-        g.date = [g.L, g.R].filter(Boolean).map(x => x.date).sort().pop();
-        const parts = [g.L, g.R].filter(Boolean);
+        g.date = [g.L, g.R, g.P].filter(Boolean).map(x => x.date).sort().pop();
+        const parts = [g.L, g.R, g.P].filter(Boolean);
         g.pct = parts.reduce((t, x) => t + x.score / x.total, 0) / parts.length;
       });
 
@@ -774,6 +775,7 @@
       const secCell = a => {
         if (!a) return '<span style="color:#9ca3af">—</span>';
         const chips = a.TEST.partIds.map(pid => `<span class="chip">${partCanonById(pid).label}: ${a.breakdown[pid].correct}/${a.breakdown[pid].max}</span>`).join('');
+        if (a.TEST.practice) return `<div class="sec-cell"><strong>${a.score}/${a.total}</strong><span class="sub">${Math.round(a.score / a.total * 100)}% · ${a.TEST.part} training</span>${timingHTML(a)}</div>`;
         return `<div class="sec-cell"><strong>${a.score}/${a.total}</strong><span class="sub">${a.converted}/495 · ${a.cecrl}</span>${timingHTML(a)}<div class="chips">${chips}</div></div>`;
       };
       const retakeBtn = (a, label) => {
@@ -795,10 +797,10 @@
               <td title="${esc(stu.dept)}">${esc(stu.dept ? deptOf(stu) : '-')}</td>
               <td>${esc(g.testName)}</td>
               <td>${secCell(g.L)}</td>
-              <td>${secCell(g.R)}</td>
+              <td>${secCell(g.R || g.P)}</td>
               <td>${total !== null ? `<strong>${total}</strong><span class="sub">${cecrlFor(total)}</span>` : '<span style="color:#9ca3af">—</span>'}</td>
               <td>${d}</td>
-              <td style="white-space:nowrap">${retakeBtn(g.L, 'L')} ${retakeBtn(g.R, 'R')}</td>
+              <td style="white-space:nowrap">${retakeBtn(g.L, 'L')} ${retakeBtn(g.R, 'R')} ${retakeBtn(g.P, 'P7')}</td>
             </tr>`;
           }).join('')}</tbody>
         </table>
@@ -1057,7 +1059,7 @@
       Object.values(latest).forEach(s => {
         const T = TESTS_DATA[s.testId];
         const key = s.nom + '||' + T.baseId;
-        const g = groups[key] || (groups[key] = { nom: s.nom, baseId: T.baseId, testName: T.name, L: null, R: null });
+        const g = groups[key] || (groups[key] = { nom: s.nom, baseId: T.baseId, testName: T.name, L: null, R: null, P: null });
         g[T.section] = enrichScore(s);
       });
 
@@ -1080,7 +1082,8 @@
           'Reading level': R ? R.cecrl : '',
           'Total (/990)': total ?? '',
           'Level': total !== null ? cecrlFor(total) : '',
-          'Status': (L && R) ? 'Complete' : (L ? 'Reading missing' : 'Listening missing')
+          'Part 7 training': g.P ? `${g.P.score}/${g.P.total}` : '',
+          'Status': g.P && !L && !R ? 'Part 7 training' : (L && R) ? 'Complete' : (L ? 'Reading missing' : 'Listening missing')
         };
         PARTS_CANON.forEach(p => {
           const src = p.section === 'L' ? L : R;

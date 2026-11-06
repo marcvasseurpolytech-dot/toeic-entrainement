@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TOEIC Part 7 · Test A · Marc Vasseur | Polytech Lille</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@500;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1B2A4A;--gold:#C9A24B;--gold-d:#8a6a1c;--cream:#FAF5E8;--paper:#fffdf7;--ink:#1d2433;--line:#d9cfb4;--ok:#2f6b4f;--ko:#9b2c2c;--mute:#5b6577}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:'Source Serif 4',Georgia,serif;background:var(--cream);color:var(--ink);font-size:16px;line-height:1.55}
+#app{height:100vh;display:flex;flex-direction:column}
+header{background:var(--navy);color:var(--cream);display:flex;align-items:center;gap:14px;padding:9px 16px;flex-wrap:wrap}
+header h1{font-family:'Playfair Display',serif;font-weight:500;font-size:18px;margin:0;flex:1 1 220px}
+header h1 small{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.04em;font-weight:400}
+.navbar{display:flex;gap:6px;align-items:center}
+.navbar button{background:var(--gold);color:var(--navy);border:0;border-radius:4px;font-size:15px;line-height:1;padding:7px 11px;cursor:pointer}
+.navbar button:disabled{opacity:.35;cursor:default}
+.navbar select{font-family:'JetBrains Mono',monospace;font-size:12.5px;padding:7px 8px;border-radius:4px;border:1px solid var(--gold);background:var(--navy);color:var(--cream);max-width:320px}
+.timer{font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--gold);min-width:64px;text-align:right}
+.timer.warn{color:#f2b84b}
+.timer.late{color:#ff8f8f}
+main{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr}
+main.single{grid-template-columns:1fr}
+.pane{overflow:auto;padding:20px 26px}
+.left{background:var(--paper);border-right:1px solid var(--line)}
+.tag{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold-d);letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px}
+.doc{background:#fff;border:1px solid var(--navy);border-radius:4px;padding:14px 18px;font-size:15.5px}
+.doc p{margin:0 0 9px}
+.doc p:last-child{margin-bottom:0}
+.doc h3{font-family:'Playfair Display',serif;font-weight:700;text-align:center;font-size:17px;margin:0 0 10px;color:var(--navy)}
+.doc .meta{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--mute);border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:10px}
+.doc .msg{margin-bottom:9px}
+.doc .msg b{font-weight:600;color:var(--navy)}
+.doc .msg span.t{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--mute);margin-left:6px}
+.doc .msg div{margin-left:0}
+.doc table{width:100%;border-collapse:collapse;font-size:14.5px}
+.doc th,.doc td{border:1px solid var(--navy);padding:6px 9px;text-align:left;vertical-align:top}
+.doc th{background:#f1e8cb}
+.mk{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold-d)}
+.q{margin:0 0 20px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.q:last-of-type{border-bottom:0}
+.qt{margin:0 0 8px;font-weight:600}
+.qt .qn{font-family:'JetBrains Mono',monospace;color:var(--navy);margin-right:4px}
+.opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;font:inherit;color:inherit;background:transparent;border:1px solid transparent;border-radius:6px;padding:6px 9px;margin:2px 0;cursor:pointer}
+.opt:hover{background:#f7efd6}
+.opt .c{flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--navy);font-family:'JetBrains Mono',monospace;font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:1px;background:#fff}
+.opt.sel{background:#f1e4bd;border-color:var(--gold)}
+.opt.sel .c{background:var(--navy);color:var(--cream)}
+.locked .opt{cursor:default}
+.locked .opt:hover{background:transparent}
+.opt.ok{background:#e4f0e9;border-color:var(--ok)}
+.opt.ok .c{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opt.ko{background:#f6e3e3;border-color:var(--ko)}
+.opt.ko .c{background:var(--ko);color:#fff;border-color:var(--ko)}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 0}
+.bd{font-family:'JetBrains Mono',monospace;font-size:11px;border:1px solid var(--navy);color:var(--navy);border-radius:3px;padding:1px 6px;background:#fff}
+.bd.l{background:var(--navy);color:var(--cream)}
+.ex{margin-top:8px;padding:10px 12px;background:#fff;border-left:4px solid var(--gold);font-size:14.5px}
+.ex .v{font-weight:600}
+.ex .v.good{color:var(--ok)}
+.ex .v.bad{color:var(--ko)}
+.ex em{background:#fbf0cb;font-style:italic;padding:0 2px}
+.vocab{margin-top:14px;border:1px solid var(--navy);border-radius:6px;overflow:hidden}
+.vocab .vh{background:var(--navy);color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:12px;padding:6px 12px;letter-spacing:.04em;text-transform:uppercase}
+.vocab ul{list-style:none;margin:0;padding:8px 12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px 14px}
+.vocab li{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:4px;padding:5px 9px}
+.vocab .en{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--navy);font-weight:500}
+.vocab .fr{font-size:13.5px;color:var(--mute)}
+details.tr{margin-top:12px;border:1px solid var(--line);border-radius:6px;background:#fff;padding:8px 12px}
+details.tr summary{cursor:pointer;font-weight:600;color:var(--navy)}
+details.tr p{margin:8px 0 0;font-size:14.5px}
+footer{background:var(--navy);color:var(--cream);padding:6px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dots{display:flex;flex-wrap:wrap;gap:3px;flex:1 1 400px}
+.dot{width:23px;height:23px;border-radius:50%;border:1px solid var(--gold);font-family:'JetBrains Mono',monospace;font-size:9.5px;display:flex;align-items:center;justify-content:center;background:transparent;color:var(--cream);cursor:pointer;padding:0}
+.dot.a{background:var(--gold);color:var(--navy)}
+.dot.r{background:var(--ok);border-color:var(--ok);color:#fff}
+.dot.w{background:var(--ko);border-color:var(--ko);color:#fff}
+.brand{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#cfd6e6;text-align:right;line-height:1.35}
+.brand b{color:var(--gold);font-weight:500}
+.sheet{max-width:980px;margin:0 auto}
+.sheet h2,.res h2{font-family:'Playfair Display',serif;font-weight:700;color:var(--navy);margin:0 0 4px;font-size:26px}
+.sub{color:var(--mute);margin:0 0 16px;font-size:14.5px}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 28px;background:#fff;border:1px solid var(--navy);border-radius:6px;padding:14px 18px}
+.row{display:flex;align-items:center;gap:7px;border-bottom:1px dotted #cbbf9d;padding:3px 0;font-family:'JetBrains Mono',monospace;font-size:13px}
+.row .n{width:34px;text-align:right;color:var(--navy);margin-right:4px}
+.row.miss .n{color:var(--ko);font-weight:500}
+.bub{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--navy);background:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;color:var(--ink)}
+.bub.f{background:var(--navy);color:var(--cream)}
+.bub.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.bub.ko{background:var(--ko);border-color:var(--ko);color:#fff}
+.bub.rg{box-shadow:0 0 0 2px var(--gold)}
+.locked .bub{cursor:default}
+.btn{font:inherit;font-weight:600;border-radius:6px;padding:10px 20px;cursor:pointer;border:1px solid var(--navy)}
+.btn.p{background:var(--navy);color:var(--cream)}
+.btn.g{background:var(--gold);color:var(--navy);border-color:var(--gold-d)}
+.btn.s{background:#fff;color:var(--navy)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 6px;align-items:center}
+.warn-box{background:#fbf0cb;border:1px solid var(--gold);border-radius:6px;padding:10px 14px;margin-top:14px;font-size:14.5px}
+.res{max-width:900px;margin:0 auto}
+.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0 20px}
+.card{background:#fff;border:1px solid var(--navy);border-radius:8px;padding:14px 18px}
+.card .big{font-family:'Playfair Display',serif;font-size:34px;color:var(--navy);line-height:1.1}
+.card .lb{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold-d);letter-spacing:.05em;text-transform:uppercase}
+.card p{margin:6px 0 0;font-size:14.5px}
+.res h3{font-family:'Playfair Display',serif;color:var(--navy);margin:22px 0 8px;font-size:20px;font-weight:500}
+.bar .v{white-space:nowrap}
+.bar{display:grid;grid-template-columns:170px 1fr 130px;gap:10px;align-items:center;margin:6px 0;font-size:14.5px}
+.bar .tr{height:16px;background:#ece3c8;border-radius:3px;overflow:hidden}
+.bar .fl{height:100%;background:var(--navy)}
+.bar.weak .fl{background:var(--ko)}
+.bar.weak b{color:var(--ko)}
+.bar .v{font-family:'JetBrains Mono',monospace;font-size:12.5px;text-align:right}
+.tip{background:#fff;border-left:4px solid var(--ko);padding:10px 14px;margin-top:10px;font-size:14.5px}
+.tip.good{border-color:var(--ok)}
+.note{font-size:13px;color:var(--mute);margin-top:10px}
+#intro{position:fixed;inset:0;background:rgba(27,42,74,.94);display:flex;align-items:center;justify-content:center;padding:20px;z-index:10}
+#intro .box{background:var(--cream);border:2px solid var(--gold);border-radius:10px;max-width:640px;padding:26px 30px;max-height:92vh;overflow:auto}
+#intro h2{font-family:'Playfair Display',serif;font-weight:700;color:var(--navy);margin:0 0 6px;font-size:26px}
+#intro p{margin:8px 0;font-size:15px}
+#intro .en{font-style:italic;color:var(--navy)}
+#intro ul{margin:8px 0 14px 18px;padding:0;font-size:14.5px}
+.dlab{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold-d);letter-spacing:.05em;text-transform:uppercase;margin:16px 0 6px}
+.dlab:first-of-type{margin-top:0}
+.doc .num,.doc th.num{text-align:right}
+.inv .inv-head{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:14px;border-bottom:2px solid var(--navy);padding-bottom:8px;margin-bottom:8px}
+.inv .tot td{font-weight:600;background:#f1e8cb}
+.inv .note{font-size:13px;margin-top:9px;line-height:1.5}
+.itin .band{background:var(--navy);color:var(--cream);font-family:'Playfair Display',serif;padding:7px 12px;margin:-14px -18px 10px;font-size:16px}
+.ad{border:3px double var(--navy);text-align:center}
+.ad .banner{background:var(--gold);color:var(--navy);font-family:'Playfair Display',serif;font-weight:700;letter-spacing:.14em;padding:6px;margin:-14px -18px 12px}
+.web{border:1px solid #8c8a80;border-radius:6px;overflow:hidden;background:#fff;font-size:14.5px}
+.web .wbar{background:#e7e2d2;padding:6px 10px;display:flex;gap:6px;align-items:center}
+.web .wd{width:9px;height:9px;border-radius:50%;background:#b9b2a0}
+.web .url{margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:11.5px;background:#fff;border-radius:10px;padding:2px 12px;color:var(--mute);flex:1}
+.web .wtabs{background:var(--navy);color:var(--cream);display:flex;gap:20px;padding:6px 14px;font-size:13px}
+.web .wbody{padding:12px 16px}
+.web h4{font-family:'Playfair Display',serif;margin:0 0 8px;font-size:17px;color:var(--navy);font-weight:500}
+.web p{margin:8px 0 0}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.plan{border:1px solid var(--navy);border-radius:6px;text-align:center;padding:8px 6px;font-size:13.5px;background:#fffdf7}
+.plan b{display:block;font-family:'Playfair Display',serif;font-size:21px;color:var(--navy);font-weight:700}
+.plan small{color:var(--mute);font-size:12px}
+@media(max-width:860px){
+ main{grid-template-columns:1fr;grid-auto-rows:minmax(0,1fr)}
+ .left{border-right:0;border-bottom:1px solid var(--line)}
+ .cols{grid-template-columns:1fr}
+ .bar{grid-template-columns:100px 1fr 112px;gap:6px}
+ .pane{padding:14px 14px}
+}
+.timer{font-size:20px;font-weight:500;border-radius:6px;padding:2px 10px;min-width:82px;text-align:center}
+.timer.warn{color:#f2b84b}
+.timer.late{background:#d32f2f;color:#fff;font-weight:700;animation:tflash 1s steps(1,end) infinite}
+@keyframes tflash{0%{background:#d32f2f;color:#fff;box-shadow:0 0 0 3px rgba(211,47,47,.45)}50%{background:#fff;color:#d32f2f;box-shadow:0 0 0 3px rgba(255,255,255,.6)}}
+#hsubmit{padding:7px 16px}
+#hsubmit:disabled{opacity:.5;cursor:default}
+#lockbar{display:none;background:#9b2c2c;color:#fff;text-align:center;padding:8px 14px;font-weight:600;font-size:14.5px}
+#restore{display:none;background:#e5f1ea;color:#1f4d38;border-bottom:1px solid #b7d6c4;text-align:center;padding:6px 14px;font-size:14px}
+.opt:disabled,.bub:disabled{cursor:default}
+.dashlink{color:var(--gold);font-size:13px;text-decoration:none;border:1px solid var(--gold);border-radius:5px;padding:4px 9px}
+</style>
+</head>
+<body>
+<div id="app">
+ <header>
+  <h1>TOEIC Part 7 · Test A<small>Single, double and triple passages · Questions 147-200</small></h1>
+  <a class="dashlink" href="dashboard.html">Tableau de bord</a>
+  <div class="navbar">
+   <button type="button" id="prev" aria-label="Previous">&#9664;</button>
+   <select id="sel" aria-label="Choose a document"></select>
+   <button type="button" id="next" aria-label="Next">&#9654;</button>
+  </div>
+  <div class="timer" id="timer" aria-live="off">52:00</div>
+  <button type="button" class="btn g" id="hsubmit">Soumettre</button>
+ </header>
+ <div id="restore"></div>
+ <div id="lockbar" role="alert"></div>
+ <main id="main"></main>
+ <footer>
+  <div class="dots" id="dots"></div>
+  <div class="brand"><b>MARC VASSEUR | POLYTECH LILLE</b><br>Marc Vasseur · marc.vasseur@polytech-lille.fr</div>
+ </footer>
+</div>
+
+<div id="intro">
+ <div class="box">
+  <h2>TOEIC Part 7 · Test A</h2>
+  <p class="en"><b>Directions:</b> you will read signs, advertisements, messages, e-mails, memos, invoices, schedules, Web pages and plans. Some texts are single, others come in sets of two or three documents. Each text or set is followed by several questions. Choose the best answer, (A), (B), (C) or (D), by clicking it. Your choices are copied automatically to the answer sheet at the end.</p>
+  <p><b>Consignes :</b> 54 questions, dans le même format que le Part 7 officiel : 10 documents seuls (Q147-175), 2 ensembles de deux documents (Q176-185) et 3 ensembles de trois documents (Q186-200).</p>
+  <ul>
+   <li><b>Durée : 52 minutes</b>, soit les 75 minutes du Reading moins 15 minutes pour la Part 5 et 8 minutes pour la Part 6.</li>
+   <li>Le chrono démarre quand tu cliques. Tes réponses et le temps restant sont sauvegardés automatiquement : si tu fermes la page, tu reprends avec le temps qu'il te restait.</li>
+   <li>Dans les 5 dernières minutes, le chrono clignote en rouge.</li>
+   <li>À zéro, les réponses sont verrouillées et envoyées automatiquement. Tu peux aussi cliquer sur <b>Soumettre</b> à tout moment.</li>
+   <li>Un seul essai. Le score, ton niveau estimé (A1 à C1), les styles de questions à retravailler et la correction détaillée (vocabulaire et traduction) s'affichent après l'envoi.</li>
+  </ul>
+  <button type="button" class="btn g" id="go">Chargement...</button>
+ </div>
+</div>
+
+<script>
+var D={"DOCS": [{"kind": "sign", "label": "Sign", "range": "147-148", "html": "<div class=\"doc\"><h3>PEDESTRIAN BRIDGE TEMPORARILY CLOSED<\/h3><p>Because of repainting work on its steel frame, the Mill River footbridge is closed to walkers and cyclists. It is scheduled to reopen on October 12 at 7:00 A.M.<\/p><p>Please use the Alder Street crossing instead. From here, turn left onto the riverside path and walk to the traffic light. We thank you for your patience.<\/p><\/div>", "qs": [{"n": 147, "t": "Detail", "l": "A2", "q": "What will happen on October 12?", "o": ["A river path will be closed.", "A bridge will be repainted.", "A walkway will open again.", "A traffic light will be installed."]}, {"n": 148, "t": "Detail", "l": "A2", "q": "What are pedestrians advised to do?", "o": ["Ask a worker for help", "Use another route", "Pay a small fee", "Cycle instead of walking"]}]}, {"kind": "advertisement", "label": "Advertisement", "range": "149-150", "html": "<div class=\"doc\"><h3>Brightside Language Center<\/h3><p>Do you want to speak Spanish, German, or Japanese with confidence? Brightside Language Center offers small evening classes for adults and Saturday-morning courses for children, all taught by native speakers.<\/p><p>Our new term begins on January 13, and early registration saves you 15 percent until December 20. To take a free placement test, visit the front desk at 48 Linden Avenue, Monday to Friday between 8 A.M. and 7 P.M., or on Saturday between 9 A.M. and 1 P.M.<\/p><\/div>", "qs": [{"n": 149, "t": "Purpose", "l": "A2", "q": "What is being advertised?", "o": ["A language school", "A travel agency", "A bookstore", "A translation service"]}, {"n": 150, "t": "Inference", "l": "B1", "q": "When is the front desk probably closed?", "o": ["On Monday", "On Friday", "On Saturday", "On Sunday"]}]}, {"kind": "text-message chain", "label": "Text-message chain", "range": "151-152", "html": "<div class=\"doc\"><div class=\"msg\"><b>Priya Nair<\/b><span class=\"t\">9:12 A.M.<\/span><div>Hi Tom. I'm at the convention center. The banners are up, but the registration tables haven't arrived.<\/div><\/div><div class=\"msg\"><b>Tom Becker<\/b><span class=\"t\">9:14 A.M.<\/span><div>Did the rental company say when they would deliver them?<\/div><\/div><div class=\"msg\"><b>Priya Nair<\/b><span class=\"t\">9:16 A.M.<\/span><div>Their line is busy. I've tried twice.<\/div><\/div><div class=\"msg\"><b>Tom Becker<\/b><span class=\"t\">9:18 A.M.<\/span><div>I'll take it from here. I'm only five minutes from their warehouse and can pick the tables up myself.<\/div><\/div><div class=\"msg\"><b>Priya Nair<\/b><span class=\"t\">9:19 A.M.<\/span><div>Great. Meanwhile I'll start arranging the name badges. Doors open at 10:00.<\/div><\/div><\/div>", "qs": [{"n": 151, "t": "Intent", "l": "B2", "q": "At 9:18 A.M., what does Mr. Becker most likely mean when he writes, \"I'll take it from here\"?", "o": ["He will take care of the problem.", "He will leave the convention center early.", "He will ask Ms. Nair to call again.", "He will cancel the rental."]}, {"n": 152, "t": "Inference", "l": "B1", "q": "For what kind of event are Ms. Nair and Mr. Becker most likely preparing?", "o": ["A company picnic", "A furniture sale", "A professional conference", "An outdoor music festival"]}]}, {"kind": "information", "label": "Information", "range": "153-154", "html": "<div class=\"doc\"><h3>Eastgate Community Center: This Week's Classes<\/h3><table><tr><th>Location<\/th><th>Class<\/th><th>Day and time<\/th><\/tr><tr><td>Room 101<\/td><td>Beginner Yoga<\/td><td>Mon. and Wed., 6:00 P.M.<\/td><\/tr><tr><td>Room 102<\/td><td>Pottery Workshop<br>(temporarily moved to Studio B, Annex Building)<\/td><td>Tue., 5:30 P.M.<\/td><\/tr><tr><td>Room 201<\/td><td>Computer Basics<\/td><td>Thu., 10:00 A.M.<\/td><\/tr><tr><td>Room 202<\/td><td>Community Choir<\/td><td>Fri., 7:00 P.M.<\/td><\/tr><\/table><\/div>", "qs": [{"n": 153, "t": "Detail", "l": "A2", "q": "According to the information, where is the pottery workshop currently held?", "o": ["In Room 102", "In the Annex Building", "In Room 201", "In the main hall"]}, {"n": 154, "t": "Detail", "l": "A2", "q": "Which class takes place in the morning?", "o": ["Yoga", "Pottery", "Choir", "Computer Basics"]}]}, {"kind": "brochure", "label": "Brochure", "range": "155-157", "html": "<div class=\"doc\"><h3>Riverton Public Works Presents: Cut Your Energy Bills!<\/h3><p><b>Free workshops for Riverton homeowners<\/b><\/p><p>Are your heating and cooling costs higher than they should be? Join a practical, hands-on workshop led by certified energy advisers. Every participant will receive a free energy-saving kit with LED bulbs and weather stripping, a personalized estimate of your yearly savings, and an up-to-date list of rebates for home improvements.<\/p><table><tr><th>Date<\/th><th>Time<\/th><th>Place<\/th><\/tr><tr><td>Saturday, March 4<\/td><td>10:00 A.M.<\/td><td>Central Library<\/td><\/tr><tr><td>Saturday, March 11<\/td><td>2:00 P.M.<\/td><td>Northside Community Center<\/td><\/tr><tr><td>Saturday, March 18<\/td><td>10:00 A.M.<\/td><td>Westfield Library<\/td><\/tr><\/table><p style=\"margin-top:9px\">Space is limited to 30 people per session. Register at www.riverton-publicworks.example or call 555-0142. Please bring a copy of a recent utility bill so that your adviser can prepare your savings estimate.<\/p><\/div>", "qs": [{"n": 155, "t": "Detail", "l": "A2", "q": "For whom are the workshops intended?", "o": ["Local homeowners", "Building contractors", "City employees", "University students"]}, {"n": 156, "t": "NOT", "l": "B2", "q": "What is NOT mentioned as a benefit of attending a workshop?", "o": ["A free kit of energy-saving items", "A reduction in property taxes", "A personal estimate of yearly savings", "A list of available rebates"]}, {"n": 157, "t": "Detail", "l": "B1", "q": "What are participants asked to bring?", "o": ["Photo identification", "A copy of a property deed", "A completed form", "A recent utility bill"]}]}, {"kind": "notice", "label": "Notice", "range": "158-160", "html": "<div class=\"doc\"><h3>Starlight Cinema Is Back!<\/h3><p>After a three-month renovation, the Starlight Cinema on Orchard Road will reopen on Friday, June 6. <span class=\"mk\">[1]<\/span> The building now has three screens instead of one, and every seat has been replaced with a wider, reclining model. <span class=\"mk\">[2]<\/span> Tickets for all shows during the first week cost only $5, and the first 200 guests each day will receive a free bag of popcorn. <span class=\"mk\">[3]<\/span> Our opening film will be the award-winning documentary <i>Rivers of Light<\/i>. Tickets are available at the box office or online at www.starlightcinema.example. <span class=\"mk\">[4]<\/span> We hope to see you there!<\/p><\/div>", "qs": [{"n": 158, "t": "Purpose", "l": "B1", "q": "What is the notice about?", "o": ["A film festival lineup", "The reopening of a cinema", "The sale of a cinema", "A job opening at a cinema"]}, {"n": 159, "t": "Inference", "l": "B2", "q": "What is indicated about the Starlight Cinema?", "o": ["It will show only documentaries.", "It is changing its name.", "It has moved to a new address.", "It was closed for a few months."]}, {"n": 160, "t": "Insert", "l": "C1", "q": "In which of the positions marked [1], [2], [3], and [4] does the following sentence best belong? \"After that, regular prices will apply.\"", "o": ["[1]", "[2]", "[3]", "[4]"]}]}, {"kind": "e-mail", "label": "E-mail", "range": "161-163", "html": "<div class=\"doc\"><div class=\"meta\">From: Laura Chen, Human Resources<br>To: Kenji Mori<br>Date: 28 October<br>Subject: Your first week at Dalton Engineering<\/div><p>Dear Mr. Mori:<\/p><p>Welcome to Dalton Engineering! We are delighted that you will be joining our design team as a project coordinator on Monday, 4 November. Your orientation will begin at 9:00 A.M. in Room 3B on the third floor. Please bring a valid photo ID and the signed forms we sent you last week. The forms must be submitted before you can receive your building access card.<\/p><p>During the morning session, you will meet your supervisor, Ms. Alicia Torres, and tour the offices. Lunch will be provided by the company, and you will have the afternoon to set up your workstation with the help of the IT staff.<\/p><p>Because parking near the office is limited, we encourage new employees to use the shuttle that runs from Central Station every fifteen minutes. If you would prefer to drive, please reply to this e-mail by 1 November so that we can reserve a space for you in the visitor lot.<\/p><p>We look forward to seeing you!<\/p><p>Laura Chen<br>Human Resources<\/p><\/div>", "qs": [{"n": 161, "t": "Purpose", "l": "B1", "q": "What is the purpose of the e-mail?", "o": ["To give Mr. Mori details about his first day", "To invite Mr. Mori to a job interview", "To ask Mr. Mori to change a start date", "To offer Mr. Mori a new position"]}, {"n": 162, "t": "Detail", "l": "B1", "q": "What must Mr. Mori do before he receives a building access card?", "o": ["Attend a technology workshop", "Meet his supervisor", "Turn in signed paperwork", "Reserve a parking space"]}, {"n": 163, "t": "NOT", "l": "B2", "q": "What is NOT mentioned as part of Mr. Mori's first day?", "o": ["A tour of the offices", "A free lunch", "Help from IT staff", "A safety training course"]}]}, {"kind": "memo", "label": "Memo", "range": "164-167", "html": "<div class=\"doc\"><h3>MEMO<\/h3><div class=\"meta\">To: All employees<br>From: Facilities Management<br>Date: 9 June<br>Re: New recycling program<\/div><p>Beginning Monday, 23 June, Kessler Logistics will launch a new recycling program in all of its offices. The program responds to a recent staff survey in which more than 60 percent of employees asked for greener workplace practices. Individual desk bins will be replaced by shared collection stations on each floor, with separate containers for paper, plastic, and glass. Training is not required, but short demonstrations will be held at the stations on Tuesday, 17 June, at 12:30 P.M. Anyone who cannot attend will find a quick-reference guide on the company intranet.<\/p><p>To measure the results, the facilities team will weigh the collected materials each month and report the totals in the company newsletter. If the program reduces waste by at least 20 percent in its first six months, the company plans to extend it to its warehouses. We welcome your questions and suggestions, which may be sent to Ms. Rina Kapoor at rkapoor@kessler.example.<\/p><\/div>", "qs": [{"n": 164, "t": "Purpose", "l": "B1", "q": "What is the purpose of the memo?", "o": ["To report the results of a survey", "To announce a new recycling program", "To introduce a new facilities manager", "To ask staff to attend a training course"]}, {"n": 165, "t": "Detail", "l": "B2", "q": "Why is the company introducing the program?", "o": ["To respond to requests from employees", "To follow a new law", "To lower the cost of supplies", "To reduce the number of cleaning staff"]}, {"n": 166, "t": "Vocab", "l": "B2", "q": "The word \"extend\" in paragraph 2, second sentence, is closest in meaning to", "o": ["lengthen", "offer", "expand", "delay"]}, {"n": 167, "t": "Inference", "l": "C1", "q": "What is suggested about Kessler Logistics?", "o": ["It operates warehouses.", "It recently moved to a new office.", "It already recycles at all of its locations.", "It plans to close some offices."]}]}, {"kind": "text-message chain", "label": "Text-message chain", "range": "168-171", "html": "<div class=\"doc\"><div class=\"msg\"><b>Elena Rossi<\/b><span class=\"t\">3:02 P.M.<\/span><div>Hi both. The catering company just confirmed Friday's client lunch for 25 guests, but they can't deliver before 12:30.<\/div><\/div><div class=\"msg\"><b>Omar Haddad<\/b><span class=\"t\">3:05 P.M.<\/span><div>That's later than we planned. Our presentation starts at noon, right?<\/div><\/div><div class=\"msg\"><b>Elena Rossi<\/b><span class=\"t\">3:06 P.M.<\/span><div>Yes. I can ask them to send sandwiches only. The hot dishes need more time.<\/div><\/div><div class=\"msg\"><b>Wen Zhang<\/b><span class=\"t\">3:09 P.M.<\/span><div>Actually, why not move the presentation to 12:30? The clients arrive by 11:45 anyway, so we'd have time for a short tour first.<\/div><\/div><div class=\"msg\"><b>Omar Haddad<\/b><span class=\"t\">3:11 P.M.<\/span><div>Works for me. I'll update the agenda and send it out tonight.<\/div><\/div><div class=\"msg\"><b>Elena Rossi<\/b><span class=\"t\">3:12 P.M.<\/span><div>Perfect. Then we can keep the full menu. Wen, can you book the larger meeting room?<\/div><\/div><div class=\"msg\"><b>Wen Zhang<\/b><span class=\"t\">3:14 P.M.<\/span><div>Already done. It's the one on the second floor.<\/div><\/div><\/div>", "qs": [{"n": 168, "t": "Detail", "l": "B1", "q": "What problem does Ms. Rossi report?", "o": ["A guest list has changed.", "A meal cannot arrive on time.", "A meeting room is unavailable.", "A presentation has been canceled."]}, {"n": 169, "t": "Detail", "l": "B2", "q": "What does Mr. Zhang suggest?", "o": ["Ordering fewer dishes", "Inviting fewer guests", "Starting the presentation later", "Choosing a new caterer"]}, {"n": 170, "t": "Intent", "l": "B2", "q": "At 3:14 P.M., what does Mr. Zhang most likely mean when he writes, \"Already done\"?", "o": ["He has finished the agenda.", "He has paid the caterer.", "He has called the clients.", "He has reserved the room."]}, {"n": 171, "t": "Detail", "l": "B2", "q": "What will Mr. Haddad do?", "o": ["Order sandwiches", "Lead a tour", "Contact the caterer", "Revise a schedule"]}]}, {"kind": "e-mail", "label": "E-mail", "range": "172-175", "html": "<div class=\"doc\"><div class=\"meta\">From: Naomi Fischer, Curator<br>To: Paul Delacroix<br>Date: 12 March<br>Subject: Your loan of the harbor paintings<\/div><p>Dear Mr. Delacroix:<\/p><p>Thank you for your letter regarding the harbor paintings that your family has kept for three generations. The board of the Cranmore Maritime Museum met yesterday and, I am pleased to say, voted to accept your generous offer of a long-term loan. <span class=\"mk\">[1]<\/span> Once the paintings are in our care, our conservation team will need to examine each one, since several of the canvases show signs of age. <span class=\"mk\">[2]<\/span> The team estimates that this work will take about eight weeks and will be carried out at the museum's expense. <span class=\"mk\">[3]<\/span><\/p><p>We would like to unveil the collection at a special exhibition next autumn, and we hope that you and your family will attend as guests of honor. In the meantime, I would be grateful if you could send us any documents, such as receipts or letters, that might help us trace the history of the paintings. Our insurance partner, Harbor Mutual, will cover the full appraised value of each work during the loan. <span class=\"mk\">[4]<\/span><\/p><p>Sincerely,<br>Naomi Fischer<br>Curator, Cranmore Maritime Museum<\/p><\/div>", "qs": [{"n": 172, "t": "Purpose", "l": "B1", "q": "Why did Ms. Fischer write to Mr. Delacroix?", "o": ["To request a sale of artwork", "To announce that an offer has been accepted", "To invite him to apply for a job", "To report damage to a painting"]}, {"n": 173, "t": "Detail", "l": "B1", "q": "What does Ms. Fischer say about the conservation work?", "o": ["It will begin next autumn.", "It must be done by the family.", "It has already been completed.", "It will be paid for by the museum."]}, {"n": 174, "t": "Vocab", "l": "C1", "q": "The word \"unveil\" in paragraph 2, first sentence, is closest in meaning to", "o": ["cover", "sell", "present", "repair"]}, {"n": 175, "t": "Insert", "l": "C1", "q": "In which of the positions marked [1], [2], [3], and [4] does the following sentence best belong? \"A courier will contact you next week to arrange their collection.\"", "o": ["[1]", "[2]", "[3]", "[4]"]}]}, {"kind": "invoice and e-mail", "label": "Invoice + e-mail", "range": "176-180", "html": "<div class=\"dlab\">Document 1 · Invoice<\/div><div class=\"doc inv\"><div class=\"inv-head\"><div><b>Shipped from:<\/b><br>Bayview Kitchen Supply<br>120 Dock Street<br>Portland, OR 97204<\/div><div><b>Bill to:<\/b><br>Carla Mendes, Owner<br>Seaside Bistro<br>18 Harbor Lane<br>Astoria, OR 97103<\/div><\/div><div class=\"meta\">Invoice date: March 3 &nbsp;|&nbsp; Order #: BK-5502 (phone order)<\/div><table><tr><th>Product #<\/th><th>Item<\/th><th class=\"num\">Number of items<\/th><th class=\"num\">Cost per item<\/th><th class=\"num\">Total cost<\/th><\/tr><tr><td>C410<\/td><td>30-centimeter frying pan<\/td><td class=\"num\">12<\/td><td class=\"num\">$18.50<\/td><td class=\"num\">$222.00<\/td><\/tr><tr><td>M215<\/td><td>Mixing bowl set, 3 pieces *<\/td><td class=\"num\">20<\/td><td class=\"num\">$14.00<\/td><td class=\"num\">on back order<\/td><\/tr><tr><td>K330<\/td><td>Chef's knife<\/td><td class=\"num\">8<\/td><td class=\"num\">$22.75<\/td><td class=\"num\">$182.00<\/td><\/tr><tr><td>T118<\/td><td>Kitchen towels, pack of 6<\/td><td class=\"num\">15<\/td><td class=\"num\">$9.00<\/td><td class=\"num\">$135.00<\/td><\/tr><tr><td colspan=\"4\">Shipping<\/td><td class=\"num\">$24.00<\/td><\/tr><tr class=\"tot\"><td colspan=\"4\">Total cost<\/td><td class=\"num\">$563.00<\/td><\/tr><\/table><div class=\"note\">* Mixing bowl sets are on back order. Estimated shipping date: March 21.<br>Estimated shipping date for all other items: March 5.<br>The credit card ending in -2218 will be charged when items ship.<br>Beginning April 1, orders of $500 or more will ship free.<br>Questions about your order? Contact Dana Whitfield at dwhitfield@bayviewkitchen.example.<\/div><\/div><div class=\"dlab\">Document 2 · E-mail<\/div><div class=\"doc\"><div class=\"meta\">From: Carla Mendes<br>To: Dana Whitfield<br>Date: March 7<br>Subject: Order BK-5502<\/div><p>Dear Ms. Whitfield:<\/p><p>Thank you for the quick delivery. The shipment arrived yesterday, and everything was in good condition except for one problem. I ordered ten chef's knives, but only eight were in the box, and the invoice shows that I was charged for eight. Our new menu starts on March 15, and I need ten knives for my kitchen staff. Could you please send the two remaining knives right away? I am glad to pay the standard shipping fee for them.<\/p><p>I also understand that the mixing bowls will not arrive until later this month. If possible, please tell me a few days before they ship so that someone will be at the restaurant to receive them.<\/p><p>Thank you for your help.<\/p><p>Carla Mendes<br>Owner, Seaside Bistro<\/p><\/div>", "qs": [{"n": 176, "t": "Inference", "l": "B1", "q": "What is implied about Ms. Mendes?", "o": ["She runs a restaurant.", "She works for Bayview Kitchen Supply.", "She has just opened her business.", "She owns several stores."]}, {"n": 177, "t": "Detail", "l": "B1", "q": "According to the invoice, what will happen on April 1?", "o": ["Prices will increase.", "A new store will open.", "Payment will be due.", "Large orders will ship free."]}, {"n": 178, "t": "Cross", "l": "B2", "q": "When will Ms. Mendes most likely receive the mixing bowls?", "o": ["Before March 5", "On March 7", "Not before March 21", "After April 1"]}, {"n": 179, "t": "Cross", "l": "B2", "q": "What item was delivered in the wrong amount?", "o": ["C410", "K330", "M215", "T118"]}, {"n": 180, "t": "Detail", "l": "B1", "q": "What does Ms. Mendes ask Ms. Whitfield to do?", "o": ["Cancel the order for mixing bowls", "Change a credit card number", "Reduce the shipping fee", "Send two more knives"]}]}, {"kind": "itinerary and e-mail", "label": "Itinerary + e-mail", "range": "181-185", "html": "<div class=\"dlab\">Document 1 · Itinerary<\/div><div class=\"doc itin\"><div class=\"band\">Wanderline Travel Services · Itinerary<\/div><div class=\"meta\">Prepared for: Dr. Lena Okoye<br>Prepared by: Marta Zaleski, Travel Consultant<br>Booking reference: WL-40817<\/div><table><tr><th>Date<\/th><th>Service<\/th><th>Details<\/th><\/tr><tr><td>Tue., April 8<\/td><td>Flight<br>Skyline Air 482<\/td><td>Depart Boston (BOS) 8:15 A.M.<br>Arrive Seattle (SEA) 11:20 A.M.<\/td><\/tr><tr><td>Tue., April 8<\/td><td>Car rental<br>Ridgeway Car Rental<\/td><td>Pick-up at SEA airport, compact car, $42 per day<br>Return: Fri., April 11, 2:00 P.M.<\/td><\/tr><tr><td>Tue., April 8<\/td><td>Hotel<br>Harborview Hotel<\/td><td>Check-in, 3 nights, $149 per night<br>Check-out: Fri., April 11<\/td><\/tr><tr><td>Thu., April 10<\/td><td>Pacific Technology Forum<\/td><td>Session: \"Data Privacy in Practice\"<br>2:00 P.M., Convention Hall, Room 3<\/td><\/tr><tr><td>Fri., April 11<\/td><td>Pacific Technology Forum<\/td><td>Workshop: \"Building a Privacy Program\"<br>9:00 to 11:30 A.M., Convention Hall, Room 5<\/td><\/tr><tr><td>Fri., April 11<\/td><td>Flight<br>Skyline Air 485<\/td><td>Depart Seattle (SEA) 3:30 P.M.<br>Arrive Boston (BOS) 11:55 P.M.<\/td><\/tr><\/table><\/div><div class=\"dlab\">Document 2 · E-mail<\/div><div class=\"doc\"><div class=\"meta\">From: Lena Okoye<br>To: Marta Zaleski<br>Date: March 25<br>Subject: Change to my Seattle itinerary<\/div><p>Dear Ms. Zaleski:<\/p><p>Thank you for the clear itinerary. Unfortunately, the forum organizers have just informed me that my workshop on April 11 will now run from 1:00 to 4:00 P.M. instead of in the morning. As a result, I will not be able to take the 3:30 P.M. flight home that day. Could you please book me on a later flight on the evening of April 11? I would also be grateful if you could revise the return time for my rental car, since I will need it until after the workshop ends. The hotel reservation does not need to change.<\/p><p>Please let me know the new flight number and the cost of any change fee as soon as possible.<\/p><p>Best regards,<br>Lena Okoye<\/p><\/div>", "qs": [{"n": 181, "t": "Detail", "l": "B1", "q": "What is indicated about Dr. Okoye?", "o": ["She has booked a hotel for four nights.", "She will travel by train.", "She will take part in the forum on two days.", "She will present on Wednesday."]}, {"n": 182, "t": "Inference", "l": "B1", "q": "Who most likely is Ms. Zaleski?", "o": ["A travel agent", "A hotel clerk", "A forum organizer", "A flight attendant"]}, {"n": 183, "t": "Purpose", "l": "B1", "q": "What is the purpose of the e-mail?", "o": ["To complain about a hotel", "To ask for a change in travel plans", "To confirm a payment", "To cancel a trip"]}, {"n": 184, "t": "Cross", "l": "B2", "q": "When will Dr. Okoye most likely leave Seattle?", "o": ["On Thursday afternoon", "On Friday morning", "On Friday at 3:30 P.M.", "On Friday evening"]}, {"n": 185, "t": "Vocab", "l": "C1", "q": "In the e-mail, the word \"revise\" in paragraph 1, fifth sentence, is closest in meaning to", "o": ["record", "change", "delay", "cancel"]}]}, {"kind": "article, Web page, and list", "label": "Article + Web page + list", "range": "186-190", "html": "<div class=\"dlab\">Document 1 · Article<\/div><div class=\"doc\"><h3>Riverside Launches Bike-Share Program<\/h3><div class=\"meta\">RIVERSIDE (June 2)<\/div><p>The city of Riverside launched its first bike-share system on Monday, placing 200 bicycles at 20 stations downtown and along the river. The program is run by Spoke &amp; Co., which also operates similar services in two neighboring cities.<\/p><p>Riders unlock the bicycles with a smartphone app. \"We want residents to leave their cars at home for short trips,\" said Transportation Director Helen Park. \"If ridership reaches 3,000 trips a week by October, we will expand to 40 stations next spring.\" The city paid for the stations with a state grant, while Spoke &amp; Co. covers maintenance and daily operations.<\/p><\/div><div class=\"dlab\">Document 2 · Web page<\/div><div class=\"web\"><div class=\"wbar\"><span class=\"wd\"><\/span><span class=\"wd\"><\/span><span class=\"wd\"><\/span><span class=\"url\">www.riversidebikeshare.example<\/span><\/div><div class=\"wtabs\"><span>Plans<\/span><span>Stations<\/span><span>Help<\/span><\/div><div class=\"wbody\"><h4>Choose your plan<\/h4><div class=\"plans\"><div class=\"plan\"><b>$9<\/b>Day pass<br><small>Unlimited 30-minute rides for 24 hours<\/small><\/div><div class=\"plan\"><b>$20<\/b>Monthly<br><small>First 30 minutes of every ride free<\/small><\/div><div class=\"plan\"><b>$120<\/b>Annual<br><small>First 30 minutes of every ride free<\/small><\/div><\/div><p>Students with a valid ID receive 25 percent off the monthly and annual plans.<\/p><p><b>How to ride:<\/b> Download the app, create an account, and add a credit card. Riders must be at least 16 years old. Helmets are recommended but not required.<\/p><p>Stations marked E offer electric bicycles for an extra $2 per ride.<\/p><\/div><\/div><div class=\"dlab\">Document 3 · List<\/div><div class=\"doc\"><h3>Riverside Bike Share: Station List, Phase 1 (selected stations)<\/h3><table><tr><th>Station<\/th><th>Address<\/th><th class=\"num\">Docks<\/th><th>Type<\/th><\/tr><tr><td>Central Library<\/td><td>14 Main Street<\/td><td class=\"num\">12<\/td><td>Standard<\/td><\/tr><tr><td>City Hall<\/td><td>1 Civic Plaza<\/td><td class=\"num\">10<\/td><td>Standard<\/td><\/tr><tr><td>Harbor Pier<\/td><td>5 Pier Road<\/td><td class=\"num\">14<\/td><td>E<\/td><\/tr><tr><td>Oakmont Station<\/td><td>200 Oak Avenue<\/td><td class=\"num\">16<\/td><td>E<\/td><\/tr><tr><td>Greenfield Market<\/td><td>33 Green Street<\/td><td class=\"num\">8<\/td><td>Standard<\/td><\/tr><\/table><\/div>", "qs": [{"n": 186, "t": "Purpose", "l": "B1", "q": "What is the main topic of the article?", "o": ["The start of a bike-share system", "The cost of a state grant", "A new bus route", "A cycling race"]}, {"n": 187, "t": "Detail", "l": "B1", "q": "According to Ms. Park, what must happen for the system to grow?", "o": ["The state must give another grant.", "A neighboring city must join.", "Ridership must reach a set level.", "Riders must pay higher fees."]}, {"n": 188, "t": "NOT", "l": "B2", "q": "What is NOT required of riders?", "o": ["A smartphone app", "A credit card", "A minimum age", "A helmet"]}, {"n": 189, "t": "Cross", "l": "B2", "q": "Where can a rider find an electric bicycle?", "o": ["At Harbor Pier", "At City Hall", "At Central Library", "At Greenfield Market"]}, {"n": 190, "t": "Inference", "l": "C1", "q": "What is suggested about Spoke & Co.?", "o": ["It paid for the stations with a state grant.", "It has experience running bike-share services.", "It plans to open 40 stations this fall.", "It offers student discounts in other cities."]}]}, {"kind": "advertisement and two e-mails", "label": "Ad + 2 e-mails", "range": "191-195", "html": "<div class=\"dlab\">Document 1 · Advertisement<\/div><div class=\"doc ad\"><div class=\"banner\">NOW HIRING<\/div><h3>Customer Service Coordinator<\/h3><p><b>Tidewater Marine Supply, Newport<\/b><\/p><p>Full-time position, Monday to Friday, 8:30 A.M. to 5:00 P.M.<\/p><p><b>Requirements:<\/b> at least two years of experience in customer service; strong written and spoken English; ability to lift 10 kilograms. Fluent Spanish is a plus.<\/p><p><b>We offer:<\/b> a salary based on experience, health insurance, and twenty days of paid vacation.<\/p><p>Send your résumé and a cover letter by September 15 to hr@tidewatermarine.example. Interviews will take place during the week of September 22.<\/p><\/div><div class=\"dlab\">Document 2 · E-mail<\/div><div class=\"doc\"><div class=\"meta\">From: Jonas Weber<br>To: Marisol Alvarez<br>Date: September 12<br>Subject: Application for Customer Service Coordinator<\/div><p>Dear Ms. Alvarez:<\/p><p>I am writing to apply for the Customer Service Coordinator position advertised on your Web site. For the past three years, I have worked as a customer service representative at Coastline Boats, where I answer customer questions and handle orders and returns. I am fluent in English and German, and I am currently studying Spanish. I am available for an interview on any day during the week of September 22, except Wednesday, September 24, when I will be traveling. My résumé and two references are attached.<\/p><p>Sincerely,<br>Jonas Weber<\/p><\/div><div class=\"dlab\">Document 3 · E-mail<\/div><div class=\"doc\"><div class=\"meta\">From: Marisol Alvarez<br>To: Jonas Weber<br>Date: September 18<br>Subject: Interview invitation<\/div><p>Dear Mr. Weber:<\/p><p>Thank you for your application. We were impressed by your experience, and we would like to invite you to an interview on Thursday, September 25, at 10:30 A.M. at our Newport office, 45 Wharf Road. Please plan to stay for about two hours. You will meet the sales director and complete a short writing test. Please bring a photo ID, which we need to issue your visitor badge. If this time does not suit you, let me know by September 20. Parking is available behind the building.<\/p><p>Sincerely,<br>Marisol Alvarez<br>Human Resources Manager<\/p><\/div>", "qs": [{"n": 191, "t": "Detail", "l": "B1", "q": "What is mentioned as an advantage for job candidates?", "o": ["Experience with boats", "A university degree", "Fluent Spanish", "Knowledge of accounting"]}, {"n": 192, "t": "Cross", "l": "B2", "q": "What is suggested about Mr. Weber?", "o": ["He meets the experience requirement.", "He is fluent in Spanish.", "He has worked for Tidewater Marine Supply before.", "He lives close to the Newport office."]}, {"n": 193, "t": "Detail", "l": "B1", "q": "On what day will Mr. Weber be interviewed?", "o": ["Monday, September 22", "Wednesday, September 24", "Thursday, September 25", "Friday, September 26"]}, {"n": 194, "t": "Detail", "l": "B1", "q": "What does Ms. Alvarez ask Mr. Weber to bring?", "o": ["A photo ID", "A letter of reference", "A completed application form", "A sample of his work"]}, {"n": 195, "t": "Cross", "l": "C1", "q": "What is suggested about the interview schedule?", "o": ["It was moved to a later week.", "It was set before the application deadline.", "It will take place at Mr. Weber's workplace.", "It takes Mr. Weber's availability into account."]}]}, {"kind": "e-mail, schedule, and floor plan", "label": "E-mail + schedule + plan", "range": "196-200", "html": "<div class=\"dlab\">Document 1 · E-mail<\/div><div class=\"doc\"><div class=\"meta\">From: Priscilla Grant, Conference Coordinator<br>To: All registered attendees<br>Date: October 20<br>Subject: Important update for the Coastal Business Forum<\/div><p>Dear attendees:<\/p><p>Thank you for registering for the Coastal Business Forum, which will be held on Thursday, November 6, and Friday, November 7, at the Harbor Convention Hall. Because of a water leak in the east wing, Room E2 cannot be used, so Thursday's session on digital marketing has moved to Room W1. All other sessions remain as scheduled. Registration opens at 8:00 A.M. in the main lobby on both days, and name badges are required for entry to all sessions. Lunch is included on Thursday only. On Friday, participants may purchase lunch at the Garden Café. A floor plan of the building is attached to help you find your way.<\/p><p>We look forward to seeing you.<\/p><p>Priscilla Grant<br>Conference Coordinator<\/p><\/div><div class=\"dlab\">Document 2 · Schedule<\/div><div class=\"doc\"><h3>Coastal Business Forum: Thursday, November 6<\/h3><table><tr><th>Time<\/th><th>Session<\/th><th>Room<\/th><\/tr><tr><td>9:00 A.M.<\/td><td>Opening remarks<\/td><td>Main Hall<\/td><\/tr><tr><td>10:00 A.M.<\/td><td>Digital marketing for small businesses<\/td><td>Room E2<\/td><\/tr><tr><td>11:30 A.M.<\/td><td>Managing remote teams<\/td><td>Room W2<\/td><\/tr><tr><td>12:30 P.M.<\/td><td>Lunch (included with registration)<\/td><td>Garden Café<\/td><\/tr><tr><td>1:30 P.M.<\/td><td>Financial planning basics<\/td><td>Room E1<\/td><\/tr><tr><td>3:00 P.M.<\/td><td>Closing panel<\/td><td>Main Hall<\/td><\/tr><\/table><\/div><div class=\"dlab\">Document 3 · Floor plan<\/div><div class=\"doc\"><svg viewBox=\"0 0 520 330\" width=\"100%\" role=\"img\" aria-label=\"Floor plan of the Harbor Convention Hall, ground floor\" style=\"display:block;font-family:'Source Serif 4',Georgia,serif\"><rect x=\"4\" y=\"4\" width=\"512\" height=\"322\" fill=\"#fffdf7\" stroke=\"#1B2A4A\" stroke-width=\"2.5\"/><text x=\"260\" y=\"34\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"#1B2A4A\">Harbor Convention Hall, ground floor<\/text><rect x=\"370\" y=\"46\" width=\"136\" height=\"38\" fill=\"#f1e8cb\" stroke=\"#1B2A4A\" stroke-width=\"1.5\"/><text x=\"438\" y=\"70\" text-anchor=\"middle\" font-size=\"13\" fill=\"#1B2A4A\">Garden Café<\/text><rect x=\"20\" y=\"96\" width=\"136\" height=\"68\" fill=\"#fff\" stroke=\"#1B2A4A\" stroke-width=\"1.5\"/><text x=\"88\" y=\"136\" text-anchor=\"middle\" font-size=\"14\" fill=\"#1B2A4A\">Room W1<\/text><rect x=\"20\" y=\"172\" width=\"136\" height=\"68\" fill=\"#fff\" stroke=\"#1B2A4A\" stroke-width=\"1.5\"/><text x=\"88\" y=\"212\" text-anchor=\"middle\" font-size=\"14\" fill=\"#1B2A4A\">Room W2<\/text><rect x=\"170\" y=\"96\" width=\"180\" height=\"144\" fill=\"#f7efd6\" stroke=\"#1B2A4A\" stroke-width=\"1.5\"/><text x=\"260\" y=\"172\" text-anchor=\"middle\" font-size=\"15\" fill=\"#1B2A4A\">Main Hall<\/text><rect x=\"370\" y=\"96\" width=\"136\" height=\"68\" fill=\"#fff\" stroke=\"#1B2A4A\" stroke-width=\"1.5\"/><text x=\"438\" y=\"136\" text-anchor=\"middle\" font-size=\"14\" fill=\"#1B2A4A\">Room E1<\/text><rect x=\"370\" y=\"172\" width=\"136\" height=\"68\" fill=\"#fff\" stroke=\"#1B2A4A\" stroke-width=\"1.5\"/><text x=\"438\" y=\"212\" text-anchor=\"middle\" font-size=\"14\" fill=\"#1B2A4A\">Room E2<\/text><rect x=\"170\" y=\"250\" width=\"180\" height=\"64\" fill=\"#e4ebf5\" stroke=\"#1B2A4A\" stroke-width=\"1.5\"/><text x=\"260\" y=\"276\" text-anchor=\"middle\" font-size=\"14\" fill=\"#1B2A4A\">Main lobby<\/text><text x=\"260\" y=\"296\" text-anchor=\"middle\" font-size=\"12\" fill=\"#5b6577\">Registration and entrance<\/text><rect x=\"20\" y=\"250\" width=\"136\" height=\"64\" fill=\"#fff\" stroke=\"#1B2A4A\" stroke-width=\"1.5\"/><text x=\"88\" y=\"286\" text-anchor=\"middle\" font-size=\"13\" fill=\"#1B2A4A\">Restrooms<\/text><text x=\"446\" y=\"294\" text-anchor=\"middle\" font-size=\"22\" fill=\"#1B2A4A\">N &#8593;<\/text><\/svg><\/div>", "qs": [{"n": 196, "t": "Purpose", "l": "B1", "q": "Why did Ms. Grant send the e-mail?", "o": ["To cancel the forum", "To announce a room change", "To request payment", "To introduce the speakers"]}, {"n": 197, "t": "Cross", "l": "B2", "q": "Where will the session on digital marketing take place?", "o": ["In Room E2", "In the Main Hall", "In Room W2", "In Room W1"]}, {"n": 198, "t": "Detail", "l": "B1", "q": "According to the floor plan, which room is next to the Garden Café?", "o": ["Room E1", "Room E2", "Room W1", "Room W2"]}, {"n": 199, "t": "Vocab", "l": "B2", "q": "The word \"remain\" in paragraph 1, third sentence, is closest in meaning to", "o": ["rest", "survive", "stay", "wait"]}, {"n": 200, "t": "Detail", "l": "B1", "q": "What is indicated about lunch on Friday?", "o": ["It is included in the registration fee.", "It can be bought at the Garden Café.", "It is served in the Main Hall.", "It is available in Room E2."]}]}], "TYPES": {"Detail": {"fr": "Détail", "tip": "Repère les mots-clés de la question, puis cherche leur paraphrase dans le texte. Les bonnes réponses reformulent presque toujours les mots exacts du document."}, "Purpose": {"fr": "Objet / but", "tip": "Lis le titre, la première phrase et la dernière : le but du document s'y trouve presque toujours. Écarte les réponses qui ne reprennent qu'un détail."}, "Inference": {"fr": "Inférence", "tip": "La réponse n'est jamais écrite telle quelle. Demande-toi ce qui est forcément vrai d'après un ou deux indices, et méfie-toi des options plausibles mais non prouvées par le texte."}, "NOT": {"fr": "NOT (intrus)", "tip": "Vérifie chaque option dans le texte et barre celles qui y figurent. La bonne réponse est la seule qui est absente ou contredite."}, "Intent": {"fr": "Intention (message)", "tip": "Relis la phrase citée dans son contexte : elle réagit à ce qui précède. Ne la traduis pas mot à mot, cherche ce que la personne veut faire ou dire dans cet échange."}, "Vocab": {"fr": "Vocabulaire en contexte", "tip": "Remplace le mot par chaque option dans la phrase. Garde le sens imposé par le contexte, pas le sens le plus courant du mot."}, "Cross": {"fr": "Croisement de documents", "tip": "Repère d'abord quel document répond à la question, puis cherche l'information qui manque dans l'autre (date, nom, nombre, lieu). Le piège reprend presque toujours l'information d'un seul document : vérifie laquelle est la plus récente ou la plus précise."}, "Insert": {"fr": "Insertion de phrase", "tip": "Repère les mots de liaison et les pronoms de la phrase à insérer (After that, they, this...) et vérifie à quoi ils renvoient. Contrôle aussi la chronologie."}}, "LEVELS": ["A2", "B1", "B2", "C1"], "LDESC": {"A1": "Tu comprends des mots et des panneaux très simples. Reprends le vocabulaire de base et entraîne-toi sur les documents courts (panneaux, annonces, horaires), où l'information est écrite telle quelle.", "A2": "Tu comprends les documents courts et explicites (panneaux, annonces, horaires) quand l'information est écrite telle quelle. Prochain palier : les détails reformulés et le but d'un document courant.", "B1": "Tu retrouves les détails reformulés et le but d'un document courant. Prochain palier : les inférences, les questions NOT, les intentions dans les messages et le croisement de documents.", "B2": "Tu comprends la plupart des documents professionnels et sais relier les informations. Pour progresser : inférences fines, croisement de documents, insertion de phrase et vocabulaire en contexte.", "C1": "Excellente maîtrise sur ce type de textes, y compris les inférences, les nuances de vocabulaire et le croisement de plusieurs documents."}};
+var DOCS=D.DOCS,TYPES=D.TYPES,LEVELS=D.LEVELS,LDESC=D.LDESC;
+var TEST_ID='p7-test-a',TOTAL_SEC=52*60;
+var params=new URLSearchParams(location.search),IS_REVIEW=params.get('review')==='1';
+var student=null;try{student=JSON.parse(sessionStorage.getItem('student')||'null');}catch(e){}
+var AUTH=sessionStorage.getItem('studentAuth');
+var BAD=!student||!AUTH;
+if(BAD){sessionStorage.removeItem('student');location.href='index.html';}
+
+var ALLQ=[];DOCS.forEach(function(d,i){d.qs.forEach(function(q){q.doc=i;ALLQ.push(q);});});
+var TOTAL=ALLQ.length;
+var S={ans:{},key:null,review:null,view:0,done:false,locked:false,started:false,sending:false,left:TOTAL_SEC,deadline:0,tid:null,start:Date.now(),ready:false};
+var SHEET=DOCS.length,RES=DOCS.length+1;
+var $=function(id){return document.getElementById(id);};
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function pad(n){return n<10?'0'+n:''+n;}
+function fmt(s){return pad(Math.floor(s/60))+':'+pad(s%60);}
+function A(q){return S.key?S.key[q.n-147]:-1;}
+function RV(){return S.review||{q:{},d:[]};}
+function frozen(){return S.done||S.locked;}
+
+/* ---------- persistence (same scheme as test.html) ---------- */
+var STORAGE_KEY='toeic-progress::'+TEST_ID+'::'+(student?student.nom:'');
+function toArr(){return ALLQ.map(function(q){return S.ans[q.n]===undefined?null:'ABCD'[S.ans[q.n]];});}
+function payload(){return {nom:student.nom,testId:TEST_ID,answers:toArr(),startTime:S.start,timeLeft:S.started?S.left:null,savedAt:Date.now()};}
+function saveLocal(){
+ if(S.done||!S.started)return;
+ try{var p=payload();localStorage.setItem(STORAGE_KEY,JSON.stringify({answers:p.answers,startTime:p.startTime,timeLeft:p.timeLeft,savedAt:p.savedAt}));}catch(e){}
+}
+function loadLocal(){try{var r=localStorage.getItem(STORAGE_KEY);return r?JSON.parse(r):null;}catch(e){return null;}}
+function clearLocal(){try{localStorage.removeItem(STORAGE_KEY);}catch(e){}}
+var dirty=false,saveT=null;
+function scheduleServerSave(){dirty=true;clearTimeout(saveT);saveT=setTimeout(flushServerSave,4000);}
+function flushServerSave(){
+ if(!dirty||S.done||!S.started)return;
+ dirty=false;
+ try{fetch('/api/progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload())}).catch(function(){});}catch(e){}
+}
+setInterval(flushServerSave,20000);
+function flushOnLeave(){
+ if(S.done||IS_REVIEW||!S.started)return;
+ dirty=false;saveLocal();
+ if(navigator.sendBeacon){navigator.sendBeacon('/api/progress',new Blob([JSON.stringify(payload())],{type:'application/json'}));}
+}
+window.addEventListener('beforeunload',flushOnLeave);
+window.addEventListener('pagehide',flushOnLeave);
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')flushOnLeave();});
+function fetchServerProgress(){
+ return fetch('/api/progress?nom='+encodeURIComponent(student.nom)+'&testId='+encodeURIComponent(TEST_ID)).then(function(r){return r.json();}).then(function(d){return d.progress||null;}).catch(function(){return null;});
+}
+function clearServerProgress(){
+ try{fetch('/api/progress?nom='+encodeURIComponent(student.nom)+'&testId='+encodeURIComponent(TEST_ID),{method:'DELETE'}).catch(function(){});}catch(e){}
+}
+
+/* ---------- views ---------- */
+function buildSelect(){
+ var h='';
+ DOCS.forEach(function(d,i){h+='<option value="'+i+'">'+d.range+' · '+d.label+'</option>';});
+ h+='<option value="'+SHEET+'">Answer sheet</option>';
+ if(S.done)h+='<option value="'+RES+'">Résultats</option>';
+ $('sel').innerHTML=h;
+ $('sel').value=S.view;
+}
+function lastView(){return S.done?RES:SHEET;}
+function dotsHTML(){
+ var h='';
+ ALLQ.forEach(function(q){
+  var c='dot';
+  if(S.done){c+=(S.ans[q.n]===A(q))?' r':' w';}
+  else if(S.ans[q.n]!==undefined){c+=' a';}
+  h+='<button type="button" class="'+c+'" data-doc="'+q.doc+'" data-q="'+q.n+'" aria-label="Question '+q.n+'">'+q.n+'</button>';
+ });
+ $('dots').innerHTML=h;
+}
+function optHTML(q){
+ var h='';
+ q.o.forEach(function(t,k){
+  var c='opt';
+  if(S.done){
+   if(k===A(q))c+=' ok';
+   else if(S.ans[q.n]===k)c+=' ko';
+  }else if(S.ans[q.n]===k){c+=' sel';}
+  h+='<button type="button" class="'+c+'"'+(frozen()?' disabled':'')+' data-n="'+q.n+'" data-k="'+k+'"><span class="c">'+'ABCD'[k]+'</span><span>'+esc(t)+'</span></button>';
+ });
+ return h;
+}
+function docView(i){
+ var d=DOCS[i],rv=RV();
+ var left='<div class="pane left"><div class="tag">Questions '+d.range+' refer to the following '+d.kind+'.</div>'+d.html+'</div>';
+ var r='<div class="pane right'+(frozen()?' locked':'')+'" id="rp">';
+ d.qs.forEach(function(q){
+  r+='<div class="q" id="q'+q.n+'"><p class="qt"><span class="qn">'+q.n+'.</span> '+esc(q.q)+'</p>'+optHTML(q);
+  if(S.done){
+   var mine=S.ans[q.n],good=mine===A(q);
+   r+='<div class="badges"><span class="bd">'+TYPES[q.t].fr+'</span><span class="bd l">Niveau '+q.l+'</span></div>';
+   r+='<div class="ex"><span class="v '+(good?'good':'bad')+'">'+(good?'Correct.':(mine===undefined?'Non répondu.':'Incorrect.'))+'</span> Bonne réponse : ('+'ABCD'[A(q)]+') '+esc(q.o[A(q)]).replace(/\.$/,'')+'.<br>'+(rv.q[q.n]||'')+'</div>';
+  }
+  r+='</div>';
+ });
+ if(S.done&&rv.d[i]){
+  r+='<div class="vocab"><div class="vh">Vocabulaire à retenir</div><ul>';
+  rv.d[i].vocab.forEach(function(v){r+='<li><span class="en">'+esc(v[0])+'</span><span class="fr">'+esc(v[1])+'</span></li>';});
+  r+='</ul></div>';
+  r+='<details class="tr"><summary>Traduction française du document</summary>'+rv.d[i].fr+'</details>';
+ }
+ r+='</div>';
+ return left+r;
+}
+function sheetView(){
+ var cols=[ALLQ.slice(0,18),ALLQ.slice(18,36),ALLQ.slice(36)];
+ var answered=Object.keys(S.ans).length;
+ var h='<div class="pane"><div class="sheet'+(frozen()?' locked':'')+'"><h2>Answer sheet</h2>';
+ h+='<p class="sub">Questions 147-200 · '+(S.done?'Correction : ta réponse est en couleur, la bonne réponse est cerclée d\'or.':'Tes réponses se reportent ici automatiquement. Tu peux aussi les modifier directement sur cette feuille.')+'</p><div class="cols">';
+ cols.forEach(function(col){
+  h+='<div>';
+  col.forEach(function(q){
+   var miss=!S.done&&S.ans[q.n]===undefined;
+   h+='<div class="row'+(miss?' miss':'')+'"><span class="n">'+q.n+'</span>';
+   for(var k=0;k<4;k++){
+    var c='bub';
+    if(S.done){
+     if(S.ans[q.n]===k)c+=(k===A(q)?' ok':' ko');
+     if(k===A(q))c+=' rg';
+    }else if(S.ans[q.n]===k){c+=' f';}
+    h+='<button type="button" class="'+c+'"'+(frozen()?' disabled':'')+' data-n="'+q.n+'" data-k="'+k+'" aria-label="Question '+q.n+' answer '+'ABCD'[k]+'">'+'ABCD'[k]+'</button>';
+   }
+   h+='</div>';
+  });
+  h+='</div>';
+ });
+ h+='</div>';
+ if(!S.done){
+  h+='<div class="actions"><button type="button" class="btn g" id="submit"'+(frozen()?' disabled':'')+'>Soumettre</button><span class="sub" style="margin:0">'+answered+' / '+TOTAL+' répondues</span></div>';
+ }else{
+  h+='<div class="actions"><button type="button" class="btn p" data-go="'+RES+'">Voir mes résultats</button><button type="button" class="btn s" data-go="0">Revoir la correction</button></div>';
+ }
+ h+='</div></div>';
+ return h;
+}
+function stats(){
+ var byL={},byT={},score=0;
+ LEVELS.forEach(function(l){byL[l]={n:0,ok:0};});
+ Object.keys(TYPES).forEach(function(t){byT[t]={n:0,ok:0};});
+ var byF={single:{n:0,ok:0},double:{n:0,ok:0},triple:{n:0,ok:0}};
+ ALLQ.forEach(function(q){
+  var ok=S.ans[q.n]===A(q);
+  if(ok)score++;
+  byL[q.l].n++;byT[q.t].n++;
+  if(ok){byL[q.l].ok++;byT[q.t].ok++;}
+  var f=q.n<=175?'single':(q.n<=185?'double':'triple');byF[f].n++;if(ok)byF[f].ok++;
+ });
+ var level='A1';
+ for(var i=0;i<LEVELS.length;i++){var s=byL[LEVELS[i]];if(s.ok/s.n>=0.6)level=LEVELS[i];else break;}
+ return {score:score,byL:byL,byT:byT,byF:byF,level:level};
+}
+function resView(){
+ var st=stats();
+ var pct=Math.round(st.score/TOTAL*100);
+ var h='<div class="pane"><div class="res"><h2>Résultats · Test A</h2><p class="sub">'+TOTAL+' questions · Part 7 complet (documents seuls, doubles et triples) · résultat enregistré dans ton tableau de bord</p>';
+ h+='<div class="score"><div class="card"><div class="lb">Score</div><div class="big">'+st.score+' / '+TOTAL+'</div><p>'+pct+' % de bonnes réponses</p></div>';
+ h+='<div class="card"><div class="lb">Niveau estimé (CECRL)</div><div class="big">'+st.level+'</div><p>'+LDESC[st.level]+'</p></div></div>';
+ h+='<h3>Réussite par niveau de difficulté</h3>';
+ LEVELS.forEach(function(l){
+  var s=st.byL[l];var p=Math.round(s.ok/s.n*100);
+  h+='<div class="bar"><span><b>'+l+'</b></span><div class="tr"><div class="fl" style="width:'+p+'%"></div></div><span class="v">'+s.ok+' / '+s.n+' · '+p+' %</span></div>';
+ });
+ h+='<p class="note">Règle : un palier est atteint quand tu réussis au moins 60 % des questions de ce niveau et de tous les niveaux inférieurs. Estimation indicative, à confirmer avec plusieurs séries.</p>';
+ h+='<h3>Réussite par format de document</h3>';
+ var FN={single:'Un document',double:'Deux documents',triple:'Trois documents'};
+ ['single','double','triple'].forEach(function(f){var s=st.byF[f];var p=Math.round(s.ok/s.n*100);h+='<div class="bar"><span><b>'+FN[f]+'</b></span><div class="tr"><div class="fl" style="width:'+p+'%"></div></div><span class="v">'+s.ok+' / '+s.n+' · '+p+' %</span></div>';});
+ var arr=Object.keys(st.byT).map(function(t){var s=st.byT[t];return {t:t,n:s.n,ok:s.ok,r:s.ok/s.n};});
+ arr.sort(function(a,b){return a.r-b.r||b.n-a.n;});
+ h+='<h3>Réussite par style de question</h3>';
+ arr.forEach(function(x,i){
+  var p=Math.round(x.r*100);
+  var weak=(i===0&&x.r<0.8);
+  h+='<div class="bar'+(weak?' weak':'')+'"><span><b>'+TYPES[x.t].fr+'</b></span><div class="tr"><div class="fl" style="width:'+p+'%"></div></div><span class="v">'+x.ok+' / '+x.n+' · '+p+' %</span></div>';
+ });
+ var w=arr[0];
+ if(w.r<0.8){
+  var also=arr.filter(function(x,i){return i>0&&x.r<0.5;}).map(function(x){return TYPES[x.t].fr;});
+  h+='<div class="tip"><b>Ton point faible : '+TYPES[w.t].fr+'</b> ('+w.ok+' / '+w.n+').<br>'+TYPES[w.t].tip+(also.length?'<br><br>À surveiller aussi : '+also.join(', ')+'.':'')+'</div>';
+ }else{
+  h+='<div class="tip good"><b>Aucune faiblesse marquée sur ce batch.</b> Tous les styles sont réussis à 80 % ou plus.</div>';
+ }
+ var wrong=ALLQ.filter(function(q){return S.ans[q.n]!==A(q);}).map(function(q){return q.n;});
+ h+='<h3>Questions à revoir</h3><p>'+(wrong.length?wrong.join(', ')+'. Ouvre la correction pour lire l\'explication, le vocabulaire et la traduction de chaque document.':'Aucune. Bravo !')+'</p>';
+ h+='<div class="actions"><button type="button" class="btn p" data-go="0">Voir la correction détaillée</button><button type="button" class="btn s" data-go="'+SHEET+'">Answer sheet corrigée</button><a class="btn s" href="dashboard.html" style="text-decoration:none;display:inline-block">Tableau de bord</a></div>';
+ h+='</div></div>';
+ return h;
+}
+function render(keepScroll){
+ var m=$('main');
+ var sc=0;var rp=document.querySelector('#main .right');if(keepScroll&&rp)sc=rp.scrollTop;
+ if(S.view<DOCS.length){m.className='';m.innerHTML=docView(S.view);}
+ else if(S.view===SHEET){m.className='single';m.innerHTML=sheetView();}
+ else{m.className='single';m.innerHTML=resView();}
+ buildSelect();dotsHTML();
+ $('prev').disabled=S.view===0;
+ $('next').disabled=S.view>=lastView();
+ $('hsubmit').style.display=(S.done||IS_REVIEW)?'none':'';
+ $('hsubmit').disabled=S.sending||!S.started;
+ var np=document.querySelector('#main .pane.right');if(np&&keepScroll)np.scrollTop=sc;
+}
+function go(v,qn){
+ if(v>lastView())v=lastView();
+ if(v<0)v=0;
+ S.view=v;render(false);
+ if(qn){var el=$('q'+qn);if(el&&el.scrollIntoView)el.scrollIntoView({block:'start'});}
+ else{var p=document.querySelector('#main .pane');if(p)p.scrollTop=0;}
+}
+
+/* ---------- answers ---------- */
+function setAns(n,k){
+ if(frozen()||IS_REVIEW||!S.started)return;
+ if(S.ans[n]===k){delete S.ans[n];}else{S.ans[n]=k;}
+ saveLocal();scheduleServerSave();
+ if(S.view<DOCS.length){
+  var box=$('q'+n);
+  if(box){var opts=box.querySelectorAll('.opt');for(var i=0;i<opts.length;i++){opts[i].classList.toggle('sel',S.ans[n]===i);}}
+ }else{render(true);return;}
+ dotsHTML();
+}
+
+/* ---------- clock ---------- */
+function updateTimer(){
+ var t=$('timer');
+ t.textContent=fmt(S.left);
+ t.className='timer'+(S.left<=300?' late':(S.left<=600?' warn':''));
+ t.setAttribute('aria-label','Temps restant '+fmt(S.left));
+}
+function tick(){
+ S.left=Math.max(0,Math.ceil((S.deadline-Date.now())/1000));
+ updateTimer();
+ if(S.left<=0){stopTimer();expire();}
+}
+function startTimer(){
+ stopTimer();
+ S.deadline=Date.now()+S.left*1000;
+ updateTimer();
+ S.tid=setInterval(tick,500);
+}
+function stopTimer(){if(S.tid){clearInterval(S.tid);S.tid=null;}}
+function expire(){
+ if(S.done||S.sending)return;
+ S.left=0;S.locked=true;updateTimer();
+ $('lockbar').style.display='block';
+ $('lockbar').textContent='Temps écoulé. Tes réponses sont verrouillées et envoyées automatiquement.';
+ render(true);
+ submit(true);
+}
+function beginTest(){
+ if(!S.ready)return;
+ $('intro').style.display='none';
+ S.start=Date.now();S.left=TOTAL_SEC;S.started=true;
+ saveLocal();scheduleServerSave();flushServerSave();
+ startTimer();render(false);
+}
+
+/* ---------- submit ---------- */
+function submit(auto){
+ if(S.done||S.sending||IS_REVIEW)return;
+ if(!auto){
+  var miss=TOTAL-Object.keys(S.ans).length;
+  var msg=miss>0?('Il reste '+miss+' question(s) sans réponse. Soumettre quand même ? Tu ne pourras plus modifier tes réponses.'):'Soumettre le test ? Tu ne pourras plus modifier tes réponses.';
+  if(!window.confirm(msg))return;
+ }
+ S.sending=true;S.locked=true;stopTimer();render(true);
+ var body={nom:student.nom,codeHash:AUTH,testId:TEST_ID,answers:toArr(),startedAt:new Date(S.start).toISOString(),elapsedSec:Math.max(0,TOTAL_SEC-S.left)};
+ fetch('/api/scores',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+ .then(function(r){return r.json().catch(function(){return {};}).then(function(d){return {ok:r.ok,status:r.status,d:d};});})
+ .then(function(x){
+  if(x.ok&&x.d.keys){
+   S.key=x.d.keys.map(function(l){return 'ABCD'.indexOf(l);});
+   S.review=x.d.review||null;
+   S.done=true;S.sending=false;
+   $('lockbar').style.display='none';
+   clearLocal();clearServerProgress();
+   S.view=RES;render(false);
+   var p=document.querySelector('#main .pane');if(p)p.scrollTop=0;
+   return;
+  }
+  throw {status:x.status,msg:(x.d&&x.d.error)||'Envoi impossible.'};
+ })
+ .catch(function(e){
+  S.sending=false;
+  var m=(e&&e.msg)||'Erreur réseau. Tes réponses sont toujours sur cette page.';
+  if(e&&e.status===409){alert(m);location.href='dashboard.html';return;}
+  if(e&&e.status===401){alert('Reconnecte-toi : '+m);saveLocal();flushOnLeave();location.href='index.html';return;}
+  if(auto||S.left<=0){
+   $('lockbar').style.display='block';
+   $('lockbar').textContent='Temps écoulé. Envoi en échec : '+m.replace(/\.$/,'')+'. Nouvelle tentative dans 5 secondes.';
+   render(true);
+   setTimeout(function(){submit(true);},5000);
+  }else{
+   S.locked=false;startTimer();render(true);
+   alert(m+' Appuie de nouveau sur Soumettre pour réessayer.');
+  }
+ });
+}
+
+/* ---------- review mode ---------- */
+function initReview(){
+ $('intro').style.display='none';$('timer').style.display='none';
+ fetch('/api/scores?nom='+encodeURIComponent(student.nom)+'&review='+encodeURIComponent(TEST_ID),{headers:{'X-Code-Hash':AUTH}})
+ .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
+ .then(function(x){
+  if(!x.ok||!x.d.keys)throw 0;
+  var mine=(x.d.scores||[]).filter(function(s){return s.testId===TEST_ID;}).sort(function(a,b){return new Date(b.date)-new Date(a.date);})[0];
+  if(!mine)throw 0;
+  ALLQ.forEach(function(q,i){var l=mine.answers[i];if(l)S.ans[q.n]='ABCD'.indexOf(l);});
+  S.key=x.d.keys.map(function(l){return 'ABCD'.indexOf(l);});
+  S.review=x.d.review||null;S.done=true;S.view=RES;render(false);
+ }).catch(function(){alert('Impossible de charger ta tentative.');location.href='dashboard.html';});
+}
+
+/* ---------- init ---------- */
+function init(){
+ render(false);
+ if(IS_REVIEW){initReview();return;}
+ $('go').disabled=true;$('go').textContent='Chargement...';
+ var guard=Promise.all([fetch('/api/access').then(function(r){return r.json();}),fetch('/api/scores?nom='+encodeURIComponent(student.nom)).then(function(r){return r.json();})])
+ .then(function(a){
+  if((a[0].tests||{})[TEST_ID]===false){alert('Ce test est fermé par l\'administrateur.');location.href='dashboard.html';return false;}
+  var mine=(a[1].scores||[]).filter(function(s){return s.testId===TEST_ID;}).sort(function(x,y){return new Date(y.date)-new Date(x.date);})[0];
+  if(mine&&!mine.retakeGranted){alert('Tu as déjà passé ce test. Un seul essai est autorisé.');location.href='dashboard.html';return false;}
+  return true;
+ }).catch(function(){return true;});
+ Promise.all([guard,fetchServerProgress()]).then(function(r){
+  if(r[0]===false)return;
+  var local=loadLocal(),srv=r[1];
+  var ok=function(e){return e&&Array.isArray(e.answers)&&e.answers.length===TOTAL&&typeof e.timeLeft==='number';};
+  var vl=ok(local)?local:null,vs=ok(srv)?srv:null;
+  var saved=vl;
+  if(vs&&(!vl||(vl.savedAt!==undefined&&(vs.savedAt||-1)>vl.savedAt)))saved=vs;
+  if(saved){
+   S.start=saved.startTime||Date.now();
+   saved.answers.forEach(function(l,i){var k='ABCD'.indexOf(l);if(l&&k>=0)S.ans[ALLQ[i].n]=k;});
+   S.left=Math.min(TOTAL_SEC,Math.max(0,Math.floor(saved.timeLeft)));
+   S.started=true;S.ready=true;
+   $('intro').style.display='none';
+   saveLocal();
+   if(S.left<=0){updateTimer();expire();return;}
+   $('restore').style.display='block';
+   $('restore').innerHTML='Progression restaurée : tes réponses sont revenues et il reste <b>'+fmt(S.left)+'</b> au chrono.';
+   startTimer();render(false);
+   setTimeout(function(){$('restore').style.display='none';},8000);
+  }else{
+   S.ready=true;$('go').disabled=false;$('go').textContent='Démarrer le chrono (52 min)';
+  }
+ });
+}
+
+document.addEventListener('click',function(e){
+ var el=e.target.closest?e.target.closest('button'):null;
+ if(!el||el.disabled)return;
+ if(el.classList.contains('opt')||el.classList.contains('bub')){setAns(+el.getAttribute('data-n'),+el.getAttribute('data-k'));return;}
+ if(el.classList.contains('dot')){go(+el.getAttribute('data-doc'),+el.getAttribute('data-q'));return;}
+ if(el.hasAttribute('data-go')){go(+el.getAttribute('data-go'));return;}
+ if(el.id==='submit'||el.id==='hsubmit'){submit(false);return;}
+});
+$('prev').addEventListener('click',function(){go(S.view-1);});
+$('next').addEventListener('click',function(){go(S.view+1);});
+$('sel').addEventListener('change',function(){go(+this.value);});
+$('go').addEventListener('click',beginTest);
+if(!BAD)init();
+
+</script>
+</body>
+</html>
