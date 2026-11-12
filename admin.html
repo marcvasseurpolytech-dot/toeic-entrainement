@@ -46,7 +46,7 @@
     .ac-quick { display:flex; flex-wrap:wrap; gap:0.3rem; margin:0.5rem 0 0.4rem; }
     .ac-quick button { font-size:0.72rem; padding:0.15rem 0.5rem; border:1px solid #d1d5db; border-radius:4px; background:#f9fafb; cursor:pointer; }
     .ac-quick button:hover { background:var(--navy); color:#fff; }
-    .ac-boxes { display:grid; grid-template-columns:repeat(2,1fr); gap:0.15rem 0.6rem; font-size:0.78rem; }
+    .ac-boxes { display:grid; grid-template-columns:repeat(2,1fr); gap:0.25rem 0.6rem; font-size:0.78rem; }
     .ac-note { font-size:0.68rem; color:#9ca3af; margin-top:0.35rem; }
     .access-card .name { font-family:'Playfair Display',serif; color:var(--navy); font-size:0.95rem; }
     .access-card .part { font-size:0.75rem; color:#9ca3af; }
@@ -484,15 +484,10 @@
                   <span class="slider"></span>
                 </label>
               </div>
-              <details class="ac-classes" data-test="${id}">
+              <details class="ac-classes" data-test="${id}" open>
                 <summary>Classes: <span class="cs">${classSummary(allowed)}</span></summary>
                 <div class="ac-quick">
-                  <button type="button" onclick="quickClasses('${id}','ALL')">All classes</button>
-                  <button type="button" onclick="quickClasses('${id}','TC3')">TC3</button>
-                  <button type="button" onclick="quickClasses('${id}','TC4')">TC4</button>
-                  <button type="button" onclick="quickClasses('${id}','TC2A')">TC2A</button>
-                  <button type="button" onclick="quickClasses('${id}','M1')">M1</button>
-                  <button type="button" onclick="quickClasses('${id}','Booster')">Booster</button>
+                  <button type="button" onclick="quickClasses('${id}','ALL')">Clear (all classes)</button>
                 </div>
                 <div class="ac-boxes">${PROMOS.map(c => `<label><input type="checkbox" value="${c}" ${allowed.includes(c) ? 'checked' : ''} onchange="saveClasses('${id}')"> ${c}</label>`).join('')}</div>
                 <div class="ac-note">No box checked = every class can take it (when the switch is on).</div>
