@@ -46,7 +46,11 @@
     .ac-quick { display:flex; flex-wrap:wrap; gap:0.3rem; margin:0.5rem 0 0.4rem; }
     .ac-quick button { font-size:0.72rem; padding:0.15rem 0.5rem; border:1px solid #d1d5db; border-radius:4px; background:#f9fafb; cursor:pointer; }
     .ac-quick button:hover { background:var(--navy); color:#fff; }
-    .ac-boxes { display:grid; grid-template-columns:repeat(2,1fr); gap:0.25rem 0.6rem; font-size:0.78rem; }
+    .ac-boxes { display:flex; flex-wrap:wrap; gap:0.35rem; }
+    .ac-boxes .chip { font-size:0.78rem; padding:0.25rem 0.65rem; border:1px solid #d1d5db; border-radius:999px; background:#f9fafb; color:#374151; cursor:pointer; }
+    .ac-boxes .chip:hover { border-color:var(--navy); }
+    .ac-boxes .chip.on { background:var(--navy); border-color:var(--navy); color:#fff; font-weight:600; }
+    .ac-boxes .chip:disabled { opacity:0.6; cursor:wait; }
     .ac-note { font-size:0.68rem; color:#9ca3af; margin-top:0.35rem; }
     .access-card .name { font-family:'Playfair Display',serif; color:var(--navy); font-size:0.95rem; }
     .access-card .part { font-size:0.75rem; color:#9ca3af; }
@@ -431,15 +435,15 @@
     }
     function quickClasses(testId, prefix) {
       const box = classBoxes(testId);
-      box.querySelectorAll('.ac-boxes input').forEach(i => {
-        i.checked = prefix !== 'ALL' && (i.value === prefix || i.value.startsWith(prefix + ' '));
+      box.querySelectorAll('.ac-boxes .chip').forEach(i => {
+        i.classList.toggle('on', prefix !== 'ALL' && (i.dataset.v === prefix || i.dataset.v.startsWith(prefix + ' ')));
       });
       saveClasses(testId);
     }
     async function saveClasses(testId) {
       const box = classBoxes(testId);
-      const inputs = [...box.querySelectorAll('.ac-boxes input')];
-      const classes = inputs.filter(i => i.checked).map(i => i.value);
+      const inputs = [...box.querySelectorAll('.ac-boxes .chip')];
+      const classes = inputs.filter(i => i.classList.contains('on')).map(i => i.dataset.v);
       inputs.forEach(i => i.disabled = true);
       try {
         const r = await fetch('/api/access', {
@@ -489,8 +493,8 @@
                 <div class="ac-quick">
                   <button type="button" onclick="quickClasses('${id}','ALL')">Clear (all classes)</button>
                 </div>
-                <div class="ac-boxes">${PROMOS.map(c => `<label><input type="checkbox" value="${c}" ${allowed.includes(c) ? 'checked' : ''} onchange="saveClasses('${id}')"> ${c}</label>`).join('')}</div>
-                <div class="ac-note">No box checked = every class can take it (when the switch is on).</div>
+                <div class="ac-boxes">${PROMOS.map(c => `<button type="button" class="chip${allowed.includes(c) ? ' on' : ''}" data-v="${c}" onclick="this.classList.toggle('on'); saveClasses('${id}')">${c}</button>`).join('')}</div>
+                <div class="ac-note">Click a class to open the test to it (highlighted = allowed). None highlighted = every class can take it (when the switch is on).</div>
               </details>
             </div>
           `;
