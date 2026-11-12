@@ -369,6 +369,9 @@
       else doSignup();
     });
 
+    // Deep link from the hub: ?part=7 shows only the Part 7 training tests on the dashboard
+    try { if (new URLSearchParams(location.search).get('part') === '7') sessionStorage.setItem('focusPart', '7'); } catch (e) {}
+
     // Already logged in?
     if (sessionStorage.getItem('student')) window.location.href = 'dashboard.html';
   </script>

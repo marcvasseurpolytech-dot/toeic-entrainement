@@ -219,7 +219,14 @@
     function renderTests(scores, access) {
       const grid = document.getElementById('tests-grid');
       grid.innerHTML = '';
-      Object.entries(TESTS_DATA).forEach(([id, t]) => {
+      const focus7 = sessionStorage.getItem('focusPart') === '7';
+      const title = document.querySelector('#content section h2');
+      if (title) title.innerHTML = focus7
+        ? 'Part 7 training tests <a href="#" id="show-all-tests" style="font-size:.7em;font-weight:400;margin-left:12px">Show all tests</a>'
+        : 'Available tests';
+      const showAll = document.getElementById('show-all-tests');
+      if (showAll) showAll.onclick = e => { e.preventDefault(); sessionStorage.removeItem('focusPart'); renderTests(scores, access); };
+      Object.entries(TESTS_DATA).filter(([id, t]) => !focus7 || t.part === 'Part 7').forEach(([id, t]) => {
         const myScores = scores.filter(s => s.testId === id).sort((a, b) => new Date(b.date) - new Date(a.date));
         const latest = myScores[0] || null;
         const retakeGranted = !!(latest && latest.retakeGranted);
