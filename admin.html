@@ -327,6 +327,8 @@
 
     const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const deptOf = stu => normDept(stu && stu.dept);
+    // Filters only know the 13 signup classes; anything else (old free-typed values) falls under "Not specified".
+    const promoOf = stu => { const d = deptOf(stu); return PROMOS.includes(d) ? d : NO_PROMO; };
 
     function showTab(name) {
       document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
@@ -403,10 +405,10 @@
 
     function fillDeptSelect(sel, keep) {
       const counts = {};
-      allStudents.forEach(s => { const d = deptOf(s); counts[d] = (counts[d] || 0) + 1; });
-      const depts = Object.keys(counts).sort((a, b) => (a === NO_PROMO) - (b === NO_PROMO) || a.localeCompare(b, 'fr', { numeric: true }));
+      allStudents.forEach(s => { const d = promoOf(s); counts[d] = (counts[d] || 0) + 1; });
+      const depts = [...PROMOS, NO_PROMO];
       sel.innerHTML = '<option value="">All departments</option>' +
-        depts.map(d => `<option value="${esc(d)}">${esc(d)} (${counts[d]})</option>`).join('');
+        depts.map(d => `<option value="${esc(d)}">${esc(d)} (${counts[d] || 0})</option>`).join('');
       if (depts.includes(keep)) sel.value = keep;
     }
 
@@ -798,7 +800,7 @@
         if (!T) return;
         if (baseFilter && T.baseId !== baseFilter) return;
         if (nomFilter && !s.nom.includes(nomFilter)) return;
-        if (deptFilter && !(student[s.nom] && deptOf(student[s.nom]) === deptFilter)) return;
+        if (deptFilter && !(student[s.nom] && promoOf(student[s.nom]) === deptFilter)) return;
         const key = s.nom + '||' + T.baseId + '||' + T.section;
         if (!latest[key] || new Date(s.date) > new Date(latest[key].date)) latest[key] = s;
       });
@@ -879,7 +881,7 @@
       let rows = allScores.filter(s =>
         (!testFilter || s.testId === testFilter) &&
         (!nomFilter  || s.nom.includes(nomFilter)) &&
-        (!deptFilter || (student[s.nom] && deptOf(student[s.nom]) === deptFilter))
+        (!deptFilter || (student[s.nom] && promoOf(student[s.nom]) === deptFilter))
       ).map(enrichScore).filter(a => document.getElementById('timing-res').value !== 'flag' || timingFlag(a));
       const sortKey = document.getElementById('sort-res').value;
       const byName = (a, b) => (a.nom + (student[a.nom]?.prenom || '')).localeCompare(b.nom + (student[b.nom]?.prenom || ''), 'fr', { sensitivity: 'base' });
@@ -959,7 +961,7 @@
       const deptSel = document.getElementById('stu-dept').value;
       let sorted = allStudents.filter(s =>
         (!status || (status === 'pending') === !isApproved(s)) &&
-        (!deptSel || deptOf(s) === deptSel) &&
+        (!deptSel || promoOf(s) === deptSel) &&
         (!q || `${s.nom} ${s.prenom} ${s.dept} ${deptOf(s)}`.toUpperCase().includes(q))
       );
       const nameCmp = (a, b) => (a.nom + a.prenom).localeCompare(b.nom + b.prenom, 'fr', { sensitivity: 'base' });
@@ -1112,7 +1114,7 @@
         if (!T) return;
         if (baseFilter && T.baseId !== baseFilter) return;
         if (nomFilter && !s.nom.includes(nomFilter)) return;
-        if (deptFilter && !(student[s.nom] && deptOf(student[s.nom]) === deptFilter)) return;
+        if (deptFilter && !(student[s.nom] && promoOf(student[s.nom]) === deptFilter)) return;
         const key = s.nom + '||' + T.baseId + '||' + T.section;
         if (!latest[key] || new Date(s.date) > new Date(latest[key].date)) latest[key] = s;
       });
