@@ -27,4 +27,10 @@ function normDept(raw) {
   if (/^(3A )?(G|GR|GRP|GROUP|GROUPE|EG GRP)? ?\d{1,2}( |$)/.test(c) || /^(GR|GRP|GROUP|GROUPE|G) ?\d+$/.test(c) || /^ADE ANG/.test(c) || /^3A( |$)/.test(c)) return NO_PROMO;
   return c.replace(/ /g, '');
 }
-if (typeof module !== 'undefined') module.exports = { normDept, PROMOS, NO_PROMO };
+// Class gating: access.classes[testId] = list of allowed classes; empty or missing = every class.
+function classAllowed(classes, testId, rawDept) {
+  const list = classes && classes[testId];
+  if (!Array.isArray(list) || !list.length) return true;
+  return list.includes(normDept(rawDept));
+}
+if (typeof module !== 'undefined') module.exports = { normDept, PROMOS, NO_PROMO, classAllowed };

@@ -1,5 +1,6 @@
 const REVIEW = require('./_review');
 const { KEYS, ghGet, ghPut, hasTest, grade, cleanAnswers, verifyStudent } = require('./_lib');
+const { classAllowed } = require('../dept.js');
 
 const FILE = 'data/scores.json';
 // Browsers that were already open on a test before the server-side grading was
@@ -60,6 +61,19 @@ module.exports = async (req, res) => {
       if (!(await verifyStudent(nom, codeHash, token))) return res.status(401).json({ error: 'Please log in again.' });
     } else if (Date.now() > LEGACY_UNTIL) {
       return res.status(401).json({ error: 'Please log in again.' });
+    }
+
+    // Class gating: refuse a submission for a test the admin opened only for other classes.
+    {
+      const acc = await ghGet('data/access.json', token);
+      const allowedClasses = acc?.data?.classes?.[testId];
+      if (Array.isArray(allowedClasses) && allowedClasses.length) {
+        const stuFile = await ghGet('data/students.json', token);
+        const stu = (stuFile?.data?.students || []).find(x => x.nom === String(nom).trim().toUpperCase());
+        if (!stu || !classAllowed(acc.data.classes, testId, stu.dept)) {
+          return res.status(403).json({ error: 'This test is not open to your class.' });
+        }
+      }
     }
 
     // Timing data (used by the admin to flag Listening attempts that were paused or replayed)

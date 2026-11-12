@@ -177,6 +177,7 @@
 
   <footer>Copyright Marc Vasseur — Polytech Lille</footer>
 
+<script src="dept.js"></script>
 <script src="tests-data.js"></script>
 <script src="scoring.js"></script>
 <script>
@@ -208,10 +209,12 @@
     // =========================================================
     // AVAILABLE TESTS
     // =========================================================
+    let ACCESS_CLASSES = {};
     async function loadAccess() {
       try {
         const r = await fetch('/api/access');
         const data = await r.json();
+        ACCESS_CLASSES = data.classes || {};
         return data.tests || {};
       } catch { return {}; }
     }
@@ -232,11 +235,12 @@
         const retakeGranted = !!(latest && latest.retakeGranted);
         const completed = !!latest && !retakeGranted; // blocked: already used, no grant
         const best = latest ? latest.score : null;
-        const isOpen = access[id] !== false; // default open if not listed
+        const classOk = classAllowed(ACCESS_CLASSES, id, student.dept);
+        const isOpen = access[id] !== false && classOk; // default open if not listed
         const canStart = isOpen && (!latest || retakeGranted);
         const div = document.createElement('div');
         div.className = 'test-card' + (isOpen ? '' : ' locked');
-        const badge = !isOpen ? '<span class="badge locked">Closed</span>'
+        const badge = !isOpen ? `<span class="badge locked">${classOk ? 'Closed' : 'Not open to your class'}</span>`
                     : retakeGranted ? `<span class="badge open">Retake granted — last: ${best}/${t.total}</span>`
                     : completed ? `<span class="badge done">Completed: ${best}/${t.total}</span>`
                     : '<span class="badge open">Available</span>';

@@ -340,6 +340,7 @@
 
   <footer>Copyright Marc Vasseur — Polytech Lille</footer>
 
+<script src="dept.js"></script>
 <script src="tests-data.js"></script>
 <script>
 
@@ -369,6 +370,11 @@ if (!isReview) (async () => {
     ]);
     const accessData = await accessR.json();
     const isOpen = (accessData.tests || {})[testId] !== false;
+    if (!classAllowed(accessData.classes, testId, student.dept)) {
+      alert('This test is not open to your class.');
+      window.location.href = 'dashboard.html';
+      return;
+    }
     if (!isOpen) {
       alert('This test is currently closed by the administrator.');
       window.location.href = 'dashboard.html';

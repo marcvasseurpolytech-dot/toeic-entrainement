@@ -2,7 +2,7 @@ const REPO = process.env.DATA_REPO || 'marcvasseurpolytech-dot/toeic-entrainemen
 const FILE = 'data/access.json';
 const API  = 'https://api.github.com';
 
-const { isAdmin } = require('./_lib');
+const { isAdmin, CLASSES } = require('./_lib');
 
 async function ghGet(path, token) {
   const r = await fetch(`${API}/repos/${REPO}/contents/${path}`, {
@@ -36,39 +36,47 @@ module.exports = async (req, res) => {
   const token = process.env.GITHUB_TOKEN;
   if (!token) return res.status(500).json({ error: 'Missing token' });
 
-  // GET — public. Students need to know which tests are currently open.
-  // Any test id not present in the file defaults to open (true).
+  // GET — public. Students need to know which tests are currently open, and for which classes.
+  // A test id missing from `tests` defaults to open; a test with no entry (or an empty list)
+  // in `classes` is open to every class.
   if (req.method === 'GET') {
     const file = await ghGet(FILE, token);
-    return res.json({ tests: file?.data?.tests || {} });
+    return res.json({ tests: file?.data?.tests || {}, classes: file?.data?.classes || {} });
   }
 
   // POST — admin only.
-  // Body { testId, open } toggles a single test.
-  // Body { tests: { id1: bool, id2: bool, ... } } updates several at once
-  // in a single write (used for "close all" / "open all").
+  //   { testId, open }          toggles one test open/closed
+  //   { tests: {id: bool, ...} } several at once ("close all" / "open all")
+  //   { testId, classes: [...] } classes allowed to take that test ([] = every class)
   if (req.method === 'POST') {
     if (!isAdmin(req)) return res.status(403).json({ error: 'Unauthorized' });
 
-    const { testId, open, tests: bulkTests } = req.body || {};
+    const { testId, open, tests: bulkTests, classes } = req.body || {};
 
+    let apply;
     if (bulkTests && typeof bulkTests === 'object') {
-      for (let attempt = 0; attempt < 3; attempt++) {
-        const file = await ghGet(FILE, token);
-        const tests = { ...(file?.data?.tests || {}), ...bulkTests };
-        const ok = await ghPut(FILE, { tests }, file?.sha, token);
-        if (ok) return res.json({ success: true, tests });
+      apply = cur => { cur.tests = { ...cur.tests, ...bulkTests }; };
+    } else if (testId && Array.isArray(classes)) {
+      if (typeof testId !== 'string' || !classes.every(c => CLASSES.includes(c))) {
+        return res.status(400).json({ error: 'Unknown class' });
       }
-      return res.status(500).json({ error: 'SHA conflict — try again.' });
+      const list = CLASSES.filter(c => classes.includes(c));
+      apply = cur => {
+        if (list.length && list.length < CLASSES.length) cur.classes = { ...cur.classes, [testId]: list };
+        else { cur.classes = { ...cur.classes }; delete cur.classes[testId]; }
+      };
+    } else if (testId && typeof open === 'boolean') {
+      apply = cur => { cur.tests = { ...cur.tests, [testId]: open }; };
+    } else {
+      return res.status(400).json({ error: 'Missing data' });
     }
-
-    if (!testId || typeof open !== 'boolean') return res.status(400).json({ error: 'Missing data' });
 
     for (let attempt = 0; attempt < 3; attempt++) {
       const file = await ghGet(FILE, token);
-      const tests = { ...(file?.data?.tests || {}), [testId]: open };
-      const ok = await ghPut(FILE, { tests }, file?.sha, token);
-      if (ok) return res.json({ success: true, tests });
+      const cur = { tests: { ...(file?.data?.tests || {}) }, classes: { ...(file?.data?.classes || {}) } };
+      apply(cur);
+      const ok = await ghPut(FILE, cur, file?.sha, token);
+      if (ok) return res.json({ success: true, tests: cur.tests, classes: cur.classes });
     }
     return res.status(500).json({ error: 'SHA conflict — try again.' });
   }
