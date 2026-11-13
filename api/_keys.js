@@ -3672,5 +3672,19 @@ module.exports = {
   "attempts": 2,
   "parts": [{ "id": "p5", "start": 1, "end": 30 }],
   "keys": ["D","C","A","B","A","D","B","C","B","D","A","C","A","D","B","C","D","A","B","C","A","D","B","D","C","B","A","A","D","C"]
+ },
+ "g30-t21": {
+  "section": "P",
+  "total": 30,
+  "attempts": 2,
+  "parts": [{ "id": "p5", "start": 1, "end": 30 }],
+  "keys": ["B","D","C","D","A","D","C","C","A","B","D","A","B","C","A","D","A","C","A","B","A","C","C","C","A","C","D","B","A","D"]
+ },
+ "g30-t25": {
+  "section": "P",
+  "total": 30,
+  "attempts": 2,
+  "parts": [{ "id": "p5", "start": 1, "end": 30 }],
+  "keys": ["B","D","A","B","C","D","A","A","C","D","C","A","D","B","B","B","B","D","B","A","A","C","C","A","A","C","D","C","B","D"]
  }
 };
