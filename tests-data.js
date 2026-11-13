@@ -224,6 +224,9 @@ const TESTS_DATA = {
     audioControlled: true,
     audioStrict: true,
     audioDuration: 2721,
+    // Direct stream of the Drive file (shared with anyone who has the link). If it cannot load
+    // (quota, blocked), the page falls back to the standard Drive player below and flags the attempt.
+    audioSrc: 'https://drive.google.com/uc?export=download&id=1OV1mu-AxGMqeimlap0WdDtp496NRO5j6',
     audioUrl: 'https://drive.google.com/file/d/1OV1mu-AxGMqeimlap0WdDtp496NRO5j6/view?usp=sharing',
     partIds: ['p1', 'p2', 'p3', 'p4'],
     total: 100,
