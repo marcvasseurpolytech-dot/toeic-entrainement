@@ -229,6 +229,8 @@ const TESTS_DATA = {
     // (quota, blocked), the page falls back to the standard Drive player below and flags the attempt.
     audioSrc: 'https://drive.google.com/uc?export=download&id=1OV1mu-AxGMqeimlap0WdDtp496NRO5j6',
     audioUrl: 'https://drive.google.com/file/d/1OV1mu-AxGMqeimlap0WdDtp496NRO5j6/view?usp=sharing',
+    // Printed questions: Part 1 photos, Part 3/4 items and graphics (Part 2 is audio only)
+    bookletUrl: 'booklets/fulltoeic2gf-listening.pdf',
     partIds: ['p1', 'p2', 'p3', 'p4'],
     total: 100,
     parts: [
