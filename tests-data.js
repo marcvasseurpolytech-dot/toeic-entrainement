@@ -213,8 +213,9 @@ const TESTS_DATA = {
   },
 
   // Full TOEIC Test 2 GF (built from the Google Form "Full TOEIC Test 2 GF - Listening").
-  // audioStrict: the audio is played by our own player with no pause, no seek and no
-  // replay, and the attempt records an audio log (pauses, seek attempts, tab hidden time).
+  // Audio: standard Drive player (Drive refuses direct <audio> streaming from another site, so the
+  // protected no-pause player cannot be used with a Drive file). To switch it on later, host the mp3
+  // on this site and set audioStrict: true and audioSrc: '<path to the mp3>' (see strict-audio.js).
   // audioDuration is the measured length of the mp3 (2720.7 s).
   'fulltoeic2gf-listening': {
     name: 'Full TOEIC Test 2 GF',
@@ -223,11 +224,7 @@ const TESTS_DATA = {
     baseId: 'fulltoeic2gf',
     defaultClosed: true,   // closed until an admin opens it (no access setting stored yet)
     audioControlled: true,
-    audioStrict: true,
     audioDuration: 2721,
-    // Direct stream of the Drive file (shared with anyone who has the link). If it cannot load
-    // (quota, blocked), the page falls back to the standard Drive player below and flags the attempt.
-    audioSrc: 'https://drive.google.com/uc?export=download&id=1OV1mu-AxGMqeimlap0WdDtp496NRO5j6',
     audioUrl: 'https://drive.google.com/file/d/1OV1mu-AxGMqeimlap0WdDtp496NRO5j6/view?usp=sharing',
     // Printed questions: Part 1 photos, Part 3/4 items and graphics (Part 2 is audio only)
     bookletUrl: 'booklets/fulltoeic2gf-listening.pdf',
