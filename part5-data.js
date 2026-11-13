@@ -1220,5 +1220,615 @@ var P5_TESTS = {
     "t": "vocab"
    }
   ]
+ },
+ "g30-t5": {
+  "title": "Part 5 Grammar | Test 5",
+  "qs": [
+   {
+    "q": "Because of Ms. Gomes' attention to detail, ------- spotted an error in the Incorm Bank contract.",
+    "o": [
+     "her",
+     "herself",
+     "she",
+     "hers"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "Paragon Car Service is seeking a full-time parts manager to fill an immediate -------.",
+    "o": [
+     "opening",
+     "opener",
+     "open",
+     "opened"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "To ------- your customer profile, please log into your account on our secure Web site.",
+    "o": [
+     "invite",
+     "answer",
+     "participate",
+     "update"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "The Standworth Bank building was ------- built as a private home.",
+    "o": [
+     "originally",
+     "originate",
+     "original",
+     "origins"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "To receive a refund, customers must send both a copy of the receipt ------- the product serial number.",
+    "o": [
+     "but",
+     "because",
+     "although",
+     "and"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "A covered walkway ------- from the parking area to the hospital's main entrance.",
+    "o": [
+     "leads",
+     "takes",
+     "finds",
+     "carries"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Hooni Furniture is expanding its Busan showroom to accommodate a ------- number of customers.",
+    "o": [
+     "growing",
+     "growth",
+     "grower",
+     "grow"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Anyone interested ------- mentoring new employees must attend tomorrow's orientation session at 9:30 A.M.",
+    "o": [
+     "with",
+     "in",
+     "by",
+     "over"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "The tourism office promotes the canal cruise as the best ------- to see the city.",
+    "o": [
+     "way",
+     "code",
+     "distance",
+     "aspect"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "------- on the Thompson Avenue apartments was suspended yesterday because of a missing building permit.",
+    "o": [
+     "Constructive",
+     "Constructs",
+     "Constructed",
+     "Construction"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Aapti Gupta's mentor ------- her to enroll in a management training course.",
+    "o": [
+     "inspiring",
+     "to inspire",
+     "inspire",
+     "inspired"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "Ms. Kaminsky has worked at Clearbright Labs ------- it first opened.",
+    "o": [
+     "already",
+     "beyond",
+     "even",
+     "since"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "We evaluated each of the candidates thoroughly ------- we made a final hiring decision.",
+    "o": [
+     "before",
+     "whether",
+     "such as",
+     "rather than"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "Thankfully, the computer technicians were able to ------- most of the unsaved work in our data-management system after last week's power failure.",
+    "o": [
+     "recovers",
+     "recovered",
+     "recovery",
+     "recover"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "Penmel Automotive will introduce its newest line of vehicles ------- a presentation at the Larinne Car Show.",
+    "o": [
+     "during",
+     "regarding",
+     "except",
+     "above"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "All Cedvor employees should follow the new parking ------- when they go into effect on May 1.",
+    "o": [
+     "structures",
+     "uniforms",
+     "regulations",
+     "leads"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Photo-editing software sales have declined sharply ------- the availability of smartphone applications.",
+    "o": [
+     "even though",
+     "as a result of",
+     "unless",
+     "due"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "The new bottling machine was expensive, but it seals the bottles more -------.",
+    "o": [
+     "officially",
+     "efficiently",
+     "objectively",
+     "necessarily"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Tran Paper Company is seeking a ------- warehouse worker to help unload shipments of raw materials.",
+    "o": [
+     "depending",
+     "depended",
+     "dependable",
+     "dependability"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Company finance expert Emily Lareau has ------- the operating budget numerous times in response to executive feedback.",
+    "o": [
+     "anticipated",
+     "amended",
+     "declared",
+     "satisfied"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Until the warm weather returns in the spring, the Murac Café has ------- closed its outdoor dining patio.",
+    "o": [
+     "never",
+     "daily",
+     "regularly",
+     "temporarily"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Despite recent fluctuations in the cost of dairy products, the price of ice cream has remained relatively -------.",
+    "o": [
+     "stable",
+     "obscure",
+     "variable",
+     "forceful"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Ms. Norwich announced that the inspection has been postponed ------- March 14.",
+    "o": [
+     "among",
+     "off",
+     "except",
+     "until"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "Patients should avoid eating ------- for at least eight hours before their appointment with the doctor.",
+    "o": [
+     "all",
+     "which",
+     "several",
+     "anything"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "Yi Il-sung's concert ------- demonstrated his mastery of the saxophone.",
+    "o": [
+     "clear",
+     "clearness",
+     "clearing",
+     "clearly"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "With the cold weather, Connie's Bicycle Rentals will most likely have ------- customers this season.",
+    "o": [
+     "neither",
+     "every",
+     "fewer",
+     "higher"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "Always check to make sure that applicants have filled out the loan-request forms -------.",
+    "o": [
+     "sharply",
+     "certainly",
+     "perpetually",
+     "completely"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Sales manager Niko Nehua enjoyed the unexpected challenges ------- with working with the public.",
+    "o": [
+     "are coming",
+     "that came",
+     "had come",
+     "came"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "Whether you are moving your business to another country or just down the street, Brisk Movers can help ease the -------.",
+    "o": [
+     "transition",
+     "transitional",
+     "transitory",
+     "transitioned"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "The blog written by international correspondent Keiko Arakaki includes articles on nearly every ------- political topic.",
+    "o": [
+     "imaginable",
+     "imagines",
+     "imagining",
+     "imagination"
+    ],
+    "t": "form"
+   }
+  ]
+ },
+ "g30-t7": {
+  "title": "Part 5 Grammar | Test 7",
+  "qs": [
+   {
+    "q": "The company buffet will be closed this afternoon ------- a water leak in the basement.",
+    "o": [
+     "due to",
+     "thanks to",
+     "because",
+     "as of"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "Each employee ------- inform the main office if they are ill or on holiday. If not, these days will not be taken off your sick days or your holidays. You will therefore not be paid.",
+    "o": [
+     "will",
+     "must",
+     "would",
+     "should"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "Hotels and flights booked directly by employees ------- be validated by their managers. If this is not the case, they will have to reimburse the company for the total amount.",
+    "o": [
+     "has to",
+     "should",
+     "will",
+     "must"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "The general manager ------- to thank you for your hard work at the end of this year.",
+    "o": [
+     "would liked",
+     "will like",
+     "wishes",
+     "should"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "Mr. Paulson wanted to travel to Boston on business but his manager ------- to cover the expenses.",
+    "o": [
+     "didn't mind",
+     "denied",
+     "refused",
+     "negotiated"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "------- the weather was good, the plane did not land on time. This made the team very late for their negotiation meeting.",
+    "o": [
+     "Although",
+     "Nevertheless",
+     "Even if",
+     "Furthermore"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "I heard about the change in company policy ------- the last intra-company conference.",
+    "o": [
+     "during",
+     "while",
+     "among",
+     "for"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "The last conference was a great success and I ------- got promoted to the rank of HR manager!",
+    "o": [
+     "currently",
+     "recently",
+     "former",
+     "previous"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "As you know the corporation wants us to cut down ------- our expenses.",
+    "o": [
+     "on",
+     "in",
+     "over",
+     "at"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "At this agency, the real estate agents always ------- their clients visit properties twice and at different times of the day.",
+    "o": [
+     "has",
+     "makes",
+     "have",
+     "are having"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "The automotive parts business unit is not as ------- it could be.",
+    "o": [
+     "profiting as",
+     "profiting like",
+     "profitable as",
+     "profitable like"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "If he knows a member of the board, his ------- will be processed quickly.",
+    "o": [
+     "applying",
+     "candidating",
+     "application",
+     "applied"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "The jazz concert is organized in partnership ------- the City Council.",
+    "o": [
+     "in",
+     "with",
+     "to",
+     "at"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "Roadwork often ------- the road that I take to go to work.",
+    "o": [
+     "blocked",
+     "blocks",
+     "stops",
+     "frees"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "You must be warned that there ------- consequences if this continues.",
+    "o": [
+     "were",
+     "should be",
+     "will be",
+     "have to be"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "The cook is always ------- television at work.",
+    "o": [
+     "watched",
+     "looking",
+     "looked",
+     "watching"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "The different regions of that country have been rivals for ------- years.",
+    "o": [
+     "a hundred of",
+     "hundred",
+     "hundreds of",
+     "hundreds"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "My colleague is sick; ------- I must work extra hours.",
+    "o": [
+     "therefore",
+     "so that",
+     "nevertheless",
+     "because"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "His parents still help him with his taxes, even though he is a ------- man!",
+    "o": [
+     "grow",
+     "grown",
+     "growing up",
+     "grown out"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "The internet platform is ------- positively. The turnover of the start-up has increased by 10% this year.",
+    "o": [
+     "developed",
+     "developing",
+     "evolved",
+     "grown"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Government bonds will be offered in order to stimulate the slow and ------- economy.",
+    "o": [
+     "thriving",
+     "sluggish",
+     "soaring",
+     "bustling"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "If the general manager comes to the meeting, ------- all the business unit directors.",
+    "o": [
+     "so as",
+     "so comes",
+     "so will",
+     "so does"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "My business partner and I are looking ------- a new business project.",
+    "o": [
+     "on",
+     "into",
+     "away",
+     "from"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "The new partner of the law firm ------- to work with the district attorney.",
+    "o": [
+     "would",
+     "have",
+     "used",
+     "was used"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "The company has had production problems recently and is looking at ------- several members of staff.",
+    "o": [
+     "laying off",
+     "lay off",
+     "hiring",
+     "let go"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "The premises ------- by an investor five years ago.",
+    "o": [
+     "bought",
+     "are bought",
+     "have been bought",
+     "were bought"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "At the time, the two directors were both members of the board, but since the last meeting they haven't spoken to -------.",
+    "o": [
+     "another",
+     "together",
+     "each other",
+     "one the other"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "The last few meetings I attended were very interesting. -------, I met several interesting people.",
+    "o": [
+     "nevertheless",
+     "despite",
+     "indeed",
+     "currently"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "If you forget your password, you ------- to call the IT security team to get a new one.",
+    "o": [
+     "must",
+     "would have",
+     "will have",
+     "should have"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "Recent financial problems ------- Steve to find another job.",
+    "o": [
+     "have forced",
+     "are forced",
+     "are being forced",
+     "were forced"
+    ],
+    "t": "verb"
+   }
+  ]
  }
 };
