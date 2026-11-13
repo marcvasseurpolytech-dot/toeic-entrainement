@@ -1,3 +1,4 @@
+const { cleanAudioLog } = require('./_lib');
 const REPO = process.env.DATA_REPO || 'marcvasseurpolytech-dot/toeic-entrainement';
 const FILE = 'data/progress.json';
 const API  = 'https://api.github.com';
@@ -47,7 +48,7 @@ module.exports = async (req, res) => {
 
   // POST — upsert in-progress answers (debounced client-side, not per keystroke)
   if (req.method === 'POST') {
-    const { nom, testId, answers, startTime, timeLeft, savedAt } = req.body || {};
+    const { nom, testId, answers, startTime, timeLeft, savedAt, audioStartedAt, audioLog } = req.body || {};
     if (!nom || !testId || !Array.isArray(answers)) {
       return res.status(400).json({ error: 'Missing data' });
     }
@@ -60,6 +61,8 @@ module.exports = async (req, res) => {
         nom: nomUpper, testId, answers, startTime,
         timeLeft: Number.isFinite(timeLeft) ? Math.max(0, Math.floor(timeLeft)) : null,
         savedAt: Number.isFinite(savedAt) ? savedAt : null,
+        ...(Number.isFinite(audioStartedAt) && { audioStartedAt }),
+        ...(cleanAudioLog(audioLog) && { audioLog: cleanAudioLog(audioLog) }),
         updatedAt: new Date().toISOString()
       };
       if (idx >= 0) all[idx] = entry; else all.push(entry);

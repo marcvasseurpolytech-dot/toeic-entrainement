@@ -212,6 +212,29 @@ const TESTS_DATA = {
     ]
   },
 
+  // Full TOEIC Test 2 GF (built from the Google Form "Full TOEIC Test 2 GF - Listening").
+  // audioStrict: the audio is played by our own player with no pause, no seek and no
+  // replay, and the attempt records an audio log (pauses, seek attempts, tab hidden time).
+  // audioDuration is the measured length of the mp3 (2720.7 s).
+  'fulltoeic2gf-listening': {
+    name: 'Full TOEIC Test 2 GF',
+    part: 'Listening',
+    section: 'L',
+    baseId: 'fulltoeic2gf',
+    audioControlled: true,
+    audioStrict: true,
+    audioDuration: 2721,
+    audioUrl: 'https://drive.google.com/file/d/1OV1mu-AxGMqeimlap0WdDtp496NRO5j6/view?usp=sharing',
+    partIds: ['p1', 'p2', 'p3', 'p4'],
+    total: 100,
+    parts: [
+      { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
+      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
+      { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
   // All keys sourced from the answer-key PDF. IIBC 2 T1 additionally has a
   // full booklet PDF; IIBC 2 T2 doesn't (booklet button hidden); IIBC 2 T3
   // links directly to the Drive booklet rather than a locally-hosted copy.

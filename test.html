@@ -259,6 +259,15 @@
     @media (max-width: 370px) {
       .bubble { width: 31px; height: 31px; min-width: 31px; }
     }
+    /* Strict audio player (no pause, no seek, no replay) */
+    .strict-rules { list-style: none; text-align: left; max-width: 560px; margin: 0 auto 1rem; font-size: 0.88rem; color: var(--light-gold); }
+    .strict-rules li { padding: 0.2rem 0 0.2rem 1.2rem; position: relative; }
+    .strict-rules li::before { content: '\2022'; position: absolute; left: 0.3rem; color: var(--gold); }
+    .strict-box { text-align: center; }
+    .strict-track { height: 10px; border-radius: 999px; background: rgba(255,255,255,0.14); overflow: hidden; margin-top: 0.4rem; }
+    .strict-fill { height: 100%; width: 0%; background: var(--gold); transition: width .5s linear; }
+    .strict-meta { display: flex; justify-content: space-between; gap: 0.6rem; margin-top: 0.4rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--light-gold); }
+    .strict-warn { background: rgba(255,107,107,0.14); border: 1px solid #ff9a9a; color: #ffd0d0; border-radius: 8px; padding: 0.7rem 0.9rem; font-size: 0.85rem; margin-bottom: 0.8rem; text-align: left; }
     @media (prefers-reduced-motion: reduce) {
       * { animation: none !important; transition: none !important; }
     }
@@ -342,6 +351,7 @@
 
 <script src="dept.js"></script>
 <script src="tests-data.js"></script>
+<script src="strict-audio.js"></script>
 <script>
 
 // =========================================================
@@ -411,7 +421,9 @@ function progressPayload() {
   return {
     nom: student.nom, testId, answers, startTime: sessionStartTime,
     timeLeft: (!TEST.audioControlled && timerStarted) ? timeLeft : null,
-    savedAt: Date.now()
+    savedAt: Date.now(),
+    audioStartedAt: audioStartedAt,
+    audioLog: currentAudioLog()
   };
 }
 
@@ -420,7 +432,8 @@ function saveProgress() {
   try {
     const p = progressPayload();
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      answers: p.answers, startTime: p.startTime, timeLeft: p.timeLeft, savedAt: p.savedAt
+      answers: p.answers, startTime: p.startTime, timeLeft: p.timeLeft, savedAt: p.savedAt,
+      audioStartedAt: p.audioStartedAt, audioLog: p.audioLog
     }));
   } catch(e) { /* storage full or unavailable — server save still runs */ }
 }
@@ -506,6 +519,7 @@ function driveEmbedUrl(url) {
 
 function renderAudio() {
   if (!TEST.audioControlled) return;
+  if (strictEnabled()) { if (!isReview) renderStrictAudio(); return; }
   const section = document.getElementById('audio-section');
   section.style.display = 'block';
   const target = document.getElementById('audio-embed-target');
@@ -515,6 +529,126 @@ function renderAudio() {
   } else {
     target.innerHTML = `<div class="audio-missing">Audio not configured yet for this test.</div>`;
   }
+}
+
+// =========================================================
+// STRICT AUDIO (no pause, no seek, no replay) + control log
+// Enabled for a test that sets audioStrict: true AND audioSrc (a direct mp3 URL).
+// Without audioSrc the test keeps the standard Drive player.
+// =========================================================
+let strictAudio = null;          // StrictAudio instance once the audio has started
+let audioStartedAt = null;       // wall clock (ms) of the audio start, kept across reloads
+let restoredAudioLog = null;     // log restored from a saved attempt (page reloaded)
+
+function strictEnabled() { return !!(TEST.audioControlled && TEST.audioStrict && TEST.audioSrc && window.StrictAudio); }
+
+function currentAudioLog() {
+  if (!TEST.audioStrict) return null;
+  return strictAudio ? strictAudio.getLog() : restoredAudioLog;
+}
+
+function renderStrictAudio() {
+  const section = document.getElementById('audio-section');
+  section.style.display = 'block';
+  section.querySelector('p').textContent = 'The audio plays once, without pause. Answer as you listen.';
+  document.getElementById('audio-embed-target').innerHTML =
+    '<div class="strict-box">' +
+      '<ul class="strict-rules">' +
+        '<li>Put on your headphones and have your booklet ready.</li>' +
+        '<li>The audio plays once, from start to finish. You cannot pause, rewind or replay it.</li>' +
+        '<li>If you leave or reload this page, the audio keeps running without you.</li>' +
+        '<li>Your listening time is recorded.</li>' +
+      '</ul>' +
+      '<button class="btn-begin" id="btn-audio-start" type="button">▶ Start the audio</button>' +
+      '<div id="strict-live" style="display:none">' +
+        '<div class="strict-track"><div class="strict-fill" id="strict-fill"></div></div>' +
+        '<div class="strict-meta"><span id="strict-pos">00:00</span><span id="strict-msg">Playing</span><span id="strict-total"></span></div>' +
+        '<button class="btn-begin" id="btn-audio-rejoin" type="button" style="display:none;margin-top:0.9rem">▶ Rejoin the audio</button>' +
+      '</div>' +
+      '<audio id="strict-el" preload="auto" playsinline controlslist="nodownload noplaybackrate" disablepictureinpicture></audio>' +
+    '</div>';
+  document.getElementById('strict-total').textContent = fmtTime(Math.round(audioDurationSec(TEST)));
+  document.getElementById('strict-el').addEventListener('contextmenu', e => e.preventDefault());
+  document.getElementById('btn-audio-start').addEventListener('click', () => startStrictAudio(false));
+  document.getElementById('btn-audio-rejoin').addEventListener('click', () => startStrictAudio(true));
+}
+
+function setStrictMsg(t) { const el = document.getElementById('strict-msg'); if (el) el.textContent = t; }
+
+function renderStrictState(s) {
+  const dur = audioDurationSec(TEST);
+  const fill = document.getElementById('strict-fill');
+  if (fill) fill.style.width = Math.max(0, Math.min(100, s.position / dur * 100)) + '%';
+  const pos = document.getElementById('strict-pos');
+  if (pos) pos.textContent = fmtTime(Math.floor(s.position));
+  const t = document.getElementById('timer');
+  if (t) {
+    if (s.ended) { t.style.display = 'none'; }
+    else { t.style.display = ''; t.textContent = fmtTime(s.remaining); }
+  }
+  // local copy only (no server write): keeps the audio log of a reloaded page close to the truth
+  if (Date.now() - (renderStrictState.last || 0) > 15000) { renderStrictState.last = Date.now(); saveProgress(); }
+}
+
+function makeStrictAudio() {
+  strictAudio = StrictAudio.create({
+    audio: document.getElementById('strict-el'),
+    duration: audioDurationSec(TEST),
+    doc: document, win: window,
+    startedAtMs: audioStartedAt,
+    log: restoredAudioLog || undefined,
+    onUpdate: renderStrictState,
+    onEnded: () => { setStrictMsg('Audio finished'); saveProgress(); },
+    onFallback: strictFallback
+  });
+}
+
+function startStrictAudio(rejoin) {
+  if (strictAudio && strictAudio.isRunning()) return;
+  document.getElementById('strict-el').src = TEST.audioSrc;
+  if (!rejoin) { audioStartedAt = Date.now(); sessionStartTime = audioStartedAt; }
+  makeStrictAudio();
+  document.getElementById('btn-audio-start').style.display = 'none';
+  document.getElementById('btn-audio-rejoin').style.display = 'none';
+  document.getElementById('strict-live').style.display = 'block';
+  setStrictMsg('Playing');
+  const offset = rejoin ? Math.max(0, (Date.now() - audioStartedAt) / 1000) : 0;
+  strictAudio.start(offset);
+  saveProgress();
+  scheduleServerSave();
+}
+
+// A student comes back to a test whose audio has already been started
+function restoreStrictState(saved) {
+  if (!strictEnabled() || !saved.audioStartedAt) return;
+  audioStartedAt = saved.audioStartedAt;
+  sessionStartTime = audioStartedAt;
+  restoredAudioLog = saved.audioLog || null;
+  const dur = audioDurationSec(TEST);
+  const offset = (Date.now() - audioStartedAt) / 1000;
+  document.getElementById('btn-audio-start').style.display = 'none';
+  document.getElementById('strict-live').style.display = 'block';
+  if (offset >= dur + 2) {
+    renderStrictState({ position: dur, remaining: 0, ended: true });
+    setStrictMsg('Audio finished');
+    return;
+  }
+  renderStrictState({ position: Math.min(dur, offset), remaining: Math.round(dur - offset), ended: false });
+  setStrictMsg('The audio is still running without you');
+  document.getElementById('btn-audio-rejoin').style.display = 'inline-block';
+}
+
+// The protected player could not load the file (blocked, offline, slow): use the standard player
+function strictFallback(reason) {
+  const target = document.getElementById('audio-embed-target');
+  const embedUrl = driveEmbedUrl(TEST.audioUrl);
+  target.innerHTML = '<div class="strict-warn">The protected audio player could not load (' + reason + '). Use the player below. ' +
+    'This attempt is recorded as using the standard player.</div>' +
+    (embedUrl ? `<div class="audio-embed-wrap"><iframe src="${embedUrl}" allow="autoplay" allowfullscreen></iframe></div>`
+              : '<div class="audio-missing">Audio not configured yet for this test.</div>');
+  const t = document.getElementById('timer');
+  if (t) t.style.display = 'none';
+  saveProgress();
 }
 
 function renderBooklet() {
@@ -576,6 +710,7 @@ if (isReview) {
 
     if (saved) {
       sessionStartTime = saved.startTime || Date.now();
+      restoreStrictState(saved);
       saved.answers.forEach((a, i) => { if (a) selectAnswer(i + 1, a, false); });
       document.getElementById('restore-banner').style.display = 'block';
       if (fromServer) saveProgress(); // mirror into localStorage too
@@ -826,6 +961,9 @@ async function initReviewMode() {
 let submitting = false;
 async function submitTest(auto = false) {
   if (submitted || submitting) return;
+  if (!auto && strictAudio && strictAudio.isRunning()) {
+    if (!confirm('The audio is still playing. Submit now and stop the audio?')) return;
+  }
   const unanswered = answers.filter(a => a === null).length;
   if (!auto && unanswered > 0) {
     if (!confirm(`You have ${unanswered} unanswered question(s). Submit anyway?`)) return;
@@ -848,7 +986,8 @@ async function submitTest(auto = false) {
         testId: testId,
         answers: answers,
         startedAt:  new Date(sessionStartTime).toISOString(),
-        elapsedSec: Math.round((Date.now() - sessionStartTime) / 1000)
+        elapsedSec: Math.round((Date.now() - sessionStartTime) / 1000),
+        audioLog: currentAudioLog() || undefined
       })
     });
     data = await saveR.json().catch(() => ({}));
@@ -869,6 +1008,7 @@ async function submitTest(auto = false) {
 
   submitted = true;
   submitting = false;
+  if (strictAudio) strictAudio.stop();
   gradeAndRender(answers, data.keys);
   document.getElementById('btn-jump').style.display = 'none';
   document.getElementById('restore-banner').style.display = 'none';

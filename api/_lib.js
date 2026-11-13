@@ -117,7 +117,22 @@ async function verifyStudent(nom, codeHash, token) {
   return !!s && s.approved !== false && safeEqual(s.codeHash || '', codeHash);
 }
 
+// Audio control log sent by the strict Listening player. Only known numeric / boolean fields
+// are kept, each clamped, so nothing else can be stored through this field.
+function cleanAudioLog(l) {
+  if (!l || typeof l !== 'object' || Array.isArray(l)) return undefined;
+  const n = (v, max) => Number.isFinite(v) ? Math.max(0, Math.min(max, Math.round(v))) : 0;
+  const out = {
+    playedSec: n(l.playedSec, 86400), pauseAttempts: n(l.pauseAttempts, 10000), pausedSec: n(l.pausedSec, 86400),
+    seekAttempts: n(l.seekAttempts, 10000), hiddenSec: n(l.hiddenSec, 86400), hiddenCount: n(l.hiddenCount, 10000),
+    rejoins: n(l.rejoins, 1000), stalls: n(l.stalls, 10000),
+    fallback: l.fallback === true, ended: l.ended === true
+  };
+  if (typeof l.startedAt === 'string' && !isNaN(Date.parse(l.startedAt))) out.startedAt = new Date(l.startedAt).toISOString();
+  return out;
+}
+
 module.exports = {
-  CLASSES, KEYS, verifyStudent, ghGet, ghPut, hasTest, grade, cleanAnswers, sha256hex,
+  cleanAudioLog, CLASSES, KEYS, verifyStudent, ghGet, ghPut, hasTest, grade, cleanAnswers, sha256hex,
   checkAdminPassword, issueAdminToken, isAdmin, throttled, noteFailure, clearFailures
 };

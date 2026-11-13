@@ -1,5 +1,5 @@
 const REVIEW = require('./_review');
-const { KEYS, ghGet, ghPut, hasTest, grade, cleanAnswers, verifyStudent } = require('./_lib');
+const { KEYS, ghGet, ghPut, hasTest, grade, cleanAnswers, verifyStudent, cleanAudioLog } = require('./_lib');
 const { classAllowed } = require('../dept.js');
 
 const FILE = 'data/scores.json';
@@ -52,7 +52,7 @@ module.exports = async (req, res) => {
   // here. One attempt per student per test, unless an admin granted a retake on the
   // latest attempt (the old attempt stays in the record for history).
   if (req.method === 'POST') {
-    const { nom, testId, answers, date, startedAt, elapsedSec, codeHash } = req.body || {};
+    const { nom, testId, answers, date, startedAt, elapsedSec, codeHash, audioLog } = req.body || {};
     if (!nom || !testId || !hasTest(testId)) return res.status(400).json({ error: 'Missing data' });
     const clean = cleanAnswers(testId, answers);
     if (!clean) return res.status(400).json({ error: 'Invalid answers' });
@@ -80,6 +80,8 @@ module.exports = async (req, res) => {
     const startedAtOk = typeof startedAt === 'string' && !isNaN(Date.parse(startedAt)) ? new Date(startedAt).toISOString() : undefined;
     const elapsedOk = Number.isFinite(elapsedSec) && elapsedSec >= 0 && elapsedSec < 86400 ? Math.round(elapsedSec) : undefined;
 
+    const audioLogOk = cleanAudioLog(audioLog);
+
     const nomUpper = nom.trim().toUpperCase();
     const result = grade(testId, clean);
     for (let attempt = 0; attempt < 3; attempt++) {
@@ -99,7 +101,8 @@ module.exports = async (req, res) => {
         answers: clean,
         date: new Date().toISOString(),
         ...(startedAtOk && { startedAt: startedAtOk }),
-        ...(elapsedOk !== undefined && { elapsedSec: elapsedOk })
+        ...(elapsedOk !== undefined && { elapsedSec: elapsedOk }),
+        ...(audioLogOk && { audioLog: audioLogOk })
       });
       const ok = await ghPut(FILE, { scores }, file?.sha, token);
       if (ok) return res.json({ success: true, score: result.score, total: result.total, parts: result.parts, keys: KEYS[testId].keys, ...(REVIEW[testId] && { review: REVIEW[testId] }) });

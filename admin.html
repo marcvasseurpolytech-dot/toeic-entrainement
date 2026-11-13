@@ -97,6 +97,7 @@
     .timing.ok { color:var(--success); }
     .timing.short { color:var(--error); }
     .timing.long { color:#d07a1c; }
+    .timing.check { color:#d07a1c; }
     .timing.na { color:#9ca3af; font-weight:400; }
     .sub { display:block; font-size:0.72rem; color:#6b7280; }
     .sec-cell .chips { margin-top:0.25rem; }
@@ -797,19 +798,35 @@
     const TIMING_MARGIN_SHORT = 0.9;      // below 90% of the audio length
     const TIMING_MARGIN_LONG  = 10 * 60;  // more than 10 min over the audio length
     function fmtDur(sec) { const m = Math.floor(sec / 60), s = sec % 60; return `${m} min ${String(s).padStart(2, '0')} s`; }
+    // Notes from the strict audio player's log (tests with audioStrict): pause or seek attempts,
+    // leaving the page, hidden tab, fallback to the standard player.
+    function audioNotes(att) {
+      const l = att.audioLog;
+      if (!l) return [];
+      const dur = audioDurationSec(att.TEST), n = [];
+      if (l.pauseAttempts > 0) n.push(`${l.pauseAttempts} pause attempt(s), ${fmtDur(l.pausedSec || 0)} paused`);
+      if (l.seekAttempts > 0) n.push(`${l.seekAttempts} seek attempt(s)`);
+      if (l.rejoins > 0) n.push(`left the page and rejoined ${l.rejoins} time(s)`);
+      if (l.hiddenSec >= 60) n.push(`tab hidden ${fmtDur(l.hiddenSec)}`);
+      if (l.fallback) n.push('standard player used (pause possible)');
+      if (!l.ended && !l.fallback && l.playedSec < dur * TIMING_MARGIN_SHORT) n.push(`audio played only ${fmtDur(l.playedSec)}`);
+      return n;
+    }
     function timingInfo(att) {
       if (!att || !att.TEST || att.TEST.section !== 'L' || !att.TEST.audioControlled) return null;
       if (!Number.isFinite(att.elapsedSec)) return { level: 'na', label: 'no timing data' };
       const dur = audioDurationSec(att.TEST), e = att.elapsedSec;
-      if (e < dur * TIMING_MARGIN_SHORT) return { level: 'short', label: `${fmtDur(e)}: shorter than the audio (${Math.round(dur / 60)} min), skipped?` };
-      if (e > dur + TIMING_MARGIN_LONG)  return { level: 'long',  label: `${fmtDur(e)}: ${Math.round((e - dur) / 60)} min over the audio, pause or replay?` };
+      const notes = audioNotes(att), extra = notes.length ? ' | ' + notes.join(', ') : '';
+      if (e < dur * TIMING_MARGIN_SHORT) return { level: 'short', label: `${fmtDur(e)}: shorter than the audio (${Math.round(dur / 60)} min), skipped?${extra}` };
+      if (e > dur + TIMING_MARGIN_LONG)  return { level: 'long',  label: `${fmtDur(e)}: ${Math.round((e - dur) / 60)} min over the audio, pause or replay?${extra}` };
+      if (notes.length) return { level: 'check', label: `${fmtDur(e)}: ${notes.join(', ')}` };
       return { level: 'ok', label: `${fmtDur(e)}: consistent with the audio` };
     }
-    const timingFlag = att => { const t = timingInfo(att); return !!t && (t.level === 'short' || t.level === 'long'); };
+    const timingFlag = att => { const t = timingInfo(att); return !!t && (t.level === 'short' || t.level === 'long' || t.level === 'check'); };
     function timingHTML(att) {
       const t = timingInfo(att);
       if (!t) return '';
-      const icon = { ok: '⏱ OK', short: '⚠ too short', long: '⚠ too long', na: '⏱ n/a' }[t.level];
+      const icon = { ok: '⏱ OK', short: '⚠ too short', long: '⚠ too long', check: '⚠ check', na: '⏱ n/a' }[t.level];
       return `<span class="sub timing ${t.level}" title="${esc(t.label)}">${icon}${t.level === 'na' ? '' : ' · ' + fmtDur(att.elapsedSec)}</span>`;
     }
 
