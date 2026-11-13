@@ -529,9 +529,13 @@
     // Tests are shown grouped: "Full tests" (one row per exam, Listening and Reading side by side)
     // and "Part 7 training" (single-part drills). Everything below works on the DOM, so a switch
     // or a bulk action updates counts and filters in place without reloading the page.
+    // An exam whose Reading counterpart exists is a "Full test"; a complete Listening section
+    // with no Reading (e.g. a form rebuilt as a Listening-only test) is a "Full Listening".
+    const READING_BASES = new Set(Object.values(TESTS_DATA).filter(t => t.section === 'R').map(t => t.baseId));
     const ACCESS_GROUPS = [
-      { key: 'full',     title: 'Full tests',      sub: 'Listening and Reading of the same exam', pick: t => !t.practice },
-      { key: 'practice', title: 'Part 7 training', sub: 'Single-part drills, each with its own timer', pick: t => !!t.practice }
+      { key: 'full',      title: 'Full tests',      sub: 'Listening and Reading of the same exam', pick: t => !t.practice && READING_BASES.has(t.baseId) },
+      { key: 'listening', title: 'Full Listening',  sub: 'Complete Listening section only',         pick: t => !t.practice && !READING_BASES.has(t.baseId) },
+      { key: 'practice',  title: 'Part 7 training', sub: 'Single-part drills, each with its own timer', pick: t => !!t.practice }
     ];
 
     function accessRows(group) {
