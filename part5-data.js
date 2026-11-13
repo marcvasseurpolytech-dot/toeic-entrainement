@@ -5185,5 +5185,615 @@ var P5_TESTS = {
     "t": "vocab"
    }
   ]
+ },
+ "g30-t14": {
+  "title": "Part 5 Grammar | Test 14",
+  "qs": [
+   {
+    "q": "All applicants must submit ------- résumés and a cover letter by Friday.",
+    "o": [
+     "themselves",
+     "they",
+     "their",
+     "theirs"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "Because of low interest rates, many homeowners are taking out loans to pay for ------- to their homes.",
+    "o": [
+     "renovations",
+     "formings",
+     "magnifications",
+     "boostings"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "An employee's contract may be ------- if he or she repeatedly breaks company rules.",
+    "o": [
+     "practiced",
+     "terminated",
+     "attended",
+     "offended"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "The city council needs to update the ------- for waste disposal because they are outdated.",
+    "o": [
+     "proceeds",
+     "proceeding",
+     "proceed",
+     "procedures"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "The new model uses ------- less energy than the old one.",
+    "o": [
+     "particularly",
+     "significantly",
+     "massively",
+     "fundamentally"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "The contract requires each department to ------- who its representative will be.",
+    "o": [
+     "specific",
+     "specification",
+     "specify",
+     "specifying"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "The director is available to meet you ------- 3 o'clock onward on Monday.",
+    "o": [
+     "from",
+     "at",
+     "during",
+     "between"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "He did not feel ------- to give his manager more than two weeks' notice.",
+    "o": [
+     "obligatory",
+     "oblige",
+     "obligate",
+     "obliged"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Smart shoppers compare brands that look alike ------- are priced very differently.",
+    "o": [
+     "since",
+     "because",
+     "both",
+     "but"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "Before they design a product, manufacturers like to know what features ------- find useful.",
+    "o": [
+     "consumers",
+     "consumption",
+     "consume",
+     "consumable"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Before buying an appliance, compare the ------- of similar models and their warranties.",
+    "o": [
+     "characteristically",
+     "characterizing",
+     "characteristics",
+     "characterize"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "The next step is to pour the cement ------- into the mold so that none of it spills.",
+    "o": [
+     "caution",
+     "cautiously",
+     "cautiousness",
+     "cautious"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Leave your name and number, and a representative will call you within two hours to ------- with you.",
+    "o": [
+     "contact",
+     "touch",
+     "call",
+     "speak"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "------- to several customer complaints, the company has decided to hire more sales assistants.",
+    "o": [
+     "Responding",
+     "According",
+     "Necessary",
+     "Appropriate"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Successful people don't put off until tomorrow ------- they can do today.",
+    "o": [
+     "that",
+     "what",
+     "which",
+     "when"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "When entering ------- markets, a company needs an edge over its competitors.",
+    "o": [
+     "predetermined",
+     "founded",
+     "established",
+     "engaged"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Staff whose ------- exceeds expectations are eligible for the Employee of the Month award.",
+    "o": [
+     "performance",
+     "performer",
+     "perform",
+     "performing"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Governments have been slow to ------- the problem of global warming.",
+    "o": [
+     "introduce",
+     "encourage",
+     "decide",
+     "address"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Removing the old software is a big step ------- in the right direction.",
+    "o": [
+     "through",
+     "before",
+     "forward",
+     "toward"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "------- your order, please have the product numbers ready.",
+    "o": [
+     "Expedite",
+     "To expedite",
+     "Have expedited",
+     "To be expedited"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "The currency has fallen against the dollar for five ------- months.",
+    "o": [
+     "consecutive",
+     "constant",
+     "following",
+     "next"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Researchers who read the report commented ------- it contains many errors.",
+    "o": [
+     "on",
+     "that",
+     "which",
+     "about"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "Toys imported by Variety Imports failed to ------- with safety standards.",
+    "o": [
+     "belong",
+     "observe",
+     "adhere",
+     "comply"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "If he had had more time, Andy could ------- the presentation more thoroughly.",
+    "o": [
+     "prepare",
+     "be prepared",
+     "have prepared",
+     "had prepared"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "The success of the repair depends on an early ------- of the problem.",
+    "o": [
+     "diagnose",
+     "diagnosed",
+     "diagnostically",
+     "diagnosis"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "The sudden price increase has ------- the company by surprise.",
+    "o": [
+     "taken",
+     "put",
+     "made",
+     "given"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "The airline blames the bad weather ------- the delay.",
+    "o": [
+     "from",
+     "with",
+     "for",
+     "of"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "A committee was formed to provide the staff with the information ------- for the project.",
+    "o": [
+     "necessity",
+     "necessary",
+     "necessarily",
+     "necessitate"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Using satellite technology, engineers have ------- a program that gives access to the Internet through a small terminal.",
+    "o": [
+     "dreamed",
+     "destined",
+     "drawn",
+     "devised"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "When ------- your tax return, send it by registered mail in case it gets lost.",
+    "o": [
+     "mailing",
+     "mail",
+     "mails",
+     "mailed"
+    ],
+    "t": "form"
+   }
+  ]
+ },
+ "g30-t15": {
+  "title": "Part 5 Grammar | Test 15",
+  "qs": [
+   {
+    "q": "------- near both the company's new plant and headquarters, the guesthouses are very convenient.",
+    "o": [
+     "Location",
+     "Locating",
+     "Locate",
+     "Located"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "If there is a mistake on your pay stub, it will be corrected in the ------- pay period.",
+    "o": [
+     "advanced",
+     "outdated",
+     "following",
+     "constant"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Passengers who do not reconfirm their bookings three days in advance ------- their seats.",
+    "o": [
+     "will forfeit",
+     "forfeiture",
+     "forfeiting",
+     "forfeited"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "If you are ------- doubt about anything, please ask me.",
+    "o": [
+     "with",
+     "in",
+     "for",
+     "of"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "------- amount of money could persuade her to reveal the company's policy.",
+    "o": [
+     "No",
+     "None",
+     "Not",
+     "Never"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "The movie was ------- and I recommend it to everyone.",
+    "o": [
+     "fascinated",
+     "fascinate",
+     "fascination",
+     "fascinating"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Joe drank ------- coffee last night, so he had difficulty sleeping.",
+    "o": [
+     "far too",
+     "too much",
+     "too far",
+     "much too"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "After the crisis, several countries have experienced a ------- of bankruptcies.",
+    "o": [
+     "way",
+     "wealth",
+     "wave",
+     "wall"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "This laptop is ------- as fast as the desktop it replaced.",
+    "o": [
+     "as well",
+     "just",
+     "very",
+     "such"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Officials support the changes ------- were discussed at the meeting.",
+    "o": [
+     "whether",
+     "what",
+     "who",
+     "that"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "If more trains were built, commuters ------- their cars much less often.",
+    "o": [
+     "would use",
+     "use",
+     "used",
+     "will use"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "Check your e-mail at regular ------- throughout the day.",
+    "o": [
+     "moments",
+     "levels",
+     "intervals",
+     "spaces"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Protective clothing is required for employees ------- work exposes them to hazardous substances.",
+    "o": [
+     "whose",
+     "who",
+     "whom",
+     "which"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "The board has not decided yet, but hopes to reach a solution at a ------- date.",
+    "o": [
+     "lately",
+     "recent",
+     "recently",
+     "later"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Please do not flush anything ------- than toilet paper.",
+    "o": [
+     "another",
+     "other",
+     "others",
+     "the other"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "------- the heavy rain, the outdoor concert will take place as planned.",
+    "o": [
+     "Although",
+     "Because",
+     "Despite",
+     "Since"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "Members are entitled to an additional 10 percent ------- on all purchases.",
+    "o": [
+     "discounted",
+     "discounting",
+     "discounts",
+     "discount"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Our Internet service is offered at a ------- price of thirty dollars per month for two years.",
+    "o": [
+     "fixed",
+     "anchored",
+     "scattered",
+     "thorough"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Replacement parts are ------- available in most hardware stores.",
+    "o": [
+     "easy",
+     "easily",
+     "easier",
+     "easiest"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Because of such a large and ------- set of tax laws, we need to consult the tax department.",
+    "o": [
+     "complication",
+     "complicating",
+     "complicated",
+     "complicate"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Several articles have been ------- of the government's policies.",
+    "o": [
+     "critical",
+     "criticized",
+     "critic",
+     "critically"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Seniority does not ------- as much as it once did in deciding who is promoted.",
+    "o": [
+     "fill",
+     "file",
+     "filter",
+     "figure"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "The document you requested ------- to the Human Resources department.",
+    "o": [
+     "forwarded",
+     "has been forwarded",
+     "is forwarding",
+     "has forwarded"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "Lear Industries will hire 50 new employees ------- it has signed a large government contract.",
+    "o": [
+     "due to",
+     "owing",
+     "although",
+     "because"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "Your account may be closed ------- further notice if you fail to pay on time.",
+    "o": [
+     "before",
+     "after",
+     "without",
+     "from"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "------- today, Bill Stone is responsible for all phases of corporate finance.",
+    "o": [
+     "Effect",
+     "Effective",
+     "Effects",
+     "Effectively"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "I hoped to find authentic antiques, but they had nothing ------- copies.",
+    "o": [
+     "but",
+     "and",
+     "or",
+     "so"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "Cartoons printed in European newspapers ------- angered readers all over the world.",
+    "o": [
+     "have",
+     "is",
+     "has",
+     "are"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "Firms found guilty of insider trading are subject to a substantial ------- by the regulator.",
+    "o": [
+     "fare",
+     "tariff",
+     "price",
+     "fine"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Please notify your department head ------- writing of any change to your vacation schedule.",
+    "o": [
+     "by",
+     "with",
+     "in",
+     "at"
+    ],
+    "t": "prep"
+   }
+  ]
  }
 };
