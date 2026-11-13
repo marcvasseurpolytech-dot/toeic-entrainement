@@ -555,7 +555,7 @@ const TESTS_DATA = {
     baseId: 'g30-t1',
     maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
     audioControlled: false,
-    duration: 20 * 60,
+    duration: 15 * 60,
     partIds: ['p5'],
     total: 30,
     parts: [

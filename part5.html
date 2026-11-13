@@ -183,7 +183,7 @@ footer{background:var(--navy);color:var(--cream);padding:6px 16px;display:flex;a
    <select id="sel" aria-label="Choisir une page"></select>
    <button type="button" id="next" aria-label="Suivant">&#9654;</button>
   </div>
-  <div class="timer" id="timer" aria-live="off">20:00</div>
+  <div class="timer" id="timer" aria-live="off">15:00</div>
   <button type="button" class="btn g" id="hsubmit">Soumettre</button>
  </header>
  <div id="restore"></div>
@@ -201,7 +201,7 @@ footer{background:var(--navy);color:var(--cream);padding:6px 16px;display:flex;a
   <p class="en"><b>Directions:</b> a word or phrase is missing in each of the sentences below. Four answer choices are given below each sentence. Select the best answer to complete the sentence.</p>
   <p><b>Consignes :</b> 30 phrases à compléter, dans le format de la Part 5 du TOEIC. Clique sur la bonne réponse, (A), (B), (C) ou (D).</p>
   <ul>
-   <li><b>Durée : <span id="idur">20</span> minutes.</b> Le chrono démarre quand tu cliques sur le bouton ci-dessous.</li>
+   <li><b>Durée : <span id="idur">15</span> minutes.</b> Le chrono démarre quand tu cliques sur le bouton ci-dessous.</li>
    <li>Tes réponses et le temps restant sont sauvegardés automatiquement : si tu fermes la page, tu reprends avec le temps qu'il te restait.</li>
    <li>Dans les 5 dernières minutes, le chrono clignote en rouge. À zéro, les réponses sont verrouillées et envoyées automatiquement. Tu peux aussi cliquer sur <b>Soumettre</b> à tout moment.</li>
    <li id="iatt"></li>
@@ -236,7 +236,7 @@ var TYPES={
 var SAFE=25; // safe zone of Part 5: 25/30 (same as the dashboard)
 var ALLQ=DATA?DATA.qs.map(function(q,i){return {n:i+1,q:q.q,o:q.o,t:q.t};}):[];
 var TOTAL=ALLQ.length,PER=10,NPAGES=Math.ceil(TOTAL/PER);
-var TOTAL_SEC=CFG?CFG.duration:1200;
+var TOTAL_SEC=CFG?CFG.duration:900;
 var MAXA=CFG?(CFG.maxAttempts||1):1;
 var S={ans:{},key:null,review:null,view:0,done:false,locked:false,started:false,sending:false,left:TOTAL_SEC,deadline:0,tid:null,start:Date.now(),ready:false,used:0,allowed:MAXA};
 var SHEET=NPAGES,RES=NPAGES+1;
