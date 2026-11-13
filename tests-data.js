@@ -238,6 +238,94 @@ const TESTS_DATA = {
     ]
   },
 
+  // Full Listening Test 3 (built from the Google Forms of the Drive folder, answer keys read in the forms).
+  // Standard Drive player (see Full TOEIC Test 2 GF for the reason). audioDuration is the length of the mp3.
+  'fulllistening-t3-listening': {
+    name: 'Full Listening Test 3',
+    part: 'Listening',
+    section: 'L',
+    baseId: 'fulllistening-t3',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: true,
+    audioDuration: 2772,
+    audioUrl: 'https://drive.google.com/file/d/1ixaK-gF04XeIQ91m9kYxqaqkvmAGu-Bs/view?usp=sharing',
+    bookletUrl: 'booklets/fulllistening-t3-listening.pdf',
+    partIds: ['p1', 'p2', 'p3', 'p4'],
+    total: 100,
+    parts: [
+      { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
+      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
+      { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Full Listening Test 4 (built from the Google Forms of the Drive folder, answer keys read in the forms).
+  // Standard Drive player (see Full TOEIC Test 2 GF for the reason). audioDuration is the length of the mp3.
+  'fulllistening-t4-listening': {
+    name: 'Full Listening Test 4',
+    part: 'Listening',
+    section: 'L',
+    baseId: 'fulllistening-t4',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: true,
+    audioDuration: 2789,
+    audioUrl: 'https://drive.google.com/file/d/1_2egRR3K-Fwr0EBu-BDpTifHyt1bKCv-/view?usp=sharing',
+    bookletUrl: 'booklets/fulllistening-t4-listening.pdf',
+    partIds: ['p1', 'p2', 'p3', 'p4'],
+    total: 100,
+    parts: [
+      { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
+      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
+      { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Full Listening Test 5 (built from the Google Forms of the Drive folder, answer keys read in the forms).
+  // Standard Drive player (see Full TOEIC Test 2 GF for the reason). audioDuration is the length of the mp3.
+  'fulllistening-t5-listening': {
+    name: 'Full Listening Test 5',
+    part: 'Listening',
+    section: 'L',
+    baseId: 'fulllistening-t5',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: true,
+    audioDuration: 2908,
+    audioUrl: 'https://drive.google.com/file/d/1orWYUyWfZWG9EHF_47JvTANud1LDJot8/view?usp=sharing',
+    bookletUrl: 'booklets/fulllistening-t5-listening.pdf',
+    partIds: ['p1', 'p2', 'p3', 'p4'],
+    total: 100,
+    parts: [
+      { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
+      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
+      { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Full Listening Test 9 (built from the Google Forms of the Drive folder, answer keys read in the forms).
+  // Standard Drive player (see Full TOEIC Test 2 GF for the reason). audioDuration is the length of the mp3.
+  'fulllistening-t9-listening': {
+    name: 'Full Listening Test 9',
+    part: 'Listening',
+    section: 'L',
+    baseId: 'fulllistening-t9',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: true,
+    audioDuration: 2587,
+    audioUrl: 'https://drive.google.com/file/d/1vNSV2njgdt_auUkI_G8cR4HLctmbxERu/view?usp=sharing',
+    bookletUrl: 'booklets/fulllistening-t9-listening.pdf',
+    partIds: ['p1', 'p2', 'p3', 'p4'],
+    total: 100,
+    parts: [
+      { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
+      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
+      { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
   // All keys sourced from the answer-key PDF. IIBC 2 T1 additionally has a
   // full booklet PDF; IIBC 2 T2 doesn't (booklet button hidden); IIBC 2 T3
   // links directly to the Drive booklet rather than a locally-hosted copy.
