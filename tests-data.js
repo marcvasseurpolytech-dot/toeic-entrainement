@@ -663,6 +663,106 @@ const TESTS_DATA = {
     ]
   },
 
+  // Part 5 Grammar Test 8 (Drive folder 'READING 30 Grammar Phrases'): 30 retyped sentences, two attempts per student
+  // (an admin can grant more), opened and closed by the admin, own page and own timer.
+  'g30-t8': {
+    name: 'Part 5 Grammar | Test 8',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'g30-t8',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Grammar Test 9 (Drive folder 'READING 30 Grammar Phrases'): 30 retyped sentences, two attempts per student
+  // (an admin can grant more), opened and closed by the admin, own page and own timer.
+  'g30-t9': {
+    name: 'Part 5 Grammar | Test 9',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'g30-t9',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Grammar Test 10 (Drive folder 'READING 30 Grammar Phrases'): 30 retyped sentences, two attempts per student
+  // (an admin can grant more), opened and closed by the admin, own page and own timer.
+  'g30-t10': {
+    name: 'Part 5 Grammar | Test 10',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'g30-t10',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Grammar Test 11 (Drive folder 'READING 30 Grammar Phrases'): 30 retyped sentences, two attempts per student
+  // (an admin can grant more), opened and closed by the admin, own page and own timer.
+  'g30-t11': {
+    name: 'Part 5 Grammar | Test 11',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'g30-t11',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Grammar Test 12 (Drive folder 'READING 30 Grammar Phrases'): 30 retyped sentences, two attempts per student
+  // (an admin can grant more), opened and closed by the admin, own page and own timer.
+  'g30-t12': {
+    name: 'Part 5 Grammar | Test 12',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'g30-t12',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
   // All keys sourced from the answer-key PDF. IIBC 2 T1 additionally has a
   // full booklet PDF; IIBC 2 T2 doesn't (booklet button hidden); IIBC 2 T3
   // links directly to the Drive booklet rather than a locally-hosted copy.
