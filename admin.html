@@ -54,6 +54,10 @@
     .ac-note { font-size:0.68rem; color:#9ca3af; margin-top:0.35rem; }
     .access-card .name { font-family:'Playfair Display',serif; color:var(--navy); font-size:0.95rem; }
     .access-card .part { font-size:0.75rem; color:#9ca3af; }
+    .ac-sw { display:flex; align-items:center; gap:0.5rem; }
+    .ac-state { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; }
+    .ac-state.on { color:var(--success); }
+    .ac-state.off { color:#b91c1c; }
     .switch { position:relative; display:inline-block; width:46px; height:26px; flex-shrink:0; }
     .switch input { opacity:0; width:0; height:0; }
     .switch .slider { position:absolute; cursor:pointer; inset:0; background:#d1d5db; border-radius:26px; transition:0.2s; }
@@ -457,6 +461,19 @@
         const data = await r.json();
         accessClasses = data.classes || {};
         box.querySelector('.cs').textContent = classSummary(accessClasses[testId] || []);
+        // Picking classes means "open it to these": if the master switch is off, turn it on.
+        const sw = box.closest('.access-card').querySelector('.switch input');
+        if (classes.length && sw && !sw.checked) {
+          const r2 = await fetch('/api/access', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', ...authHeaders() },
+            body: JSON.stringify({ testId, open: true })
+          });
+          if (!r2.ok) throw new Error();
+          sw.checked = true;
+          setStateLabel(box.closest('.access-card'), true);
+          openTests = Math.min(Object.keys(TESTS_DATA).length, (openTests || 0) + 1); updateSummary();
+        }
       } catch (e) {
         alert('Could not save the classes. Please try again.');
         await loadAccess();
@@ -485,10 +502,13 @@
                   <div class="name">${t.name}</div>
                   <div class="part">${t.part}</div>
                 </div>
-                <label class="switch">
-                  <input type="checkbox" ${isOpen ? 'checked' : ''} onchange="toggleAccess('${id}', this.checked, this)">
-                  <span class="slider"></span>
-                </label>
+                <div class="ac-sw">
+                  <span class="ac-state ${isOpen ? 'on' : 'off'}">${isOpen ? 'Open' : 'Closed'}</span>
+                  <label class="switch">
+                    <input type="checkbox" ${isOpen ? 'checked' : ''} onchange="toggleAccess('${id}', this.checked, this)">
+                    <span class="slider"></span>
+                  </label>
+                </div>
               </div>
               <details class="ac-classes" data-test="${id}" open>
                 <summary>Classes: <span class="cs">${classSummary(allowed)}</span></summary>
@@ -496,7 +516,7 @@
                   <button type="button" onclick="quickClasses('${id}','ALL')">Clear (all classes)</button>
                 </div>
                 <div class="ac-boxes">${PROMOS.map(c => `<button type="button" class="chip${allowed.includes(c) ? ' on' : ''}" data-v="${c}" onclick="this.classList.toggle('on'); saveClasses('${id}')">${c}</button>`).join('')}</div>
-                <div class="ac-note">Click a class to open the test to it (highlighted = allowed). None highlighted = every class can take it (when the switch is on).</div>
+                <div class="ac-note">Switch = master open/closed for everyone. Classes = who can take it when open. Highlighted = only those classes. None highlighted = every class. Clicking a class also opens the test.</div>
               </details>
             </div>
           `;
@@ -504,6 +524,12 @@
       } catch(e) {
         document.getElementById('access-wrap').innerHTML = '<p style="color:red">Loading error.</p>';
       }
+    }
+
+    function setStateLabel(card, open) {
+      const el = card.querySelector('.ac-state');
+      el.textContent = open ? 'Open' : 'Closed';
+      el.className = 'ac-state ' + (open ? 'on' : 'off');
     }
 
     async function toggleAccess(testId, open, checkboxEl) {
@@ -516,6 +542,7 @@
         });
         if (!r.ok) throw new Error();
         openTests = Math.max(0, Math.min(Object.keys(TESTS_DATA).length, (openTests || 0) + (open ? 1 : -1))); updateSummary();
+        setStateLabel(checkboxEl.closest('.access-card'), open);
       } catch(e) {
         alert('Could not update access — reverting.');
         checkboxEl.checked = !open;
