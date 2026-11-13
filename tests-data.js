@@ -326,6 +326,120 @@ const TESTS_DATA = {
     ]
   },
 
+  // Full Reading Test 1 (built from the Google Forms of the Drive folder; answer key read in the forms, screenshots or key PDFs).
+  'fullreading-t1-reading': {
+    name: 'Full Reading Test 1',
+    part: 'Reading',
+    section: 'R',
+    baseId: 'fullreading-t1',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: false,
+    duration: 75 * 60,
+    bookletUrl: 'booklets/fullreading-t1-reading.pdf',
+    partIds: ['p5', 'p6', 'p7'],
+    total: 100,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
+      { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
+      { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Full Reading Test 2 (built from the Google Forms of the Drive folder; answer key read in the forms, screenshots or key PDFs).
+  'fullreading-t2-reading': {
+    name: 'Full Reading Test 2',
+    part: 'Reading',
+    section: 'R',
+    baseId: 'fullreading-t2',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: false,
+    duration: 75 * 60,
+    bookletUrl: 'booklets/fullreading-t2-reading.pdf',
+    partIds: ['p5', 'p6', 'p7'],
+    total: 100,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
+      { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
+      { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Full Reading Test 3 (built from the Google Forms of the Drive folder; answer key read in the forms, screenshots or key PDFs).
+  'fullreading-t3-reading': {
+    name: 'Full Reading Test 3',
+    part: 'Reading',
+    section: 'R',
+    baseId: 'fullreading-t3',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: false,
+    duration: 75 * 60,
+    bookletUrl: 'booklets/fullreading-t3-reading.pdf',
+    partIds: ['p5', 'p6', 'p7'],
+    total: 100,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
+      { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
+      { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Full Reading Test 4 (built from the Google Forms of the Drive folder; answer key read in the forms, screenshots or key PDFs).
+  'fullreading-t4-reading': {
+    name: 'Full Reading Test 4',
+    part: 'Reading',
+    section: 'R',
+    baseId: 'fullreading-t4',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: false,
+    duration: 75 * 60,
+    bookletUrl: 'booklets/fullreading-t4-reading.pdf',
+    partIds: ['p5', 'p6', 'p7'],
+    total: 100,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
+      { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
+      { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Full Reading Test 5 (built from the Google Forms of the Drive folder; answer key read in the forms, screenshots or key PDFs).
+  'fullreading-t5-reading': {
+    name: 'Full Reading Test 5',
+    part: 'Reading',
+    section: 'R',
+    baseId: 'fullreading-t5',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: false,
+    duration: 75 * 60,
+    bookletUrl: 'booklets/fullreading-t5-reading.pdf',
+    partIds: ['p5', 'p6', 'p7'],
+    total: 100,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
+      { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
+      { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Full Reading Test 6 (built from the Google Forms of the Drive folder; answer key read in the forms, screenshots or key PDFs).
+  'fullreading-t6-reading': {
+    name: 'Full Reading Test 6',
+    part: 'Reading',
+    section: 'R',
+    baseId: 'fullreading-t6',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: false,
+    duration: 75 * 60,
+    bookletUrl: 'booklets/fullreading-t6-reading.pdf',
+    partIds: ['p5', 'p6', 'p7'],
+    total: 100,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
+      { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
+      { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
   // All keys sourced from the answer-key PDF. IIBC 2 T1 additionally has a
   // full booklet PDF; IIBC 2 T2 doesn't (booklet button hidden); IIBC 2 T3
   // links directly to the Drive booklet rather than a locally-hosted copy.
