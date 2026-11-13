@@ -5,7 +5,7 @@
 // TOEIC part ids (p1..p7) used by scoring.js for the ETS conversion grid.
 const TESTS_DATA = {
   'iibc2-t1-listening': {
-    name: 'IIBC 2 — Test 1',
+    name: 'IIBC 2 Test 1',
     part: 'Listening',
     section: 'L',
     baseId: 'iibc2-t1',
@@ -23,7 +23,7 @@ const TESTS_DATA = {
   },
 
   'iibc2-t1-reading': {
-    name: 'IIBC 2 — Test 1',
+    name: 'IIBC 2 Test 1',
     part: 'Reading',
     section: 'R',
     baseId: 'iibc2-t1',
@@ -40,7 +40,7 @@ const TESTS_DATA = {
   },
 
   'iibc2-t2-listening': {
-    name: 'IIBC 2 — Test 2',
+    name: 'IIBC 2 Test 2',
     part: 'Listening',
     section: 'L',
     baseId: 'iibc2-t2',
@@ -57,7 +57,7 @@ const TESTS_DATA = {
   },
 
   'iibc2-t2-reading': {
-    name: 'IIBC 2 — Test 2',
+    name: 'IIBC 2 Test 2',
     part: 'Reading',
     section: 'R',
     baseId: 'iibc2-t2',
@@ -73,7 +73,7 @@ const TESTS_DATA = {
   },
 
   'iibc2-t3-listening': {
-    name: 'IIBC 2 — Test 3',
+    name: 'IIBC 2 Test 3',
     part: 'Listening',
     section: 'L',
     baseId: 'iibc2-t3',
@@ -91,7 +91,7 @@ const TESTS_DATA = {
   },
 
   'iibc2-t3-reading': {
-    name: 'IIBC 2 — Test 3',
+    name: 'IIBC 2 Test 3',
     part: 'Reading',
     section: 'R',
     baseId: 'iibc2-t3',
@@ -143,7 +143,7 @@ const TESTS_DATA = {
   },
 
   'iibc1-t2-listening': {
-    name: 'IIBC 1 — Test 2',
+    name: 'IIBC 1 Test 2',
     part: 'Listening',
     section: 'L',
     baseId: 'iibc1-t2',
@@ -161,7 +161,7 @@ const TESTS_DATA = {
   },
 
   'iibc1-t2-reading': {
-    name: 'IIBC 1 — Test 2',
+    name: 'IIBC 1 Test 2',
     part: 'Reading',
     section: 'R',
     baseId: 'iibc1-t2',
@@ -238,10 +238,10 @@ const TESTS_DATA = {
     ]
   },
 
-  // Full Listening Test 3 (built from the Google Forms of the Drive folder, answer keys read in the forms).
+  // Full Listening Test 1 (Drive 'Test 3'; built from the Google Forms of the Drive folder, answer keys read in the forms).
   // Standard Drive player (see Full TOEIC Test 2 GF for the reason). audioDuration is the length of the mp3.
   'fulllistening-t3-listening': {
-    name: 'Full Listening Test 3',
+    name: 'Full Listening Test 1',
     part: 'Listening',
     section: 'L',
     baseId: 'fulllistening-t3',
@@ -260,10 +260,10 @@ const TESTS_DATA = {
     ]
   },
 
-  // Full Listening Test 4 (built from the Google Forms of the Drive folder, answer keys read in the forms).
+  // Full Listening Test 2 (Drive 'Test 4'; built from the Google Forms of the Drive folder, answer keys read in the forms).
   // Standard Drive player (see Full TOEIC Test 2 GF for the reason). audioDuration is the length of the mp3.
   'fulllistening-t4-listening': {
-    name: 'Full Listening Test 4',
+    name: 'Full Listening Test 2',
     part: 'Listening',
     section: 'L',
     baseId: 'fulllistening-t4',
@@ -282,10 +282,10 @@ const TESTS_DATA = {
     ]
   },
 
-  // Full Listening Test 5 (built from the Google Forms of the Drive folder, answer keys read in the forms).
+  // Full Listening Test 3 (Drive 'Test 2'; built from the Google Forms of the Drive folder, answer keys read in the forms).
   // Standard Drive player (see Full TOEIC Test 2 GF for the reason). audioDuration is the length of the mp3.
   'fulllistening-t5-listening': {
-    name: 'Full Listening Test 5',
+    name: 'Full Listening Test 3',
     part: 'Listening',
     section: 'L',
     baseId: 'fulllistening-t5',
@@ -304,10 +304,10 @@ const TESTS_DATA = {
     ]
   },
 
-  // Full Listening Test 9 (built from the Google Forms of the Drive folder, answer keys read in the forms).
+  // Full Listening Test 4 (Drive 'Test 9'; built from the Google Forms of the Drive folder, answer keys read in the forms).
   // Standard Drive player (see Full TOEIC Test 2 GF for the reason). audioDuration is the length of the mp3.
   'fulllistening-t9-listening': {
-    name: 'Full Listening Test 9',
+    name: 'Full Listening Test 4',
     part: 'Listening',
     section: 'L',
     baseId: 'fulllistening-t9',
@@ -383,9 +383,9 @@ const TESTS_DATA = {
     ]
   },
 
-  // Full Reading Test 6 (built from the Google Forms of the Drive folder; answer key read in the forms, screenshots or key PDFs).
+  // Full Reading Test 4 (Drive 'Test 6'; built from the Google Forms of the Drive folder; answer key read in the forms, screenshots or key PDFs).
   'fullreading-t6-reading': {
-    name: 'Full Reading Test 6',
+    name: 'Full Reading Test 4',
     part: 'Reading',
     section: 'R',
     baseId: 'fullreading-t6',
@@ -519,6 +519,27 @@ const TESTS_DATA = {
       { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
       { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
       { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Full Listening Test 5 (Drive folder 'TOEIC Listening part GF 1'; key read on the official key image of the Drive folder; PDF booklet from the same folder when available).
+  'fulllistening-gfa-listening': {
+    name: 'Full Listening Test 5',
+    part: 'Listening',
+    section: 'L',
+    baseId: 'fulllistening-gfa',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: true,
+    audioDuration: 2624,
+    audioUrl: 'https://drive.google.com/file/d/1UIL_v5agE-190M5BAFuGhIHMK-xnpu7_/view?usp=sharing',
+    bookletUrl: 'https://drive.google.com/file/d/18eBYQTX2KB-vlH7htP9AxNwptksxOnX-/view?usp=sharing',
+    partIds: ['p1', 'p2', 'p3', 'p4'],
+    total: 100,
+    parts: [
+      { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
+      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
+      { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
   },
 
