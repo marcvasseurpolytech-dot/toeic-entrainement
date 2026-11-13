@@ -199,7 +199,6 @@
         <button type="button" class="btn-link" onclick="toggleAllClasses(false)">Hide classes</button>
         <span class="acc-bulk">
           <button id="btn-close-all" class="btn-reset" style="margin-left:0" onclick="closeAllTests()">🔒 Close all</button>
-          <button id="btn-open-all" class="btn-export" onclick="openAllTests()">🔓 Open all</button>
         </span>
       </div>
       <p class="hint" style="margin:-0.4rem 0 1rem">Switch = open or closed for everyone. Classes = who can take the test when it is open (none highlighted = every class; clicking a class also opens the test).</p>
@@ -486,7 +485,7 @@
     function quickClasses(testId, prefix) {
       const box = classBoxes(testId);
       box.querySelectorAll('.ac-boxes .chip').forEach(i => {
-        i.classList.toggle('on', prefix !== 'ALL' && (i.dataset.v === prefix || i.dataset.v.startsWith(prefix + ' ')));
+        i.classList.toggle('on', prefix === 'SELECT' || (prefix !== 'ALL' && (i.dataset.v === prefix || i.dataset.v.startsWith(prefix + ' '))));
       });
       saveClasses(testId);
     }
@@ -570,7 +569,8 @@
           <details class="ac-classes" data-test="${esc(id)}">
             <summary>Classes: <span class="cs">${esc(classSummary(allowed))}</span></summary>
             <div class="ac-quick">
-              <button type="button" onclick="quickClasses('${esc(id)}','ALL')">Clear (all classes)</button>
+              <button type="button" onclick="quickClasses('${esc(id)}','SELECT')">Select all</button>
+              <button type="button" onclick="quickClasses('${esc(id)}','ALL')">Deselect all</button>
             </div>
             <div class="ac-boxes">${PROMOS.map(c => `<button type="button" class="chip${allowed.includes(c) ? ' on' : ''}" data-v="${esc(c)}" onclick="this.classList.toggle('on'); saveClasses('${esc(id)}')">${esc(c)}</button>`).join('')}</div>
           </details>
@@ -719,9 +719,6 @@
 
     function closeAllTests() {
       bulkSetAccess(false, document.getElementById('btn-close-all'), '🔒 Close all');
-    }
-    function openAllTests() {
-      bulkSetAccess(true, document.getElementById('btn-open-all'), '🔓 Open all');
     }
 
 
