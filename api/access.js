@@ -48,13 +48,29 @@ module.exports = async (req, res) => {
   //   { testId, open }          toggles one test open/closed
   //   { tests: {id: bool, ...} } several at once ("close all" / "open all")
   //   { testId, classes: [...] } classes allowed to take that test ([] = every class)
+  //   { matrix: {id: [classes]} } departments ticked per test (none = closed, all = everyone)
   if (req.method === 'POST') {
     if (!isAdmin(req)) return res.status(403).json({ error: 'Unauthorized' });
 
-    const { testId, open, tests: bulkTests, classes } = req.body || {};
+    const { testId, open, tests: bulkTests, classes, matrix } = req.body || {};
 
     let apply;
-    if (bulkTests && typeof bulkTests === 'object') {
+    if (matrix && typeof matrix === 'object' && !Array.isArray(matrix)) {
+      // { matrix: { testId: [departments], ... } }: the departments ticked for each test.
+      // Several departments = open to them; all of them = open to everyone; none = closed.
+      const entries = Object.entries(matrix);
+      if (!entries.length || entries.length > 200 || !entries.every(([id, l]) => typeof id === 'string' && id.length < 100 && Array.isArray(l) && l.every(c => CLASSES.includes(c)))) {
+        return res.status(400).json({ error: 'Unknown class' });
+      }
+      apply = cur => {
+        cur.tests = { ...cur.tests }; cur.classes = { ...cur.classes };
+        entries.forEach(([id, l]) => {
+          const list = CLASSES.filter(c => l.includes(c));
+          cur.tests[id] = list.length > 0;
+          if (list.length && list.length < CLASSES.length) cur.classes[id] = list; else delete cur.classes[id];
+        });
+      };
+    } else if (bulkTests && typeof bulkTests === 'object') {
       apply = cur => { cur.tests = { ...cur.tests, ...bulkTests }; };
     } else if (testId && Array.isArray(classes)) {
       if (typeof testId !== 'string' || !classes.every(c => CLASSES.includes(c))) {

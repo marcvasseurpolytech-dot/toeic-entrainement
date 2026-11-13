@@ -65,39 +65,44 @@
     .switch input:checked + .slider { background:var(--success); }
     .switch input:checked + .slider:before { transform:translateX(20px); }
     .switch input:disabled + .slider { opacity:0.5; cursor:not-allowed; }
-    /* Test availability: grouped, one row per exam */
-    .acc-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:0.5rem; margin-bottom:1rem; }
-    .acc-toolbar input[type=text] { flex:1 1 200px; max-width:320px; }
-    .acc-bulk { margin-left:auto; display:flex; gap:0.5rem; }
-    .btn-link { background:none; border:0; color:var(--navy); font-size:0.78rem; text-decoration:underline; cursor:pointer; padding:0.2rem 0.3rem; }
-    .ac-group { background:#fff; border:1px solid var(--border); border-radius:8px; margin-bottom:1rem; }
-    .ac-group[hidden], .ac-row[hidden] { display:none; }
-    .ac-group > summary { cursor:pointer; list-style:none; padding:0.8rem 1.1rem; display:flex; align-items:baseline; flex-wrap:wrap; gap:0.7rem; }
-    .ac-group > summary::-webkit-details-marker { display:none; }
-    .ac-group > summary:before { content:"▸"; color:var(--navy); transition:transform 0.15s; }
-    .ac-group[open] > summary:before { transform:rotate(90deg); }
-    .ac-group .g-title { font-family:'Playfair Display',serif; color:var(--navy); font-size:1.05rem; }
-    .ac-group .g-count { font-size:0.75rem; font-weight:700; color:var(--success); background:#ecfdf3; border-radius:999px; padding:0.1rem 0.6rem; }
-    .ac-group .g-count.none { color:#b91c1c; background:#fef2f2; }
-    .ac-group .g-sub { font-size:0.75rem; color:#9ca3af; }
-    .ac-group .g-actions { display:flex; gap:0.5rem; padding:0 1.1rem 0.6rem; }
-    .ac-group .g-actions button { font-size:0.72rem; padding:0.2rem 0.6rem; border:1px solid #d1d5db; border-radius:4px; background:#f9fafb; cursor:pointer; }
-    .ac-group .g-actions button:hover { background:var(--navy); color:#fff; }
-    .ac-row { display:grid; grid-template-columns:minmax(170px,1.1fr) repeat(2, minmax(230px,1fr)); gap:0.8rem 1rem; align-items:start; padding:0.7rem 1.1rem; border-top:1px solid var(--border); }
-    .ac-row.one { grid-template-columns:minmax(170px,1.1fr) minmax(230px,2fr); }
-    .ac-row .ac-rname .name { font-family:'Playfair Display',serif; color:var(--navy); font-size:0.95rem; }
-    .ac-rlinks { margin-top:0.2rem; display:flex; gap:0.2rem; }
-    .ac-cell.access-card { border:1px solid var(--border); border-radius:6px; padding:0.5rem 0.7rem; gap:0.3rem; background:#fafafa; }
-    .ac-cell.empty { border-style:dashed; background:transparent; color:#c4c8cf; font-size:0.8rem; text-align:center; padding:0.9rem 0.7rem; }
-    .ac-cell .ac-top { display:flex; align-items:center; justify-content:space-between; gap:0.6rem; }
-    .ac-cell .ac-lab { font-size:0.78rem; font-weight:600; color:#374151; }
-    .ac-cell .ac-sw { display:flex; align-items:center; gap:0.45rem; }
-    .ac-cell .switch { display:none; } /* opening is done by ticking departments */
-    .ac-cell .switch-old { width:38px; height:22px; }
-    .ac-cell .switch .slider:before { height:16px; width:16px; }
-    .ac-cell .switch input:checked + .slider:before { transform:translateX(16px); }
+    .btn-link { background:none; border:0; color:var(--navy); font-size:0.75rem; text-decoration:underline; cursor:pointer; padding:0.2rem 0.3rem; }
+    .btn-link:hover { color:var(--dark-gold); }
+    /* Test availability matrix */
+    .acc-groups { display:flex; gap:0.3rem; flex-wrap:wrap; }
+    .acc-groups button { font-size:0.78rem; padding:0.3rem 0.7rem; border:1px solid #d1d5db; border-radius:999px; background:#fff; cursor:pointer; }
+    .acc-groups button.on { background:var(--navy); border-color:var(--navy); color:#fff; font-weight:600; }
+    .mx-wrap { overflow:auto; max-height:72vh; background:#fff; border:1px solid var(--border); border-radius:8px; }
+    #access-wrap.busy { opacity:0.6; pointer-events:none; }
+    table.mx { border-collapse:separate; border-spacing:0; width:100%; font-size:0.82rem; }
+    table.mx thead th { position:sticky; top:0; z-index:3; background:var(--navy); color:var(--gold); padding:0.4rem 0.2rem; text-align:center; font-weight:400; }
+    table.mx th.tname { text-align:left; min-width:230px; max-width:300px; padding-left:0.8rem; position:sticky; left:0; z-index:2; background:#fff; font-weight:400; color:var(--navy); }
+    table.mx thead th.tname { background:var(--navy); color:var(--gold); z-index:4; }
+    table.mx th.dep button { background:none; border:0; color:var(--gold); cursor:pointer; font-size:0.72rem; line-height:1.15; padding:0.25rem 0.3rem; border-radius:4px; font-family:inherit; }
+    table.mx th.dep button:hover { background:rgba(255,255,255,0.15); text-decoration:underline; }
+    table.mx td, table.mx tbody th { border-bottom:1px solid #eee3cf; padding:0.25rem 0.15rem; }
+    table.mx .sep { border-left:2px solid #e8d5a3; }
+    table.mx td.cell { text-align:center; }
+    table.mx tbody tr:hover td, table.mx tbody tr:hover th.tname { background:#fdf8f0; }
+    table.mx tr.isclosed th.tname { color:#9ca3af; }
+    .sec { font-size:0.7rem; color:#9ca3af; font-weight:400; margin-left:0.3rem; }
+    .cb { width:24px; height:24px; border-radius:6px; border:1.5px solid #d1d5db; background:#fff; cursor:pointer; color:#fff; font-size:0.85rem; line-height:1; font-weight:700; padding:0; }
+    .cb:hover { border-color:var(--navy); }
+    .cb.on { background:var(--success); border-color:var(--success); }
+    td.rowact { white-space:nowrap; padding:0 0.5rem; text-align:right; }
+    thead th.rowact { padding:0.4rem 0.6rem; }
+    .rstate { display:inline-block; min-width:44px; text-align:center; font-size:0.68rem; font-weight:700; text-transform:uppercase; border-radius:999px; padding:0.05rem 0.4rem; margin-right:0.3rem; }
+    .rstate.on { color:var(--success); background:#ecfdf3; } .rstate.off { color:#b91c1c; background:#fef2f2; }
+    tr.grp td { background:#f7f1e3; padding:0.55rem 0.8rem; border-bottom:1px solid var(--border); position:sticky; left:0; }
+    tr.grp .g-title { font-family:'Playfair Display',serif; color:var(--navy); font-size:1rem; margin:0 0.5rem; }
+    tr.grp .g-count { font-size:0.72rem; font-weight:700; color:var(--success); background:#ecfdf3; border-radius:999px; padding:0.1rem 0.55rem; }
+    tr.grp .g-count.none { color:#b91c1c; background:#fef2f2; }
+    tr.grp .g-sub { font-size:0.72rem; color:#9ca3af; margin-left:0.6rem; }
+    tr.grp .g-actions { float:right; display:inline-flex; gap:0.4rem; }
+    tr.grp .g-actions button, .gtoggle { font-size:0.72rem; padding:0.15rem 0.55rem; border:1px solid #d1d5db; border-radius:4px; background:#fff; cursor:pointer; }
+    tr.grp .g-actions button:hover { background:var(--navy); color:#fff; }
+    .gtoggle { border:0; background:none; font-size:0.9rem; }
+    tr[hidden] { display:none; }
     .ac-empty { text-align:center; color:#9ca3af; font-style:italic; padding:1.5rem 0; }
-    @media (max-width:760px) { .ac-row, .ac-row.one { grid-template-columns:1fr; } .acc-bulk { margin-left:0; } }
     table { width:100%; border-collapse:collapse; font-size:0.85rem; }
     th { background:var(--navy); color:var(--gold); padding:0.6rem 0.8rem; text-align:left; font-family:'Playfair Display',serif; font-weight:400; }
     td { padding:0.55rem 0.8rem; border-bottom:1px solid var(--border); }
@@ -196,13 +201,12 @@
           <option value="open">Open only</option>
           <option value="closed">Closed only</option>
         </select>
-        <button type="button" class="btn-link" onclick="toggleAllClasses(true)">Show classes</button>
-        <button type="button" class="btn-link" onclick="toggleAllClasses(false)">Hide classes</button>
+        <span class="acc-groups" id="acc-groups"><button type="button" data-g="" class="on" onclick="setGroupFilter('')">All</button><button type="button" data-g="full" onclick="setGroupFilter('full')">Full tests</button><button type="button" data-g="listening" onclick="setGroupFilter('listening')">Listening</button><button type="button" data-g="reading" onclick="setGroupFilter('reading')">Reading</button><button type="button" data-g="grammar" onclick="setGroupFilter('grammar')">Part 5 grammar</button><button type="button" data-g="practice" onclick="setGroupFilter('practice')">Part 7</button></span>
         <span class="acc-bulk">
           <button id="btn-close-all" class="btn-reset" style="margin-left:0" onclick="closeAllTests()">🔒 Close all</button>
         </span>
       </div>
-      <p class="hint" style="margin:-0.4rem 0 1rem">Switch = open or closed for everyone. Classes = who can take the test when it is open (none highlighted = every class; clicking a class also opens the test).</p>
+      <p class="hint" style="margin:-0.4rem 0 1rem">Tick the departments a test is open to. No department ticked = closed. Click a department name at the top to tick or untick it on every test shown (use the filters above to narrow it down).</p>
       <div id="access-wrap"><p style="color:#9ca3af;font-style:italic">Loading…</p></div>
     </section>
 
@@ -476,76 +480,9 @@
       badge.textContent = pending; badge.style.display = pending ? 'inline-block' : 'none';
     }
 
-    let accessClasses = {};
-    function classSummary(list, open) {
-      if (open === false) return 'none (closed)';
-      return !list.length || list.length >= PROMOS.length ? 'all classes' : list.join(', ');
-    }
-    // Ticked chips = the departments the test is open to. Closed = none ticked; open with no
-    // restriction stored = every department ticked.
-    function chipsOn(open, list) {
-      return !open ? [] : (list.length ? list : PROMOS);
-    }
-    function syncCard(id, open) {
-      const card = document.querySelector(`#access-wrap .ac-cell[data-id="${id}"]`);
-      if (!card) return;
-      const on = chipsOn(open, accessClasses[id] || []);
-      card.querySelectorAll('.ac-boxes .chip').forEach(c => c.classList.toggle('on', on.includes(c.dataset.v)));
-      card.querySelector('.cs').textContent = classSummary(accessClasses[id] || [], open);
-    }
-    function classBoxes(testId) {
-      return document.querySelector(`.ac-classes[data-test="${testId}"]`);
-    }
-    function quickClasses(testId, prefix) {
-      const box = classBoxes(testId);
-      box.querySelectorAll('.ac-boxes .chip').forEach(i => {
-        i.classList.toggle('on', prefix === 'SELECT' || (prefix !== 'ALL' && (i.dataset.v === prefix || i.dataset.v.startsWith(prefix + ' '))));
-      });
-      saveClasses(testId);
-    }
-    async function saveClasses(testId) {
-      const box = classBoxes(testId);
-      const inputs = [...box.querySelectorAll('.ac-boxes .chip')];
-      const classes = inputs.filter(i => i.classList.contains('on')).map(i => i.dataset.v);
-      inputs.forEach(i => i.disabled = true);
-      try {
-        const r = await fetch('/api/access', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', ...authHeaders() },
-          body: JSON.stringify({ testId, classes })
-        });
-        if (!r.ok) throw new Error();
-        const data = await r.json();
-        accessClasses = data.classes || {};
-        // Departments ticked = open to them; none ticked = closed.
-        const sw = box.closest('.access-card').querySelector('.switch input');
-        const wantOpen = classes.length > 0;
-        if (sw && sw.checked !== wantOpen) {
-          const r2 = await fetch('/api/access', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', ...authHeaders() },
-            body: JSON.stringify({ testId, open: wantOpen })
-          });
-          if (!r2.ok) throw new Error();
-          sw.checked = wantOpen;
-          setStateLabel(box.closest('.access-card'), wantOpen);
-          refreshAccessView();
-        }
-        box.querySelector('.cs').textContent = classSummary(accessClasses[testId] || [], wantOpen);
-      } catch (e) {
-        alert('Could not save the classes. Please try again.');
-        await loadAccess();
-      } finally {
-        inputs.forEach(i => i.disabled = false);
-      }
-    }
-
-    // Tests are shown grouped: "Full tests" (one row per exam, Listening and Reading side by side)
-    // and "Part 7 training" (single-part drills). Everything below works on the DOM, so a switch
-    // or a bulk action updates counts and filters in place without reloading the page.
-    // An exam with both a Listening and a Reading test is a "Full test"; a complete section on its
-    // own (a form rebuilt as a Listening-only or a Reading-only test) is a "Full Listening" or a
-    // "Full Reading".
+    // ---------- Test availability: one matrix, tests x departments ----------
+    // A ticked cell = the test is open to that department. Open to every department = all ticked,
+    // closed = none ticked. Stored server-side as tests[id] (open) + classes[id] (restriction).
     const READING_BASES = new Set(Object.values(TESTS_DATA).filter(t => t.section === 'R').map(t => t.baseId));
     const LISTENING_BASES = new Set(Object.values(TESTS_DATA).filter(t => t.section === 'L').map(t => t.baseId));
     const ACCESS_GROUPS = [
@@ -555,189 +492,146 @@
       { key: 'grammar',   title: 'Part 5 grammar',  sub: '30-sentence grammar tests, two attempts each (more on request)', pick: t => !!t.practice && t.part === 'Part 5' },
       { key: 'practice',  title: 'Part 7 training', sub: 'Single-part drills, each with its own timer', pick: t => !!t.practice && t.part !== 'Part 5' }
     ];
+    const natural = (a, b) => a.localeCompare(b, 'en', { numeric: true, sensitivity: 'base' });
+    let accessState = { tests: {}, classes: {} };
+    let accGroupFilter = '', accCollapsed = {};
 
-    function accessRows(group) {
-      const rows = [], byBase = {};
-      Object.keys(TESTS_DATA).filter(id => group.pick(TESTS_DATA[id])).forEach(id => {
-        const t = TESTS_DATA[id], k = t.baseId || id;
-        if (!byBase[k]) { byBase[k] = { base: k, name: t.name, L: null, R: null, other: [] }; rows.push(byBase[k]); }
-        if (t.section === 'L') byBase[k].L = id; else if (t.section === 'R') byBase[k].R = id; else byBase[k].other.push(id);
+    const depsOn = id => testIsOpen(accessState.tests, id)
+      ? ((accessState.classes[id] || []).length ? accessState.classes[id] : PROMOS) : [];
+    const groupIds = g => Object.keys(TESTS_DATA).filter(id => g.pick(TESTS_DATA[id]))
+      .sort((x, y) => natural(TESTS_DATA[x].name, TESTS_DATA[y].name) || (TESTS_DATA[x].section === 'L' ? -1 : 1));
+    const visibleIds = () => [...document.querySelectorAll('#access-wrap tr[data-id]:not([hidden])')].map(r => r.dataset.id);
+
+    const fam = c => c.slice(0, 3);
+    const promoClass = i => (i > 0 && fam(PROMOS[i]) !== fam(PROMOS[i - 1]) ? ' sep' : '');
+
+    function renderAccess() {
+      const wrap = document.getElementById('access-wrap');
+      const head = PROMOS.map((c, i) => `<th class="dep${promoClass(i)}"><button type="button" title="Tick or untick ${esc(c)} for every test shown" onclick="toggleDept('${esc(c)}')">${esc(c).replace(' ', '<br>')}</button></th>`).join('');
+      let body = '';
+      ACCESS_GROUPS.forEach(g => {
+        const ids = groupIds(g);
+        if (!ids.length) return;
+        const nOpen = ids.filter(id => depsOn(id).length).length;
+        const col = accCollapsed[g.key];
+        body += `<tr class="grp" data-group="${g.key}"><td colspan="${PROMOS.length + 2}">
+          <button type="button" class="gtoggle" onclick="toggleGroup('${g.key}')">${col ? '▸' : '▾'}</button>
+          <span class="g-title">${esc(g.title)}</span><span class="g-count${nOpen ? '' : ' none'}">${nOpen}/${ids.length} open</span><span class="g-sub">${esc(g.sub)}</span>
+          <span class="g-actions"><button type="button" onclick="setGroupDepts('${g.key}', true)">All departments</button><button type="button" onclick="setGroupDepts('${g.key}', false)">Close group</button></span></td></tr>`;
+        ids.forEach(id => {
+          const t = TESTS_DATA[id], on = depsOn(id);
+          const label = g.key === 'full' ? (t.section === 'L' ? 'Listening' : 'Reading') : t.part;
+          const name = g.key === 'full' ? `${esc(t.name)} <span class="sec">${label}</span>` : esc(t.name) + (g.key === 'grammar' ? '' : ` <span class="sec">${esc(label)}</span>`);
+          body += `<tr data-id="${esc(id)}" data-group="${g.key}" data-name="${esc((t.name + ' ' + t.part + ' ' + label).toLowerCase())}"${col ? ' hidden' : ''} class="${on.length ? '' : 'isclosed'}">
+            <th class="tname" scope="row">${name}</th>
+            ${PROMOS.map((c, i) => `<td class="cell${promoClass(i)}"><button type="button" class="cb${on.includes(c) ? ' on' : ''}" aria-pressed="${on.includes(c)}" aria-label="${esc(t.name)} ${esc(c)}" onclick="toggleCell('${esc(id)}','${esc(c)}')">${on.includes(c) ? '✓' : ''}</button></td>`).join('')}
+            <td class="rowact"><span class="rstate ${on.length ? 'on' : 'off'}">${on.length === 0 ? 'Closed' : on.length >= PROMOS.length ? 'All' : on.length + '/' + PROMOS.length}</span>
+              <button type="button" class="btn-link" onclick="setRowDepts('${esc(id)}', true)">All</button><button type="button" class="btn-link" onclick="setRowDepts('${esc(id)}', false)">None</button></td>
+          </tr>`;
+        });
       });
-      return rows;
+      wrap.innerHTML = `<div class="mx-wrap"><table class="mx"><thead><tr><th class="tname">Test</th>${head}<th class="rowact">Row</th></tr></thead><tbody>${body}</tbody></table></div>
+        <p class="ac-empty" id="acc-empty" hidden>No test matches.</p>`;
+      applyAccessFilter();
     }
 
-    function accessCell(id, label, access) {
-      if (!id) return '<div class="access-card ac-cell empty">no such test</div>';
-      const isOpen = testIsOpen(access, id), allowed = accessClasses[id] || [];
-      return `
-        <div class="access-card ac-cell" data-id="${esc(id)}">
-          <div class="ac-top">
-            <span class="ac-lab">${esc(label)}</span>
-            <span class="ac-sw">
-              <span class="ac-state ${isOpen ? 'on' : 'off'}">${isOpen ? 'Open' : 'Closed'}</span>
-              <label class="switch">
-                <input type="checkbox" ${isOpen ? 'checked' : ''} onchange="toggleAccess('${esc(id)}', this.checked, this)">
-                <span class="slider"></span>
-              </label>
-            </span>
-          </div>
-          <details class="ac-classes" data-test="${esc(id)}" open>
-            <summary>Open to: <span class="cs">${esc(classSummary(allowed, isOpen))}</span></summary>
-            <div class="ac-quick">
-              <button type="button" onclick="quickClasses('${esc(id)}','SELECT')">Select all</button>
-              <button type="button" onclick="quickClasses('${esc(id)}','ALL')">Deselect all</button>
-            </div>
-            <div class="ac-boxes">${PROMOS.map(c => `<button type="button" class="chip${chipsOn(isOpen, allowed).includes(c) ? ' on' : ''}" data-v="${esc(c)}" onclick="this.classList.toggle('on'); saveClasses('${esc(id)}')">${esc(c)}</button>`).join('')}</div>
-          </details>
-        </div>`;
+    function refreshOpenCount() {
+      openTests = Object.keys(TESTS_DATA).filter(id => depsOn(id).length).length;
+      updateSummary();
     }
 
-    function accessRow(group, r, access) {
-      const ids = [r.L, r.R, ...r.other].filter(Boolean);
-      const search = (r.name + ' ' + ids.map(id => TESTS_DATA[id].part).join(' ')).toLowerCase();
-      let cells, cls = 'ac-row';
-      if (group.key === 'full') {
-        cells = accessCell(r.L, 'Listening', access) + accessCell(r.R, 'Reading', access);
-      } else {
-        cells = ids.map(id => accessCell(id, TESTS_DATA[id].part, access)).join('');
-        cls += ' one';
+    function applyAccessFilter() {
+      const q = (document.getElementById('acc-search').value || '').trim().toLowerCase();
+      const st = document.getElementById('acc-status').value;
+      document.querySelectorAll('#access-wrap tr[data-id]').forEach(row => {
+        const open = depsOn(row.dataset.id).length > 0;
+        const ok = (!q || row.dataset.name.includes(q)) && (st === 'all' || (st === 'open') === open)
+          && (!accGroupFilter || row.dataset.group === accGroupFilter) && !accCollapsed[row.dataset.group];
+        row.hidden = !ok;
+      });
+      document.querySelectorAll('#access-wrap tr.grp').forEach(g => {
+        const any = [...document.querySelectorAll(`#access-wrap tr[data-id][data-group="${g.dataset.group}"]`)].some(matchesFilter);
+        g.hidden = !any;
+      });
+      const empty = document.getElementById('acc-empty');
+      if (empty) empty.hidden = !!document.querySelector('#access-wrap tr[data-id]:not([hidden]), #access-wrap tr.grp:not([hidden])');
+      document.querySelectorAll('#acc-groups button').forEach(b => b.classList.toggle('on', b.dataset.g === accGroupFilter));
+      refreshOpenCount();
+    }
+    // Is this row selected by the search / status / category filters (ignoring collapse)?
+    function matchesFilter(row) {
+      const q = (document.getElementById('acc-search').value || '').trim().toLowerCase();
+      const st = document.getElementById('acc-status').value;
+      const open = depsOn(row.dataset.id).length > 0;
+      return (!q || row.dataset.name.includes(q)) && (st === 'all' || (st === 'open') === open) && (!accGroupFilter || row.dataset.group === accGroupFilter);
+    }
+    function setGroupFilter(k) { accGroupFilter = k; applyAccessFilter(); }
+    function toggleGroup(key) { accCollapsed[key] = !accCollapsed[key]; renderAccess(); }
+
+    // One request for any number of tests: { id: [departments] }. The screen is updated from the
+    // server answer, so what is shown is always what is stored.
+    let accBusy = false;
+    async function saveMatrix(changes) {
+      if (accBusy) return;
+      accBusy = true;
+      document.getElementById('access-wrap').classList.add('busy');
+      try {
+        const r = await fetch('/api/access', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', ...authHeaders() },
+          body: JSON.stringify({ matrix: changes })
+        });
+        if (!r.ok) throw new Error();
+        const d = await r.json();
+        accessState = { tests: d.tests || {}, classes: d.classes || {} };
+      } catch (e) {
+        alert('Could not update access. Nothing was changed.');
+      } finally {
+        accBusy = false;
+        document.getElementById('access-wrap').classList.remove('busy');
+        renderAccess();
       }
-      const links = ids.length > 1
-        ? `<div class="ac-rlinks"><button type="button" class="btn-link" onclick="setRow('${esc(r.base)}', true)">Open both</button><button type="button" class="btn-link" onclick="setRow('${esc(r.base)}', false)">Close both</button></div>` : '';
-      return `<div class="${cls}" data-base="${esc(r.base)}" data-ids="${esc(ids.join(' '))}" data-name="${esc(search)}">
-        <div class="ac-rname"><div class="name">${esc(r.name)}</div>${links}</div>${cells}</div>`;
+    }
+
+    function toggleCell(id, dept) {
+      const on = depsOn(id);
+      saveMatrix({ [id]: on.includes(dept) ? on.filter(c => c !== dept) : [...on, dept] });
+    }
+    function setRowDepts(id, all) { saveMatrix({ [id]: all ? PROMOS.slice() : [] }); }
+    function setGroupDepts(key, all) {
+      const g = ACCESS_GROUPS.find(x => x.key === key);
+      const ids = groupIds(g).filter(id => { const row = document.querySelector(`#access-wrap tr[data-id="${id}"]`); return !row || matchesFilter(row); });
+      if (!ids.length) return;
+      if (!all && !confirm(`Close the ${ids.length} test(s) of "${g.title}"?`)) return;
+      saveMatrix(Object.fromEntries(ids.map(id => [id, all ? PROMOS.slice() : []])));
+    }
+    // Column header: tick the department on every test shown; if all shown tests already have it, untick it.
+    function toggleDept(dept) {
+      const ids = visibleIds();
+      if (!ids.length) return;
+      const allHave = ids.every(id => depsOn(id).includes(dept));
+      saveMatrix(Object.fromEntries(ids.map(id => {
+        const on = depsOn(id);
+        return [id, allHave ? on.filter(c => c !== dept) : [...new Set([...on, dept])]];
+      })));
+    }
+    function closeAllTests() {
+      const ids = Object.keys(TESTS_DATA).filter(id => depsOn(id).length);
+      if (!ids.length) { alert('Every test is already closed.'); return; }
+      if (!confirm(`Close all ${ids.length} open test(s)?`)) return;
+      saveMatrix(Object.fromEntries(ids.map(id => [id, []])));
     }
 
     async function loadAccess() {
       try {
         const r = await fetch('/api/access');
         const data = await r.json();
-        const access = data.tests || {};
-        accessClasses = data.classes || {};
-        const wrap = document.getElementById('access-wrap');
-        wrap.innerHTML = ACCESS_GROUPS.map(g => {
-          const rows = accessRows(g);
-          if (!rows.length) return '';
-          return `<details class="ac-group" data-group="${g.key}" open>
-            <summary><span class="g-title">${esc(g.title)}</span><span class="g-count"></span><span class="g-sub">${esc(g.sub)}</span></summary>
-            <div class="g-actions">
-              <button type="button" onclick="setGroup('${g.key}', true)">Open this group</button>
-              <button type="button" onclick="setGroup('${g.key}', false)">Close this group</button>
-            </div>
-            ${rows.map(row => accessRow(g, row, access)).join('')}
-          </details>`;
-        }).join('') + '<p class="ac-empty" id="acc-empty" hidden>No test matches.</p>';
-        refreshAccessView();
+        accessState = { tests: data.tests || {}, classes: data.classes || {} };
+        renderAccess();
       } catch(e) {
         document.getElementById('access-wrap').innerHTML = '<p style="color:red">Loading error.</p>';
       }
     }
-
-    // Counts per group, the global "Tests open" card and the search/status filter, all from the DOM.
-    function refreshAccessView() {
-      document.querySelectorAll('#access-wrap .ac-group').forEach(g => {
-        const all = g.querySelectorAll('.switch input'), on = g.querySelectorAll('.switch input:checked');
-        const c = g.querySelector('.g-count');
-        c.textContent = `${on.length}/${all.length} open`;
-        c.classList.toggle('none', on.length === 0);
-      });
-      openTests = document.querySelectorAll('#access-wrap .switch input:checked').length;
-      updateSummary();
-      applyAccessFilter();
-    }
-
-    function applyAccessFilter() {
-      const q = (document.getElementById('acc-search').value || '').trim().toLowerCase();
-      const st = document.getElementById('acc-status').value;
-      document.querySelectorAll('#access-wrap .ac-row').forEach(row => {
-        const sw = [...row.querySelectorAll('.switch input')];
-        const okS = st === 'all' || sw.some(i => st === 'open' ? i.checked : !i.checked);
-        row.hidden = !((!q || row.dataset.name.includes(q)) && okS);
-      });
-      document.querySelectorAll('#access-wrap .ac-group').forEach(g => {
-        g.hidden = ![...g.querySelectorAll('.ac-row')].some(r => !r.hidden);
-      });
-      const empty = document.getElementById('acc-empty');
-      if (empty) empty.hidden = !!document.querySelector('#access-wrap .ac-row:not([hidden])');
-    }
-
-    function toggleAllClasses(show) {
-      document.querySelectorAll('#access-wrap .ac-classes').forEach(d => { d.open = show; });
-    }
-
-    function setStateLabel(card, open) {
-      const el = card.querySelector('.ac-state');
-      el.textContent = open ? 'Open' : 'Closed';
-      el.className = 'ac-state ' + (open ? 'on' : 'off');
-    }
-
-    async function toggleAccess(testId, open, checkboxEl) {
-      checkboxEl.disabled = true;
-      try {
-        const r = await fetch('/api/access', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', ...authHeaders() },
-          body: JSON.stringify({ testId, open })
-        });
-        if (!r.ok) throw new Error();
-        setStateLabel(checkboxEl.closest('.access-card'), open);
-        syncCard(testId, open);
-        refreshAccessView();
-      } catch(e) {
-        alert('Could not update access, reverting.');
-        checkboxEl.checked = !open;
-      } finally {
-        checkboxEl.disabled = false;
-      }
-    }
-
-    // One request for several tests, then the switches are updated in place.
-    async function postBulk(ids, open) {
-      const tests = Object.fromEntries(ids.map(id => [id, open]));
-      const r = await fetch('/api/access', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...authHeaders() },
-        body: JSON.stringify({ tests })
-      });
-      if (!r.ok) throw new Error();
-      ids.forEach(id => {
-        const card = document.querySelector(`#access-wrap .ac-cell[data-id="${id}"]`);
-        if (!card) return;
-        card.querySelector('.switch input').checked = open;
-        setStateLabel(card, open);
-        syncCard(id, open);
-      });
-      refreshAccessView();
-    }
-
-    async function setRow(base, open) {
-      const row = document.querySelector(`#access-wrap .ac-row[data-base="${base}"]`);
-      if (!row) return;
-      try { await postBulk(row.dataset.ids.split(' '), open); }
-      catch(e) { alert(`Could not ${open ? 'open' : 'close'} these tests. Please try again.`); }
-    }
-
-    async function setGroup(key, open) {
-      const g = ACCESS_GROUPS.find(x => x.key === key);
-      const ids = Object.keys(TESTS_DATA).filter(id => g.pick(TESTS_DATA[id]));
-      if (!confirm(`${open ? 'Open' : 'Close'} the ${ids.length} tests of "${g.title}"?`)) return;
-      try { await postBulk(ids, open); }
-      catch(e) { alert(`Could not ${open ? 'open' : 'close'} this group. Please try again.`); }
-    }
-
-    async function bulkSetAccess(open, btn, label) {
-      const ids = Object.keys(TESTS_DATA);
-      if (!confirm(`${open ? 'Open' : 'Close'} all ${ids.length} tests at once?`)) return;
-      btn.disabled = true; btn.textContent = open ? 'Opening…' : 'Closing…';
-      try { await postBulk(ids, open); }
-      catch(e) { alert(`Could not ${open ? 'open' : 'close'} all tests. Please try again.`); }
-      finally { btn.disabled = false; btn.textContent = label; }
-    }
-
-    function closeAllTests() {
-      bulkSetAccess(false, document.getElementById('btn-close-all'), '🔒 Close all');
-    }
-
 
     // =========================================================
     // QUESTION ANALYSIS + RESCORE (server computes everything; the keys never reach this page)
