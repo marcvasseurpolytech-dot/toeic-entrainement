@@ -49,8 +49,9 @@ module.exports = async (req, res) => {
   }
 
   // POST: save an attempt. The client sends only the answers; the score is computed
-  // here. One attempt per student per test, unless an admin granted a retake on the
-  // latest attempt (the old attempt stays in the record for history).
+  // here. One attempt per student per test (a few tests allow more, see "attempts" in
+  // _keys.js), plus one more for each retake an admin granted (the old attempts stay in
+  // the record for history).
   if (req.method === 'POST') {
     const { nom, testId, answers, date, startedAt, elapsedSec, codeHash, audioLog } = req.body || {};
     if (!nom || !testId || !hasTest(testId)) return res.status(400).json({ error: 'Missing data' });
@@ -89,9 +90,13 @@ module.exports = async (req, res) => {
       const scores = file?.data?.scores || [];
       const mine = scores.filter(s => s.nom === nomUpper && s.testId === testId)
                          .sort((a, b) => new Date(b.date) - new Date(a.date));
-      const latest = mine[0];
-      if (latest && !latest.retakeGranted) {
-        return res.status(409).json({ error: 'You have already completed this test. Only one attempt is allowed.' });
+      // Attempts allowed = the test's own limit (default 1) + one per retake an admin granted.
+      const maxAttempts = (KEYS[testId] && KEYS[testId].attempts) || 1;
+      const granted = mine.filter(s => s.retakeGranted).length;
+      if (mine.length >= maxAttempts + granted) {
+        return res.status(409).json({ error: maxAttempts > 1
+          ? `You have already used your ${maxAttempts + granted} attempts at this test.`
+          : 'You have already completed this test. Only one attempt is allowed.' });
       }
       scores.push({
         nom: nomUpper,

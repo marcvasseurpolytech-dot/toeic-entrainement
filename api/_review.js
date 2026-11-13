@@ -1693,5 +1693,39 @@ module.exports = {
     "fr": "<p><b>Document 1, courriel.</b> De : Paul Alvarez, enseignant de CM2. À : familles des élèves de CM2. Date : 4 mai. Objet : sortie scolaire au musée maritime. Chères familles, notre sortie scolaire au musée maritime aura lieu le mercredi 13 mai. Les élèves doivent arriver à l'école avant 8 h 00. Le car partira à 8 h 30 et reviendra à l'école vers 14 h 30.</p><p>Le prix de la sortie est de 18 $ par élève et couvre le car et l'entrée du musée. Le café du musée sera fermé ce jour-là. Les élèves peuvent apporter un panier-repas, ou commander un sandwich pour 6 $.</p><p>Merci de rendre l'autorisation signée, accompagnée du paiement, avant le vendredi 8 mai. Cordialement, Paul Alvarez.</p><p><b>Document 2, programme.</b> Musée maritime, programme des CM2, mercredi 13 mai. 8 h 30 : départ du car de l'école. 9 h 15 : arrivée au musée. 9 h 30 : groupe A, visite guidée « Navires et marins » ; groupe B, atelier sur les phares. 10 h 45 : les groupes échangent leurs activités. 12 h 00 : déjeuner dans l'aire de pique-nique. 13 h 00 : temps libre dans les galeries. 13 h 45 : départ du car du musée. 14 h 30 : arrivée à l'école.</p><p><b>Document 3, reçu.</b> École élémentaire d'Oakridge, reçu de paiement. Date : 6 mai. Parent : Lisa Tran. Élève : Ben Tran, CM2. Prix de la sortie (musée maritime) : 18,00 $. Sandwich : 6,00 $. Total payé : 24,00 $ (chèque n° 1042). Autorisation : reçue.</p>"
    }
   ]
+ },
+ "g30-t1": {
+  "q": {
+   "1": "Après <em>whether</em>, il faut un sujet pour <em>ought to accept</em> : pronom sujet <em>she</em>. <em>hers</em> est un possessif, <em>her</em> un complément ou un déterminant, <em>herself</em> un réfléchi.",
+   "2": "<em>rose</em> est un verbe : il est complété par un adverbe, <em>sharply</em> (brusquement). <em>sharp</em> est un adjectif, <em>sharpen</em> un verbe, <em>sharpness</em> un nom.",
+   "3": "Devant un nom pluriel dénombrable (<em>companies</em>), on emploie <em>many</em>. <em>that</em> se met devant un singulier, <em>very</em> est un adverbe, <em>so much</em> va avec un nom indénombrable.",
+   "4": "Après le possessif <em>your</em>, on attend un nom : <em>your interest in helping</em>. Les trois autres formes sont un adverbe et des adjectifs.",
+   "5": "<em>still</em> (toujours, encore) se place avant le verbe : <em>still needs to be contacted</em>. <em>early</em> et <em>fast</em> ne se placent pas ici, <em>ever</em> n'a pas de sens dans une phrase affirmative.",
+   "6": "<em>drivers licensed by MTSA</em> : participe passé qui réduit la relative <em>drivers who are licensed by MTSA</em> (conducteurs agréés par). <em>licenses</em> et <em>license</em> ne se construisent pas ainsi, et <em>licensing</em> serait actif.",
+   "7": "<em>and</em> relie deux compléments de même nature : <em>vaccinations and health-education services</em>. <em>until</em>, <em>when</em> et <em>if</em> introduisent une proposition avec un verbe, ce qui n'est pas le cas ici.",
+   "8": "<em>begin ------- at 8:00</em> : il faut un adverbe qui complète le verbe, <em>promptly</em> (à l'heure précise). <em>prompt</em> est un adjectif, <em>promptness</em> un nom, <em>prompted</em> un participe.",
+   "9": "<em>increase by 3 percent</em> : <em>by</em> indique l'écart d'une augmentation (de 3 %). <em>out</em>, <em>for</em> et <em>onto</em> ne s'emploient pas avec <em>increase</em> dans ce sens.",
+   "10": "Après le modal <em>will</em>, on emploie la base verbale : <em>will conclude with a fireworks display</em> (se terminera par un feu d'artifice).",
+   "11": "<em>3 meters from the roof</em> : <em>from</em> exprime la distance par rapport à un point. <em>near</em> et <em>about</em> ne se combinent pas avec <em>at least 3 meters</em>, <em>after</em> exprime le temps ou l'ordre.",
+   "12": "<em>so frequently</em> (si souvent) : adverbe qui modifie <em>be ordered</em>. <em>frequency</em> est un nom, <em>frequent</em> un adjectif, <em>frequented</em> un participe.",
+   "13": "<em>lower rates</em> : des tarifs plus bas. <em>condensed</em>, <em>weaker</em> et <em>remote</em> ne se disent pas de tarifs.",
+   "14": "<em>purchasing them</em> : complément d'objet de <em>purchasing</em>, il reprend <em>the copy machines</em>. <em>their</em> exigerait un nom derrière, <em>they</em> est un sujet, <em>themselves</em> un réfléchi sans objet ici.",
+   "15": "<em>such a clever slogan</em> : <em>such</em> se place devant <em>a</em> + adjectif + nom. <em>either</em> et <em>every</em> ne s'emploient pas devant <em>a</em>, et <em>so</em> donnerait <em>so clever a slogan</em>.",
+   "16": "<em>To reserve this conference room</em> : réserver une salle. <em>assemble</em> (assembler), <em>attend</em> (assister à) et <em>deliver</em> (livrer) ne conviennent pas.",
+   "17": "<em>Since</em> introduit la cause (puisque les prévisions annoncent de la pluie). <em>Before</em> et <em>Once</em> expriment le temps, <em>Instead</em> est un adverbe, pas une conjonction.",
+   "18": "Les étagères ont été renvoyées parce qu'elles <em>had been damaged</em> : plus-que-parfait passif, l'abîmage étant antérieur au renvoi. <em>damaged</em> et <em>were damaging</em> sont actifs, <em>will have been damaged</em> est un futur.",
+   "19": "<em>will meet briefly</em> (se réuniront brièvement). <em>recently</em> ne va pas avec un futur, <em>completely</em> et <em>fairly</em> n'ont pas de sens ici.",
+   "20": "<em>Rubber producers</em> (les producteurs de caoutchouc) : nom pluriel sujet de <em>are trying</em>. <em>producing</em> et <em>produced</em> ne peuvent pas être sujets, <em>productive</em> est un adjectif.",
+   "21": "<em>profits increased to a record high</em> : les bénéfices ont augmenté jusqu'à un niveau record. <em>participated</em> (in), <em>resulted</em> (in, from) et <em>assigned</em> (to) n'expriment pas une hausse.",
+   "22": "<em>in contact with</em> : <em>to be in contact with</em> (être en contact avec), nom après la préposition <em>in</em>. <em>contacted</em> et <em>contacting</em> sont des formes verbales, <em>contacts</em> un pluriel.",
+   "23": "<em>extensive experience in creating</em> : une vaste expérience dans la création de. <em>collection</em>, <em>construction</em> et <em>discussion</em> ne se construisent pas avec <em>in creating</em> dans ce sens.",
+   "24": "<em>have any difficulty (in) installing</em> : après <em>difficulty</em>, on emploie la forme en <em>-ing</em>. <em>will install</em>, <em>was installed</em> et <em>install</em> ne sont pas possibles après un nom.",
+   "25": "<em>so that she could have it approved</em> : <em>so that</em> (afin que) introduit un but suivi d'un sujet et d'un verbe. <em>due to</em> exige un nom, <em>in order to</em> un infinitif, <em>even if</em> est illogique.",
+   "26": "<em>personalized attention</em> : participe passé employé comme adjectif (une attention personnalisée). <em>personalization</em> est un nom, <em>personalizes</em> et <em>personalize</em> sont des verbes.",
+   "27": "<em>instructional diagrams</em> : des schémas explicatifs qui montrent comment monter le bureau. <em>open</em>, <em>united</em> et <em>unrelated</em> sont incohérents avec la suite de la phrase.",
+   "28": "<em>a lot of enthusiasm for</em> : l'enthousiasme pour de nouveaux jeux. <em>appearance</em>, <em>exception</em> et <em>declaration</em> ne se construisent pas avec <em>for</em> dans ce sens.",
+   "29": "<em>an exceedingly practical skill</em> : l'adverbe <em>exceedingly</em> (extrêmement) modifie l'adjectif <em>practical</em>. <em>exceed</em>, <em>exceeded</em> et <em>exceeding</em> ne peuvent pas jouer ce rôle ici.",
+   "30": "Après la préposition <em>After</em>, on emploie la forme en <em>-ing</em> : <em>operating the Grains Grill</em> (avoir exploité le restaurant). <em>engaging</em>, <em>proceeding</em> et <em>achieving</em> ne prennent pas ce complément."
+  }
  }
 };

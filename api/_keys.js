@@ -3539,5 +3539,12 @@ module.exports = {
    "C",
    "D"
   ]
+ },
+ "g30-t1": {
+  "section": "P",
+  "total": 30,
+  "attempts": 2,
+  "parts": [{ "id": "p5", "start": 1, "end": 30 }],
+  "keys": ["C","B","C","D","D","A","A","B","C","A","B","B","B","A","D","B","B","D","D","A","B","A","D","B","D","C","D","A","D","B"]
  }
 };

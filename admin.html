@@ -538,7 +538,8 @@
       { key: 'full',      title: 'Full tests',      sub: 'Listening and Reading of the same exam', pick: t => !t.practice && READING_BASES.has(t.baseId) && LISTENING_BASES.has(t.baseId) },
       { key: 'listening', title: 'Full Listening',  sub: 'Complete Listening section only',         pick: t => !t.practice && !READING_BASES.has(t.baseId) },
       { key: 'reading',   title: 'Full Reading',    sub: 'Complete Reading section only',           pick: t => !t.practice && READING_BASES.has(t.baseId) && !LISTENING_BASES.has(t.baseId) },
-      { key: 'practice',  title: 'Part 7 training', sub: 'Single-part drills, each with its own timer', pick: t => !!t.practice }
+      { key: 'grammar',   title: 'Part 5 grammar',  sub: '30-sentence grammar tests, two attempts each (more on request)', pick: t => !!t.practice && t.part === 'Part 5' },
+      { key: 'practice',  title: 'Part 7 training', sub: 'Single-part drills, each with its own timer', pick: t => !!t.practice && t.part !== 'Part 5' }
     ];
 
     function accessRows(group) {
@@ -1029,7 +1030,13 @@
       const secCell = a => {
         if (!a) return '<span style="color:#9ca3af">—</span>';
         const chips = a.TEST.partIds.map(pid => `<span class="chip">${partCanonById(pid).label}: ${a.breakdown[pid].correct}/${a.breakdown[pid].max}</span>`).join('');
-        if (a.TEST.practice) return `<div class="sec-cell"><strong>${a.score}/${a.total}</strong><span class="sub">${Math.round(a.score / a.total * 100)}% · ${a.TEST.part} training</span>${timingHTML(a)}</div>`;
+        if (a.TEST.practice) {
+          const mine = allScores.filter(x => x.nom === a.nom && x.testId === a.testId);
+          const max = (a.TEST.maxAttempts || 1) + mine.filter(x => x.retakeGranted).length;
+          const att = (a.TEST.maxAttempts || 1) > 1 || mine.length > 1
+            ? ` · attempt ${mine.length}/${max} · best ${Math.max(...mine.map(x => x.score))}` : '';
+          return `<div class="sec-cell"><strong>${a.score}/${a.total}</strong><span class="sub">${Math.round(a.score / a.total * 100)}% · ${a.TEST.part} ${a.TEST.part === 'Part 5' ? 'grammar' : 'training'}${att}</span>${timingHTML(a)}</div>`;
+        }
         return `<div class="sec-cell"><strong>${a.score}/${a.total}</strong><span class="sub">${a.converted}/495 · ${a.cecrl}</span>${timingHTML(a)}<div class="chips">${chips}</div></div>`;
       };
       const retakeBtn = (a, label) => {
@@ -1054,7 +1061,7 @@
               <td>${secCell(g.R || g.P)}</td>
               <td>${total !== null ? `<strong>${total}</strong><span class="sub">${cecrlFor(total)}</span>` : '<span style="color:#9ca3af">—</span>'}</td>
               <td>${d}</td>
-              <td style="white-space:nowrap">${retakeBtn(g.L, 'L')} ${retakeBtn(g.R, 'R')} ${retakeBtn(g.P, 'P7')}</td>
+              <td style="white-space:nowrap">${retakeBtn(g.L, 'L')} ${retakeBtn(g.R, 'R')} ${retakeBtn(g.P, g.P && g.P.TEST.part === 'Part 5' ? 'P5' : 'P7')}</td>
             </tr>`;
           }).join('')}</tbody>
         </table>
@@ -1336,8 +1343,9 @@
           'Reading level': R ? R.cecrl : '',
           'Total (/990)': total ?? '',
           'Level': total !== null ? cecrlFor(total) : '',
-          'Part 7 training': g.P ? `${g.P.score}/${g.P.total}` : '',
-          'Status': g.P && !L && !R ? 'Part 7 training' : (L && R) ? 'Complete' : (L ? 'Reading missing' : 'Listening missing')
+          'Part 5 grammar': g.P && g.P.TEST.part === 'Part 5' ? `${g.P.score}/${g.P.total}` : '',
+          'Part 7 training': g.P && g.P.TEST.part !== 'Part 5' ? `${g.P.score}/${g.P.total}` : '',
+          'Status': g.P && !L && !R ? (g.P.TEST.part === 'Part 5' ? 'Part 5 grammar' : 'Part 7 training') : (L && R) ? 'Complete' : (L ? 'Reading missing' : 'Listening missing')
         };
         PARTS_CANON.forEach(p => {
           const src = p.section === 'L' ? L : R;

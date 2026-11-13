@@ -232,25 +232,33 @@
       Object.entries(TESTS_DATA).filter(([id, t]) => !focus7 || t.part === 'Part 7').forEach(([id, t]) => {
         const myScores = scores.filter(s => s.testId === id).sort((a, b) => new Date(b.date) - new Date(a.date));
         const latest = myScores[0] || null;
-        const retakeGranted = !!(latest && latest.retakeGranted);
-        const completed = !!latest && !retakeGranted; // blocked: already used, no grant
-        const best = latest ? latest.score : null;
+        const maxA = t.maxAttempts || 1;
+        const used = myScores.length;
+        const grants = myScores.filter(s => s.retakeGranted).length;
+        const allowed = maxA + grants;
+        const remaining = Math.max(0, allowed - used);
+        const completed = used > 0 && remaining === 0;
+        const retakeGranted = used > 0 && remaining > 0 && (maxA === 1 || grants > 0) && used >= maxA;
+        const best = used ? Math.max(...myScores.map(s => s.score)) : null;
+        const lastScore = latest ? latest.score : null;
         const classOk = classAllowed(ACCESS_CLASSES, id, student.dept);
         const isOpen = testIsOpen(access, id) && classOk; // open unless closed or defaultClosed
-        const canStart = isOpen && (!latest || retakeGranted);
+        const canStart = isOpen && remaining > 0;
         const div = document.createElement('div');
         div.className = 'test-card' + (isOpen ? '' : ' locked');
+        const multi = maxA > 1;
         const badge = !isOpen ? `<span class="badge locked">${classOk ? 'Closed' : 'Not open to your class'}</span>`
-                    : retakeGranted ? `<span class="badge open">Retake granted — last: ${best}/${t.total}</span>`
-                    : completed ? `<span class="badge done">Completed: ${best}/${t.total}</span>`
+                    : (multi && used > 0 && remaining > 0) ? `<span class="badge open">Attempt ${used}/${allowed} done · best ${best}/${t.total}</span>`
+                    : retakeGranted ? `<span class="badge open">Retake granted — last: ${lastScore}/${t.total}</span>`
+                    : completed ? `<span class="badge done">Completed: ${multi ? 'best ' + best : lastScore}/${t.total}</span>`
                     : '<span class="badge open">Available</span>';
-        const label = !isOpen ? 'Not available' : retakeGranted ? '🔄 Retake' : completed ? '✓ Completed' : '▶ Start';
+        const label = !isOpen ? 'Not available' : (used > 0 && remaining > 0) ? '🔄 ' + (multi ? 'Attempt ' + (used + 1) + '/' + allowed : 'Retake') : completed ? '✓ Completed' : '▶ Start';
         div.innerHTML = `
           <h3>${t.name}</h3>
           <div class="meta">📋 ${t.part} &nbsp;·&nbsp; ${t.total} questions ${t.audioControlled ? '&nbsp;·&nbsp; 🎧 audio' : ''}</div>
           ${badge}
           <button class="btn-start" ${canStart ? '' : 'disabled'} onclick="startTest('${id}')">${label}</button>
-          ${completed ? '<div class="meta" style="text-align:center">One attempt per test — already used</div>' : ''}
+          ${completed ? `<div class="meta" style="text-align:center">${allowed === 1 ? 'One attempt per test' : allowed + ' attempts'} — all used</div>` : (multi && remaining > 0 && used === 0 ? `<div class="meta" style="text-align:center">${allowed} attempts allowed</div>` : '')}
         `;
         grid.appendChild(div);
       });
@@ -329,12 +337,18 @@
     function drillCardsHTML(drills) {
       const latest = {};
       drills.forEach(s => { if (!latest[s.testId] || new Date(s.date) > new Date(latest[s.testId].date)) latest[s.testId] = s; });
-      return Object.values(latest).map(s => `
+      return Object.values(latest).map(s => {
+        const mine = drills.filter(x => x.testId === s.testId);
+        const best = Math.max(...mine.map(x => x.score));
+        const extra = (s.TEST.maxAttempts || 1) > 1
+          ? `<div class="summary-row"><span class="lbl">Attempts · best</span><span class="val">${mine.length} · ${best}/${s.total}</span></div>` : '';
+        return `
           <div class="summary-card">
             <h3>${s.TEST.name}</h3>
-            <div class="summary-row"><span class="lbl">${s.TEST.part}</span><span class="val">${s.score}/${s.total} · ${s.pct}%</span></div>
+            <div class="summary-row"><span class="lbl">${s.TEST.part} (latest)</span><span class="val">${s.score}/${s.total} · ${s.pct}%</span></div>
+            ${extra}
             ${weakBoxHTML([s])}
-          </div>`).join('');
+          </div>`;}).join('');
     }
 
     function renderSummary(all) {
