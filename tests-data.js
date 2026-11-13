@@ -221,6 +221,7 @@ const TESTS_DATA = {
     part: 'Listening',
     section: 'L',
     baseId: 'fulltoeic2gf',
+    defaultClosed: true,   // closed until an admin opens it (no access setting stored yet)
     audioControlled: true,
     audioStrict: true,
     audioDuration: 2721,
@@ -292,6 +293,16 @@ const TESTS_DATA = {
     ]
   }
 };
+
+// Open/closed state of a test. The admin stores true/false per test; a test without a stored
+// setting is open, unless it is declared defaultClosed.
+function testIsOpen(accessTests, id) {
+  const v = (accessTests || {})[id];
+  if (v === true) return true;
+  if (v === false) return false;
+  const T = TESTS_DATA[id];
+  return !(T && T.defaultClosed);
+}
 
 // Expected length of a Listening test's audio track, in seconds. A test can set
 // its own `audioDuration`; otherwise the official TOEIC Listening length is used.

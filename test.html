@@ -379,7 +379,7 @@ if (!isReview) (async () => {
       fetch(`/api/scores?nom=${encodeURIComponent(student.nom)}`)
     ]);
     const accessData = await accessR.json();
-    const isOpen = (accessData.tests || {})[testId] !== false;
+    const isOpen = testIsOpen(accessData.tests, testId);
     if (!classAllowed(accessData.classes, testId, student.dept)) {
       alert('This test is not open to your class.');
       window.location.href = 'dashboard.html';

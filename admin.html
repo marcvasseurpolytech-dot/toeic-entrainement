@@ -491,10 +491,10 @@
         accessClasses = data.classes || {};
         const wrap = document.getElementById('access-wrap');
         const ids = Object.keys(TESTS_DATA);
-        openTests = ids.filter(id => access[id] !== false).length; updateSummary();
+        openTests = ids.filter(id => testIsOpen(access, id)).length; updateSummary();
         wrap.innerHTML = `<div class="access-grid">${ids.map(id => {
           const t = TESTS_DATA[id];
-          const isOpen = access[id] !== false;
+          const isOpen = testIsOpen(access, id);
           const allowed = accessClasses[id] || [];
           return `
             <div class="access-card">

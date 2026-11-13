@@ -236,7 +236,7 @@
         const completed = !!latest && !retakeGranted; // blocked: already used, no grant
         const best = latest ? latest.score : null;
         const classOk = classAllowed(ACCESS_CLASSES, id, student.dept);
-        const isOpen = access[id] !== false && classOk; // default open if not listed
+        const isOpen = testIsOpen(access, id) && classOk; // open unless closed or defaultClosed
         const canStart = isOpen && (!latest || retakeGranted);
         const div = document.createElement('div');
         div.className = 'test-card' + (isOpen ? '' : ' locked');
