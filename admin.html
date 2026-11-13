@@ -92,7 +92,8 @@
     .ac-cell .ac-top { display:flex; align-items:center; justify-content:space-between; gap:0.6rem; }
     .ac-cell .ac-lab { font-size:0.78rem; font-weight:600; color:#374151; }
     .ac-cell .ac-sw { display:flex; align-items:center; gap:0.45rem; }
-    .ac-cell .switch { width:38px; height:22px; }
+    .ac-cell .switch { display:none; } /* opening is done by ticking departments */
+    .ac-cell .switch-old { width:38px; height:22px; }
     .ac-cell .switch .slider:before { height:16px; width:16px; }
     .ac-cell .switch input:checked + .slider:before { transform:translateX(16px); }
     .ac-empty { text-align:center; color:#9ca3af; font-style:italic; padding:1.5rem 0; }
@@ -476,8 +477,21 @@
     }
 
     let accessClasses = {};
-    function classSummary(list) {
+    function classSummary(list, open) {
+      if (open === false) return 'none (closed)';
       return !list.length || list.length >= PROMOS.length ? 'all classes' : list.join(', ');
+    }
+    // Ticked chips = the departments the test is open to. Closed = none ticked; open with no
+    // restriction stored = every department ticked.
+    function chipsOn(open, list) {
+      return !open ? [] : (list.length ? list : PROMOS);
+    }
+    function syncCard(id, open) {
+      const card = document.querySelector(`#access-wrap .ac-cell[data-id="${id}"]`);
+      if (!card) return;
+      const on = chipsOn(open, accessClasses[id] || []);
+      card.querySelectorAll('.ac-boxes .chip').forEach(c => c.classList.toggle('on', on.includes(c.dataset.v)));
+      card.querySelector('.cs').textContent = classSummary(accessClasses[id] || [], open);
     }
     function classBoxes(testId) {
       return document.querySelector(`.ac-classes[data-test="${testId}"]`);
@@ -503,20 +517,21 @@
         if (!r.ok) throw new Error();
         const data = await r.json();
         accessClasses = data.classes || {};
-        box.querySelector('.cs').textContent = classSummary(accessClasses[testId] || []);
-        // Picking classes means "open it to these": if the master switch is off, turn it on.
+        // Departments ticked = open to them; none ticked = closed.
         const sw = box.closest('.access-card').querySelector('.switch input');
-        if (classes.length && sw && !sw.checked) {
+        const wantOpen = classes.length > 0;
+        if (sw && sw.checked !== wantOpen) {
           const r2 = await fetch('/api/access', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', ...authHeaders() },
-            body: JSON.stringify({ testId, open: true })
+            body: JSON.stringify({ testId, open: wantOpen })
           });
           if (!r2.ok) throw new Error();
-          sw.checked = true;
-          setStateLabel(box.closest('.access-card'), true);
+          sw.checked = wantOpen;
+          setStateLabel(box.closest('.access-card'), wantOpen);
           refreshAccessView();
         }
+        box.querySelector('.cs').textContent = classSummary(accessClasses[testId] || [], wantOpen);
       } catch (e) {
         alert('Could not save the classes. Please try again.');
         await loadAccess();
@@ -566,13 +581,13 @@
               </label>
             </span>
           </div>
-          <details class="ac-classes" data-test="${esc(id)}">
-            <summary>Classes: <span class="cs">${esc(classSummary(allowed))}</span></summary>
+          <details class="ac-classes" data-test="${esc(id)}" open>
+            <summary>Open to: <span class="cs">${esc(classSummary(allowed, isOpen))}</span></summary>
             <div class="ac-quick">
               <button type="button" onclick="quickClasses('${esc(id)}','SELECT')">Select all</button>
               <button type="button" onclick="quickClasses('${esc(id)}','ALL')">Deselect all</button>
             </div>
-            <div class="ac-boxes">${PROMOS.map(c => `<button type="button" class="chip${allowed.includes(c) ? ' on' : ''}" data-v="${esc(c)}" onclick="this.classList.toggle('on'); saveClasses('${esc(id)}')">${esc(c)}</button>`).join('')}</div>
+            <div class="ac-boxes">${PROMOS.map(c => `<button type="button" class="chip${chipsOn(isOpen, allowed).includes(c) ? ' on' : ''}" data-v="${esc(c)}" onclick="this.classList.toggle('on'); saveClasses('${esc(id)}')">${esc(c)}</button>`).join('')}</div>
           </details>
         </div>`;
     }
@@ -666,6 +681,7 @@
         });
         if (!r.ok) throw new Error();
         setStateLabel(checkboxEl.closest('.access-card'), open);
+        syncCard(testId, open);
         refreshAccessView();
       } catch(e) {
         alert('Could not update access, reverting.');
@@ -689,6 +705,7 @@
         if (!card) return;
         card.querySelector('.switch input').checked = open;
         setStateLabel(card, open);
+        syncCard(id, open);
       });
       refreshAccessView();
     }
