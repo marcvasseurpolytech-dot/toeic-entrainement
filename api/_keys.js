@@ -3546,5 +3546,26 @@ module.exports = {
   "attempts": 2,
   "parts": [{ "id": "p5", "start": 1, "end": 30 }],
   "keys": ["C","B","C","D","D","A","A","B","C","A","B","B","B","A","D","B","B","D","D","A","B","A","D","B","D","C","D","A","D","B"]
+ },
+ "g30-t2": {
+  "section": "P",
+  "total": 30,
+  "attempts": 2,
+  "parts": [{ "id": "p5", "start": 1, "end": 30 }],
+  "keys": ["A","B","D","D","C","C","D","C","D","A","D","C","A","B","C","D","C","A","D","A","D","A","A","C","D","B","A","A","A","D"]
+ },
+ "g30-t3": {
+  "section": "P",
+  "total": 30,
+  "attempts": 2,
+  "parts": [{ "id": "p5", "start": 1, "end": 30 }],
+  "keys": ["B","A","C","C","D","C","A","D","D","A","D","C","C","A","C","A","C","B","B","C","A","A","A","C","D","B","A","D","B","B"]
+ },
+ "g30-t4": {
+  "section": "P",
+  "total": 30,
+  "attempts": 2,
+  "parts": [{ "id": "p5", "start": 1, "end": 30 }],
+  "keys": ["B","A","A","D","C","D","D","D","B","B","A","B","C","C","D","D","D","C","C","A","B","C","C","B","A","C","B","D","C","B"]
  }
 };
