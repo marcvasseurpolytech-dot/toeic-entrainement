@@ -440,6 +440,126 @@ const TESTS_DATA = {
     ]
   },
 
+  // Full TOEIC Test 1 GF Listening (key read on the official key image of the Drive folder; PDF booklet from the same folder when available).
+  'fulltoeic1gf-listening': {
+    name: 'Full TOEIC Test 1 GF',
+    part: 'Listening',
+    section: 'L',
+    baseId: 'fulltoeic1gf',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: true,
+    audioDuration: 2717,
+    audioUrl: 'https://drive.google.com/file/d/1z9GtdU4Dm9wXQpb3i0IsCX8tFDGr5o7h/view?usp=sharing',
+    bookletUrl: 'https://drive.google.com/file/d/1sZyaCnPPy0iOgeYVSXo0PvzD3jOVH6x8/view?usp=sharing',
+    partIds: ['p1', 'p2', 'p3', 'p4'],
+    total: 100,
+    parts: [
+      { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
+      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
+      { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Full TOEIC Test 1 GF Reading (key read on the official key image of the Drive folder; PDF booklet from the same folder when available).
+  'fulltoeic1gf-reading': {
+    name: 'Full TOEIC Test 1 GF',
+    part: 'Reading',
+    section: 'R',
+    baseId: 'fulltoeic1gf',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: false,
+    duration: 75 * 60,
+    bookletUrl: 'https://drive.google.com/file/d/1dY2iOG4WE4CzEBZ0v1fBytfmf839R0Ng/view?usp=sharing',
+    partIds: ['p5', 'p6', 'p7'],
+    total: 100,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
+      { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
+      { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Full TOEIC Test 2 GF Reading (key read on the official key image of the Drive folder; PDF booklet from the same folder when available).
+  'fulltoeic2gf-reading': {
+    name: 'Full TOEIC Test 2 GF',
+    part: 'Reading',
+    section: 'R',
+    baseId: 'fulltoeic2gf',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: false,
+    duration: 75 * 60,
+    bookletUrl: 'https://drive.google.com/file/d/1iMvL5UtXqbGUJgjLIx9w7zXWRHa9_sOW/view?usp=sharing',
+    partIds: ['p5', 'p6', 'p7'],
+    total: 100,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
+      { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
+      { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Full TOEIC Test 3 GF Listening (key read on the official key image of the Drive folder; PDF booklet from the same folder when available).
+  'fulltoeic3gf-listening': {
+    name: 'Full TOEIC Test 3 GF',
+    part: 'Listening',
+    section: 'L',
+    baseId: 'fulltoeic3gf',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: true,
+    audioDuration: 2700,
+    audioUrl: 'https://drive.google.com/file/d/1TgjDGvy86mqgxSIyD8OXmzfahdgAgGXb/view?usp=sharing',
+    bookletUrl: 'booklets/fulltoeic3gf-listening.pdf',
+    partIds: ['p1', 'p2', 'p3', 'p4'],
+    total: 100,
+    parts: [
+      { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
+      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
+      { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Full TOEIC Test 4 GF Listening (key read on the official key image of the Drive folder; PDF booklet from the same folder when available).
+  'fulltoeic4gf-listening': {
+    name: 'Full TOEIC Test 4 GF',
+    part: 'Listening',
+    section: 'L',
+    baseId: 'fulltoeic4gf',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: true,
+    audioDuration: 2681,
+    audioUrl: 'https://drive.google.com/file/d/1fIbPL-rta9PtVd_t1RcYZ5MvKKIClPgh/view?usp=sharing',
+    bookletUrl: 'booklets/fulltoeic4gf-listening.pdf',
+    partIds: ['p1', 'p2', 'p3', 'p4'],
+    total: 100,
+    parts: [
+      { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
+      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
+      { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Full TOEIC Test 4 GF Reading (key read on the official key image of the Drive folder; PDF booklet from the same folder when available).
+  'fulltoeic4gf-reading': {
+    name: 'Full TOEIC Test 4 GF',
+    part: 'Reading',
+    section: 'R',
+    baseId: 'fulltoeic4gf',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: false,
+    duration: 75 * 60,
+    bookletUrl: 'booklets/fulltoeic4gf-reading.pdf',
+    partIds: ['p5', 'p6', 'p7'],
+    total: 100,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
+      { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
+      { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
   // All keys sourced from the answer-key PDF. IIBC 2 T1 additionally has a
   // full booklet PDF; IIBC 2 T2 doesn't (booklet button hidden); IIBC 2 T3
   // links directly to the Drive booklet rather than a locally-hosted copy.
