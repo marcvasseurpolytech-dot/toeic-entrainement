@@ -525,7 +525,7 @@ const TESTS_DATA = {
   // Full Reading 26 June 2026 (TOEIC Practice Test Final PDF), Reading (booklet = pages of the official-format PDF, questions 101 to 200 shown as 1 to 100;
   // key solved and checked question by question, explanations in api/_review.js).
   'practicefinal-reading': {
-    name: 'Full Reading 26 June 2026',
+    name: 'Full Reading 26 June 2026 (4A)',
     fullName: 'Full TOEIC 26 June 2026 (S8 4A)',
     part: 'Reading',
     section: 'R',
@@ -546,7 +546,7 @@ const TESTS_DATA = {
   // Full Listening 26 June 2026 (Listening of the same TOEIC Practice Test Final PDF; audio = full recording in the Drive folder of the transcript).
   // Same baseId as the Reading, so both form one card in the Full Tests tab, and each part can also be taken alone.
   'practicefinal-listening': {
-    name: 'Full Listening 26 June 2026',
+    name: 'Full Listening 26 June 2026 (4A)',
     fullName: 'Full TOEIC 26 June 2026 (S8 4A)',
     part: 'Listening',
     section: 'L',
