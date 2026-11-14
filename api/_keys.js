@@ -3707,5 +3707,40 @@ module.exports = {
   "attempts": 2,
   "parts": [{ "id": "p5", "start": 1, "end": 30 }],
   "keys": ["C","D","B","B","D","C","C","A","D","C","D","B","C","A","D","C","A","B","C","B","B","D","D","D","B","D","A","D","A","B"]
+ },
+ "g30-t27": {
+  "section": "P",
+  "total": 30,
+  "attempts": 2,
+  "parts": [{ "id": "p5", "start": 1, "end": 30 }],
+  "keys": ["D","D","D","B","C","A","B","A","B","A","C","D","B","C","A","B","B","A","D","C","C","A","B","C","C","B","D","B","D","B"]
+ },
+ "g30-t30": {
+  "section": "P",
+  "total": 30,
+  "attempts": 2,
+  "parts": [{ "id": "p5", "start": 1, "end": 30 }],
+  "keys": ["A","A","B","C","B","A","D","B","C","C","D","C","C","A","B","D","C","B","A","B","A","B","D","D","C","D","C","B","A","B"]
+ },
+ "g30-t32": {
+  "section": "P",
+  "total": 30,
+  "attempts": 2,
+  "parts": [{ "id": "p5", "start": 1, "end": 30 }],
+  "keys": ["B","C","A","C","A","D","A","C","A","B","C","B","B","C","D","C","A","B","B","D","B","A","B","C","D","B","B","C","D","C"]
+ },
+ "g30-t33": {
+  "section": "P",
+  "total": 30,
+  "attempts": 2,
+  "parts": [{ "id": "p5", "start": 1, "end": 30 }],
+  "keys": ["B","D","B","B","D","C","A","D","C","B","B","B","A","D","C","A","B","D","C","C","D","C","B","C","D","D","A","A","D","A"]
+ },
+ "g30-t38": {
+  "section": "P",
+  "total": 30,
+  "attempts": 2,
+  "parts": [{ "id": "p5", "start": 1, "end": 30 }],
+  "keys": ["D","D","A","A","A","D","D","C","D","B","A","D","C","C","B","C","D","B","B","B","A","D","B","C","B","A","D","D","A","A"]
  }
 };
