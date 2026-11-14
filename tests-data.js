@@ -522,10 +522,10 @@ const TESTS_DATA = {
     ]
   },
 
-  // TOEIC Practice Test Final, Reading (booklet = pages of the official-format PDF, questions 101 to 200 shown as 1 to 100;
+  // Full Reading 26 June 2026 (TOEIC Practice Test Final PDF), Reading (booklet = pages of the official-format PDF, questions 101 to 200 shown as 1 to 100;
   // key solved and checked question by question, explanations in api/_review.js).
   'practicefinal-reading': {
-    name: 'TOEIC Practice Test Final',
+    name: 'Full Reading 26 June 2026',
     part: 'Reading',
     section: 'R',
     baseId: 'practicefinal',
