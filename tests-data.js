@@ -526,6 +526,7 @@ const TESTS_DATA = {
   // key solved and checked question by question, explanations in api/_review.js).
   'practicefinal-reading': {
     name: 'Full Reading 26 June 2026',
+    fullName: 'Full TOEIC 26 June 2026 (S8 4A)',
     part: 'Reading',
     section: 'R',
     baseId: 'practicefinal',
@@ -539,6 +540,28 @@ const TESTS_DATA = {
       { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
       { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
       { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Full Listening 26 June 2026 (Listening of the same TOEIC Practice Test Final PDF; audio = full recording in the Drive folder of the transcript).
+  // Same baseId as the Reading, so both form one card in the Full Tests tab, and each part can also be taken alone.
+  'practicefinal-listening': {
+    name: 'Full Listening 26 June 2026',
+    fullName: 'Full TOEIC 26 June 2026 (S8 4A)',
+    part: 'Listening',
+    section: 'L',
+    baseId: 'practicefinal',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1peAVHY-QnkKxAOjCBEuKpdZ0tss_M8oi/view?usp=drivesdk',
+    bookletUrl: 'booklets/practicefinal-listening.pdf',
+    partIds: ['p1', 'p2', 'p3', 'p4'],
+    total: 100,
+    parts: [
+      { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
+      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
+      { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
   },
 

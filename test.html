@@ -187,6 +187,8 @@
     #correction-panel .corr-head { font-weight: 700; color: var(--navy); margin-bottom: 0.2rem; }
     #correction-panel .corr-item.wrong .corr-head { color: var(--error); }
     #correction-panel.only-wrong .corr-item.right { display: none; }
+    #correction-panel details.corr-tr { background: #f3efe4; border: 1px dashed var(--border); border-radius: 8px; padding: 0.4rem 0.8rem; margin: 0.6rem 0 0.4rem; font-size: 0.86rem; line-height: 1.55; color: var(--ink); }
+    #correction-panel details.corr-tr summary { cursor: pointer; font-weight: 700; color: var(--navy); }
     .q-feedback { font-size: 0.7rem; color: var(--muted); min-height: 0; }
     .qcard.wrong .q-feedback { color: var(--error); font-weight: 600; }
     .qcard.jump-highlight { animation: jumpFlash 1.2s ease; }
@@ -941,6 +943,8 @@ function renderCorrection(userAnswers, keys, review) {
     for (let q = part.start; q <= part.end; q++) {
       const key = keys[q - 1], ans = userAnswers[q - 1], txt = review.q[String(q)];
       if (!txt) continue;
+      const tr = review.t && review.t[String(q)];
+      if (tr) html += `<details class="corr-tr"><summary>Transcript (questions ${q} to ${q + (tr.n || 1) - 1})</summary>${tr.h}</details>`;
       const state = (ans === null || ans === undefined) ? 'blank' : (ans === key ? 'right' : 'wrong');
       const head = state === 'right' ? `${q}. Correct: ${key}` :
                    state === 'blank' ? `${q}. Unanswered · Answer: ${key}` : `${q}. You: ${ans} · Answer: ${key}`;

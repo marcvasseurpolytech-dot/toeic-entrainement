@@ -368,7 +368,7 @@
       if (!cells.length) return null;
       const both = cells.length === 2 && cells[0].conv !== null && cells[1].conv !== null;
       const total = both ? cells[0].conv + cells[1].conv : null;
-      const name = TESTS_DATA[ids[0]].name;
+      const name = TESTS_DATA[ids[0]].fullName || TESTS_DATA[ids[0]].name;
       const rank = Math.min(...cells.map(c => c.x.rank));
       return { rank, name, html: `<div class="test-card full${cells.every(c => !c.x.isOpen) ? ' locked' : ''}">
           <h3>${name}</h3>

@@ -3459,5 +3459,327 @@ module.exports = {
    "99": "Naccari Group lance <em>a new monthly contest</em> (<em>Steps Aplenty</em>) et Hyung Tech a <em>the company's most recent monthly step challenge</em> : les deux programmes comportent une compétition (D). Seul Naccari a une zone de loisirs extérieure (B) et des terrains de sport (A), et aucun cours quotidien n'est cité (C).",
    "100": "Le premier article cite la baisse du stress parmi les bénéfices des programmes, et M. Awad dit <em>I am more relaxed</em> : moins de stress (C). La tension et le sommeil (A, B) viennent de son témoignage mais ne figurent pas dans le premier article, et la maîtrise de l'humeur (D) n'est mentionnée nulle part."
   }
+ },
+ "practicefinal-listening": {
+  "q": {
+   "1": "La femme glisse une enveloppe dans une boîte aux lettres : <em>She is mailing a letter</em> (synonymes : <em>posting</em>, <em>dropping a letter in a mailbox</em>). (A) elle ne range rien dans son sac, qu'elle porte à l'épaule. (B) aucun râteau ni feuilles ramassées. (D) elle est immobile au bord de la route, elle ne traverse pas.",
+   "2": "Le jeune homme tient un document plié et le lit : <em>He is reading a pamphlet</em> (synonymes : <em>brochure</em>, <em>leaflet</em>). (B) il n'a ni stylo ni bloc-notes. (C) il ne branche aucun câble : le casque est posé sur la table. (D) la télécommande est sur la table, il ne la tient pas.",
+   "3": "La cliente tend le bras vers un produit sur l'étagère : <em>She is reaching for a product on a shelf</em> (synonymes : <em>merchandise</em>, <em>item</em>). (A) elle ne porte aucun sac de courses. (B) le réfrigérateur plein de bouteilles est derrière elle, elle ne lui fait pas face. (C) il n'y a pas de caisse et elle n'attend pas.",
+   "4": "Un homme est assis à une table sur la terrasse : <em>A man is seated on a patio</em> (synonymes : <em>terrace</em>, <em>outdoor area</em>). (A) il ne téléphone pas. (C) le parasol est déjà ouvert et fixé, personne ne l'ouvre. (D) personne ne verse de café dans une tasse.",
+   "5": "Les deux femmes se tiennent debout de part et d'autre d'un comptoir : <em>on opposite sides of a counter</em> (synonymes : <em>desk</em>, <em>across from each other</em>). (A) personne n'examine de vêtements. (C) aucune ne sort un objet d'un tiroir : l'une range quelque chose dans son sac. (D) personne ne quitte les lieux, elles sont immobiles.",
+   "6": "Des ustensiles sont accrochés au mur de la cuisine : <em>Some kitchen utensils are hanging on a wall</em> (synonymes : <em>tools</em>, <em>cookware</em>). (B) la serpillière n'est pas dans un seau d'eau. (C) les casseroles sont rangées sur des étagères, pas par terre. (D) le plan de travail est dégagé, rien n'est renversé.",
+   "7": "<em>When</em> appelle une date : <em>on January 16th</em>. (A) <em>instructions</em> et (B) <em>bricks and cement</em> reprennent le thème de la construction sans répondre à la question du moment.",
+   "8": "<em>Where</em> appelle un lieu : <em>at the hardware store</em> (la quincaillerie). (A) <em>Yes</em> ne convient pas à une question en <em>where</em>. (C) <em>sold out</em> (en rupture) ne dit pas où recycler.",
+   "9": "<em>Who</em> appelle un nom de personne : <em>Jung Hoon said he would</em> (il a dit qu'il le ferait, synonyme : <em>offered to</em>). (B) et (C) reprennent <em>flight</em> et <em>window seat</em> sans désigner de personne.",
+   "10": "<em>What will the director discuss</em> : <em>The sales report probably</em>, un sujet de réunion. (B) répond à un lieu, <em>Elm Street</em>. (C) répond à <em>why</em>, pas à <em>what</em>.",
+   "11": "<em>Why is the reception at a separate location</em> : <em>It's just five minutes away</em> donne la raison de façon indirecte, la salle est toute proche. (A) <em>Yes</em> et (B) <em>Okay, that sounds good</em> ne répondent pas à une question en <em>why</em>.",
+   "12": "Question tag négative : <em>The plumber hasn't come yet, has he?</em> Réponse directe : <em>He has actually</em> (il est bien venu). (B) <em>doesn't have any</em> ne se rapporte à rien. (C) <em>It departs at 11</em> parle d'un train ou d'un vol.",
+   "13": "<em>How do I purchase a train pass</em> demande la procédure : <em>go to a ticket booth</em> (guichet). (A) <em>In about half an hour</em> répond à <em>when</em>. (C) <em>good for all routes</em> décrit la validité, pas l'achat.",
+   "14": "Invitation : <em>Would you like to join the conference call?</em> <em>I do have some questions for the team</em> accepte indirectement. (A) <em>hiring strategy</em> et (C) <em>minutes of a meeting</em> sont des réponses hors sujet.",
+   "15": "<em>What event</em> : <em>A music concert</em>. (A) <em>Only on the weekends</em> répond à <em>when</em>. (B) <em>No, I'm not</em> ne convient pas à une question ouverte.",
+   "16": "<em>Where's the new merchandise?</em> : <em>It's being unpacked in the back room</em> (en cours de déballage dans la réserve). (A) répond à <em>why</em>. (B) <em>signed up for a shift</em> n'a aucun rapport.",
+   "17": "Question fermée : <em>Have the employee training documents been updated?</em> <em>Do you need them now?</em> répond par une question de précision, réponse indirecte typique du TOEIC. (B) <em>From Central Station</em> et (C) <em>down the stairs</em> donnent des lieux, hors sujet.",
+   "18": "<em>When will the award plaques be ready?</em> <em>Let me call the vendor</em> (fournisseur) : je dois me renseigner. (A) <em>On Main Street</em> est un lieu. (B) <em>Thank you very much</em> ne répond pas.",
+   "19": "Choix entre deux couleurs : <em>I like the blue one</em>. (B) <em>the smaller sizes</em> parle de tailles. (C) <em>I'll read it later</em> ne choisit rien.",
+   "20": "<em>Why wasn't Brianna at the staff meeting?</em> <em>Because she had to meet with a client</em> donne la raison. (B) <em>Sure, I'll check my schedule</em> répond à une demande. (C) <em>Upstairs in the conference room</em> répond à <em>where</em>.",
+   "21": "La question porte sur la personne qui passe le prochain entretien : <em>Let me check the list</em> (la liste des candidats). (A) <em>five coins</em> et (C) <em>By invitation only</em> ne désignent personne.",
+   "22": "<em>Do you want my old desk?</em> <em>I bought new furniture last month</em> : je n'en ai pas besoin (refus indirect). (A) <em>She put them</em> (pluriel et genre) ne se rapporte à rien. (C) <em>On the front page</em> est hors sujet.",
+   "23": "Simple information : <em>Your rental car will be ready in a moment</em>. <em>Thanks for your help</em> est la réponse naturelle. (A) <em>The parking area</em> et (B) <em>he's in Jakarta</em> ne réagissent pas à l'annonce.",
+   "24": "<em>I should make copies of the agenda, right?</em> <em>No, just send it in an email</em> corrige la proposition. (A) <em>It went really well</em> parle d'un séminaire passé. (C) <em>The department managers</em> répond à <em>who</em>.",
+   "25": "Choix matin ou soir : <em>What time do you open?</em> répond par une question qui conditionne le choix (réponse indirecte). (B) <em>top cabinet</em> et (C) <em>drink coffee</em> sont hors sujet.",
+   "26": "<em>Wasn't Mary supposed to train the new interns?</em> <em>Yes, she's with them now</em> confirme. (A) <em>I take the train</em> est un piège phonétique <em>train</em>. (B) <em>the blue folder</em> ne répond pas.",
+   "27": "<em>Do you have last month's sales figures with you?</em> <em>I couldn't get the printer to work</em> : non, je n'ai pas pu les imprimer. (A) <em>tape</em> et (C) <em>New merchandise</em> n'ont aucun lien avec la question.",
+   "28": "Constat : beaucoup de monde à la piscine. <em>The local schools are on a break</em> (en vacances) explique pourquoi. (A) <em>Inside the file folder</em> est un lieu. (B) <em>it's next month</em> ne se rapporte à rien.",
+   "29": "<em>How do you know the owner?</em> <em>We met at a trade show</em> (salon professionnel). (A) <em>Yes, I am</em> ne convient pas à <em>how</em>. (B) <em>Do you offer delivery?</em> change de sujet.",
+   "30": "Question négative d'opinion : <em>Don't you think redesigning the logo is a good idea?</em> <em>That's a management decision</em> esquive poliment. (B) <em>New graphic design software</em> et (C) <em>Sign this document</em> ne répondent pas.",
+   "31": "Proposition : <em>We could offer corporate discounts at our fitness center.</em> <em>There are a lot of businesses nearby</em> appuie l'idée (clientèle d'entreprises). (B) <em>favorite class</em> et (C) <em>fit in the car</em> jouent sur <em>fitness</em> et <em>fit</em> sans sens.",
+   "32": "La femme dit : <em>I'm calling to book a room at your hotel</em> (book, synonymes : <em>reserve</em>). (A) vol, (C) véhicule, (D) visite : rien de tel n'est évoqué.",
+   "33": "L'homme explique : <em>We're having trouble with our website right now</em> (problème de site, <em>Web site is not working</em>). (A) aucune route en travaux. (C) aucun événement annulé. (D) aucun responsable indisponible.",
+   "34": "L'homme demande <em>the day you'll be arriving</em>, donc la date d'arrivée (<em>A date</em>). Nom, téléphone et e-mail ne sont pas réclamés.",
+   "35": "<em>This week is the premiere of the movie One Memorable Day</em> : une première de film (<em>A movie premiere</em>, synonyme : <em>release</em>). Les autres événements ne sont pas mentionnés.",
+   "36": "La femme propose <em>Maybe we could carpool to the movie theater</em> (covoiturer, <em>Driving together</em>). (A), (B) et (D) ne sont pas suggérés.",
+   "37": "<em>If 10 or more of us purchase tickets, we'll get a group discount</em> : tarif de groupe (<em>By attending with a group</em>). Pas de questionnaire, d'inscription préalable ni de badge d'entreprise.",
+   "38": "L'homme remercie pour le fait de vendre les parfums dans ses grands magasins : <em>stock our perfumes</em>. Le produit est le <em>perfume</em> (synonyme : <em>fragrance</em>). Les autres produits ne sont pas cités.",
+   "39": "<em>I'll take you onto the plant floor for a factory tour</em> : Samantha dirige la visite de l'usine (<em>Leading a facility tour</em>, <em>plant</em> = <em>facility</em>). Pas d'entretien, de chiffres de vente ni d'équipe de recherche.",
+   "40": "<em>What is the timeline for having your perfumes ready for market?</em> : le délai de fabrication (<em>Production time</em>). Avantages sociaux, groupes de discussion et frais de livraison ne sont pas abordés.",
+   "41": "<em>The Autumn Festival at Springfield Trails, which will be held this weekend</em> : un festival d'automne (<em>An autumn festival</em>). Ni compétition, ni mariage, ni départ en retraite.",
+   "42": "Elle signale un risque de pluie ; il répond <em>we'll be setting up tents for participants</em> : il la rassure (<em>To offer reassurance</em>, synonymes : <em>reassure</em>, <em>put at ease</em>). (A) il ne vante pas un succès. (B) il n'explique aucune procédure. (C) il ne demande aucune aide.",
+   "43": "<em>Be sure to enter our raffle</em> : participer au tirage au sort (<em>Enter a contest</em>, synonymes : <em>raffle</em>, <em>draw</em>). Pas d'arrivée tôt, de bénévolat ni de matériel à apporter.",
+   "44": "<em>Our store holds these home improvement workshops</em> : ils travaillent dans un magasin de bricolage (<em>A home improvement store</em>). Garage, traiteur et cabinet d'architecture ne sont pas évoqués.",
+   "45": "<em>I could do the workshop for you</em> : il propose d'animer l'atelier (<em>Lead a workshop</em>, synonymes : <em>run</em>, <em>conduct</em>). Pas d'e-mails, de responsable ni de salle de conférence.",
+   "46": "<em>Don't worry about preparing anything. I'll get all the materials ready for you</em> : elle préparera le matériel (<em>Prepare some materials</em>). Elle n'appelle pas de client, ne met pas de site à jour et n'achète pas de billets.",
+   "47": "<em>The release of our electric car in Canada</em> : le produit est une voiture électrique (<em>A car</em>, synonyme : <em>vehicle</em>). Ordinateur, climatiseur et avion sont hors sujet.",
+   "48": "Il propose les mêmes publicités qu'en France ; elle répond <em>Remember the sales figures from France?</em> puis suggère une autre approche : elle rejette l'idée (<em>To reject a suggestion regarding a strategy</em>). (A) aucune tâche en retard. (B) aucune promotion. (C) aucun manque de personnel.",
+   "49": "<em>We should emphasize the car's sleek design. If we highlight how nice it looks</em> : l'apparence (<em>Appearance</em>, synonymes : <em>look</em>, <em>design</em>). Vitesse, fiabilité et confort ne sont pas cités.",
+   "50": "<em>I want to bring some of our company's brochures to the trade show next month</em> : elle prépare un salon professionnel (<em>A trade show</em>, synonyme : <em>exhibition</em>). Pique-nique, remise de prix et dédicace ne sont pas évoqués.",
+   "51": "<em>Would you like me to order some more brochures while I'm there?</em> : il propose de commander des brochures (<em>Order some brochures</em>). Il ne range pas de dossiers, ne déplace pas de meubles et n'imprime aucun itinéraire (il va chercher une affiche).",
+   "52": "<em>A package was delivered for you this morning</em> : il doit se renseigner sur un colis (<em>A delivery</em>, synonymes : <em>package</em>, <em>parcel</em>). Liste de visiteurs, badge et message téléphonique ne sont pas cités.",
+   "53": "<em>My proposal for an initial public offering</em> : ils doivent décider d'un projet d'introduction en bourse (<em>To decide on a business proposal</em>). Pas d'entretien d'embauche, de présentation à réviser ni de contrat de travail.",
+   "54": "<em>I'm not sure we've identified an investment bank that specializes in stocks</em> : elle hésite sur la banque (<em>The choice of a bank</em>). Elle ne doute ni du coût d'un logiciel, ni d'un équipement, ni d'un article.",
+   "55": "<em>Capture more of the video game market</em>, <em>our gaming company</em> : l'entreprise vend des jeux vidéo (<em>Video games</em>). Vêtements, électroménager et outils de jardinage ne sont pas cités.",
+   "56": "<em>The open technical writer position</em> : rédacteur technique (<em>Technical writer</em>). Les autres postes ne sont pas nommés.",
+   "57": "<em>Nobody has any experience with the publishing software that we use</em> : aucun candidat n'a les compétences voulues (<em>Job applicants are not qualified</em>, synonymes : <em>suitable</em>, <em>experienced</em>). (A) aucun entretien manqué. (C) le logiciel n'est pas dit obsolète. (D) les questions d'entretien ne sont pas mentionnées.",
+   "58": "<em>Send the job description to the career office at the technical college and ask them to advertise the position</em> : publier l'annonce dans un établissement (<em>Advertise at a school</em>). Pas de promotion, de salle à réserver ni de salon de l'emploi.",
+   "59": "<em>We really need to find ways to reduce our spending</em> : on lui a demandé de trouver des économies (<em>Find ways to save money</em>). Il n'est pas chargé de réparations, d'un groupe de discussion ni de conquérir des clients.",
+   "60": "<em>The machines that remove bark from the logs, they should be replaced</em> : remplacer des machines (<em>Replacing some equipment</em>, synonymes : <em>machinery</em>, <em>machines</em>). Manuel, publicité et formation ne sont pas recommandés.",
+   "61": "<em>I found two suitable replacements. I have the product brochures here</em> : ils vont consulter les fiches produits (<em>Look at some product information</em>, synonyme : <em>brochures</em>). Pas de visite, de conversation avec un opérateur ni de logiciel à installer.",
+   "62": "Sur la carte, la deuxième ligne est l'adresse e-mail, sous le nom de l'entreprise. La femme propose de la descendre tout en bas : <em>The e-mail address</em>. Ni l'adresse postale, ni le téléphone, ni le nom de l'entreprise ne sont déplacés.",
+   "63": "<em>No other companies in the area create new recipes specifically tailored to client events</em> : des recettes sur mesure (<em>It creates customized recipes</em>, synonymes : <em>tailored</em>, <em>personalized</em>). Livraison gratuite, produits locaux et menus bio ne sont pas cités.",
+   "64": "<em>I need to schedule a tasting with one of our clients</em> : organiser une dégustation (<em>Arrange a food tasting</em>, <em>schedule</em> = <em>arrange</em>). Pas de fournisseur, de menus à imprimer ni de budget.",
+   "65": "<em>I realized there is a small hole here on the sleeve</em> : l'article est abîmé (<em>It is damaged</em>). Taille, couleur et style ne sont pas en cause.",
+   "66": "<em>You made the purchase on October 1st, that was more than 30 days ago</em> : il renvoie à la règle des 30 jours, la numéro 2 (<em>Policy 2</em>). La règle 1 (achat en ligne), la 3 (étiquettes, qu'elle a laissées) et la 4 (article porté) ne sont pas invoquées.",
+   "67": "<em>I'd like to exchange this shirt for one that's not damaged</em> : elle choisit un échange (<em>Make an exchange</em>). Pas de changement de moyen de paiement, d'autre magasin ni de supérieur.",
+   "68": "<em>The visitor parking spots for the apartment complex</em> et <em>the management office</em> : un immeuble résidentiel (<em>An apartment complex</em>). Club de sport, hôtel et école ne conviennent pas.",
+   "69": "<em>We're allowing temporary parking for visitors next to the maintenance building</em> : sur le plan, le bâtiment de maintenance correspond au parking 2 (<em>Parking area 2</em>). Le parking 1 est la piscine (en travaux), le 3 la fontaine, le 4 l'aire de jeux.",
+   "70": "<em>Your visitor will need to place this sticker inside the car's front window. Here you go</em> : il lui remet un autocollant (<em>A sticker</em>). Coupon, reçu et contrat ne sont pas donnés.",
+   "71": "<em>Now that we're all aboard the bus</em> : ils sont dans un car (<em>On a bus</em>). Ni bateau, ni hôtel, ni restaurant.",
+   "72": "<em>Sharing the natural wonders of the island and its plant and animal life</em> : la nature (<em>Nature</em>). Gastronomie, histoire et architecture ne sont pas évoquées.",
+   "73": "<em>Later, before lunch, we'll be hiking up to the first level</em> : ils feront une randonnée (<em>Go on a hike</em>, synonymes : <em>trek</em>, <em>walk</em>). Pas de monument, d'exposition ni de souvenirs.",
+   "74": "<em>The technology trade show you're attending next week</em> : un salon de technologie (<em>A technology trade show</em>). Ni musée, ni réunion d'investisseurs, ni fête d'entreprise.",
+   "75": "Il a relu la présentation, trouve le schéma très complexe et rappelle que le public ne travaille pas dans le secteur : il suggère de le simplifier (<em>To suggest a revision</em>, synonymes : <em>modification</em>, <em>change</em>). Ce n'est ni une excuse, ni un compliment, ni un refus d'offre.",
+   "76": "<em>Please don't forget that you'll need to email your slides to the edit department</em> : envoyer ses diapositives par e-mail (<em>E-mail some slides</em>). Pas d'itinéraire, de fournitures ni de matériel à tester.",
+   "77": "<em>Banking services</em>, <em>small business loans</em>, <em>your finances</em> : un établissement financier (<em>A financial institution</em>, synonymes : <em>bank</em>, <em>lender</em>). Ni édition, ni cabinet d'avocats, ni agence immobilière.",
+   "78": "<em>The Harper Times has given us the award for Best Customer Service</em> : le service client (<em>Customer service</em>). Implication locale, ventes et stages ne sont pas cités.",
+   "79": "<em>For a limited time, we are not charging an application fee for small business loans</em> : les frais de dossier sont supprimés (<em>An application fee will be waived</em>, synonymes : <em>dropped</em>, <em>canceled</em>). Pas de bourses, d'horaires prolongés ni de consultations gratuites.",
+   "80": "<em>I'd like to remind you of the instructions. You're to take the medicine twice daily, with meals</em> : elle appelle à propos d'un médicament (<em>To talk about a medication</em>, synonyme : <em>prescription</em>). Ce n'est ni un rappel de rendez-vous, ni des félicitations, ni une demande d'informations.",
+   "81": "<em>I'll be out of the country for a conference next week</em> : elle assistera à un congrès (<em>Attending a conference</em>). Pas de service supplémentaire, de recherche ni de visite à des proches.",
+   "82": "<em>If you have any questions about the medicine, call my office. My assistant can help you</em> : l'assistante répond aux questions (<em>Answer some questions</em>). Brochure, tableur et résultats d'examens ne sont pas cités.",
+   "83": "<em>The robots we'll be using in the warehouse</em>, <em>shipments to process</em>, <em>packaging an order</em> : le personnel d'un centre d'expédition (<em>Shipping facility staff</em>, <em>warehouse</em> = <em>facility</em>). Ce ne sont pas des ingénieurs, des ouvriers du bâtiment ni des employés de gare.",
+   "84": "<em>Let's start this training session. I know there are a lot of shipments to process today, so we'll finish up here by 11</em> : la formation sera courte, une heure environ (<em>A training will be short</em>, synonyme : <em>brief</em>). Elle n'a pas débordé, l'horaire n'est pas faux et aucune salle n'est évoquée.",
+   "85": "<em>They can traverse the warehouse very rapidly, about twice as fast as the average worker</em> : la rapidité (<em>Increased speed</em>, synonymes : <em>quicker</em>, <em>faster</em>). Précision, coûts et sécurité ne sont pas avancés.",
+   "86": "<em>Last month, we surveyed the public</em> : l'entreprise a mené une enquête (<em>It conducted a survey</em>, synonymes : <em>poll</em>, <em>questioned</em>). Pas de service de livraison, de lancement ni de hausse de prix.",
+   "87": "<em>If our chefs can modify the recipes of our most popular flavors to reduce their fat content</em> : changer des ingrédients, donc les recettes (<em>Changing some ingredients</em>). Publicités, emballage et durée de fabrication ne sont pas proposés.",
+   "88": "<em>I'm going to meet with the finance team to discuss our budget this afternoon</em> : l'équipe financière (<em>The finance team</em>). Ni marketing, ni chefs, ni responsables de magasins.",
+   "89": "<em>I started this foundation to promote book reading</em> : encourager la lecture (<em>To encourage people to read more</em>, synonyme : <em>promote reading</em>). Musique, forme physique et levée de fonds ne sont pas l'objet.",
+   "90": "<em>I'd like to recognize Mr. Bradley Kenny for the largest single donation we've ever received</em> : il a fait un don généreux (<em>He made a generous donation</em>). Il n'est cité ni comme auteur, ni comme artiste, ni comme responsable de stages.",
+   "91": "<em>The many art pieces that will be up for sale at the auction later tonight</em> : une vente aux enchères d'œuvres d'art (<em>An art auction</em>). Pas de discours principal, de diaporama ni de danse.",
+   "92": "<em>This problem is due to an overly complex labeling process</em> : un processus trop compliqué (<em>A complicated process</em>, synonymes : <em>complex</em>, <em>complicated</em>). Formation, fournisseurs et effectifs ne sont pas en cause.",
+   "93": "Les employés se demandent l'impact sur leur travail ; il répond <em>we're in the planning stages</em> : tout n'est pas encore défini, il n'a pas toutes les informations (<em>He does not have some information</em>). Il ne cherche pas de volontaires, ne parle d'aucune échéance manquée ni de fonds supplémentaires.",
+   "94": "<em>We're hiring a special consultant. The consultant will be working in the conference room</em> : un spécialiste aura besoin de la salle (<em>A specialist will need the space</em>, <em>consultant</em> = <em>specialist</em>). Pas de rénovation, de stockage ni de conseil d'administration.",
+   "95": "<em>The next topic in today's orientation is our digital catalog system. The library has a record of every book. You've all been assigned usernames</em> : il s'adresse au personnel de la bibliothèque (<em>Library employees</em>). Pas des éditeurs, des chercheurs en ornithologie ni des libraires.",
+   "96": "<em>The spelling there should be CRUZ, not CRUZE</em> : l'erreur est dans le nom de l'auteur, <em>Sandra Cruze</em> (<em>The author</em>). Titre, éditeur et maison d'édition sont corrects.",
+   "97": "<em>You've all been assigned unique usernames and passwords. I'm going to hand those out now</em> : il distribue les identifiants (<em>Distribute log-in information</em>, <em>hand out</em> = <em>distribute</em>). Pas de formulaires à collecter, de commande ni de réparateur.",
+   "98": "<em>Due to windy conditions off the coast, all eastbound flights have been delayed</em> : la météo (<em>Weather conditions</em>, <em>windy</em> = <em>weather</em>). Contrôles de sécurité, pannes de matériel et manque de personnel ne sont pas cités.",
+   "99": "<em>We invite you to walk around the terminal and browse the wide selection available in our duty-free shops</em> : faire les boutiques (<em>Visit some shops</em>). Les alertes arrivent sur les mobiles : on ne demande pas de les charger. Ni pesée de bagages ni attente à la porte.",
+   "100": "<em>Passenger Santiago Reyes, please proceed to gate 54</em> : sur le tableau, la porte 54 correspond au Caire (<em>Cairo</em>, départ 10:41). Moscou est porte 50, Le Cap 52, Lisbonne 58."
+  },
+  "t": {
+   "1": {
+    "n": 1,
+    "h": "A. The woman is putting a document into her bag.<br>B. The woman is raking up some leaves.<br>C. The woman is mailing a letter.<br>D. The woman is crossing the street."
+   },
+   "2": {
+    "n": 1,
+    "h": "A. He's reading a pamphlet.<br>B. He's writing on a notepad.<br>C. He's plugging in a cord.<br>D. He's holding a remote control."
+   },
+   "3": {
+    "n": 1,
+    "h": "A. She's carrying a bag of groceries.<br>B. She's facing a refrigerator full of bottles.<br>C. She's waiting at a cash register.<br>D. She's reaching for a product on a shelf."
+   },
+   "4": {
+    "n": 1,
+    "h": "A. A man is talking on the phone.<br>B. A man is seated on a patio.<br>C. A woman is opening an umbrella.<br>D. A woman is pouring some coffee into a mug."
+   },
+   "5": {
+    "n": 1,
+    "h": "A. The women are examining some clothing.<br>B. The women are standing on opposite sides of a counter.<br>C. One of the women is removing an item from a drawer.<br>D. One of the women is leaving a store."
+   },
+   "6": {
+    "n": 1,
+    "h": "A. Some kitchen utensils are hanging on a wall.<br>B. A mop is resting in a bucket of water.<br>C. Some pots and pans have been left on the floor.<br>D. Some ingredients have spilled onto a work surface."
+   },
+   "7": {
+    "n": 1,
+    "h": "<em>When will the building construction be finished?</em><br>A. The instructions are included.<br>B. Bricks and cement.<br>C. On January 16th."
+   },
+   "8": {
+    "n": 1,
+    "h": "<em>Where can I recycle these used batteries?</em><br>A. Yes, I've got some.<br>B. At the hardware store.<br>C. We're all sold out."
+   },
+   "9": {
+    "n": 1,
+    "h": "<em>Who's going to book the flights?</em><br>A. Jung Hoon said he would.<br>B. An interesting flight.<br>C. The seat next to the window."
+   },
+   "10": {
+    "n": 1,
+    "h": "<em>What will the director discuss at the meeting?</em><br>A. The sales report probably.<br>B. On the corner of Elm Street.<br>C. Because the bigger room is free."
+   },
+   "11": {
+    "n": 1,
+    "h": "<em>Why is the reception at a separate location?</em><br>A. Yes, the attendees arrived last night.<br>B. Okay, that sounds good.<br>C. It's just five minutes away."
+   },
+   "12": {
+    "n": 1,
+    "h": "<em>The plumber hasn't come yet, has he?</em><br>A. He has actually.<br>B. He doesn't have any.<br>C. It departs at 11 a.m."
+   },
+   "13": {
+    "n": 1,
+    "h": "<em>How do I purchase a train pass?</em><br>A. In about half an hour.<br>B. You need to go to a ticket booth.<br>C. It's good for all routes."
+   },
+   "14": {
+    "n": 1,
+    "h": "<em>Would you like to join the conference call?</em><br>A. Our hiring strategy was successful.<br>B. I do have some questions for the team.<br>C. The minutes of a meeting."
+   },
+   "15": {
+    "n": 1,
+    "h": "<em>What event is scheduled at the park on Sunday?</em><br>A. Only on the weekends.<br>B. No, I'm not.<br>C. A music concert."
+   },
+   "16": {
+    "n": 1,
+    "h": "<em>Where's the new merchandise?</em><br>A. Because the customers liked it.<br>B. I already signed up for a shift.<br>C. It's being unpacked in the back room."
+   },
+   "17": {
+    "n": 1,
+    "h": "<em>Have the employee training documents been updated?</em><br>A. Do you need them now?<br>B. From Central Station.<br>C. No, it's down the stairs."
+   },
+   "18": {
+    "n": 1,
+    "h": "<em>When will the award plaques be ready?</em><br>A. On Main Street.<br>B. Thank you very much.<br>C. Let me call the vendor."
+   },
+   "19": {
+    "n": 1,
+    "h": "<em>Do you prefer the product packaging in red or blue?</em><br>A. I like the blue one.<br>B. No, the smaller sizes.<br>C. I'll read it later today."
+   },
+   "20": {
+    "n": 1,
+    "h": "<em>Why wasn't Brianna at the staff meeting earlier?</em><br>A. Because she had to meet with a client.<br>B. Sure, I'll check my schedule.<br>C. Upstairs in the conference room."
+   },
+   "21": {
+    "n": 1,
+    "h": "<em>Who's on the next interview with?</em><br>A. It takes five coins.<br>B. Let me check the list.<br>C. By invitation only."
+   },
+   "22": {
+    "n": 1,
+    "h": "<em>Do you want my old desk?</em><br>A. She put them in the top drawer.<br>B. I bought new furniture last month.<br>C. On the front page of the newspaper."
+   },
+   "23": {
+    "n": 1,
+    "h": "<em>Your rental car will be ready in a moment.</em><br>A. The parking area.<br>B. I think he's in Jakarta.<br>C. Thanks for your help."
+   },
+   "24": {
+    "n": 1,
+    "h": "<em>I should make copies of the agenda for our seminar, right?</em><br>A. It went really well.<br>B. No, just send it in an email.<br>C. The department managers."
+   },
+   "25": {
+    "n": 1,
+    "h": "<em>Will you be picking up your prescription glasses in the morning or in the evening?</em><br>A. What time do you open?<br>B. Check the top cabinet.<br>C. I usually drink coffee."
+   },
+   "26": {
+    "n": 1,
+    "h": "<em>Wasn't Mary supposed to train the new interns?</em><br>A. I take the train.<br>B. No, the blue folder.<br>C. Yes, she's with them now."
+   },
+   "27": {
+    "n": 1,
+    "h": "<em>Do you have last month's sales figures with you?</em><br>A. No, I don't have any tape.<br>B. I couldn't get the printer to work.<br>C. New merchandise is by the window."
+   },
+   "28": {
+    "n": 1,
+    "h": "<em>There's been a lot of people at the community pool this week.</em><br>A. Inside the file folder.<br>B. Actually, it's next month.<br>C. The local schools are on a break."
+   },
+   "29": {
+    "n": 1,
+    "h": "<em>How do you know the owner of Comfortable Furnishings?</em><br>A. Yes, I am.<br>B. Do you offer delivery?<br>C. We met at a trade show."
+   },
+   "30": {
+    "n": 1,
+    "h": "<em>Don't you think redesigning the company logo is a good idea?</em><br>A. That's a management decision.<br>B. New graphic design software.<br>C. Sign this document, please."
+   },
+   "31": {
+    "n": 1,
+    "h": "<em>We could offer corporate discounts at our fitness center.</em><br>A. There are a lot of businesses nearby.<br>B. That's my favorite class.<br>C. It won't fit in the car."
+   },
+   "32": {
+    "n": 3,
+    "h": "▸ Hello, I'm calling to book a room at your hotel. I went online to make the reservation, but I keep getting an error message.<br>▸ I'm sorry about that. We're having trouble with our website right now. It's being fixed, but I don't know how long it'll take.<br>▸ Oh, I see. In that case, can I make the reservation with you now over the phone?<br>▸ Yes, of course. If you tell me the day you'll be arriving, I can check to see which rooms we have available."
+   },
+   "35": {
+    "n": 3,
+    "h": "▸ Hey, Nadia. You know, this week is the premiere of the movie One Memorable Day. It received great reviews from film critics. Some of our coworkers are going to go on Thursday evening.<br>▸ Yes, I heard about that. I'm planning to join you. Maybe we could carpool to the movie theater together.<br>▸ That's a great idea. And the theater offers a special rate. If 10 or more of us purchase tickets, we'll get a group discount."
+   },
+   "38": {
+    "n": 3,
+    "h": "▸ Hi Peter, welcome to our factory. We're very happy that you've decided to stock our perfumes in your department stores.<br>▸ We're excited too. We appreciate that you don't use any synthetic ingredients since our customers want all natural beauty products.<br>▸ Definitely. Let me introduce you to Samantha. She oversees the production line.<br>▸ Nice to meet you.<br>▸ If you'll follow me, I'll take you onto the plant floor for a factory tour.<br>▸ Okay, thanks. Before we start the tour, I have one question. What is the timeline for having your perfumes ready for market?<br>▸ It varies by the product, but it usually takes several months."
+   },
+   "41": {
+    "n": 3,
+    "h": "▸ Welcome back to station WBTT. We're speaking with Umesh Kumar, the director of the Autumn Festival at Springfield Trails, which will be held this weekend. What's new for the festival this year, Mr. Kumar?<br>▸ Well, this year, we'll have activity centers along the trail so participants can stop for an activity or just hike the trail.<br>▸ That sounds fun, but we just heard the weather forecast and there is a chance of rain this weekend.<br>▸ Oh, we'll be setting up tents for participants.<br>▸ That's good to know. Well, thanks for being here, Mr. Kumar. And to my listeners, be sure to enter our raffle. This year, the contest prize is a $100 gift card."
+   },
+   "44": {
+    "n": 3,
+    "h": "▸ Hi Kareem, you know how our store holds these home improvement workshops? Well, I'm supposed to lead one next month, but I actually have to go out of town that week.<br>▸ Well, I could do the workshop for you. I'm finishing up a series on kitchen remodeling this month, so I'll have time after that. What's the topic of the workshop?<br>▸ It's about how to install tile flooring in your bathroom. It's been requested by a lot of customers.<br>▸ Sure, I can do that. What materials will I need?<br>▸ Oh, don't worry about preparing anything. I'll get all the materials ready for you."
+   },
+   "47": {
+    "n": 3,
+    "h": "▸ Yuko, the release of our electric car in Canada is coming up soon. Should we run the same advertisements that we used in France?<br>▸ Uh, remember the sales figures from France?<br>▸ Oh, right. So, do you have any ideas?<br>▸ For the Canadian advertising campaign, I suggest that we emphasize the car's sleek design. If we highlight how nice it looks, we'll have a good chance of improving our sales."
+   },
+   "50": {
+    "n": 3,
+    "h": "▸ Hi, Enrique. I want to bring some of our company's brochures to the trade show next month, but it looks like we only have a few left. Do you know where I can get some more?<br>▸ I'm about to go to the printing store to get the poster for that show. Would you like me to order some more brochures while I'm there?<br>▸ That would be great. By the way, on your way out of the office, you should stop at the front desk. The receptionist mentioned that a package was delivered for you this morning.<br>▸ Oh, good. Thanks for letting me know."
+   },
+   "53": {
+    "n": 3,
+    "h": "▸ On today's agenda is my proposal for an initial public offering of our company's stock. As company owners, it's our decision. You know, I'm in favor.<br>▸ I support the plan too. We're definitely going to need additional funding if we want to expand our business.<br>▸ I agree, but I'm not sure we've identified an investment bank that specializes in stocks. We should choose carefully.<br>▸ You're right. We have to carefully consider which bank we use. But are you in favor of our company selling stock?<br>▸ Yes, increasing our funding will help us capture more of the video game market.<br>▸ Three yeses. It's unanimous then, good. I think this is the right step for our gaming company."
+   },
+   "56": {
+    "n": 3,
+    "h": "▸ I've looked through all the applications for the open technical writer position.<br>▸ Really, how do they look?<br>▸ Nobody has any experience with the publishing software that we use to create the user manuals.<br>▸ Hmm, I'd rather not have to teach somebody how to use it if we can avoid it. Why don't I send the job description to the career office at the technical college and ask them to advertise the position?<br>▸ That's a great idea. And be sure to put knowledge of that software in the list of job requirements."
+   },
+   "59": {
+    "n": 3,
+    "h": "▸ Hello, Mr. Kobayashi. Thanks for meeting me here at the Wood Processing Facility. I'm looking forward to hearing your analysis. We really need to find ways to reduce our spending.<br>▸ Yes, well, I've completed my financial evaluation and there are some changes you can make.<br>▸ Great, what are your recommendations?<br>▸ Okay, the machines that remove bark from the logs, they should be replaced. Based on my analysis, you spend several thousand euros every time they need repairs.<br>▸ That makes sense. We do have to repair them quite often.<br>▸ Exactly, I found two suitable replacements. I have the product brochures here."
+   },
+   "62": {
+    "n": 3,
+    "h": "▸ Here's the draft layout for our catering company's business card.<br>▸ Hmm, the top section seems crowded. I think it would help unclutter things if we move the second line all the way down to the bottom of the card.<br>▸ Okay, I'll take care of that.<br>▸ Thanks, it's important that we always make a good impression with our catering clients. There's a lot of competition out there.<br>▸ The good thing is we have an excellent reputation with all our clients because we're different. No other companies in the area create new recipes specifically tailored to client events.<br>▸ True, and actually, while we're on the subject, I need to schedule a tasting with one of our clients."
+   },
+   "65": {
+    "n": 3,
+    "h": "▸ Hi, I'd like to return this shirt for a cash refund. After I bought it, I realized there is a small hole here on the sleeve.<br>▸ Let me see, oh, that's too bad. I can give you a refund, but some restrictions do apply. Do you have your receipt?<br>▸ Yeah, here it is, and I left the tags on.<br>▸ Thanks, hmm, it looks like you made the purchase on October 1st, that was more than 30 days ago. According to store policy, I'm afraid I can't give you a refund.<br>▸ Oh, really? In that case, I'd like to exchange this shirt for one that's not damaged.<br>▸ Sure, okay, no problem."
+   },
+   "68": {
+    "n": 3,
+    "h": "▸ Hi, Ms. Harris. What brings you to the management office?<br>▸ I have a friend visiting this weekend, and I noticed that the visitor parking spots for the apartment complex are blocked by construction equipment.<br>▸ Yes, we're renovating the pool area. It should be done by summer.<br>▸ That sounds nice, but until then?<br>▸ Right, until then, we're allowing temporary parking for visitors next to the maintenance building.<br>▸ Okay.<br>▸ Your visitor will need to place this sticker inside the car's front window. Here you go.<br>▸ Thank you."
+   },
+   "71": {
+    "n": 3,
+    "h": "Now that we're all aboard the bus, I'd like to welcome you and introduce myself. My name is Martina. I'll be your guide for this tour of Cargoo Island. I'm looking forward to sharing the natural wonders of the island and its plant and animal life with you. If you look out the windows to your right, just beyond the buildings and town, you can see our highest peak, Mount Isabella. Later, before lunch, we'll be hiking up to the first level. The views from up there are incredible."
+   },
+   "74": {
+    "n": 3,
+    "h": "Hi, Rosa. I just want to check on your preparations for the technology trade show you're attending next week. I think that people will be really interested in the wireless headphones we're developing. I reviewed your presentation, and on slide 10, well, the graphic is very complex. Keep in mind that a lot of people who will be there don't work in the industry. Oh, and please don't forget that you'll need to email your slides to the edit department to be reviewed."
+   },
+   "77": {
+    "n": 3,
+    "h": "When it comes to your finances, you want to be sure your money is secure. Horizon Line is here to help. Our friendly and capable staff can assist you with a variety of banking services. In fact, that's why the Harper Times has given us the award for Best Customer Service for two years in a row. For a limited time, we are not charging an application fee for small business loans. Come in today to take advantage of this waiver. Let Horizon Line secure your financial future today."
+   },
+   "80": {
+    "n": 3,
+    "h": "Hello, Mr. Tal. This is Dr. Grayson. I performed your check-up at the Clivedon Institute of Health. Your prescription should be ready soon, so I'd like to remind you of the instructions. You're to take the medicine twice daily, with meals. So that's once at breakfast and once at dinner. I'll be out of the country for a conference next week, so I won't be available by phone while I'm there. If you have any questions about the medicine, call my office. My assistant can help you. Have a good day."
+   },
+   "83": {
+    "n": 3,
+    "h": "Okay, it's 10 o'clock, so let's start this training session on the robots we'll be using in the warehouse. I know there are a lot of shipments to process today, so we'll finish up here by 11. Now let's look at how the robots will be used. Once you're done packaging an order, scan the box, place it on the robot, and press a button. The robot will transport the box to the correct loading dock. A major advantage is that they can traverse the warehouse very rapidly, about twice as fast as the average worker."
+   },
+   "86": {
+    "n": 3,
+    "h": "As you know, grocery stores have been ordering fewer products from our ice cream company. So, last month, we surveyed the public to see if we could find out why sales have been decreasing. The results? People love our ice cream flavors, but they prefer to purchase healthier ice cream, brands with less fat. So, if our chefs can modify the recipes of our most popular flavors to reduce their fat content, we should be able to regain our customer base. However, we need to make sure we have funding to proceed with this plan. So, I'm going to meet with the finance team to discuss our budget this afternoon."
+   },
+   "89": {
+    "n": 3,
+    "h": "Hello, everyone. I'd like to thank you all for attending this evening's celebration. When I started this foundation to promote book reading, I never imagined we'd become so successful. Tonight, I'd like to recognize Mr. Bradley Kenny, in particular, for the largest single donation we've ever received. The money Mr. Kenny gave will help us buy new books and deliver them to more than 3,000 students. Other donations we have received include the many art pieces that will be up for sale at the auction later tonight. All of the money we raise at the auction will go to continuing the foundation's efforts."
+   },
+   "92": {
+    "n": 3,
+    "h": "We're all aware that the company has had to recall several cartons of screws and nails that were labeled improperly. This problem is due to an overly complex labeling process, so the company intends to adopt a new labeling procedure soon. Now, I'm sure you're wondering how this will affect your work. Well, we're in the planning stages. We're hiring a special consultant to assess our current process and offer recommendations. We don't have much office space right now, so the consultant will be working in the conference room."
+   },
+   "95": {
+    "n": 3,
+    "h": "The next topic we'll cover in today's orientation is our digital catalog system. The library has a record of every book on our shelves. If you look up at the screen, you'll see an entry for a book the library recently purchased. This is what the results look like when a user searches for a title and... Oh, that's not right. The spelling there should be CRUZ, not CRUZE. But mistakes happen, and this is a good opportunity for you all to learn how to edit an entry. You'll have to log in first. You've all been assigned unique usernames and passwords to use to access the database. I'm going to hand those out now."
+   },
+   "98": {
+    "n": 3,
+    "h": "Attention all travelers. Due to windy conditions off the coast, all eastbound flights have been delayed. We will begin boarding as soon as we have the all clear from air traffic control. In the meantime, we invite you to walk around the terminal and browse the wide selection available in our duty-free shops. Boarding alerts will be sent to your mobile devices. And passenger Santiago Reyes, please proceed to gate 54 to receive your seat assignment."
+   }
+  }
  }
 };
