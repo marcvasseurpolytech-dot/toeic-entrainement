@@ -151,6 +151,8 @@
     .cell .sc { font-size:0.78rem; color:var(--muted); grid-column:1; }
     .cell .btn-start { margin-top:0; padding:0.45rem 0.8rem; font-size:0.8rem; grid-column:2; grid-row:1 / span 2; }
     .cell.closed { opacity:0.55; }
+    .badge-new { display:inline-block; background:#e53935; color:#fff; font-size:0.68rem; font-weight:800; letter-spacing:0.06em; padding:2px 7px; border-radius:999px; vertical-align:middle; animation:newpulse 1.8s ease-in-out infinite; }
+    @keyframes newpulse { 0%,100% { box-shadow:0 0 0 0 rgba(229,57,53,.45); } 50% { box-shadow:0 0 0 5px rgba(229,57,53,0); } }
     .tot { display:flex; justify-content:space-between; border-top:1px solid var(--border); padding-top:0.6rem; font-size:0.9rem; font-weight:700; color:var(--navy); }
     .badge.prog { background:#e7eefb; color:#1e4fa3; }
     .tests-grid.compact { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:0.7rem; }
@@ -261,11 +263,14 @@
     // AVAILABLE TESTS
     // =========================================================
     let ACCESS_CLASSES = {};
+    let OPENED_AT = {};
+    const NEW_DAYS = 14;
     async function loadAccess() {
       try {
         const r = await fetch('/api/access');
         const data = await r.json();
         ACCESS_CLASSES = data.classes || {};
+        OPENED_AT = data.openedAt || {};
         return data.tests || {};
       } catch { return {}; }
     }
@@ -299,11 +304,17 @@
       const last = used ? mine[0].score : null;
       const st = { id, t, used, maxA, allowed, remaining, classOk, isOpen, best, last, grants,
         canStart: isOpen && remaining > 0, done: used > 0 && remaining === 0, prog: remaining > 0 && inProgress(id) };
+      const oa = OPENED_AT[id] ? new Date(OPENED_AT[id]).getTime() : 0;
+      st.isNew = isOpen && used === 0 && !st.prog && oa > 0 && Date.now() - oa < NEW_DAYS * 864e5;
       st.rank = !isOpen ? 4 : st.prog ? 0 : used === 0 ? 1 : remaining > 0 ? 2 : 3;
       return st;
     }
     function badgeOf(x) {
       const t = x.t, multi = x.maxA > 1;
+      const nw = x.isNew ? '<span class="badge-new">NEW</span> ' : '';
+      return nw + badgeCore(x, t, multi);
+    }
+    function badgeCore(x, t, multi) {
       if (!x.isOpen) return `<span class="badge locked">${x.classOk ? 'Closed' : 'Not open to your class'}</span>`;
       if (x.prog) return '<span class="badge prog">In progress</span>';
       if (x.used === 0) return '<span class="badge open">Available</span>';
@@ -339,6 +350,7 @@
         const id = ids.find(i => TESTS_DATA[i].section === sec);
         if (!id) return '';
         const x = statusOf(id, scores, access);
+        if (!x.isOpen) return '';
         const mine = scores.filter(s => s.testId === id).sort((a, b) => new Date(b.date) - new Date(a.date));
         const conv = mine[0] ? convertedSectionScore(sec, mine[0].score) : null;
         const sc = mine[0] ? `${mine[0].score}/${x.t.total} · ${conv}/495 · ${cecrlForTable(conv, sec === 'L' ? CECRL_LISTENING : CECRL_READING)}` : 'Not taken yet';
@@ -348,6 +360,7 @@
             <button class="btn-start" ${x.canStart ? '' : 'disabled'} onclick="startTest('${id}')">${btnLabel(x)}</button>
           </div>`, conv };
       }).filter(Boolean);
+      if (!cells.length) return null;
       const both = cells.length === 2 && cells[0].conv !== null && cells[1].conv !== null;
       const total = both ? cells[0].conv + cells[1].conv : null;
       const name = TESTS_DATA[ids[0]].name;
@@ -367,12 +380,12 @@
         if (g.key === 'full') {
           const byBase = {};
           ids.forEach(id => { (byBase[TESTS_DATA[id].baseId] = byBase[TESTS_DATA[id].baseId] || []).push(id); });
-          items = Object.entries(byBase).map(([base, list]) => fullCard(base, list, scores, access));
+          items = Object.entries(byBase).map(([base, list]) => fullCard(base, list, scores, access)).filter(Boolean);
         } else {
-          items = ids.map(id => { const x = statusOf(id, scores, access); return { rank: x.rank, name: x.t.name, html: singleCard(x) }; });
+          items = ids.map(id => statusOf(id, scores, access)).filter(x => x.isOpen).map(x => ({ rank: x.rank, name: x.t.name, html: singleCard(x) }));
         }
         items.sort((a, b) => a.rank - b.rank || natural(a.name, b.name));
-        grid.innerHTML = items.length ? items.map(i => i.html).join('') : '<p class="empty-msg">No test in this category yet.</p>';
+        grid.innerHTML = items.length ? items.map(i => i.html).join('') : '<p class="empty-msg">No test open in this category right now.</p>';
       });
     }
 
@@ -380,11 +393,12 @@
       const nav = document.getElementById('tabs');
       const tabs = GROUPS.map(g => {
         const ids = idsOf(g.key);
-        const stt = ids.map(id => statusOf(id, scores, access));
-        const open = stt.filter(x => x.isOpen && x.remaining > 0).length;
-        return { key: g.key, title: g.title, cnt: `${stt.filter(x => x.used > 0).length}/${ids.length}`, open };
+        const stt = ids.map(id => statusOf(id, scores, access)).filter(x => x.isOpen);
+        const open = stt.filter(x => x.remaining > 0).length;
+        const fresh = stt.filter(x => x.isNew).length;
+        return { key: g.key, title: g.title, cnt: `${stt.filter(x => x.used > 0).length}/${stt.length}`, open, fresh };
       }).concat([{ key: 'results', title: 'My results', cnt: String(new Set(scores.map(s => s.testId)).size) }]);
-      nav.innerHTML = tabs.map(t => `<button type="button" role="tab" class="tab-btn" data-tab="${t.key}">${t.title}<span class="cnt" title="${t.key === 'results' ? 'tests taken' : 'done / total'}">${t.cnt}</span>${t.open ? `<span class="cnt" style="background:#e6f4ec;color:var(--success);border-color:#b9dfc9" title="open now">${t.open} open</span>` : ''}</button>`).join('');
+      nav.innerHTML = tabs.map(t => `<button type="button" role="tab" class="tab-btn" data-tab="${t.key}">${t.title}<span class="cnt" title="${t.key === 'results' ? 'tests taken' : 'done / total'}">${t.cnt}</span>${t.fresh ? '<span class="badge-new" title="new tests">NEW</span>' : ''}${t.open ? `<span class="cnt" style="background:#e6f4ec;color:var(--success);border-color:#b9dfc9" title="open now">${t.open} open</span>` : ''}</button>`).join('');
       nav.onclick = e => { const b = e.target.closest('.tab-btn'); if (b) showTab(b.dataset.tab); };
       let start = 'full';
       try { start = sessionStorage.getItem('dashTab') || ''; } catch {}

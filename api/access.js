@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
   // in `classes` is open to every class.
   if (req.method === 'GET') {
     const file = await ghGet(FILE, token);
-    return res.json({ tests: file?.data?.tests || {}, classes: file?.data?.classes || {} });
+    return res.json({ tests: file?.data?.tests || {}, classes: file?.data?.classes || {}, openedAt: file?.data?.openedAt || {} });
   }
 
   // POST — admin only.
@@ -90,9 +90,22 @@ module.exports = async (req, res) => {
     for (let attempt = 0; attempt < 3; attempt++) {
       const file = await ghGet(FILE, token);
       const cur = { tests: { ...(file?.data?.tests || {}) }, classes: { ...(file?.data?.classes || {}) } };
+      const before = { tests: { ...cur.tests }, classes: { ...cur.classes } };
       apply(cur);
+      // openedAt: when a test was last opened (closed -> open, or opened to new departments).
+      // The student dashboard shows a NEW label from it.
+      const openedAt = { ...(file?.data?.openedAt || {}) };
+      const now = new Date().toISOString();
+      Object.keys(cur.tests).forEach(id => {
+        if (cur.tests[id] !== true) { delete openedAt[id]; return; }
+        const was = before.tests[id] === true;
+        const bc = before.classes[id] || CLASSES, cc = cur.classes[id] || CLASSES;
+        const widened = cc.some(c => !bc.includes(c));
+        if (!was || widened) openedAt[id] = now;
+      });
+      cur.openedAt = openedAt;
       const ok = await ghPut(FILE, cur, file?.sha, token);
-      if (ok) return res.json({ success: true, tests: cur.tests, classes: cur.classes });
+      if (ok) return res.json({ success: true, tests: cur.tests, classes: cur.classes, openedAt });
     }
     return res.status(500).json({ error: 'SHA conflict — try again.' });
   }
