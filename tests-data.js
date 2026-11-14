@@ -522,6 +522,26 @@ const TESTS_DATA = {
     ]
   },
 
+  // TOEIC Practice Test Final, Reading (booklet = pages of the official-format PDF, questions 101 to 200 shown as 1 to 100;
+  // key solved and checked question by question, explanations in api/_review.js).
+  'practicefinal-reading': {
+    name: 'TOEIC Practice Test Final',
+    part: 'Reading',
+    section: 'R',
+    baseId: 'practicefinal',
+    defaultClosed: true,   // closed until an admin opens it
+    audioControlled: false,
+    duration: 75 * 60,
+    bookletUrl: 'booklets/practicefinal-reading.pdf',
+    partIds: ['p5', 'p6', 'p7'],
+    total: 100,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] },
+      { name: 'Part 6 — Text Completion', start: 31, end: 46, choices: ['A','B','C','D'] },
+      { name: 'Part 7 — Reading Comprehension', start: 47, end: 100, choices: ['A','B','C','D'] }
+    ]
+  },
+
   // Full Listening Test 5 (Drive folder 'TOEIC Listening part GF 1'; key read on the official key image of the Drive folder; PDF booklet from the same folder when available).
   'fulllistening-gfa-listening': {
     name: 'Full Listening Test 5',

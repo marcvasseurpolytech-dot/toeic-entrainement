@@ -175,6 +175,18 @@
     .bubble.selected    { background: #111; border-color: #111; color: #fff; box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--gold); }
     .bubble.correct-ans { background: var(--success); border-color: var(--success); color: #fff; box-shadow: none; }
     .bubble.wrong-ans   { background: var(--error); border-color: var(--error); color: #fff; box-shadow: none; }
+    /* Correction (explanations, only for tests that have them) */
+    #correction-panel { display: none; max-width: 860px; margin: 1.2rem auto; padding: 0 0.6rem; }
+    #correction-panel h2 { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.3rem; margin-bottom: 0.3rem; }
+    #correction-panel .corr-tools { display: flex; align-items: center; gap: 0.7rem; margin: 0.4rem 0 0.9rem; font-size: 0.85rem; color: var(--muted); }
+    #correction-panel .corr-tools button { background: var(--navy); color: var(--cream); border: none; border-radius: 6px; padding: 0.4rem 0.8rem; cursor: pointer; font-size: 0.82rem; }
+    #correction-panel .corr-part { font-family: 'Playfair Display', serif; color: var(--dark-gold); font-weight: 700; margin: 1.1rem 0 0.4rem; border-bottom: 1px solid var(--border); padding-bottom: 0.2rem; }
+    #correction-panel .corr-item { background: #fff; border: 1px solid var(--border); border-left: 5px solid var(--success); border-radius: 8px; padding: 0.55rem 0.8rem; margin-bottom: 0.5rem; font-size: 0.9rem; line-height: 1.5; color: var(--ink); }
+    #correction-panel .corr-item.wrong { border-left-color: var(--error); background: #fdf6f5; }
+    #correction-panel .corr-item.blank { border-left-color: var(--muted); background: #f6f6f6; }
+    #correction-panel .corr-head { font-weight: 700; color: var(--navy); margin-bottom: 0.2rem; }
+    #correction-panel .corr-item.wrong .corr-head { color: var(--error); }
+    #correction-panel.only-wrong .corr-item.right { display: none; }
     .q-feedback { font-size: 0.7rem; color: var(--muted); min-height: 0; }
     .qcard.wrong .q-feedback { color: var(--error); font-weight: 600; }
     .qcard.jump-highlight { animation: jumpFlash 1.2s ease; }
@@ -299,6 +311,8 @@
       <p class="results-hint">Scroll down to review every answer: green is correct, red is wrong.</p>
       <button class="btn-dashboard" onclick="window.location.href='dashboard.html'">← Back to dashboard</button>
     </div>
+
+    <div id="correction-panel"></div>
 
     <div id="test-body">
       <div id="booklet-section" style="display:none" class="booklet-block">
@@ -915,6 +929,32 @@ function gradeAndRender(userAnswers, keys) {
   return { correct, wrong, blank };
 }
 
+
+// Explanations (French), shown under the results only when the server sends them for this test.
+function renderCorrection(userAnswers, keys, review) {
+  const box = document.getElementById('correction-panel');
+  if (!box || !review || !review.q) return;
+  let html = '<h2>Correction</h2><div class="corr-tools"><span>Explanation for every question.</span>' +
+             '<button type="button" id="corr-toggle">Show only my mistakes</button></div>';
+  TEST.parts.forEach(part => {
+    html += `<div class="corr-part">${cleanDash(part.name)}</div>`;
+    for (let q = part.start; q <= part.end; q++) {
+      const key = keys[q - 1], ans = userAnswers[q - 1], txt = review.q[String(q)];
+      if (!txt) continue;
+      const state = (ans === null || ans === undefined) ? 'blank' : (ans === key ? 'right' : 'wrong');
+      const head = state === 'right' ? `${q}. Correct: ${key}` :
+                   state === 'blank' ? `${q}. Unanswered · Answer: ${key}` : `${q}. You: ${ans} · Answer: ${key}`;
+      html += `<div class="corr-item ${state}"><div class="corr-head">${head}</div><div>${txt}</div></div>`;
+    }
+  });
+  box.innerHTML = html;
+  box.style.display = 'block';
+  document.getElementById('corr-toggle').onclick = function () {
+    const on = box.classList.toggle('only-wrong');
+    this.textContent = on ? 'Show all questions' : 'Show only my mistakes';
+  };
+}
+
 // =========================================================
 // REVIEW MODE — revisit a previously submitted attempt,
 // read-only, no timer, no autosave
@@ -949,6 +989,7 @@ async function initReviewMode() {
     entry.answers.forEach((a, i) => { if (a) answers[i] = a; });
     submitted = true;
     gradeAndRender(answers, data.keys);
+    renderCorrection(answers, data.keys, data.review);
   } catch (e) {
     alert('Could not load your submitted answers.');
     window.location.href = 'dashboard.html';
@@ -1010,6 +1051,7 @@ async function submitTest(auto = false) {
   submitting = false;
   if (strictAudio) strictAudio.stop();
   gradeAndRender(answers, data.keys);
+  renderCorrection(answers, data.keys, data.review);
   document.getElementById('btn-jump').style.display = 'none';
   document.getElementById('restore-banner').style.display = 'none';
   document.getElementById('time-track').classList.remove('on');
