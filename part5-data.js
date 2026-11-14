@@ -9455,5 +9455,1225 @@ var P5_TESTS = {
     "t": "verb"
    }
   ]
+ },
+ "g30-t28": {
+  "title": "Part 5 Grammar | Test 28",
+  "qs": [
+   {
+    "q": "To be considered for the internship, your ------- must be received by March 30.",
+    "o": [
+     "applicant",
+     "apply",
+     "applied",
+     "application"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "More than 975 people ------- over 35 nations attended the renewable energy trade show.",
+    "o": [
+     "toward",
+     "beside",
+     "from",
+     "off"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "Many community ------- in Centerville are sponsored by the City Arts Council.",
+    "o": [
+     "activity",
+     "activities",
+     "actively",
+     "active"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Mr. Young has excellent qualifications, ------- I have no problem recommending him for the position with Seomin Engineering.",
+    "o": [
+     "until",
+     "while",
+     "so",
+     "despite"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "New employees ------- receive their orientation packets on their first day of work.",
+    "o": [
+     "annually",
+     "ever",
+     "very",
+     "usually"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "In the event of a cancellation, you can ------- request a full refund or accept an alternative flight.",
+    "o": [
+     "either",
+     "unless",
+     "whether",
+     "when"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "This spring, the Blue Mask Theater attracted 10 percent more ticket subscribers than it ------- over the same period last year.",
+    "o": [
+     "does",
+     "did",
+     "has done",
+     "will do"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "We are happy to ------- that Dr. Bluestein's medical office is moving to a larger suite in Greeley Tower.",
+    "o": [
+     "install",
+     "announce",
+     "encourage",
+     "manage"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Pruitt Synthetic Oils are ------- formulated to improve the performance of motorcycle engines.",
+    "o": [
+     "specially",
+     "specialize",
+     "specialty",
+     "special"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "The board of directors gave their ------- for the purchase of Kabral, Inc.",
+    "o": [
+     "approval",
+     "factor",
+     "enjoyment",
+     "respect"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Credit cards are accepted at ------- all of the city's hotels and restaurants.",
+    "o": [
+     "beyond",
+     "appropriately",
+     "indoors",
+     "almost"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "This week, commuters will be ------- by a large road construction project.",
+    "o": [
+     "expected",
+     "attained",
+     "reserved",
+     "delayed"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Ms. Cho will assist with the orientation for new technicians since ------- agreed to serve as a mentor.",
+    "o": [
+     "she",
+     "her",
+     "hers",
+     "herself"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "Lanwyn City has the largest port on the coast and is a ------- exporter of goods.",
+    "o": [
+     "major",
+     "majority",
+     "majored",
+     "majoring"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Ms. Trow has written a guide on how to reach your financial goals more ------- than ever.",
+    "o": [
+     "quickly",
+     "quick",
+     "quicker",
+     "quicken"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Please contact assistant Chikako Mori ------- scheduling any meetings in the Green Center.",
+    "o": [
+     "to",
+     "since",
+     "before",
+     "during"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "The New Engineering Journal hired journalist Jinwoo Kim ------- a monthly column about industrial innovations.",
+    "o": [
+     "writes",
+     "writing",
+     "will write",
+     "to write"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "Osaka Sporting Goods hires employees who are ------- about fitness so that customers will get excited about buying products.",
+    "o": [
+     "enthusiastic",
+     "polite",
+     "reasonable",
+     "pleasant"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "The new tool allows scientists to get a ------- measurement than before.",
+    "o": [
+     "precise",
+     "precisely",
+     "more precise",
+     "more precisely"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Author Ki-Nam Lee was surprised to hear several critics draw a ------- between his novel and Ji-ae Park's classic Night in Seoul.",
+    "o": [
+     "demand",
+     "relationship",
+     "comparison",
+     "difference"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "------- negative market predictions, Mr. Maggio remains optimistic about his company's future.",
+    "o": [
+     "Because of",
+     "In spite of",
+     "Depending on",
+     "According to"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "Vittan Industries is seeking an experienced ------- capable of coordinating various office tasks.",
+    "o": [
+     "administrator",
+     "administer",
+     "administrative",
+     "administrating"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "The rubber soles of Framont boots provide the ------- grip possible on wet or icy terrain.",
+    "o": [
+     "firm",
+     "firmer",
+     "firmest",
+     "firmly"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Adding customer testimonials to the Web site will give our company more ------- with potential clients.",
+    "o": [
+     "authorization",
+     "credibility",
+     "anticipation",
+     "targets"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "The keynote speech will be moved to the Zeldner Auditorium to ensure ------- space for all attendees.",
+    "o": [
+     "adequate",
+     "advanced",
+     "determined",
+     "total"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "There should be enough time to load the trucks ------- of when they arrive.",
+    "o": [
+     "regardless",
+     "inside",
+     "most",
+     "instead"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "J.K. Park Construction requires employees to contact a supervisor ------- if they notice any violations of the safety policy.",
+    "o": [
+     "very few",
+     "finally",
+     "somewhat",
+     "right away"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "It is the responsibility of ------- leaves the shop last to lock the doors.",
+    "o": [
+     "someone",
+     "whoever",
+     "anybody",
+     "all"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "Cynthia Tsbari and Adam Corbent recently ------- on a study about consumer trends in the digital age.",
+    "o": [
+     "established",
+     "collaborated",
+     "nominated",
+     "descended"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Kreuder Computer Company ------- as a leader in customer satisfaction.",
+    "o": [
+     "will continue seeing",
+     "to continue to see",
+     "continues to be seen",
+     "were to continue being seen"
+    ],
+    "t": "verb"
+   }
+  ]
+ },
+ "g30-t35": {
+  "title": "Part 5 Grammar | Test 35",
+  "qs": [
+   {
+    "q": "When the committee members met last week, ------- approved plans to build a new library.",
+    "o": [
+     "themselves",
+     "their",
+     "them",
+     "they"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "Any questions about payroll should be sent ------- Ms. Pryor in the accounting department.",
+    "o": [
+     "with",
+     "to",
+     "of",
+     "on"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "------- the Lado factory and the Orden factory lost power last night.",
+    "o": [
+     "Either",
+     "Several",
+     "Both",
+     "Each"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "Job fair participants will not be allowed into the venue without ------- attire.",
+    "o": [
+     "suitable",
+     "suitability",
+     "suitably",
+     "suitableness"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Receipts for business purchases must be submitted ------- to the accounting department for reimbursement.",
+    "o": [
+     "recently",
+     "thoroughly",
+     "suddenly",
+     "promptly"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Please contact us with ------- questions regarding the warranty for your new backpack.",
+    "o": [
+     "any",
+     "every",
+     "enough",
+     "neither"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "Reld Bank has a branch located ------- the Cheswin Mall.",
+    "o": [
+     "about",
+     "into",
+     "inside",
+     "between"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "Zinny Sunscreen offers ------- twice as much protection from the Sun's harmful rays as other leading brands.",
+    "o": [
+     "nearly",
+     "nearness",
+     "nearest",
+     "nearer"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Decorations selected for the restaurant should be ------- with the building's historic nature.",
+    "o": [
+     "familiar",
+     "popular",
+     "compatible",
+     "satisfied"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Hotel guests needing ------- with the television should contact the front desk by calling extension four.",
+    "o": [
+     "assistant",
+     "assistance",
+     "assist",
+     "assisted"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Our continued success in the electronics market is highly ------- on the level of research investments.",
+    "o": [
+     "depend",
+     "depends",
+     "dependent",
+     "dependence"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "After much discussion, Murphy's Home Products ------- agreed to extend the deadline for rebate submissions.",
+    "o": [
+     "continually",
+     "perfectly",
+     "finally",
+     "extremely"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Because ------- assembly of the machine is vital, please follow the instructions included with the materials.",
+    "o": [
+     "accurate",
+     "accurately",
+     "accuracy",
+     "accuracies"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "By the end of next year, Line Zone Sports ------- its tenth superstore in the area.",
+    "o": [
+     "was opening",
+     "opened",
+     "has opened",
+     "will have opened"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "Drivers should expect twenty-minute ------- on Route 35 between Front and Maple Streets throughout the summer.",
+    "o": [
+     "distances",
+     "differences",
+     "delays",
+     "details"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Mr. Akiyama is looking for a moving company that can pack his fragile art pieces -------.",
+    "o": [
+     "care",
+     "carefully",
+     "cared",
+     "careful"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "The renovation of Shireen's Sandwich Shop was completed ------- the two-month time frame.",
+    "o": [
+     "within",
+     "except",
+     "among",
+     "onto"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "Mr. Morales had to travel on a different day ------- the flight he had planned to take was fully booked.",
+    "o": [
+     "because",
+     "whether",
+     "how",
+     "despite"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "Although Liam O'Mally's new novel is a fictionalized account of early space travel, it draws on ------- events.",
+    "o": [
+     "practiced",
+     "historical",
+     "capable",
+     "expert"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "At Temistow Corporation, ------- who work at least 30 hours a week qualify for full-time status.",
+    "o": [
+     "this",
+     "that",
+     "these",
+     "those"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "Bakerton Park's tree identification course is designed to ------- your knowledge of local forest life.",
+    "o": [
+     "thicken",
+     "expand",
+     "acquire",
+     "introduce"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Department managers would like ------- everyone to use the Market Street entrance on Monday.",
+    "o": [
+     "remind",
+     "to remind",
+     "reminding",
+     "reminded"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Please note that ------- media reports, Friday's orchestra performance at the Morlin Civic Center has not been canceled.",
+    "o": [
+     "just as",
+     "as if",
+     "contrary to",
+     "in addition to"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "The receipt of the grant was a big step ------- getting the bridge project completed.",
+    "o": [
+     "even",
+     "away",
+     "however",
+     "toward"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "Gevrin Technologies' customer service chat window helps ensure that customers on their Web site receive timely -------.",
+    "o": [
+     "responds",
+     "responsive",
+     "responding",
+     "responses"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "The project Mr. Brooks was assigned is expected to take an ------- amount of time to complete.",
+    "o": [
+     "immense",
+     "actual",
+     "expressive",
+     "official"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "The corporate ------- of Darton Wares, Inc., is complex, but the chart illustrates how its departments are organized.",
+    "o": [
+     "application",
+     "structure",
+     "advance",
+     "sequence"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Sumi Koyama's book is ------- a collection of remembrances from her fascinating career.",
+    "o": [
+     "essence",
+     "essences",
+     "essentialize",
+     "essentially"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Highway construction ------- scheduled to start this June has been delayed, according to the mayor's office.",
+    "o": [
+     "exactly",
+     "overly",
+     "merely",
+     "initially"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Fabramet Ltd. is ------- information about its new clothing line until the official release date in July.",
+    "o": [
+     "referring",
+     "terminating",
+     "withholding",
+     "suggesting"
+    ],
+    "t": "verb"
+   }
+  ]
+ },
+ "g30-t37": {
+  "title": "Part 5 Grammar | Test 37",
+  "qs": [
+   {
+    "q": "Conrad Daytoni concert tickets normally sell out -------.",
+    "o": [
+     "quicken",
+     "quickened",
+     "quickly",
+     "quickness"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Interns in the Graphic Art Department should be given opportunities to develop ------- skills.",
+    "o": [
+     "their",
+     "them",
+     "theirs",
+     "they"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "Employees must get approval ------- the supervisor to leave work for medical appointments.",
+    "o": [
+     "out",
+     "after",
+     "during",
+     "from"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "This attachment contains ------- information regarding recent changes to your account.",
+    "o": [
+     "private",
+     "privately",
+     "privatize",
+     "privatized"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Encouraged by the ------- economy, consumers have begun to spend more freely.",
+    "o": [
+     "improving",
+     "improves",
+     "improve",
+     "improvement"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Ms. Stratton praised the marketing department for working so ------- on the Green Point Herbal Teas project.",
+    "o": [
+     "harden",
+     "harder",
+     "hardest",
+     "hard"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "The company van is not available on August 4, ------- we will need to arrange alternative transportation.",
+    "o": [
+     "why",
+     "what",
+     "so",
+     "or"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "The Southwest Entrepreneurship Club is ------- a larger office space.",
+    "o": [
+     "moving",
+     "seeking",
+     "residing",
+     "looking"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "Mellan Investment Group expects its ------- to surpass 15 percent over the next year.",
+    "o": [
+     "growth",
+     "grows",
+     "grow",
+     "grown"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Sunny Skies Airlines will change its luggage fee ------- to one that depends on the weight of each suitcase.",
+    "o": [
+     "nearly",
+     "away",
+     "soon",
+     "lately"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Mr. Kunchai did not accept the shipment because the ------- to the package were obvious.",
+    "o": [
+     "damageable",
+     "damaged",
+     "damaging",
+     "damages"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "The Kenta Firm will be withdrawing its proposal due to a sudden ------- to its workload.",
+    "o": [
+     "group",
+     "cause",
+     "opinion",
+     "addition"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Musicians ------- have questions about the concert schedule should speak to Mr. Choe.",
+    "o": [
+     "who",
+     "what",
+     "whose",
+     "which"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "The swift approval of her loan application was based largely on the ------- business plans Ms. Sato presented.",
+    "o": [
+     "reasons",
+     "reasonable",
+     "reason",
+     "reasonably"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "The market study will determine ------- the updated Dala Soda bottle design appeals to consumers.",
+    "o": [
+     "whether",
+     "until",
+     "also",
+     "despite"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "The security guards at the Titan Automobile factory patrol the entire premises ------- every hour.",
+    "o": [
+     "yet",
+     "even",
+     "once",
+     "quite"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Norwich International ------- its annual meetings at the Gousten Convention Center for the last three years.",
+    "o": [
+     "holds",
+     "has held",
+     "to hold",
+     "is holding"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "The drill's battery cover is located ------- the power button.",
+    "o": [
+     "about",
+     "above",
+     "among",
+     "between"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "Because the artwork is so delicate, it needs to be transported with the utmost -------.",
+    "o": [
+     "careful",
+     "carefully",
+     "care",
+     "cares"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Telekomex recently announced that it will split into two ------- businesses.",
+    "o": [
+     "alternate",
+     "another",
+     "certain",
+     "separate"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "------- the design team will be very busy while in Brussels, there will still be time for sightseeing.",
+    "o": [
+     "In spite of",
+     "Whenever",
+     "Consequently",
+     "Even though"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "The recently held Global Economics Forum was a unique ------- of world leaders and policy makers.",
+    "o": [
+     "focus",
+     "headline",
+     "gathering",
+     "option"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Mountain Roads is the fourth book in the best-selling Travel Now ------- by Christa Rosenbloom.",
+    "o": [
+     "itinerary",
+     "series",
+     "printing",
+     "affiliations"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "The new line of men's suits from Delphius Clothing is ------- of the company's classic French designs.",
+    "o": [
+     "characteristic",
+     "advantageous",
+     "vivid",
+     "elegant"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Our clients were pleased to hear that we ------- our online discounts into next month.",
+    "o": [
+     "extending",
+     "are extended",
+     "are being extended",
+     "would be extending"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "Willess Company's new XR work boots are fashioned from ------- leather.",
+    "o": [
+     "determined",
+     "permanent",
+     "durable",
+     "continual"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Arun Patel prepares unique recipes that combine French cooking techniques with flavors commonly ------- with southern Indian cuisine.",
+    "o": [
+     "inquired",
+     "accumulated",
+     "associated",
+     "speculated"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Chandon Clothing employees must not hold items for customers ------- they have received prior permission from the manager.",
+    "o": [
+     "in that",
+     "unless",
+     "so that",
+     "while"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "The newest version of the Moxis database software is ------- more user-friendly than the previous version.",
+    "o": [
+     "evenly",
+     "considerably",
+     "decreasingly",
+     "approximate"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "As a way of attracting new customers, Elmsworth Bank announced plans ------- its services for small businesses.",
+    "o": [
+     "being expanded",
+     "are expanding",
+     "have expanded",
+     "to expand"
+    ],
+    "t": "verb"
+   }
+  ]
+ },
+ "g30-t39": {
+  "title": "Part 5 Grammar | Test 39",
+  "qs": [
+   {
+    "q": "Traskam's CEO, Hyo Kim, would like to invite all of ------- staff to a holiday luncheon.",
+    "o": [
+     "he",
+     "him",
+     "his",
+     "himself"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "The Holdrix Company interviewed more than fifteen ------- for the accountant position.",
+    "o": [
+     "applications",
+     "applied",
+     "applicants",
+     "applicable"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "To qualify ------- a chance to participate in the public beautification project, artists must reside in the district.",
+    "o": [
+     "by",
+     "of",
+     "for",
+     "from"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "The Standworth Bank building was built ------- as a private home.",
+    "o": [
+     "originally",
+     "originate",
+     "original",
+     "origins"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Refreshing Juices needs a wider variety of flavors to remain ------- in the industry.",
+    "o": [
+     "selective",
+     "competitive",
+     "numerous",
+     "modern"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "The grant will be awarded to the group ------- business plan receives the highest number of votes.",
+    "o": [
+     "whom",
+     "when",
+     "which",
+     "whose"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "When special-order books arrive in the store, they should be placed on the pickup shelf and arranged ------- by the customer's last name.",
+    "o": [
+     "alphabetically",
+     "alphabetize",
+     "alphabetical",
+     "alphabets"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Any questions should be addressed to Ms. Seomun, who will ------- negotiations for the merger.",
+    "o": [
+     "project",
+     "install",
+     "collect",
+     "manage"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "The first branch of the RTY National Bank ------- in 1957.",
+    "o": [
+     "is being opened",
+     "was opened",
+     "has been opened",
+     "is opened"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "After ten years as a wedding photographer, Adaku Nweke has earned a ------- for quality work.",
+    "o": [
+     "reputation",
+     "presence",
+     "technique",
+     "delivery"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "To formulate their recommendations, the consultants will be working ------- with managers from all corporate divisions.",
+    "o": [
+     "nearly",
+     "closely",
+     "approximately",
+     "densely"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Zonar Industries spent ------- €4 million last year on computer technology.",
+    "o": [
+     "almost",
+     "more",
+     "enough",
+     "further"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Reviews on Nonstopstore.com often reveal what ------- of products are popular at a certain time.",
+    "o": [
+     "sorts",
+     "plans",
+     "rates",
+     "methods"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "The fifth anniversary celebration at Burgmont Tires included an outdoor concert ------- several local musicians.",
+    "o": [
+     "features",
+     "featured",
+     "featuring",
+     "to feature"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "If you require ------- when setting up your online account, contact the customer care center.",
+    "o": [
+     "assist",
+     "assistant",
+     "assisted",
+     "assistance"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "The swift approval of her loan application was based largely on the ------- business plans Ms. Sato presented.",
+    "o": [
+     "reasons",
+     "reasonable",
+     "reason",
+     "reasonably"
+    ],
+    "t": "form"
+   },
+   {
+    "q": "Room cancellations must be made 24 hours ------- the 2:00 P.M. check-in time.",
+    "o": [
+     "overall",
+     "in advance of",
+     "at once",
+     "considering"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "Travel visas will be processed ------- submission of all required documentation.",
+    "o": [
+     "though",
+     "and",
+     "once",
+     "upon"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "Upgrades in this year's Poltan microwave oven correct the flaws found in ------- models.",
+    "o": [
+     "equipped",
+     "previous",
+     "developing",
+     "annual"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "------- rain, the exhibits will be displayed in the Winkley Building instead of outdoors.",
+    "o": [
+     "In the event of",
+     "In keeping with",
+     "In contrast to",
+     "In order to"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "Although Saul's Sporting Goods stores have ------- sold outerwear, this fall they intend to add a line of coats to their inventory.",
+    "o": [
+     "yet",
+     "even",
+     "neither",
+     "never"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "The warehouse temperature must stay ------- ten degrees Celsius to keep the vegetables cool and fresh.",
+    "o": [
+     "along",
+     "below",
+     "among",
+     "following"
+    ],
+    "t": "prep"
+   },
+   {
+    "q": "Errors in formatting must be corrected before the report ------- to the client.",
+    "o": [
+     "had been presented",
+     "is presented",
+     "to be presenting",
+     "will present"
+    ],
+    "t": "verb"
+   },
+   {
+    "q": "The Doyers Street Cafe's owners sought to ------- its customer base by offering more low-calorie menu items.",
+    "o": [
+     "grant",
+     "suspend",
+     "expand",
+     "measure"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Wenjun Mining Group's exports of copper have exceeded ------- of gold this year.",
+    "o": [
+     "whichever",
+     "itself",
+     "those",
+     "something"
+    ],
+    "t": "pron"
+   },
+   {
+    "q": "Actors in tonight's performance are listed in the ------- of their appearance onstage.",
+    "o": [
+     "change",
+     "rule",
+     "reason",
+     "order"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "KDC jeans are treated with a special chemical compound that makes them look ------- they are worn out.",
+    "o": [
+     "when",
+     "because",
+     "so that",
+     "as if"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "The Web site for Monarch Fabrics has been completed and will be ------- by Ms. Okada at the next all-staff meeting.",
+    "o": [
+     "revealed",
+     "designed",
+     "collected",
+     "advised"
+    ],
+    "t": "vocab"
+   },
+   {
+    "q": "Ando Décor has recently noticed that customers are placing multiple small orders ------- one large order.",
+    "o": [
+     "but",
+     "instead",
+     "rather than",
+     "even though"
+    ],
+    "t": "conj"
+   },
+   {
+    "q": "Low lending rates and the ------- economy have led to a recent surge in the regional housing market.",
+    "o": [
+     "strengthening",
+     "strengthen",
+     "strength",
+     "strengths"
+    ],
+    "t": "form"
+   }
+  ]
  }
 };
