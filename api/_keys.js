@@ -3833,5 +3833,117 @@ module.exports = {
   "attempts": 2,
   "parts": [{ "id": "p6", "start": 1, "end": 16 }],
   "keys": ["B","D","B","A","C","D","C","A","D","C","A","B","B","C","D","C"]
+ },
+ "p6-t6": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["C","B","B","C","C","B","A","C","A","D","A","C","B","B","A","A"]
+ },
+ "p6-t7": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["C","A","D","B","C","D","A","C","B","C","C","A","D","B","D","A"]
+ },
+ "p6-t8": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["D","A","A","D","D","A","D","C","C","B","D","B","D","B","B","D"]
+ },
+ "p6-t9": {
+  "section": "P",
+  "total": 8,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 8 }],
+  "keys": ["D","A","A","C","C","A","D","A"]
+ },
+ "p6-t10": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["B","D","C","B","C","A","A","C","C","A","C","D","D","C","A","B"]
+ },
+ "p6-t11": {
+  "section": "P",
+  "total": 12,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 12 }],
+  "keys": ["A","C","D","A","B","D","D","B","C","A","C","A"]
+ },
+ "p6-t12": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["D","C","B","C","B","A","B","D","A","C","A","C","B","C","D","A"]
+ },
+ "p6-t13": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["B","A","D","D","A","C","D","C","B","C","A","D","D","B","B","A"]
+ },
+ "p6-t14": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["D","A","B","D","C","D","A","B","A","B","D","D","D","A","B","C"]
+ },
+ "p6-t15": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["A","C","B","B","A","C","B","D","C","B","A","D","D","A","C","A"]
+ },
+ "p6-t16": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["D","B","A","D","A","B","B","C","B","D","A","B","D","A","B","C"]
+ },
+ "p6-t17": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["C","A","C","D","B","A","C","D","C","B","B","A","C","D","B","C"]
+ },
+ "p6-t18": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["C","A","A","D","D","B","C","D","C","D","B","A","A","B","A","C"]
+ },
+ "p6-t19": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["D","B","C","D","D","C","B","A","D","A","B","C","C","B","A","A"]
+ },
+ "p6-t20": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["C","A","B","D","C","B","D","B","A","D","C","A","A","C","D","A"]
+ },
+ "p6-t21": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["A","C","B","D","C","D","B","B","D","C","B","A","C","B","D","A"]
  }
 };
