@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TOEIC Part 6 · Text completion · Marc Vasseur | Polytech Lille</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@500;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1B2A4A;--gold:#C9A24B;--gold-d:#8a6a1c;--cream:#FAF5E8;--paper:#fffdf7;--ink:#1d2433;--line:#d9cfb4;--ok:#2f6b4f;--ko:#9b2c2c;--mute:#5b6577}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:'Source Serif 4',Georgia,serif;background:var(--cream);color:var(--ink);font-size:16px;line-height:1.55}
+#app{height:100vh;display:flex;flex-direction:column}
+header{background:var(--navy);color:var(--cream);display:flex;align-items:center;gap:14px;padding:9px 16px;flex-wrap:wrap}
+header h1{font-family:'Playfair Display',serif;font-weight:500;font-size:18px;margin:0;flex:1 1 220px}
+header h1 small{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.04em;font-weight:400}
+.navbar{display:flex;gap:6px;align-items:center}
+.navbar button{background:var(--gold);color:var(--navy);border:0;border-radius:4px;font-size:15px;line-height:1;padding:7px 11px;cursor:pointer}
+.navbar button:disabled{opacity:.35;cursor:default}
+.navbar select{font-family:'JetBrains Mono',monospace;font-size:12.5px;padding:7px 8px;border-radius:4px;border:1px solid var(--gold);background:var(--navy);color:var(--cream);max-width:320px}
+.timer{font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--gold);min-width:64px;text-align:right}
+.timer.warn{color:#f2b84b}
+.timer.late{color:#ff8f8f}
+main{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr}
+main.single{grid-template-columns:1fr}
+.pane{overflow:auto;padding:20px 26px}
+.left{background:var(--paper);border-right:1px solid var(--line)}
+.tag{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold-d);letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px}
+.doc{background:#fff;border:1px solid var(--navy);border-radius:4px;padding:14px 18px;font-size:15.5px}
+.doc p{margin:0 0 9px}
+.doc p:last-child{margin-bottom:0}
+.doc h3{font-family:'Playfair Display',serif;font-weight:700;text-align:center;font-size:17px;margin:0 0 10px;color:var(--navy)}
+.doc .meta{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--mute);border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:10px}
+.doc .msg{margin-bottom:9px}
+.doc .msg b{font-weight:600;color:var(--navy)}
+.doc .msg span.t{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--mute);margin-left:6px}
+.doc .msg div{margin-left:0}
+.doc table{width:100%;border-collapse:collapse;font-size:14.5px}
+.doc th,.doc td{border:1px solid var(--navy);padding:6px 9px;text-align:left;vertical-align:top}
+.doc th{background:#f1e8cb}
+.mk{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold-d)}
+.q{margin:0 0 20px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.q:last-of-type{border-bottom:0}
+.qt{margin:0 0 8px;font-weight:600}
+.qt .qn{font-family:'JetBrains Mono',monospace;color:var(--navy);margin-right:4px}
+.opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;font:inherit;color:inherit;background:transparent;border:1px solid transparent;border-radius:6px;padding:6px 9px;margin:2px 0;cursor:pointer}
+.opt:hover{background:#f7efd6}
+.opt .c{flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--navy);font-family:'JetBrains Mono',monospace;font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:1px;background:#fff}
+.opt.sel{background:#f1e4bd;border-color:var(--gold)}
+.opt.sel .c{background:var(--navy);color:var(--cream)}
+.locked .opt{cursor:default}
+.locked .opt:hover{background:transparent}
+.opt.ok{background:#e4f0e9;border-color:var(--ok)}
+.opt.ok .c{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opt.ko{background:#f6e3e3;border-color:var(--ko)}
+.opt.ko .c{background:var(--ko);color:#fff;border-color:var(--ko)}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 0}
+.bd{font-family:'JetBrains Mono',monospace;font-size:11px;border:1px solid var(--navy);color:var(--navy);border-radius:3px;padding:1px 6px;background:#fff}
+.bd.l{background:var(--navy);color:var(--cream)}
+.ex{margin-top:8px;padding:10px 12px;background:#fff;border-left:4px solid var(--gold);font-size:14.5px}
+.ex .v{font-weight:600}
+.ex .v.good{color:var(--ok)}
+.ex .v.bad{color:var(--ko)}
+.ex em{background:#fbf0cb;font-style:italic;padding:0 2px}
+.vocab{margin-top:14px;border:1px solid var(--navy);border-radius:6px;overflow:hidden}
+.vocab .vh{background:var(--navy);color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:12px;padding:6px 12px;letter-spacing:.04em;text-transform:uppercase}
+.vocab ul{list-style:none;margin:0;padding:8px 12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px 14px}
+.vocab li{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:4px;padding:5px 9px}
+.vocab .en{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--navy);font-weight:500}
+.vocab .fr{font-size:13.5px;color:var(--mute)}
+details.tr{margin-top:12px;border:1px solid var(--line);border-radius:6px;background:#fff;padding:8px 12px}
+details.tr summary{cursor:pointer;font-weight:600;color:var(--navy)}
+details.tr p{margin:8px 0 0;font-size:14.5px}
+footer{background:var(--navy);color:var(--cream);padding:6px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dots{display:flex;flex-wrap:wrap;gap:3px;flex:1 1 400px}
+.dot{width:23px;height:23px;border-radius:50%;border:1px solid var(--gold);font-family:'JetBrains Mono',monospace;font-size:9.5px;display:flex;align-items:center;justify-content:center;background:transparent;color:var(--cream);cursor:pointer;padding:0}
+.dot.a{background:var(--gold);color:var(--navy)}
+.dot.r{background:var(--ok);border-color:var(--ok);color:#fff}
+.dot.w{background:var(--ko);border-color:var(--ko);color:#fff}
+.brand{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#cfd6e6;text-align:right;line-height:1.35}
+.brand b{color:var(--gold);font-weight:500}
+.sheet{max-width:980px;margin:0 auto}
+.sheet h2,.res h2{font-family:'Playfair Display',serif;font-weight:700;color:var(--navy);margin:0 0 4px;font-size:26px}
+.sub{color:var(--mute);margin:0 0 16px;font-size:14.5px}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 28px;background:#fff;border:1px solid var(--navy);border-radius:6px;padding:14px 18px}
+.row{display:flex;align-items:center;gap:7px;border-bottom:1px dotted #cbbf9d;padding:3px 0;font-family:'JetBrains Mono',monospace;font-size:13px}
+.row .n{width:34px;text-align:right;color:var(--navy);margin-right:4px}
+.row.miss .n{color:var(--ko);font-weight:500}
+.bub{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--navy);background:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;color:var(--ink)}
+.bub.f{background:var(--navy);color:var(--cream)}
+.bub.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.bub.ko{background:var(--ko);border-color:var(--ko);color:#fff}
+.bub.rg{box-shadow:0 0 0 2px var(--gold)}
+.locked .bub{cursor:default}
+.btn{font:inherit;font-weight:600;border-radius:6px;padding:10px 20px;cursor:pointer;border:1px solid var(--navy)}
+.btn.p{background:var(--navy);color:var(--cream)}
+.btn.g{background:var(--gold);color:var(--navy);border-color:var(--gold-d)}
+.btn.s{background:#fff;color:var(--navy)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 6px;align-items:center}
+.warn-box{background:#fbf0cb;border:1px solid var(--gold);border-radius:6px;padding:10px 14px;margin-top:14px;font-size:14.5px}
+.res{max-width:900px;margin:0 auto}
+.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0 20px}
+.card{background:#fff;border:1px solid var(--navy);border-radius:8px;padding:14px 18px}
+.card .big{font-family:'Playfair Display',serif;font-size:34px;color:var(--navy);line-height:1.1}
+.card .lb{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold-d);letter-spacing:.05em;text-transform:uppercase}
+.card p{margin:6px 0 0;font-size:14.5px}
+.res h3{font-family:'Playfair Display',serif;color:var(--navy);margin:22px 0 8px;font-size:20px;font-weight:500}
+.bar .v{white-space:nowrap}
+.bar{display:grid;grid-template-columns:170px 1fr 130px;gap:10px;align-items:center;margin:6px 0;font-size:14.5px}
+.bar .tr{height:16px;background:#ece3c8;border-radius:3px;overflow:hidden}
+.bar .fl{height:100%;background:var(--navy)}
+.bar.weak .fl{background:var(--ko)}
+.bar.weak b{color:var(--ko)}
+.bar .v{font-family:'JetBrains Mono',monospace;font-size:12.5px;text-align:right}
+.tip{background:#fff;border-left:4px solid var(--ko);padding:10px 14px;margin-top:10px;font-size:14.5px}
+.tip.good{border-color:var(--ok)}
+.note{font-size:13px;color:var(--mute);margin-top:10px}
+#intro{position:fixed;inset:0;background:rgba(27,42,74,.94);display:flex;align-items:center;justify-content:center;padding:20px;z-index:10}
+#intro .box{background:var(--cream);border:2px solid var(--gold);border-radius:10px;max-width:640px;padding:26px 30px;max-height:92vh;overflow:auto}
+#intro h2{font-family:'Playfair Display',serif;font-weight:700;color:var(--navy);margin:0 0 6px;font-size:26px}
+#intro p{margin:8px 0;font-size:15px}
+#intro .en{font-style:italic;color:var(--navy)}
+#intro ul{margin:8px 0 14px 18px;padding:0;font-size:14.5px}
+.dlab{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold-d);letter-spacing:.05em;text-transform:uppercase;margin:16px 0 6px}
+.dlab:first-of-type{margin-top:0}
+.doc .num,.doc th.num{text-align:right}
+.inv .inv-head{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:14px;border-bottom:2px solid var(--navy);padding-bottom:8px;margin-bottom:8px}
+.inv .tot td{font-weight:600;background:#f1e8cb}
+.inv .note{font-size:13px;margin-top:9px;line-height:1.5}
+.itin .band{background:var(--navy);color:var(--cream);font-family:'Playfair Display',serif;padding:7px 12px;margin:-14px -18px 10px;font-size:16px}
+.ad{border:3px double var(--navy);text-align:center}
+.ad .banner{background:var(--gold);color:var(--navy);font-family:'Playfair Display',serif;font-weight:700;letter-spacing:.14em;padding:6px;margin:-14px -18px 12px}
+.web{border:1px solid #8c8a80;border-radius:6px;overflow:hidden;background:#fff;font-size:14.5px}
+.web .wbar{background:#e7e2d2;padding:6px 10px;display:flex;gap:6px;align-items:center}
+.web .wd{width:9px;height:9px;border-radius:50%;background:#b9b2a0}
+.web .url{margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:11.5px;background:#fff;border-radius:10px;padding:2px 12px;color:var(--mute);flex:1}
+.web .wtabs{background:var(--navy);color:var(--cream);display:flex;gap:20px;padding:6px 14px;font-size:13px}
+.web .wbody{padding:12px 16px}
+.web h4{font-family:'Playfair Display',serif;margin:0 0 8px;font-size:17px;color:var(--navy);font-weight:500}
+.web p{margin:8px 0 0}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.plan{border:1px solid var(--navy);border-radius:6px;text-align:center;padding:8px 6px;font-size:13.5px;background:#fffdf7}
+.plan b{display:block;font-family:'Playfair Display',serif;font-size:21px;color:var(--navy);font-weight:700}
+.plan small{color:var(--mute);font-size:12px}
+@media(max-width:860px){
+ main{grid-template-columns:1fr;grid-auto-rows:minmax(0,1fr)}
+ .left{border-right:0;border-bottom:1px solid var(--line)}
+ .cols{grid-template-columns:1fr}
+ .bar{grid-template-columns:100px 1fr 112px;gap:6px}
+ .pane{padding:14px 14px}
+}
+.timer{font-size:20px;font-weight:500;border-radius:6px;padding:2px 10px;min-width:82px;text-align:center}
+.timer.warn{color:#f2b84b}
+.timer.late{background:#d32f2f;color:#fff;font-weight:700;animation:tflash 1s steps(1,end) infinite}
+@keyframes tflash{0%{background:#d32f2f;color:#fff;box-shadow:0 0 0 3px rgba(211,47,47,.45)}50%{background:#fff;color:#d32f2f;box-shadow:0 0 0 3px rgba(255,255,255,.6)}}
+#hsubmit{padding:7px 16px}
+#hsubmit:disabled{opacity:.5;cursor:default}
+#lockbar{display:none;background:#9b2c2c;color:#fff;text-align:center;padding:8px 14px;font-weight:600;font-size:14.5px}
+#restore{display:none;background:#e5f1ea;color:#1f4d38;border-bottom:1px solid #b7d6c4;text-align:center;padding:6px 14px;font-size:14px}
+.opt:disabled,.bub:disabled{cursor:default}
+.dashlink{color:var(--gold);font-size:13px;text-decoration:none;border:1px solid var(--gold);border-radius:5px;padding:4px 9px}
+
+.q{max-width:860px;margin-left:auto;margin-right:auto}
+.pane.one{padding:20px 26px}
+.sheet .cols{grid-template-columns:repeat(3,1fr)}
+.qt{font-size:17px}
+.zone{margin-top:10px;padding:10px 14px;border-radius:6px;font-size:14.5px;border:1px solid var(--line);background:#fff}
+.zone.l0{border-left:4px solid var(--ok)}
+.zone.l1{border-left:4px solid #d4a017}
+.zone.l2{border-left:4px solid #e07b00}
+.zone.l3{border-left:4px solid var(--ko)}
+.blank{display:inline-block;min-width:54px;text-align:center;border-bottom:2px solid var(--navy);font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:600;color:var(--navy);background:#fbf0cb;padding:0 6px;margin:0 2px;border-radius:2px}
+.blank.cur{background:var(--gold)}
+.doc .lines{text-align:center;color:var(--mute);margin:-4px 0 10px;font-size:14.5px}
+.qt.bl{font-weight:600}
+.qt.bl .blank{font-size:13px}
+.q .opt .tx{display:inline}
+.left .ref{font-style:italic;color:var(--navy);margin:0 0 12px;font-size:15px}
+</style>
+</head>
+<body>
+<div id="app">
+ <header>
+  <h1 id="ttl">TOEIC Part 6 · Text completion<small>Textes à compléter · Part 6</small></h1>
+  <a class="dashlink" href="dashboard.html">Tableau de bord</a>
+  <div class="navbar">
+   <button type="button" id="prev" aria-label="Précédent">&#9664;</button>
+   <select id="sel" aria-label="Choisir une page"></select>
+   <button type="button" id="next" aria-label="Suivant">&#9654;</button>
+  </div>
+  <div class="timer" id="timer" aria-live="off">08:00</div>
+  <button type="button" class="btn g" id="hsubmit">Soumettre</button>
+ </header>
+ <div id="restore"></div>
+ <div id="lockbar" role="alert"></div>
+ <main id="main" class="single"></main>
+ <footer>
+  <div class="dots" id="dots"></div>
+  <div class="brand"><b>MARC VASSEUR | POLYTECH LILLE</b><br>Marc Vasseur · marc.vasseur@polytech-lille.fr</div>
+ </footer>
+</div>
+
+<div id="intro">
+ <div class="box">
+  <h2 id="itl">TOEIC Part 6 · Text completion</h2>
+  <p class="en"><b>Directions:</b> read the texts on the following pages. A word, phrase, or sentence is missing in parts of each text. Four answer choices for each missing part are given below the text. Select the best answer to complete the text.</p>
+  <p><b>Consignes :</b> <span id="inq">16</span> blancs à compléter dans 4 textes, dans le format de la Part 6 du TOEIC. Le texte est à gauche, les questions à droite. Clique sur la bonne réponse, (A), (B), (C) ou (D).</p>
+  <ul>
+   <li><b>Durée : <span id="idur">15</span> minutes.</b> Le chrono démarre quand tu cliques sur le bouton ci-dessous.</li>
+   <li>Tes réponses et le temps restant sont sauvegardés automatiquement : si tu fermes la page, tu reprends avec le temps qu'il te restait.</li>
+   <li>Dans les 5 dernières minutes, le chrono clignote en rouge. À zéro, les réponses sont verrouillées et envoyées automatiquement. Tu peux aussi cliquer sur <b>Soumettre</b> à tout moment.</li>
+   <li id="iatt"></li>
+   <li>Après l'envoi : ton score, les types de questions à retravailler et la correction commentée de chaque phrase.</li>
+  </ul>
+  <button type="button" class="btn g" id="go">Chargement...</button>
+ </div>
+</div>
+
+<script src="tests-data.js"></script>
+<script src="part6-data.js"></script>
+<script src="dept.js"></script>
+<script>
+var params=new URLSearchParams(location.search),IS_REVIEW=params.get('review')==='1';
+var TEST_ID=params.get('id')||'';
+var CFG=(typeof TESTS_DATA!=='undefined'&&TESTS_DATA[TEST_ID])||null;
+var DATA=(typeof P6_TESTS!=='undefined'&&P6_TESTS[TEST_ID])||null;
+var student=null;try{student=JSON.parse(sessionStorage.getItem('student')||'null');}catch(e){}
+var AUTH=sessionStorage.getItem('studentAuth');
+var BAD=!student||!AUTH;
+if(BAD){sessionStorage.removeItem('student');location.href='index.html';}
+else if(!CFG||!DATA){alert('Test introuvable.');location.href='dashboard.html';BAD=true;}
+
+var TYPES={
+ form:{fr:'Formation des mots',tip:'Trouve la nature du mot attendu grâce à ce qui entoure le blanc : un nom après un déterminant ou une préposition, un adjectif devant un nom (participe en <em>-ing</em> ou <em>-ed</em> compris), un adverbe pour modifier un verbe ou un adjectif.'},
+ verb:{fr:'Formes verbales',tip:'Cherche le sujet, l\'auxiliaire ou le modal : base verbale après <em>will</em>, participe passé au passif, forme en <em>-ing</em> après une préposition ou dans une série parallèle, temps imposé par un repère comme <em>last year</em> ou <em>since</em>.'},
+ pron:{fr:'Pronoms et déterminants',tip:'Identifie la fonction du mot manquant (sujet, complément, possessif, réfléchi) et son antécédent dans le texte : remonte aux phrases précédentes pour savoir qui ou quoi est repris.'},
+ prep:{fr:'Prépositions',tip:'Apprends les prépositions par collocations : <em>for over</em> + durée, <em>in addition to</em>, <em>subject to</em>. Relis la phrase en entier : le nom ou le verbe voisin décide.'},
+ conj:{fr:'Connecteurs logiques',tip:'Repère le lien entre la phrase du blanc et celle d\'avant : addition (<em>additionally</em>), opposition (<em>however</em>), conséquence (<em>therefore</em>), exemple (<em>for instance</em>). Un connecteur de phrase se place en début de phrase avec une virgule ; une conjonction demande un sujet et un verbe.'},
+ vocab:{fr:'Vocabulaire en contexte',tip:'Lis la phrase et celles qui l\'entourent, puis teste chaque mot : le sens et les collocations décident (<em>potential customers</em>, <em>a fraction of the price</em>).'},
+ sent:{fr:'Phrase à insérer',tip:'Pour une phrase à insérer, ne choisis pas sur le sujet seul : vérifie le lien avec la phrase d\'avant et celle d\'après (mot repris, pronom, connecteur) et le but du texte (annonce, courriel, note).'}
+};
+var PASS=DATA?DATA.passages:[];
+var ALLQ=DATA?DATA.qs.map(function(q,i){var n=i+1,pi=0;PASS.forEach(function(p,k){if(n>=p.from&&n<=p.to)pi=k;});return {n:n,p:pi,o:q.o,t:q.t};}):[];
+var TOTAL=ALLQ.length,NPAGES=PASS.length;
+var SAFE=Math.ceil(TOTAL*0.75); // safe zone of Part 6: 12/16 (75 %, same as the dashboard)
+var TOTAL_SEC=CFG?CFG.duration:900;
+var MAXA=CFG?(CFG.maxAttempts||1):1;
+var S={ans:{},key:null,review:null,view:0,done:false,locked:false,started:false,sending:false,left:TOTAL_SEC,deadline:0,tid:null,start:Date.now(),ready:false,used:0,allowed:MAXA};
+var SHEET=NPAGES,RES=NPAGES+1;
+var $=function(id){return document.getElementById(id);};
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function pad(n){return n<10?'0'+n:''+n;}
+function fmt(s){return pad(Math.floor(s/60))+':'+pad(s%60);}
+function A(q){return S.key?S.key[q.n-1]:-1;}
+function RV(){return S.review||{q:{}};}
+function frozen(){return S.done||S.locked;}
+function pageQs(i){return ALLQ.filter(function(q){return q.p===i;});}
+if(CFG&&DATA){document.title='TOEIC Part 6 · '+CFG.name+' | Polytech Lille';}
+
+/* ---------- persistence (same scheme as the other tests) ---------- */
+var STORAGE_KEY='toeic-progress::'+TEST_ID+'::'+(student?student.nom:'');
+function toArr(){return ALLQ.map(function(q){return S.ans[q.n]===undefined?null:'ABCD'[S.ans[q.n]];});}
+function payload(){return {nom:student.nom,testId:TEST_ID,answers:toArr(),startTime:S.start,timeLeft:S.started?S.left:null,savedAt:Date.now()};}
+function saveLocal(){
+ if(S.done||!S.started)return;
+ try{var p=payload();localStorage.setItem(STORAGE_KEY,JSON.stringify({answers:p.answers,startTime:p.startTime,timeLeft:p.timeLeft,savedAt:p.savedAt}));}catch(e){}
+}
+function loadLocal(){try{var r=localStorage.getItem(STORAGE_KEY);return r?JSON.parse(r):null;}catch(e){return null;}}
+function clearLocal(){try{localStorage.removeItem(STORAGE_KEY);}catch(e){}}
+var dirty=false,saveT=null;
+function scheduleServerSave(){dirty=true;clearTimeout(saveT);saveT=setTimeout(flushServerSave,4000);}
+function flushServerSave(){
+ if(!dirty||S.done||!S.started)return;
+ dirty=false;
+ try{fetch('/api/progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload())}).catch(function(){});}catch(e){}
+}
+setInterval(flushServerSave,20000);
+function flushOnLeave(){
+ if(S.done||IS_REVIEW||!S.started)return;
+ dirty=false;saveLocal();
+ if(navigator.sendBeacon){navigator.sendBeacon('/api/progress',new Blob([JSON.stringify(payload())],{type:'application/json'}));}
+}
+window.addEventListener('beforeunload',flushOnLeave);
+window.addEventListener('pagehide',flushOnLeave);
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')flushOnLeave();});
+function fetchServerProgress(){
+ return fetch('/api/progress?nom='+encodeURIComponent(student.nom)+'&testId='+encodeURIComponent(TEST_ID)).then(function(r){return r.json();}).then(function(d){return d.progress||null;}).catch(function(){return null;});
+}
+function clearServerProgress(){
+ try{fetch('/api/progress?nom='+encodeURIComponent(student.nom)+'&testId='+encodeURIComponent(TEST_ID),{method:'DELETE'}).catch(function(){});}catch(e){}
+}
+
+/* ---------- views ---------- */
+function buildSelect(){
+ var h='';
+ for(var i=0;i<NPAGES;i++){h+='<option value="'+i+'">Texte '+(i+1)+' · questions '+PASS[i].from+' à '+PASS[i].to+'</option>';}
+ h+='<option value="'+SHEET+'">Feuille de réponses</option>';
+ if(S.done)h+='<option value="'+RES+'">Résultats</option>';
+ $('sel').innerHTML=h;
+ $('sel').value=S.view;
+}
+function lastView(){return S.done?RES:SHEET;}
+function dotsHTML(){
+ var h='';
+ ALLQ.forEach(function(q){
+  var c='dot';
+  if(S.done){c+=(S.ans[q.n]===A(q))?' r':' w';}
+  else if(S.ans[q.n]!==undefined){c+=' a';}
+  h+='<button type="button" class="'+c+'" data-page="'+q.p+'" data-q="'+q.n+'" aria-label="Question '+q.n+'">'+q.n+'</button>';
+ });
+ $('dots').innerHTML=h;
+}
+function optHTML(q){
+ var h='';
+ q.o.forEach(function(t,k){
+  var c='opt';
+  if(S.done){
+   if(k===A(q))c+=' ok';
+   else if(S.ans[q.n]===k)c+=' ko';
+  }else if(S.ans[q.n]===k){c+=' sel';}
+  h+='<button type="button" class="'+c+'"'+(frozen()?' disabled':'')+' data-n="'+q.n+'" data-k="'+k+'"><span class="c">'+'ABCD'[k]+'</span><span>'+esc(t)+'</span></button>';
+ });
+ return h;
+}
+function blankHTML(n,cur){return '<span class="blank'+(cur?' cur':'')+'">'+n+'</span>';}
+function docHTML(p,i){
+ var h='<div class="tag">Texte '+(i+1)+' sur '+NPAGES+'</div><p class="ref">'+esc(p.head)+'</p><div class="doc">';
+ if(p.title)h+='<h3>'+esc(p.title)+'</h3>';
+ if(p.meta&&p.meta.length){h+='<div class="meta">'+p.meta.map(function(m){return '<b>'+esc(m[0])+' :</b> '+esc(m[1]);}).join('<br>')+'</div>';}
+ p.paras.forEach(function(t){h+='<p>'+esc(t).replace(/\{(\d+)\}/g,function(x,n){return blankHTML(n,false);})+'</p>';});
+ return h+'</div>';
+}
+function pageView(i){
+ var rv=RV(),p=PASS[i];
+ var l='<div class="pane left">'+docHTML(p,i)+'</div>';
+ var r='<div class="pane'+(frozen()?' locked':'')+'" id="rp">';
+ pageQs(i).forEach(function(q){
+  r+='<div class="q" id="q'+q.n+'"><p class="qt bl">'+blankHTML(q.n,true)+' Choisis la bonne réponse</p>'+optHTML(q);
+  if(S.done){
+   var mine=S.ans[q.n],good=mine===A(q);
+   r+='<div class="badges"><span class="bd">'+TYPES[q.t].fr+'</span></div>';
+   r+='<div class="ex"><span class="v '+(good?'good':'bad')+'">'+(good?'Correct.':(mine===undefined?'Non répondu.':'Incorrect.'))+'</span> Bonne réponse : ('+'ABCD'[A(q)]+') '+esc(q.o[A(q)])+'<br>'+(rv.q[q.n]||'')+'</div>';
+  }
+  r+='</div>';
+ });
+ var nx=i+1<NPAGES?i+1:SHEET;
+ r+='<div class="actions"><button type="button" class="btn s" data-go="'+nx+'">'+(i+1<NPAGES?'Texte suivant':'Feuille de réponses')+'</button></div></div>';
+ return l+r;
+}
+function sheetView(){
+ var c3=Math.ceil(TOTAL/3),cols=[ALLQ.slice(0,c3),ALLQ.slice(c3,2*c3),ALLQ.slice(2*c3)];
+ var answered=Object.keys(S.ans).length;
+ var h='<div class="pane"><div class="sheet'+(frozen()?' locked':'')+'"><h2>Feuille de réponses</h2>';
+ h+='<p class="sub">Questions 1 à '+TOTAL+' · '+(S.done?'Correction : ta réponse est en couleur, la bonne réponse est cerclée d\'or.':'Tes réponses se reportent ici automatiquement. Tu peux aussi les modifier directement sur cette feuille.')+'</p><div class="cols">';
+ cols.forEach(function(col){
+  h+='<div>';
+  col.forEach(function(q){
+   var miss=!S.done&&S.ans[q.n]===undefined;
+   h+='<div class="row'+(miss?' miss':'')+'"><span class="n">'+q.n+'</span>';
+   for(var k=0;k<4;k++){
+    var c='bub';
+    if(S.done){
+     if(S.ans[q.n]===k)c+=(k===A(q)?' ok':' ko');
+     if(k===A(q))c+=' rg';
+    }else if(S.ans[q.n]===k){c+=' f';}
+    h+='<button type="button" class="'+c+'"'+(frozen()?' disabled':'')+' data-n="'+q.n+'" data-k="'+k+'" aria-label="Question '+q.n+' réponse '+'ABCD'[k]+'">'+'ABCD'[k]+'</button>';
+   }
+   h+='</div>';
+  });
+  h+='</div>';
+ });
+ h+='</div>';
+ if(!S.done){
+  h+='<div class="actions"><button type="button" class="btn g" id="submit"'+(frozen()?' disabled':'')+'>Soumettre</button><span class="sub" style="margin:0">'+answered+' / '+TOTAL+' répondues</span></div>';
+ }else{
+  h+='<div class="actions"><button type="button" class="btn p" data-go="'+RES+'">Voir mes résultats</button><button type="button" class="btn s" data-go="0">Revoir la correction</button></div>';
+ }
+ h+='</div></div>';
+ return h;
+}
+function stats(){
+ var byT={},score=0;
+ Object.keys(TYPES).forEach(function(t){byT[t]={n:0,ok:0};});
+ ALLQ.forEach(function(q){
+  var ok=S.ans[q.n]===A(q);
+  if(ok)score++;
+  byT[q.t].n++;if(ok)byT[q.t].ok++;
+ });
+ return {score:score,byT:byT};
+}
+function zoneInfo(score){
+ if(score>=SAFE)return {c:'l0',t:'Zone de sécurité atteinte ('+SAFE+' / '+TOTAL+' ou plus).'};
+ var r=score/SAFE;
+ if(r>=0.85)return {c:'l1',t:'Presque : il te manque '+(SAFE-score)+' point(s) pour la zone de sécurité ('+SAFE+' / '+TOTAL+').'};
+ if(r>=0.70)return {c:'l2',t:'À améliorer : la zone de sécurité est à '+SAFE+' / '+TOTAL+'.'};
+ return {c:'l3',t:'Priorité : la zone de sécurité est à '+SAFE+' / '+TOTAL+'. Reprends les points ci-dessous.'};
+}
+function resView(){
+ var st=stats();
+ var pct=Math.round(st.score/TOTAL*100);
+ var z=zoneInfo(st.score);
+ var left=Math.max(0,S.allowed-S.used);
+ var h='<div class="pane"><div class="res"><h2>Résultats · '+esc(CFG.name)+'</h2><p class="sub">'+TOTAL+' questions · Part 6 · résultat enregistré dans ton tableau de bord</p>';
+ h+='<div class="score"><div class="card"><div class="lb">Score</div><div class="big">'+st.score+' / '+TOTAL+'</div><p>'+pct+' % de bonnes réponses</p></div>';
+ h+='<div class="card"><div class="lb">Tentatives</div><div class="big">'+S.used+' / '+S.allowed+'</div><p>'+(left>0?('Il te reste '+left+' tentative'+(left>1?'s':'')+' sur ce test.'):'Tu as utilisé toutes tes tentatives. Ton professeur peut t\'en accorder une de plus.')+'</p></div></div>';
+ h+='<div class="zone '+z.c+'">'+z.t+'</div>';
+ var arr=Object.keys(st.byT).filter(function(t){return st.byT[t].n>0;}).map(function(t){var s=st.byT[t];return {t:t,n:s.n,ok:s.ok,r:s.ok/s.n};});
+ arr.sort(function(a,b){return a.r-b.r||b.n-a.n;});
+ h+='<h3>Réussite par type de question</h3>';
+ arr.forEach(function(x,i){
+  var p=Math.round(x.r*100);
+  var weak=(i===0&&x.r<0.8);
+  h+='<div class="bar'+(weak?' weak':'')+'"><span><b>'+TYPES[x.t].fr+'</b></span><div class="tr"><div class="fl" style="width:'+p+'%"></div></div><span class="v">'+x.ok+' / '+x.n+' · '+p+' %</span></div>';
+ });
+ var w=arr[0];
+ if(w&&w.r<0.8){
+  var also=arr.filter(function(x,i){return i>0&&x.r<0.5;}).map(function(x){return TYPES[x.t].fr;});
+  h+='<div class="tip"><b>Ton point faible : '+TYPES[w.t].fr+'</b> ('+w.ok+' / '+w.n+').<br>'+TYPES[w.t].tip+(also.length?'<br><br>À surveiller aussi : '+also.join(', ')+'.':'')+'</div>';
+ }else{
+  h+='<div class="tip good"><b>Aucune faiblesse marquée.</b> Tous les types sont réussis à 80 % ou plus.</div>';
+ }
+ var wrong=ALLQ.filter(function(q){return S.ans[q.n]!==A(q);}).map(function(q){return q.n;});
+ h+='<h3>Questions à revoir</h3><p>'+(wrong.length?wrong.join(', ')+'. Ouvre la correction pour lire l\'explication de chaque phrase.':'Aucune. Bravo !')+'</p>';
+ h+='<div class="actions"><button type="button" class="btn p" data-go="0">Voir la correction détaillée</button><button type="button" class="btn s" data-go="'+SHEET+'">Feuille de réponses corrigée</button><a class="btn s" href="dashboard.html" style="text-decoration:none;display:inline-block">Tableau de bord</a></div>';
+ h+='</div></div>';
+ return h;
+}
+function render(keepScroll){
+ var m=$('main');
+ var sc=0;var rp=document.getElementById('rp')||document.querySelector('#main .pane');if(keepScroll&&rp)sc=rp.scrollTop;
+ m.className=S.view<NPAGES?'':'single';
+ if(S.view<NPAGES)m.innerHTML=pageView(S.view);
+ else if(S.view===SHEET)m.innerHTML=sheetView();
+ else m.innerHTML=resView();
+ buildSelect();dotsHTML();
+ $('prev').disabled=S.view===0;
+ $('next').disabled=S.view>=lastView();
+ $('hsubmit').style.display=(S.done||IS_REVIEW)?'none':'';
+ $('hsubmit').disabled=S.sending||!S.started;
+ var np=document.getElementById('rp')||document.querySelector('#main .pane');if(np&&keepScroll)np.scrollTop=sc;
+}
+function go(v,qn){
+ if(v>lastView())v=lastView();
+ if(v<0)v=0;
+ S.view=v;render(false);
+ if(qn){var el=$('q'+qn);if(el&&el.scrollIntoView)el.scrollIntoView({block:'start'});}
+ else{var ps=document.querySelectorAll('#main .pane');for(var k=0;k<ps.length;k++)ps[k].scrollTop=0;}
+}
+
+/* ---------- answers ---------- */
+function setAns(n,k){
+ if(frozen()||IS_REVIEW||!S.started)return;
+ if(S.ans[n]===k){delete S.ans[n];}else{S.ans[n]=k;}
+ saveLocal();scheduleServerSave();
+ if(S.view<NPAGES){
+  var box=$('q'+n);
+  if(box){var opts=box.querySelectorAll('.opt');for(var i=0;i<opts.length;i++){opts[i].classList.toggle('sel',S.ans[n]===i);}}
+ }else{render(true);return;}
+ dotsHTML();
+}
+
+/* ---------- clock ---------- */
+function updateTimer(){
+ var t=$('timer');
+ t.textContent=fmt(S.left);
+ t.className='timer'+(S.left<=300?' late':(S.left<=600?' warn':''));
+ t.setAttribute('aria-label','Temps restant '+fmt(S.left));
+}
+function tick(){
+ S.left=Math.max(0,Math.ceil((S.deadline-Date.now())/1000));
+ updateTimer();
+ if(S.left<=0){stopTimer();expire();}
+}
+function startTimer(){
+ stopTimer();
+ S.deadline=Date.now()+S.left*1000;
+ updateTimer();
+ S.tid=setInterval(tick,500);
+}
+function stopTimer(){if(S.tid){clearInterval(S.tid);S.tid=null;}}
+function expire(){
+ if(S.done||S.sending)return;
+ S.left=0;S.locked=true;updateTimer();
+ $('lockbar').style.display='block';
+ $('lockbar').textContent='Temps écoulé. Tes réponses sont verrouillées et envoyées automatiquement.';
+ render(true);
+ submit(true);
+}
+function beginTest(){
+ if(!S.ready)return;
+ $('intro').style.display='none';
+ S.start=Date.now();S.left=TOTAL_SEC;S.started=true;
+ saveLocal();scheduleServerSave();flushServerSave();
+ startTimer();render(false);
+}
+
+/* ---------- submit ---------- */
+function submit(auto){
+ if(S.done||S.sending||IS_REVIEW)return;
+ if(!auto){
+  var miss=TOTAL-Object.keys(S.ans).length;
+  var msg=miss>0?('Il reste '+miss+' question(s) sans réponse. Soumettre quand même ? Tu ne pourras plus modifier tes réponses.'):'Soumettre le test ? Tu ne pourras plus modifier tes réponses.';
+  if(!window.confirm(msg))return;
+ }
+ S.sending=true;S.locked=true;stopTimer();render(true);
+ var body={nom:student.nom,codeHash:AUTH,testId:TEST_ID,answers:toArr(),startedAt:new Date(S.start).toISOString(),elapsedSec:Math.max(0,TOTAL_SEC-S.left)};
+ fetch('/api/scores',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+ .then(function(r){return r.json().catch(function(){return {};}).then(function(d){return {ok:r.ok,status:r.status,d:d};});})
+ .then(function(x){
+  if(x.ok&&x.d.keys){
+   S.key=x.d.keys.map(function(l){return 'ABCD'.indexOf(l);});
+   S.review=x.d.review||null;
+   S.used+=1;
+   S.done=true;S.sending=false;
+   $('lockbar').style.display='none';
+   clearLocal();clearServerProgress();
+   S.view=RES;render(false);
+   var p=document.querySelector('#main .pane');if(p)p.scrollTop=0;
+   return;
+  }
+  throw {status:x.status,msg:(x.d&&x.d.error)||'Envoi impossible.'};
+ })
+ .catch(function(e){
+  S.sending=false;
+  var m=(e&&e.msg)||'Erreur réseau. Tes réponses sont toujours sur cette page.';
+  if(e&&e.status===409){alert('Tu as déjà utilisé toutes tes tentatives sur ce test.');location.href='dashboard.html';return;}
+  if(e&&e.status===401){alert('Reconnecte-toi : '+m);saveLocal();flushOnLeave();location.href='index.html';return;}
+  if(auto||S.left<=0){
+   $('lockbar').style.display='block';
+   $('lockbar').textContent='Temps écoulé. Envoi en échec : '+m.replace(/\.$/,'')+'. Nouvelle tentative dans 5 secondes.';
+   render(true);
+   setTimeout(function(){submit(true);},5000);
+  }else{
+   S.locked=false;startTimer();render(true);
+   alert(m+' Appuie de nouveau sur Soumettre pour réessayer.');
+  }
+ });
+}
+
+/* ---------- review mode (latest attempt) ---------- */
+function initReview(){
+ $('intro').style.display='none';$('timer').style.display='none';
+ fetch('/api/scores?nom='+encodeURIComponent(student.nom)+'&review='+encodeURIComponent(TEST_ID),{headers:{'X-Code-Hash':AUTH}})
+ .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
+ .then(function(x){
+  if(!x.ok||!x.d.keys)throw 0;
+  var all=(x.d.scores||[]).filter(function(s){return s.testId===TEST_ID;}).sort(function(a,b){return new Date(b.date)-new Date(a.date);});
+  var mine=all[0];
+  if(!mine)throw 0;
+  ALLQ.forEach(function(q,i){var l=mine.answers[i];if(l)S.ans[q.n]='ABCD'.indexOf(l);});
+  S.key=x.d.keys.map(function(l){return 'ABCD'.indexOf(l);});
+  S.review=x.d.review||null;S.done=true;
+  S.used=all.length;S.allowed=MAXA+all.filter(function(s){return s.retakeGranted;}).length;
+  S.view=RES;render(false);
+ }).catch(function(){alert('Impossible de charger ta tentative.');location.href='dashboard.html';});
+}
+
+/* ---------- init ---------- */
+function init(){
+ $('ttl').childNodes[0].nodeValue=CFG.name;$('itl').textContent=CFG.name;$('idur').textContent=Math.round(TOTAL_SEC/60);$('inq').textContent=TOTAL;
+ $('timer').textContent=fmt(TOTAL_SEC);
+ render(false);
+ if(IS_REVIEW){initReview();return;}
+ $('go').disabled=true;$('go').textContent='Chargement...';
+ var guard=Promise.all([fetch('/api/access').then(function(r){return r.json();}),fetch('/api/scores?nom='+encodeURIComponent(student.nom)).then(function(r){return r.json();})])
+ .then(function(a){
+  if(!classAllowed(a[0].classes,TEST_ID,student.dept)){alert('Ce test n\'est pas ouvert à ta classe.');location.href='dashboard.html';return false;}
+  if(!testIsOpen(a[0].tests||{},TEST_ID)){alert('Ce test est fermé par l\'administrateur.');location.href='dashboard.html';return false;}
+  var mine=(a[1].scores||[]).filter(function(s){return s.testId===TEST_ID;});
+  var granted=mine.filter(function(s){return s.retakeGranted;}).length;
+  S.used=mine.length;S.allowed=MAXA+granted;
+  if(S.used>=S.allowed){alert('Tu as déjà utilisé toutes tes tentatives sur ce test ('+S.used+' / '+S.allowed+').');location.href='dashboard.html';return false;}
+  return true;
+ }).catch(function(){return true;});
+ Promise.all([guard,fetchServerProgress()]).then(function(r){
+  if(r[0]===false)return;
+  $('iatt').innerHTML='<b>Tentative '+(S.used+1)+' sur '+S.allowed+'.</b> Le score de chaque tentative est enregistré.';
+  var local=loadLocal(),srv=r[1];
+  var ok=function(e){return e&&Array.isArray(e.answers)&&e.answers.length===TOTAL&&typeof e.timeLeft==='number';};
+  var vl=ok(local)?local:null,vs=ok(srv)?srv:null;
+  var saved=vl;
+  if(vs&&(!vl||(vl.savedAt!==undefined&&(vs.savedAt||-1)>vl.savedAt)))saved=vs;
+  if(saved){
+   S.start=saved.startTime||Date.now();
+   saved.answers.forEach(function(l,i){var k='ABCD'.indexOf(l);if(l&&k>=0)S.ans[ALLQ[i].n]=k;});
+   S.left=Math.min(TOTAL_SEC,Math.max(0,Math.floor(saved.timeLeft)));
+   S.started=true;S.ready=true;
+   $('intro').style.display='none';
+   saveLocal();
+   if(S.left<=0){updateTimer();expire();return;}
+   $('restore').style.display='block';
+   $('restore').innerHTML='Progression restaurée : tes réponses sont revenues et il reste <b>'+fmt(S.left)+'</b> au chrono.';
+   startTimer();render(false);
+   setTimeout(function(){$('restore').style.display='none';},8000);
+  }else{
+   S.ready=true;$('go').disabled=false;$('go').textContent='Démarrer le chrono ('+Math.round(TOTAL_SEC/60)+' min)';
+  }
+ });
+}
+
+document.addEventListener('click',function(e){
+ var el=e.target.closest?e.target.closest('button'):null;
+ if(!el||el.disabled)return;
+ if(el.classList.contains('opt')||el.classList.contains('bub')){setAns(+el.getAttribute('data-n'),+el.getAttribute('data-k'));return;}
+ if(el.classList.contains('dot')){go(+el.getAttribute('data-page'),+el.getAttribute('data-q'));return;}
+ if(el.hasAttribute('data-go')){go(+el.getAttribute('data-go'));return;}
+ if(el.id==='submit'||el.id==='hsubmit'){submit(false);return;}
+});
+$('prev').addEventListener('click',function(){go(S.view-1);});
+$('next').addEventListener('click',function(){go(S.view+1);});
+$('sel').addEventListener('change',function(){go(+this.value);});
+$('go').addEventListener('click',beginTest);
+if(!BAD)init();
+</script>
+</body>
+</html>

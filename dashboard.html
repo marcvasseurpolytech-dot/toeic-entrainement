@@ -202,6 +202,10 @@
         <div id="grammar-bilan"></div>
         <div class="tests-grid compact" id="grid-grammar"></div>
       </div>
+      <div class="tabpane" data-pane="part6">
+        <p class="pane-sub">Part 6 text completion: 4 texts with blanks to fill, 30 seconds per blank, two attempts per test (your teacher can grant more). Opened by your teacher.</p>
+        <div class="tests-grid compact" id="grid-part6"></div>
+      </div>
       <div class="tabpane" data-pane="part7">
         <p class="pane-sub">Single-part Part 7 drills, each with its own timer.</p>
         <div class="tests-grid" id="grid-part7"></div>
@@ -283,7 +287,8 @@
       { key: 'listening', title: 'Full Listening', pick: t => !t.practice && !READING_BASES.has(t.baseId) },
       { key: 'reading',   title: 'Full Reading',   pick: t => !t.practice && READING_BASES.has(t.baseId) && !LISTENING_BASES.has(t.baseId) },
       { key: 'grammar',   title: 'Part 5 Grammar', pick: t => !!t.practice && t.part === 'Part 5' },
-      { key: 'part7',     title: 'Part 7 Training', pick: t => !!t.practice && t.part !== 'Part 5' }
+      { key: 'part6',     title: 'Part 6 Text Completion', pick: t => !!t.practice && t.part === 'Part 6' },
+      { key: 'part7',     title: 'Part 7 Training', pick: t => !!t.practice && t.part !== 'Part 5' && t.part !== 'Part 6' }
     ];
     const groupOfTest = id => (GROUPS.find(g => g.pick(TESTS_DATA[id])) || {}).key;
     const idsOf = key => Object.keys(TESTS_DATA).filter(id => groupOfTest(id) === key);
@@ -645,7 +650,7 @@
     // ATTEMPT DETAILS
     // =========================================================
     const fmtDur = sec => (Number.isFinite(sec) ? `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}` : '—');
-    const GROUP_TITLE = { full: 'Full Tests', listening: 'Full Listening', reading: 'Full Reading', grammar: 'Part 5 Grammar', part7: 'Part 7 Training' };
+    const GROUP_TITLE = { full: 'Full Tests', listening: 'Full Listening', reading: 'Full Reading', grammar: 'Part 5 Grammar', part6: 'Part 6 Text Completion', part7: 'Part 7 Training' };
     function fillAttFilter() {
       const sel = document.getElementById('att-filter');
       sel.innerHTML = '<option value="">All tests</option>' + Object.entries(GROUP_TITLE).map(([k, v]) => `<option value="${k}">${v}</option>`).join('');

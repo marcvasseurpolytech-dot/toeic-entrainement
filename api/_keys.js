@@ -3798,5 +3798,40 @@ module.exports = {
   "attempts": 2,
   "parts": [{ "id": "p5", "start": 1, "end": 30 }],
   "keys": ["C","B","A","D","B","C","D","A","B","A","A","C","A","A","A","A","D","C","B","D","B","B","C","C","D","B","A","C","D","D"]
+ },
+ "p6-t2": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["C","D","B","A","D","A","C","B","B","D","C","A","C","A","C","D"]
+ },
+ "p6-t1": {
+  "section": "P",
+  "total": 12,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 12 }],
+  "keys": ["C","B","B","B","D","A","B","A","C","C","C","C"]
+ },
+ "p6-t3": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["D","B","D","C","D","A","C","A","B","C","D","D","A","D","A","C"]
+ },
+ "p6-t4": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["A","A","B","D","A","B","B","B","B","B","A","C","A","B","B","B"]
+ },
+ "p6-t5": {
+  "section": "P",
+  "total": 16,
+  "attempts": 2,
+  "parts": [{ "id": "p6", "start": 1, "end": 16 }],
+  "keys": ["B","D","B","A","C","D","C","A","D","C","A","B","B","C","D","C"]
  }
 };

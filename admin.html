@@ -201,7 +201,7 @@
           <option value="open">Open only</option>
           <option value="closed">Closed only</option>
         </select>
-        <span class="acc-groups" id="acc-groups"><button type="button" data-g="" class="on" onclick="setGroupFilter('')">All</button><button type="button" data-g="full" onclick="setGroupFilter('full')">Full tests</button><button type="button" data-g="listening" onclick="setGroupFilter('listening')">Listening</button><button type="button" data-g="reading" onclick="setGroupFilter('reading')">Reading</button><button type="button" data-g="grammar" onclick="setGroupFilter('grammar')">Part 5 grammar</button><button type="button" data-g="practice" onclick="setGroupFilter('practice')">Part 7</button></span>
+        <span class="acc-groups" id="acc-groups"><button type="button" data-g="" class="on" onclick="setGroupFilter('')">All</button><button type="button" data-g="full" onclick="setGroupFilter('full')">Full tests</button><button type="button" data-g="listening" onclick="setGroupFilter('listening')">Listening</button><button type="button" data-g="reading" onclick="setGroupFilter('reading')">Reading</button><button type="button" data-g="grammar" onclick="setGroupFilter('grammar')">Part 5 grammar</button><button type="button" data-g="part6" onclick="setGroupFilter('part6')">Part 6</button><button type="button" data-g="practice" onclick="setGroupFilter('practice')">Part 7</button></span>
         <span class="acc-bulk">
           <button id="btn-close-all" class="btn-reset" style="margin-left:0" onclick="closeAllTests()">🔒 Close all</button>
         </span>
@@ -490,7 +490,8 @@
       { key: 'listening', title: 'Full Listening',  sub: 'Complete Listening section only',         pick: t => !t.practice && !READING_BASES.has(t.baseId) },
       { key: 'reading',   title: 'Full Reading',    sub: 'Complete Reading section only',           pick: t => !t.practice && READING_BASES.has(t.baseId) && !LISTENING_BASES.has(t.baseId) },
       { key: 'grammar',   title: 'Part 5 grammar',  sub: '30-sentence grammar tests, two attempts each (more on request)', pick: t => !!t.practice && t.part === 'Part 5' },
-      { key: 'practice',  title: 'Part 7 training', sub: 'Single-part drills, each with its own timer', pick: t => !!t.practice && t.part !== 'Part 5' }
+      { key: 'part6',     title: 'Part 6 text completion', sub: 'Four texts with blanks, two attempts each (more on request)', pick: t => !!t.practice && t.part === 'Part 6' },
+      { key: 'practice',  title: 'Part 7 training', sub: 'Single-part drills, each with its own timer', pick: t => !!t.practice && t.part !== 'Part 5' && t.part !== 'Part 6' }
     ];
     const natural = (a, b) => a.localeCompare(b, 'en', { numeric: true, sensitivity: 'base' });
     let accessState = { tests: {}, classes: {} };
@@ -521,7 +522,7 @@
         ids.forEach(id => {
           const t = TESTS_DATA[id], on = depsOn(id);
           const label = g.key === 'full' ? (t.section === 'L' ? 'Listening' : 'Reading') : t.part;
-          const name = g.key === 'full' ? `${esc(t.name)} <span class="sec">${label}</span>` : esc(t.name) + (g.key === 'grammar' ? '' : ` <span class="sec">${esc(label)}</span>`);
+          const name = g.key === 'full' ? `${esc(t.name)} <span class="sec">${label}</span>` : esc(t.name) + (g.key === 'grammar' || g.key === 'part6' ? '' : ` <span class="sec">${esc(label)}</span>`);
           body += `<tr data-id="${esc(id)}" data-group="${g.key}" data-name="${esc((t.name + ' ' + t.part + ' ' + label).toLowerCase())}"${col ? ' hidden' : ''} class="${on.length ? '' : 'isclosed'}">
             <th class="tname" scope="row">${name}</th>
             ${PROMOS.map((c, i) => `<td class="cell${promoClass(i)}"><button type="button" class="cb${on.includes(c) ? ' on' : ''}" aria-pressed="${on.includes(c)}" aria-label="${esc(t.name)} ${esc(c)}" onclick="toggleCell('${esc(id)}','${esc(c)}')">${on.includes(c) ? '✓' : ''}</button></td>`).join('')}
@@ -943,7 +944,7 @@
           const max = (a.TEST.maxAttempts || 1) + mine.filter(x => x.retakeGranted).length;
           const att = (a.TEST.maxAttempts || 1) > 1 || mine.length > 1
             ? ` · attempt ${mine.length}/${max} · best ${Math.max(...mine.map(x => x.score))}` : '';
-          return `<div class="sec-cell"><strong>${a.score}/${a.total}</strong><span class="sub">${Math.round(a.score / a.total * 100)}% · ${a.TEST.part} ${a.TEST.part === 'Part 5' ? 'grammar' : 'training'}${att}</span>${timingHTML(a)}</div>`;
+          return `<div class="sec-cell"><strong>${a.score}/${a.total}</strong><span class="sub">${Math.round(a.score / a.total * 100)}% · ${a.TEST.part} ${a.TEST.part === 'Part 5' ? 'grammar' : a.TEST.part === 'Part 6' ? 'text completion' : 'training'}${att}</span>${timingHTML(a)}</div>`;
         }
         return `<div class="sec-cell"><strong>${a.score}/${a.total}</strong><span class="sub">${a.converted}/495 · ${a.cecrl}</span>${timingHTML(a)}<div class="chips">${chips}</div></div>`;
       };
@@ -969,7 +970,7 @@
               <td>${secCell(g.R || g.P)}</td>
               <td>${total !== null ? `<strong>${total}</strong><span class="sub">${cecrlFor(total)}</span>` : '<span style="color:#9ca3af">—</span>'}</td>
               <td>${d}</td>
-              <td style="white-space:nowrap">${retakeBtn(g.L, 'L')} ${retakeBtn(g.R, 'R')} ${retakeBtn(g.P, g.P && g.P.TEST.part === 'Part 5' ? 'P5' : 'P7')}</td>
+              <td style="white-space:nowrap">${retakeBtn(g.L, 'L')} ${retakeBtn(g.R, 'R')} ${retakeBtn(g.P, g.P ? 'P' + g.P.TEST.part.replace('Part ', '') : 'P7')}</td>
             </tr>`;
           }).join('')}</tbody>
         </table>
@@ -1252,8 +1253,9 @@
           'Total (/990)': total ?? '',
           'Level': total !== null ? cecrlFor(total) : '',
           'Part 5 grammar': g.P && g.P.TEST.part === 'Part 5' ? `${g.P.score}/${g.P.total}` : '',
-          'Part 7 training': g.P && g.P.TEST.part !== 'Part 5' ? `${g.P.score}/${g.P.total}` : '',
-          'Status': g.P && !L && !R ? (g.P.TEST.part === 'Part 5' ? 'Part 5 grammar' : 'Part 7 training') : (L && R) ? 'Complete' : (L ? 'Reading missing' : 'Listening missing')
+          'Part 6 text completion': g.P && g.P.TEST.part === 'Part 6' ? `${g.P.score}/${g.P.total}` : '',
+          'Part 7 training': g.P && g.P.TEST.part !== 'Part 5' && g.P.TEST.part !== 'Part 6' ? `${g.P.score}/${g.P.total}` : '',
+          'Status': g.P && !L && !R ? (g.P.TEST.part === 'Part 5' ? 'Part 5 grammar' : g.P.TEST.part === 'Part 6' ? 'Part 6 text completion' : 'Part 7 training') : (L && R) ? 'Complete' : (L ? 'Reading missing' : 'Listening missing')
         };
         PARTS_CANON.forEach(p => {
           const src = p.section === 'L' ? L : R;

@@ -1283,6 +1283,106 @@ const TESTS_DATA = {
     ]
   },
 
+  // Part 6 Text Completion Test 2 (Drive folder 'Grammar in context'): passages retyped, 16 blanks, two attempts per student
+  // (an admin can grant more), opened and closed by the admin, own page and own timer.
+  'p6-t2': {
+    name: 'Part 6 Text Completion | Test 2',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t2',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 1 (Drive folder 'Grammar in context'): passages retyped, 12 blanks, two attempts per student
+  // (an admin can grant more), opened and closed by the admin, own page and own timer.
+  'p6-t1': {
+    name: 'Part 6 Text Completion | Test 1',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t1',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 6 * 60,
+    partIds: ['p6'],
+    total: 12,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 12, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 3 (Drive folder 'Grammar in context'): passages retyped, 16 blanks, two attempts per student
+  // (an admin can grant more), opened and closed by the admin, own page and own timer.
+  'p6-t3': {
+    name: 'Part 6 Text Completion | Test 3',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t3',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 4 (Drive folder 'Grammar in context'): passages retyped, 16 blanks, two attempts per student
+  // (an admin can grant more), opened and closed by the admin, own page and own timer.
+  'p6-t4': {
+    name: 'Part 6 Text Completion | Test 4',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t4',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 5 (Drive folder 'Grammar in context'): passages retyped, 16 blanks, two attempts per student
+  // (an admin can grant more), opened and closed by the admin, own page and own timer.
+  'p6-t5': {
+    name: 'Part 6 Text Completion | Test 5',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t5',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
   // All keys sourced from the answer-key PDF. IIBC 2 T1 additionally has a
   // full booklet PDF; IIBC 2 T2 doesn't (booklet button hidden); IIBC 2 T3
   // links directly to the Drive booklet rather than a locally-hosted copy.
