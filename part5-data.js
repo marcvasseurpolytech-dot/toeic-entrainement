@@ -11490,7 +11490,7 @@ var P5_TESTS = {
     "t": "verb"
    },
    {
-    "q": "The city council approved funding for a ------- pedestrian bridge across the river.",
+    "q": "The city council approved funding for the ------- pedestrian bridge across the river.",
     "o": [
      "impressive new",
      "new impressive",
@@ -11647,7 +11647,7 @@ var P5_TESTS = {
    {
     "q": "The company's remote work policy allows employees to choose ------- they work from home or the office.",
     "o": [
-     "if",
+     "what",
      "whether",
      "that",
      "unless"
@@ -11785,7 +11785,7 @@ var P5_TESTS = {
     "t": "verb"
    },
    {
-    "q": "The two firms have agreed to merge, ------- subject to regulatory approval.",
+    "q": "The two firms have agreed to merge, ------- regulatory approval.",
     "o": [
      "pending",
      "despite",
@@ -13000,7 +13000,7 @@ var P5_TESTS = {
      "thereby",
      "therein",
      "thereof",
-     "therefore"
+     "hereby"
     ],
     "t": "verb"
    },
@@ -13170,10 +13170,10 @@ var P5_TESTS = {
     "t": "prep"
    },
    {
-    "q": "The museum's new wing showcases artifacts from a particularly ------- period in the region's development.",
+    "q": "The museum's new wing showcases artifacts from a particularly rich ------- period in the region's development.",
     "o": [
-     "historic",
      "historical",
+     "historian",
      "history",
      "historically"
     ],
@@ -13518,7 +13518,7 @@ var P5_TESTS = {
     "q": "The consultant was asked to look ------- the recurring delays in the supply chain.",
     "o": [
      "into",
-     "at",
+     "upon",
      "for",
      "after"
     ],
@@ -13655,7 +13655,7 @@ var P5_TESTS = {
     "t": "prep"
    },
    {
-    "q": "The lab unveiled a ------- device capable of detecting trace contaminants in drinking water.",
+    "q": "The lab unveiled the ------- device capable of detecting trace contaminants in drinking water.",
     "o": [
      "compact innovative",
      "innovative compact",
@@ -14520,12 +14520,12 @@ var P5_TESTS = {
     "t": "form"
    },
    {
-    "q": "------- department has the budget to hire additional staff this quarter.",
+    "q": "Following the hiring freeze, ------- department has the budget to hire additional staff this quarter, so both have asked headquarters for extra funding.",
     "o": [
-     "Neither",
-     "Both",
-     "Either",
-     "Whether"
+     "neither",
+     "both",
+     "either",
+     "whether"
     ],
     "t": "pron"
    },
@@ -14855,10 +14855,10 @@ var P5_TESTS = {
     "t": "form"
    },
    {
-    "q": "The firm's ------- approach to risk management has earned it a strong reputation among investors.",
+    "q": "The country's ------- growth over the past decade has encouraged foreign investors to open offices in the region.",
     "o": [
-     "economic",
      "economical",
+     "economic",
      "economy",
      "economically"
     ],
@@ -19462,7 +19462,7 @@ var P5_TESTS = {
    {
     "q": "The company is planning to open three new stores in the north of the country, ------- bringing the total number of its outlets to more than sixty.",
     "o": [
-     "therefore",
+     "hereby",
      "whereby",
      "thereby",
      "thereof"
@@ -20175,7 +20175,7 @@ var P5_TESTS = {
     "t": "prep"
    },
    {
-    "q": "The conference was attended by delegates from more than forty countries, ------- of them had never visited the city before.",
+    "q": "The conference was attended by delegates from more than forty countries, ------- of whom had never visited the city before.",
     "o": [
      "much",
      "every",
@@ -20409,7 +20409,7 @@ var P5_TESTS = {
     "o": [
      "listen",
      "hear",
-     "attend",
+     "regard",
      "notice"
     ],
     "t": "prep"
@@ -22522,7 +22522,7 @@ var P5_TESTS = {
    {
     "q": "The investment fund will not accept new clients ------- the Financial Authority approves the changes to its internal rules, which were submitted for review last week.",
     "o": [
-     "if",
+     "although",
      "unless",
      "once",
      "because"
@@ -23409,7 +23409,7 @@ var P5_TESTS = {
     "o": [
      "assure",
      "ensure",
-     "insure",
+     "ensue",
      "reassure"
     ],
     "t": "vocab"
@@ -23744,7 +23744,7 @@ var P5_TESTS = {
     "o": [
      "No",
      "Neither",
-     "None",
+     "Each",
      "Either"
     ],
     "t": "vocab"

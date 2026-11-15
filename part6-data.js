@@ -4641,7 +4641,7 @@ var P6_TESTS = {
     "title": "Local Restaurant Announces Grand Opening",
     "meta": [],
     "paras": [
-     "Riverside Bistro, a new restaurant specializing in regional cuisine, will open its doors to the public next Friday. The owner, who previously {9} a small catering business for over a decade, said she was excited to finally have a permanent location. {10} The restaurant will initially be open for dinner service only, with lunch hours to be added at a {11} later date, depending on demand.",
+     "Riverside Bistro, a new restaurant specializing in regional cuisine, will open its doors to the public next Friday. The owner, who previously {9} a small catering business for over a decade, said she was excited to finally have a permanent location. {10} The restaurant will initially be open for dinner service only, with lunch hours to be added at a {11} date, depending on demand.",
      "Reservations are strongly {12}, as seating is limited during the opening weeks."
     ],
     "from": 9,
@@ -4765,12 +4765,12 @@ var P6_TESTS = {
    },
    {
     "o": [
-     "at",
-     "on",
-     "in",
-     "by"
+     "later",
+     "latter",
+     "lately",
+     "lateness"
     ],
-    "t": "prep"
+    "t": "form"
    },
    {
     "o": [
@@ -4844,7 +4844,7 @@ var P6_TESTS = {
     ],
     "paras": [
      "Thank you for booking with SkyLink Airlines. Your flight from Lyon to Lisbon has been confirmed {5} the details below. Please arrive at the airport at least two hours {6} your scheduled departure time to allow sufficient time for check-in and security screening. {7} Passengers traveling with checked luggage should note that the airline allows one bag free of charge, with additional fees applying to extra bags.",
-     "If you need to modify or cancel your booking, please do so {8} 48 hours before departure to avoid a change fee."
+     "If you need to modify or cancel your booking, please do so {8} 48 hours of booking to avoid a change fee."
     ],
     "from": 5,
     "to": 8
@@ -6733,7 +6733,7 @@ var P6_TESTS = {
     ],
     "paras": [
      "Starting in January, employees may work from home up to two days per week, {1} their manager’s approval. {2} Teams are therefore expected to coordinate their schedules so that every department is fully staffed on Tuesdays and Thursdays.",
-     "Those who choose to work remotely must remain {3} by phone and email during regular business hours. The company will also provide a {4} to cover the cost of home office equipment."
+     "Those who choose to work remotely must remain {3} by phone and email during regular business hours. The company will also provide an {4} to cover the cost of home office equipment."
     ],
     "from": 1,
     "to": 4
@@ -10255,7 +10255,7 @@ var P6_TESTS = {
    },
    {
     "o": [
-     "substitute",
+     "restore",
      "resemble",
      "replace",
      "remain"
@@ -11265,7 +11265,7 @@ var P6_TESTS = {
    {
     "o": [
      "make",
-     "have",
+     "get",
      "take",
      "do"
     ],
