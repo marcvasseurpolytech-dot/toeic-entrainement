@@ -4232,6 +4232,41 @@ module.exports = {
   "parts": [{ "id": "p3", "start": 1, "end": 39 }],
   "keys": ["C", "B", "C", "B", "D", "A", "D", "B", "C", "B", "A", "A", "A", "D", "B", "D", "B", "C", "A", "D", "B", "A", "A", "C", "D", "C", "A", "D", "B", "A", "C", "D", "B", "D", "D", "C", "B", "B", "A"]
  },
+ "part3-t7": {
+  "section": "P",
+  "total": 39,
+  "attempts": 2,
+  "parts": [{ "id": "p3", "start": 1, "end": 39 }],
+  "keys": ["C", "A", "C", "B", "A", "B", "B", "D", "D", "D", "B", "C", "A", "B", "D", "C", "D", "B", "A", "B", "A", "C", "D", "A", "B", "A", "D", "A", "C", "D", "D", "B", "C", "D", "C", "C", "B", "C", "A"]
+ },
+ "part3-t8": {
+  "section": "P",
+  "total": 39,
+  "attempts": 2,
+  "parts": [{ "id": "p3", "start": 1, "end": 39 }],
+  "keys": ["B", "C", "D", "A", "C", "B", "A", "D", "C", "B", "D", "A", "D", "A", "B", "D", "C", "B", "C", "A", "B", "B", "D", "C", "B", "C", "D", "A", "B", "C", "D", "B", "A", "A", "D", "C", "B", "C", "D"]
+ },
+ "part3-t9": {
+  "section": "P",
+  "total": 39,
+  "attempts": 2,
+  "parts": [{ "id": "p3", "start": 1, "end": 39 }],
+  "keys": ["B", "C", "A", "A", "C", "B", "B", "D", "D", "D", "C", "B", "C", "B", "A", "A", "B", "C", "B", "A", "C", "C", "D", "A", "C", "D", "A", "B", "B", "C", "D", "B", "B", "C", "A", "B", "B", "A", "C"]
+ },
+ "part3-t10": {
+  "section": "P",
+  "total": 39,
+  "attempts": 2,
+  "parts": [{ "id": "p3", "start": 1, "end": 39 }],
+  "keys": ["D", "C", "C", "B", "C", "D", "B", "A", "D", "D", "A", "B", "A", "C", "D", "A", "C", "A", "D", "B", "A", "A", "B", "C", "B", "C", "A", "D", "C", "B", "D", "B", "B", "A", "B", "D", "D", "C", "A"]
+ },
+ "part3-t11": {
+  "section": "P",
+  "total": 39,
+  "attempts": 2,
+  "parts": [{ "id": "p3", "start": 1, "end": 39 }],
+  "keys": ["D", "B", "C", "C", "D", "C", "C", "B", "A", "D", "C", "B", "A", "C", "B", "C", "C", "A", "A", "C", "C", "B", "C", "D", "A", "C", "B", "A", "B", "C", "B", "A", "C", "C", "D", "D", "A", "C", "B"]
+ },
  "part2-t1": {
   "section": "P",
   "total": 25,
