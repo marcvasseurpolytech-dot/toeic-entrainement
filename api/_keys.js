@@ -4196,5 +4196,40 @@ module.exports = {
    "D",
    "C"
   ]
+ },
+ "part2-t1": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["A", "C", "B", "C", "C", "C", "B", "A", "A", "C", "B", "C", "A", "A", "B", "B", "B", "A", "C", "B", "A", "C", "C", "C", "B"]
+ },
+ "part2-t2": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["C", "C", "A", "B", "C", "C", "B", "A", "A", "C", "A", "B", "C", "B", "B", "A", "A", "C", "C", "A", "C", "C", "A", "B", "A"]
+ },
+ "part2-t3": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["A", "C", "B", "B", "C", "A", "B", "B", "A", "C", "C", "A", "B", "B", "C", "A", "A", "C", "C", "B", "A", "B", "B", "A", "C"]
+ },
+ "part2-t4": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["A", "B", "A", "A", "A", "C", "B", "C", "A", "C", "A", "C", "A", "C", "B", "B", "B", "C", "A", "C", "B", "A", "C", "C", "B"]
+ },
+ "part2-t5": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["B", "C", "B", "B", "A", "C", "C", "B", "B", "A", "C", "C", "A", "B", "C", "C", "B", "A", "A", "C", "C", "B", "A", "A", "A"]
  }
 };

@@ -382,6 +382,7 @@ const student = JSON.parse(sessionStorage.getItem('student') || 'null');
 if (!student || !sessionStorage.getItem('studentAuth')) { sessionStorage.removeItem('student'); window.location.href = 'index.html'; }
 
 const TEST = TESTS_DATA[testId];
+const OFF = (TEST && TEST.numOffset) || 0;
 if (!TEST) { alert('Test not found.'); window.location.href = 'dashboard.html'; }
 
 // Guard against direct-URL access to a test the admin has closed, or a
@@ -763,13 +764,14 @@ if (isReview) {
 // RENDER QUESTIONS — TOEIC-style bubble answer sheet,
 // multi-column grid, smartphone-friendly
 // =========================================================
+// Display offset: Part 2 only tests are numbered 7 to 31 like on the real answer sheet (answers stay stored as 1 to 25).
 function renderQuestions() {
   const root = document.getElementById('questions-root');
   root.innerHTML = '';
   TEST.parts.forEach(part => {
     const ph = document.createElement('div');
     ph.className = 'part-header';
-    ph.innerHTML = `<span>${cleanDash(part.name)}</span><span class="range">Q${part.start} to Q${part.end}</span>`;
+    ph.innerHTML = `<span>${cleanDash(part.name)}</span><span class="range">Q${part.start + OFF} to Q${part.end + OFF}</span>`;
     root.appendChild(ph);
 
     const sheet = document.createElement('div');
@@ -786,10 +788,10 @@ function buildQuestionCard(qNum, choices) {
   div.className = 'qcard';
   div.id = `q-${qNum}`;
 
-  let inner = `<div class="qnum">${qNum}</div>`;
+  let inner = `<div class="qnum">${qNum + OFF}</div>`;
   inner += `<div class="bubbles" id="choices-${qNum}">`;
   choices.forEach(c => {
-    inner += `<div class="bubble" role="button" tabindex="0" aria-pressed="false" aria-label="Question ${qNum}, answer ${c}" data-q="${qNum}" data-choice="${c}" onclick="selectAnswer(${qNum},'${c}')">${c}</div>`;
+    inner += `<div class="bubble" role="button" tabindex="0" aria-pressed="false" aria-label="Question ${qNum + OFF}, answer ${c}" data-q="${qNum}" data-choice="${c}" onclick="selectAnswer(${qNum},'${c}')">${c}</div>`;
   });
   inner += `</div><div class="q-feedback" id="feedback-${qNum}"></div>`;
 
@@ -944,10 +946,10 @@ function renderCorrection(userAnswers, keys, review) {
       const key = keys[q - 1], ans = userAnswers[q - 1], txt = review.q[String(q)];
       if (!txt) continue;
       const tr = review.t && review.t[String(q)];
-      if (tr) html += `<details class="corr-tr"><summary>Transcript (questions ${q} to ${q + (tr.n || 1) - 1})</summary>${tr.h}</details>`;
+      if (tr) html += `<details class="corr-tr"><summary>Transcript (questions ${q + OFF} to ${q + OFF + (tr.n || 1) - 1})</summary>${tr.h}</details>`;
       const state = (ans === null || ans === undefined) ? 'blank' : (ans === key ? 'right' : 'wrong');
-      const head = state === 'right' ? `${q}. Correct: ${key}` :
-                   state === 'blank' ? `${q}. Unanswered · Answer: ${key}` : `${q}. You: ${ans} · Answer: ${key}`;
+      const head = state === 'right' ? `${q + OFF}. Correct: ${key}` :
+                   state === 'blank' ? `${q + OFF}. Unanswered · Answer: ${key}` : `${q + OFF}. You: ${ans} · Answer: ${key}`;
       html += `<div class="corr-item ${state}"><div class="corr-head">${head}</div><div>${txt}</div></div>`;
     }
   });

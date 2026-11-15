@@ -201,7 +201,7 @@
           <option value="open">Open only</option>
           <option value="closed">Closed only</option>
         </select>
-        <span class="acc-groups" id="acc-groups"><button type="button" data-g="" class="on" onclick="setGroupFilter('')">All</button><button type="button" data-g="full" onclick="setGroupFilter('full')">Full tests</button><button type="button" data-g="listening" onclick="setGroupFilter('listening')">Listening</button><button type="button" data-g="reading" onclick="setGroupFilter('reading')">Reading</button><button type="button" data-g="grammar" onclick="setGroupFilter('grammar')">Part 5 grammar</button><button type="button" data-g="part6" onclick="setGroupFilter('part6')">Part 6</button><button type="button" data-g="practice" onclick="setGroupFilter('practice')">Part 7</button></span>
+        <span class="acc-groups" id="acc-groups"><button type="button" data-g="" class="on" onclick="setGroupFilter('')">All</button><button type="button" data-g="full" onclick="setGroupFilter('full')">Full tests</button><button type="button" data-g="listening" onclick="setGroupFilter('listening')">Listening</button><button type="button" data-g="reading" onclick="setGroupFilter('reading')">Reading</button><button type="button" data-g="grammar" onclick="setGroupFilter('grammar')">Part 5 grammar</button><button type="button" data-g="part2" onclick="setGroupFilter('part2')">Part 2</button><button type="button" data-g="part6" onclick="setGroupFilter('part6')">Part 6</button><button type="button" data-g="practice" onclick="setGroupFilter('practice')">Part 7</button></span>
         <span class="acc-bulk">
           <button id="btn-close-all" class="btn-reset" style="margin-left:0" onclick="closeAllTests()">🔒 Close all</button>
         </span>
@@ -490,8 +490,9 @@
       { key: 'listening', title: 'Full Listening',  sub: 'Complete Listening section only',         pick: t => !t.practice && !READING_BASES.has(t.baseId) },
       { key: 'reading',   title: 'Full Reading',    sub: 'Complete Reading section only',           pick: t => !t.practice && READING_BASES.has(t.baseId) && !LISTENING_BASES.has(t.baseId) },
       { key: 'grammar',   title: 'Part 5 grammar',  sub: '30-sentence grammar tests, two attempts each (more on request)', pick: t => !!t.practice && t.part === 'Part 5' },
+      { key: 'part2',     title: 'Part 2 question-response', sub: '25 audio questions (7 to 31), two attempts each (more on request)', pick: t => !!t.practice && t.part === 'Part 2' },
       { key: 'part6',     title: 'Part 6 text completion', sub: 'Four texts with blanks, two attempts each (more on request)', pick: t => !!t.practice && t.part === 'Part 6' },
-      { key: 'practice',  title: 'Part 7 training', sub: 'Single-part drills, each with its own timer', pick: t => !!t.practice && t.part !== 'Part 5' && t.part !== 'Part 6' }
+      { key: 'practice',  title: 'Part 7 training', sub: 'Single-part drills, each with its own timer', pick: t => !!t.practice && t.part !== 'Part 5' && t.part !== 'Part 6' && t.part !== 'Part 2' }
     ];
     const natural = (a, b) => a.localeCompare(b, 'en', { numeric: true, sensitivity: 'base' });
     let accessState = { tests: {}, classes: {} };

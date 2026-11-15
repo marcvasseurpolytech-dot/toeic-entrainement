@@ -1750,6 +1750,106 @@ const TESTS_DATA = {
   // full booklet PDF; IIBC 2 T2 doesn't (booklet button hidden); IIBC 2 T3
   // links directly to the Drive booklet rather than a locally-hosted copy.
 
+  // Part 2 Question-Response Test 1 (Drive folder 'Part 2'): questions 7 to 31 of a TOEIC Listening, shown as 7 to 31 (numOffset),
+  // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'part2-t1': {
+    name: 'Part 2 Question-Response | Test 1',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t1',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1YGvcLZ2Spt7JXfbYAWxGkXnxaYXMHwAb/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2 — Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+
+  // Part 2 Question-Response Test 2 (Drive folder 'Part 2'): questions 7 to 31 of a TOEIC Listening, shown as 7 to 31 (numOffset),
+  // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'part2-t2': {
+    name: 'Part 2 Question-Response | Test 2',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t2',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1-qFYfOVo5TnHA_wY2pOPCG0S9NNGmY1g/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2 — Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+
+  // Part 2 Question-Response Test 3 (Drive folder 'Part 2'): questions 7 to 31 of a TOEIC Listening, shown as 7 to 31 (numOffset),
+  // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'part2-t3': {
+    name: 'Part 2 Question-Response | Test 3',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t3',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1A281vU9aIBhzuiZZz_L9TBy1PQdaF0zz/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2 — Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+
+  // Part 2 Question-Response Test 4 (Drive folder 'Part 2'): questions 7 to 31 of a TOEIC Listening, shown as 7 to 31 (numOffset),
+  // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'part2-t4': {
+    name: 'Part 2 Question-Response | Test 4',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t4',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1lY5AvalgnNC_DvRdKemJDKbcVOe2s7g7/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2 — Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+
+  // Part 2 Question-Response Test 5 (Drive folder 'Part 2'): questions 7 to 31 of a TOEIC Listening, shown as 7 to 31 (numOffset),
+  // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'part2-t5': {
+    name: 'Part 2 Question-Response | Test 5',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t5',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1fiVenwuWuk6E7nGihJ8pY3w4KManzPJP/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2 — Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+
   // Part 7 training set (not a full TOEIC section): own page, own 52-minute clock
   // (75 min Reading minus 15 min for Part 5 and 8 min for Part 6).
   'p7-test-a': {
