@@ -1346,6 +1346,804 @@ const TESTS_DATA = {
     ]
   },
 
+  // Part 5 Practice Exercise 11 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex11': {
+    name: 'Part 5 Practice | Exercise 11',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex11',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 12 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex12': {
+    name: 'Part 5 Practice | Exercise 12',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex12',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 13 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex13': {
+    name: 'Part 5 Practice | Exercise 13',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex13',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 14 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex14': {
+    name: 'Part 5 Practice | Exercise 14',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex14',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 15 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex15': {
+    name: 'Part 5 Practice | Exercise 15',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex15',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 16 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex16': {
+    name: 'Part 5 Practice | Exercise 16',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex16',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 17 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex17': {
+    name: 'Part 5 Practice | Exercise 17',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex17',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 18 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex18': {
+    name: 'Part 5 Practice | Exercise 18',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex18',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 19 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex19': {
+    name: 'Part 5 Practice | Exercise 19',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex19',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 20 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex20': {
+    name: 'Part 5 Practice | Exercise 20',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex20',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 21 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex21': {
+    name: 'Part 5 Practice | Exercise 21',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex21',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 22 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex22': {
+    name: 'Part 5 Practice | Exercise 22',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex22',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 23 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex23': {
+    name: 'Part 5 Practice | Exercise 23',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex23',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 24 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex24': {
+    name: 'Part 5 Practice | Exercise 24',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex24',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 25 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex25': {
+    name: 'Part 5 Practice | Exercise 25',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex25',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 26 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex26': {
+    name: 'Part 5 Practice | Exercise 26',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex26',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 27 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex27': {
+    name: 'Part 5 Practice | Exercise 27',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex27',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 28 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex28': {
+    name: 'Part 5 Practice | Exercise 28',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex28',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 29 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex29': {
+    name: 'Part 5 Practice | Exercise 29',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex29',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 30 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex30': {
+    name: 'Part 5 Practice | Exercise 30',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex30',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 31 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex31': {
+    name: 'Part 5 Practice | Exercise 31',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex31',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 32 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex32': {
+    name: 'Part 5 Practice | Exercise 32',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex32',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 33 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex33': {
+    name: 'Part 5 Practice | Exercise 33',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex33',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 34 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex34': {
+    name: 'Part 5 Practice | Exercise 34',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex34',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 35 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex35': {
+    name: 'Part 5 Practice | Exercise 35',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex35',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 36 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex36': {
+    name: 'Part 5 Practice | Exercise 36',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex36',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 37 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex37': {
+    name: 'Part 5 Practice | Exercise 37',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex37',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 38 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex38': {
+    name: 'Part 5 Practice | Exercise 38',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex38',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 39 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex39': {
+    name: 'Part 5 Practice | Exercise 39',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex39',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 40 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex40': {
+    name: 'Part 5 Practice | Exercise 40',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex40',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 41 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex41': {
+    name: 'Part 5 Practice | Exercise 41',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex41',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 42 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex42': {
+    name: 'Part 5 Practice | Exercise 42',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex42',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 43 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex43': {
+    name: 'Part 5 Practice | Exercise 43',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex43',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 44 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex44': {
+    name: 'Part 5 Practice | Exercise 44',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex44',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 45 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex45': {
+    name: 'Part 5 Practice | Exercise 45',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex45',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 46 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex46': {
+    name: 'Part 5 Practice | Exercise 46',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex46',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 47 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex47': {
+    name: 'Part 5 Practice | Exercise 47',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex47',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 48 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex48': {
+    name: 'Part 5 Practice | Exercise 48',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex48',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 49 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex49': {
+    name: 'Part 5 Practice | Exercise 49',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex49',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 50 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex50': {
+    name: 'Part 5 Practice | Exercise 50',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex50',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 51 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex51': {
+    name: 'Part 5 Practice | Exercise 51',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex51',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 5 Practice Exercise 52 (hub toeic-part5-hub-2): 30 sentences, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p5-ex52': {
+    name: 'Part 5 Practice | Exercise 52',
+    part: 'Part 5',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part5.html',
+    baseId: 'p5-ex52',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 15 * 60,
+    partIds: ['p5'],
+    total: 30,
+    parts: [
+      { name: 'Part 5 — Incomplete Sentences', start: 1, end: 30, choices: ['A','B','C','D'] }
+    ]
+  },
+
   // Part 6 Text Completion Test 1 (Drive folder 'Grammar in context'): passages retyped, 12 blanks, two attempts per student
   // (an admin can grant more), opened and closed by the admin, own page and own timer.
   'p6-t1': {
@@ -1736,6 +2534,766 @@ const TESTS_DATA = {
     defaultClosed: true,   // closed until an admin opens it
     page: 'part6.html',
     baseId: 'p6-t21',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 22 (hub toeic-part5-hub-2, hub test 1): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t22': {
+    name: 'Part 6 Text Completion | Test 22',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t22',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 23 (hub toeic-part5-hub-2, hub test 2): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t23': {
+    name: 'Part 6 Text Completion | Test 23',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t23',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 24 (hub toeic-part5-hub-2, hub test 3): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t24': {
+    name: 'Part 6 Text Completion | Test 24',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t24',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 25 (hub toeic-part5-hub-2, hub test 4): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t25': {
+    name: 'Part 6 Text Completion | Test 25',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t25',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 26 (hub toeic-part5-hub-2, hub test 5): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t26': {
+    name: 'Part 6 Text Completion | Test 26',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t26',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 27 (hub toeic-part5-hub-2, hub test 6): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t27': {
+    name: 'Part 6 Text Completion | Test 27',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t27',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 28 (hub toeic-part5-hub-2, hub test 7): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t28': {
+    name: 'Part 6 Text Completion | Test 28',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t28',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 29 (hub toeic-part5-hub-2, hub test 8): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t29': {
+    name: 'Part 6 Text Completion | Test 29',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t29',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 30 (hub toeic-part5-hub-2, hub test 9): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t30': {
+    name: 'Part 6 Text Completion | Test 30',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t30',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 31 (hub toeic-part5-hub-2, hub test 10): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t31': {
+    name: 'Part 6 Text Completion | Test 31',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t31',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 32 (hub toeic-part5-hub-2, hub test 11): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t32': {
+    name: 'Part 6 Text Completion | Test 32',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t32',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 33 (hub toeic-part5-hub-2, hub test 12): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t33': {
+    name: 'Part 6 Text Completion | Test 33',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t33',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 34 (hub toeic-part5-hub-2, hub test 13): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t34': {
+    name: 'Part 6 Text Completion | Test 34',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t34',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 35 (hub toeic-part5-hub-2, hub test 14): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t35': {
+    name: 'Part 6 Text Completion | Test 35',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t35',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 36 (hub toeic-part5-hub-2, hub test 15): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t36': {
+    name: 'Part 6 Text Completion | Test 36',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t36',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 37 (hub toeic-part5-hub-2, hub test 16): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t37': {
+    name: 'Part 6 Text Completion | Test 37',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t37',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 38 (hub toeic-part5-hub-2, hub test 17): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t38': {
+    name: 'Part 6 Text Completion | Test 38',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t38',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 39 (hub toeic-part5-hub-2, hub test 18): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t39': {
+    name: 'Part 6 Text Completion | Test 39',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t39',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 40 (hub toeic-part5-hub-2, hub test 19): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t40': {
+    name: 'Part 6 Text Completion | Test 40',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t40',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 41 (hub toeic-part5-hub-2, hub test 20): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t41': {
+    name: 'Part 6 Text Completion | Test 41',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t41',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 42 (hub toeic-part5-hub-2, hub test 21): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t42': {
+    name: 'Part 6 Text Completion | Test 42',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t42',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 43 (hub toeic-part5-hub-2, hub test 22): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t43': {
+    name: 'Part 6 Text Completion | Test 43',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t43',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 44 (hub toeic-part5-hub-2, hub test 23): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t44': {
+    name: 'Part 6 Text Completion | Test 44',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t44',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 45 (hub toeic-part5-hub-2, hub test 24): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t45': {
+    name: 'Part 6 Text Completion | Test 45',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t45',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 46 (hub toeic-part5-hub-2, hub test 25): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t46': {
+    name: 'Part 6 Text Completion | Test 46',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t46',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 47 (hub toeic-part5-hub-2, hub test 26): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t47': {
+    name: 'Part 6 Text Completion | Test 47',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t47',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 48 (hub toeic-part5-hub-2, hub test 27): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t48': {
+    name: 'Part 6 Text Completion | Test 48',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t48',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 49 (hub toeic-part5-hub-2, hub test 28): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t49': {
+    name: 'Part 6 Text Completion | Test 49',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t49',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 50 (hub toeic-part5-hub-2, hub test 29): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t50': {
+    name: 'Part 6 Text Completion | Test 50',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t50',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 51 (hub toeic-part5-hub-2, hub test 30): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t51': {
+    name: 'Part 6 Text Completion | Test 51',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t51',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 52 (hub toeic-part5-hub-2, hub test 31): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t52': {
+    name: 'Part 6 Text Completion | Test 52',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t52',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 53 (hub toeic-part5-hub-2, hub test 32): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t53': {
+    name: 'Part 6 Text Completion | Test 53',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t53',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 54 (hub toeic-part5-hub-2, hub test 33): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t54': {
+    name: 'Part 6 Text Completion | Test 54',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t54',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 55 (hub toeic-part5-hub-2, hub test 34): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t55': {
+    name: 'Part 6 Text Completion | Test 55',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t55',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 56 (hub toeic-part5-hub-2, hub test 35): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t56': {
+    name: 'Part 6 Text Completion | Test 56',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t56',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 57 (hub toeic-part5-hub-2, hub test 36): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t57': {
+    name: 'Part 6 Text Completion | Test 57',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t57',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 58 (hub toeic-part5-hub-2, hub test 37): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t58': {
+    name: 'Part 6 Text Completion | Test 58',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t58',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 59 (hub toeic-part5-hub-2, hub test 38): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t59': {
+    name: 'Part 6 Text Completion | Test 59',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t59',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 60 (hub toeic-part5-hub-2, hub test 39): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t60': {
+    name: 'Part 6 Text Completion | Test 60',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t60',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    audioControlled: false,
+    duration: 8 * 60,
+    partIds: ['p6'],
+    total: 16,
+    parts: [
+      { name: 'Part 6 — Text Completion', start: 1, end: 16, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 6 Text Completion Test 61 (hub toeic-part5-hub-2, hub test 40): 4 passages, 16 blanks, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'p6-t61': {
+    name: 'Part 6 Text Completion | Test 61',
+    part: 'Part 6',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    page: 'part6.html',
+    baseId: 'p6-t61',
     maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
     audioControlled: false,
     duration: 8 * 60,

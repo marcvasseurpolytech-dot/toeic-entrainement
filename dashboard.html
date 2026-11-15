@@ -294,7 +294,7 @@
       { key: 'full',      title: 'Full Tests',   pick: t => !t.practice && READING_BASES.has(t.baseId) && LISTENING_BASES.has(t.baseId) },
       { key: 'listening', title: 'Full Listening', pick: t => !t.practice && !READING_BASES.has(t.baseId) },
       { key: 'reading',   title: 'Full Reading',   pick: t => !t.practice && READING_BASES.has(t.baseId) && !LISTENING_BASES.has(t.baseId) },
-      { key: 'grammar',   title: 'Part 5 Grammar', pick: t => !!t.practice && t.part === 'Part 5' },
+      { key: 'grammar',   title: 'Part 5', pick: t => !!t.practice && t.part === 'Part 5' },
       { key: 'part2',     title: 'Part 2 Question-Response', pick: t => !!t.practice && t.part === 'Part 2' },
       { key: 'part3',     title: 'Part 3 Conversations', pick: t => !!t.practice && t.part === 'Part 3' },
       { key: 'part6',     title: 'Part 6 Text Completion', pick: t => !!t.practice && t.part === 'Part 6' },
@@ -660,7 +660,7 @@
     // ATTEMPT DETAILS
     // =========================================================
     const fmtDur = sec => (Number.isFinite(sec) ? `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}` : '—');
-    const GROUP_TITLE = { full: 'Full Tests', listening: 'Full Listening', reading: 'Full Reading', grammar: 'Part 5 Grammar', part2: 'Part 2 Question-Response', part3: 'Part 3 Conversations', part6: 'Part 6 Text Completion', part7: 'Part 7 Training' };
+    const GROUP_TITLE = { full: 'Full Tests', listening: 'Full Listening', reading: 'Full Reading', grammar: 'Part 5', part2: 'Part 2 Question-Response', part3: 'Part 3 Conversations', part6: 'Part 6 Text Completion', part7: 'Part 7 Training' };
     function fillAttFilter() {
       const sel = document.getElementById('att-filter');
       sel.innerHTML = '<option value="">All tests</option>' + Object.entries(GROUP_TITLE).map(([k, v]) => `<option value="${k}">${v}</option>`).join('');
