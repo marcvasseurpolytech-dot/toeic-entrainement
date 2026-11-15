@@ -16,7 +16,7 @@ const TESTS_DATA = {
     total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
-      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 2: Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
@@ -50,7 +50,7 @@ const TESTS_DATA = {
     total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
-      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 2: Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
@@ -84,7 +84,7 @@ const TESTS_DATA = {
     total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
-      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 2: Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
@@ -119,7 +119,7 @@ const TESTS_DATA = {
     total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
-      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 2: Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
@@ -154,7 +154,7 @@ const TESTS_DATA = {
     total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
-      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 2: Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
@@ -189,7 +189,7 @@ const TESTS_DATA = {
     total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
-      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 2: Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
@@ -232,7 +232,7 @@ const TESTS_DATA = {
     total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
-      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 2: Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
@@ -254,7 +254,7 @@ const TESTS_DATA = {
     total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
-      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 2: Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
@@ -276,7 +276,7 @@ const TESTS_DATA = {
     total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
-      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 2: Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
@@ -298,7 +298,7 @@ const TESTS_DATA = {
     total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
-      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 2: Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
@@ -320,7 +320,7 @@ const TESTS_DATA = {
     total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
-      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 2: Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
@@ -417,7 +417,7 @@ const TESTS_DATA = {
     total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
-      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 2: Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
@@ -476,7 +476,7 @@ const TESTS_DATA = {
     total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
-      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 2: Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
@@ -497,7 +497,7 @@ const TESTS_DATA = {
     total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
-      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 2: Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
@@ -559,7 +559,7 @@ const TESTS_DATA = {
     total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
-      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 2: Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
@@ -580,7 +580,7 @@ const TESTS_DATA = {
     total: 100,
     parts: [
       { name: 'Part 1 — Photographs', start: 1, end: 6, choices: ['A','B','C','D'] },
-      { name: 'Part 2 — Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
+      { name: 'Part 2: Question-Response', start: 7, end: 31, choices: ['A','B','C'] },
       { name: 'Part 3 — Conversations', start: 32, end: 70, choices: ['A','B','C','D'] },
       { name: 'Part 4 — Short Talks', start: 71, end: 100, choices: ['A','B','C','D'] }
     ]
@@ -1766,7 +1766,7 @@ const TESTS_DATA = {
     partIds: ['p2'],
     total: 25,
     parts: [
-      { name: 'Part 2 — Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
     ]
   },
 
@@ -1786,7 +1786,7 @@ const TESTS_DATA = {
     partIds: ['p2'],
     total: 25,
     parts: [
-      { name: 'Part 2 — Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
     ]
   },
 
@@ -1806,7 +1806,7 @@ const TESTS_DATA = {
     partIds: ['p2'],
     total: 25,
     parts: [
-      { name: 'Part 2 — Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
     ]
   },
 
@@ -1826,7 +1826,7 @@ const TESTS_DATA = {
     partIds: ['p2'],
     total: 25,
     parts: [
-      { name: 'Part 2 — Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
     ]
   },
 
@@ -1846,10 +1846,435 @@ const TESTS_DATA = {
     partIds: ['p2'],
     total: 25,
     parts: [
-      { name: 'Part 2 — Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
     ]
   },
 
+  'part2-t6': {
+    name: 'Part 2 Question-Response | Test 6',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t6',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1woE3_87ahHSaoVvdx8vSHB9Tn9RkrZaH/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t8': {
+    name: 'Part 2 Question-Response | Test 8',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t8',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1SrndFsTKicFpIm_yHdoN_TwqqpWmR72V/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t9': {
+    name: 'Part 2 Question-Response | Test 9',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t9',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/12e9e4kFyWKRbNeI027MEg4Td2aYQ8tGN/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t10': {
+    name: 'Part 2 Question-Response | Test 10',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t10',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1qKMqZRyuCmUyhfALzcgrM9_4OJMeHVzH/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t11': {
+    name: 'Part 2 Question-Response | Test 11',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t11',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1lBAIE1kJKnRnKYce4201yrvpADKxQQCA/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t12': {
+    name: 'Part 2 Question-Response | Test 12',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t12',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1BuKvLodZmh-3zty3sW6YJ53HzioyHqKu/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t14': {
+    name: 'Part 2 Question-Response | Test 14',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t14',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1_Zmghs2BYi-CUPKKKvLrja9vo-ugiZ9Z/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t15': {
+    name: 'Part 2 Question-Response | Test 15',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t15',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1bxj1_lp_U8-16c7Hspl27QLzzxSqUvth/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t16': {
+    name: 'Part 2 Question-Response | Test 16',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t16',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1mUzyfDIWidcJHTX7kiBLPO8LdoYo33OH/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t17': {
+    name: 'Part 2 Question-Response | Test 17',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t17',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/17pCHV2td8TJjX-kknToHn4mmzRd3S8AT/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t18': {
+    name: 'Part 2 Question-Response | Test 18',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t18',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1d3JlDkeX1E5WtRvpjXezFIxu3hPHNKvQ/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t19': {
+    name: 'Part 2 Question-Response | Test 19',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t19',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1ryqDI7MkEIQxEAG8WIsRtsiUphrTV5MG/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t20': {
+    name: 'Part 2 Question-Response | Test 20',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t20',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/15av82v0h9Vi3_s5HsseZl3TBk5KlIB22/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t21': {
+    name: 'Part 2 Question-Response | Test 21',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t21',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1C4y1TDWLG7niT1rBDwBkOhkE52xi_Pxp/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t22': {
+    name: 'Part 2 Question-Response | Test 22',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t22',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1jsi53dler5jUF1Ah7kIlbSVA-IkGxELx/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t23': {
+    name: 'Part 2 Question-Response | Test 23',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t23',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1m1MQ86CmzxJKVK10YbZnK7_c3N8YZewA/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t25': {
+    name: 'Part 2 Question-Response | Test 25',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t25',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1DXaNbmXA0wTjeB9fYomWZg4-7sXqGfTz/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t26': {
+    name: 'Part 2 Question-Response | Test 26',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t26',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1LvU8u7cgTi_6Q2NfBQSBgFWosBOV5unZ/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t27': {
+    name: 'Part 2 Question-Response | Test 27',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t27',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1yDVKvXfTRmpQ-nZdlyMZpKQR-WnHGAk7/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t28': {
+    name: 'Part 2 Question-Response | Test 28',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t28',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1VVWBHuXnadvJUAdjkpto_pahFmRUvOTU/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t29': {
+    name: 'Part 2 Question-Response | Test 29',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t29',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1v9FAjIaUjk5Hay4s-LC_ec66gSVEj95q/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t30': {
+    name: 'Part 2 Question-Response | Test 30',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t30',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1VVb4y5zw3gTzCzackkc43kH0rzIFFeUf/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t31': {
+    name: 'Part 2 Question-Response | Test 31',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t31',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1si1kJVFjezCnclS7mzpnManz9tB9dfil/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t32': {
+    name: 'Part 2 Question-Response | Test 32',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t32',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/16IDZUmJ1QDxhwzP322YbYd1bglZZ7rn-/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
+  'part2-t33': {
+    name: 'Part 2 Question-Response | Test 33',
+    part: 'Part 2',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part2-t33',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 6,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1x2aPYguwiPUilr3MtT4ekQuC5cCc_tAD/view?usp=sharing',
+    partIds: ['p2'],
+    total: 25,
+    parts: [
+      { name: 'Part 2: Question-Response', start: 1, end: 25, choices: ['A','B','C'] }
+    ]
+  },
   // Part 7 training set (not a full TOEIC section): own page, own 52-minute clock
   // (75 min Reading minus 15 min for Part 5 and 8 min for Part 6).
   'p7-test-a': {

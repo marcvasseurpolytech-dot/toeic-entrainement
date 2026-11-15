@@ -4231,5 +4231,180 @@ module.exports = {
   "attempts": 2,
   "parts": [{ "id": "p2", "start": 1, "end": 25 }],
   "keys": ["B", "C", "B", "B", "A", "C", "C", "B", "B", "A", "C", "C", "A", "B", "C", "C", "B", "A", "A", "C", "C", "B", "A", "A", "A"]
+ },
+ "part2-t6": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["B", "C", "B", "A", "C", "B", "B", "A", "C", "C", "A", "C", "C", "B", "B", "B", "A", "A", "A", "C", "B", "C", "A", "B", "C"]
+ },
+ "part2-t8": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["A", "A", "B", "B", "A", "B", "A", "C", "C", "C", "B", "C", "A", "C", "C", "A", "C", "C", "B", "B", "C", "A", "A", "A", "C"]
+ },
+ "part2-t9": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["C", "A", "C", "B", "C", "B", "C", "C", "A", "B", "B", "C", "C", "B", "C", "C", "A", "C", "A", "B", "A", "B", "A", "B", "A"]
+ },
+ "part2-t10": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["A", "B", "A", "C", "B", "A", "A", "A", "A", "A", "B", "B", "A", "A", "C", "B", "A", "C", "B", "A", "A", "B", "C", "B", "B"]
+ },
+ "part2-t11": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["B", "B", "A", "C", "B", "A", "C", "C", "B", "B", "C", "B", "B", "A", "C", "C", "B", "B", "C", "B", "A", "B", "A", "A", "A"]
+ },
+ "part2-t12": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["C", "C", "B", "C", "A", "B", "A", "C", "A", "A", "B", "A", "C", "B", "A", "C", "C", "C", "B", "C", "C", "B", "A", "C", "C"]
+ },
+ "part2-t14": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["B", "C", "B", "C", "A", "B", "A", "A", "C", "B", "A", "C", "A", "C", "A", "C", "B", "C", "B", "A", "A", "B", "B", "A", "C"]
+ },
+ "part2-t15": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["B", "A", "A", "B", "A", "C", "A", "C", "A", "B", "A", "C", "B", "A", "B", "A", "C", "A", "B", "C", "C", "B", "A", "A", "C"]
+ },
+ "part2-t16": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["C", "B", "C", "B", "B", "C", "A", "C", "C", "A", "A", "B", "C", "C", "B", "B", "A", "A", "A", "B", "A", "C", "A", "A", "B"]
+ },
+ "part2-t17": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["C", "A", "C", "C", "B", "B", "C", "A", "A", "A", "C", "B", "B", "C", "B", "A", "B", "B", "C", "C", "A", "A", "A", "C", "B"]
+ },
+ "part2-t18": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["C", "B", "B", "A", "B", "B", "B", "A", "A", "C", "B", "A", "C", "B", "C", "B", "C", "C", "A", "B", "A", "A", "A", "C", "A"]
+ },
+ "part2-t19": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["C", "C", "B", "A", "A", "B", "B", "C", "B", "A", "B", "C", "A", "B", "A", "B", "C", "C", "B", "A", "A", "C", "C", "A", "B"]
+ },
+ "part2-t20": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["B", "A", "C", "C", "B", "A", "C", "B", "B", "A", "B", "C", "A", "C", "A", "B", "C", "B", "C", "A", "A", "C", "B", "A", "C"]
+ },
+ "part2-t21": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["C", "B", "C", "A", "B", "A", "C", "A", "A", "B", "B", "B", "A", "B", "C", "B", "C", "C", "B", "A", "A", "B", "C", "C", "C"]
+ },
+ "part2-t22": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["B", "C", "A", "C", "B", "A", "C", "B", "C", "B", "B", "A", "A", "A", "B", "A", "A", "A", "B", "C", "B", "B", "B", "A", "C"]
+ },
+ "part2-t23": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["C", "B", "A", "B", "A", "B", "C", "B", "A", "B", "B", "A", "C", "A", "C", "B", "C", "A", "C", "C", "B", "C", "B", "C", "A"]
+ },
+ "part2-t25": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["C", "B", "A", "A", "B", "C", "C", "A", "A", "C", "A", "B", "B", "C", "A", "B", "C", "B", "C", "B", "B", "A", "A", "A", "B"]
+ },
+ "part2-t26": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["B", "B", "A", "C", "C", "A", "C", "C", "A", "B", "A", "C", "B", "C", "C", "C", "B", "A", "B", "C", "A", "A", "A", "B", "A"]
+ },
+ "part2-t27": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["B", "C", "B", "A", "A", "C", "B", "C", "C", "B", "A", "A", "B", "A", "C", "A", "C", "A", "C", "B", "C", "A", "A", "B", "B"]
+ },
+ "part2-t28": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["C", "A", "C", "B", "C", "C", "A", "B", "C", "C", "C", "B", "C", "A", "A", "A", "B", "B", "C", "A", "C", "B", "C", "C", "C"]
+ },
+ "part2-t29": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["B", "C", "B", "B", "C", "C", "A", "A", "A", "C", "B", "A", "A", "C", "C", "B", "B", "A", "B", "B", "B", "A", "B", "A", "A"]
+ },
+ "part2-t30": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["C", "B", "A", "C", "C", "B", "C", "A", "B", "C", "B", "B", "B", "A", "B", "C", "A", "A", "B", "A", "C", "B", "A", "C", "A"]
+ },
+ "part2-t31": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["C", "C", "A", "A", "C", "A", "B", "B", "A", "C", "C", "A", "A", "C", "B", "C", "B", "A", "A", "C", "A", "B", "C", "A", "C"]
+ },
+ "part2-t32": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["A", "B", "A", "B", "C", "A", "A", "C", "C", "C", "B", "C", "B", "A", "A", "C", "B", "A", "C", "B", "C", "A", "C", "C", "A"]
+ },
+ "part2-t33": {
+  "section": "P",
+  "total": 25,
+  "attempts": 2,
+  "parts": [{ "id": "p2", "start": 1, "end": 25 }],
+  "keys": ["B", "B", "C", "C", "B", "A", "B", "B", "C", "C", "C", "B", "B", "C", "B", "A", "A", "B", "C", "A", "B", "C", "B", "B", "C"]
  }
 };
