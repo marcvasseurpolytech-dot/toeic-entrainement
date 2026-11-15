@@ -1750,6 +1750,106 @@ const TESTS_DATA = {
   // full booklet PDF; IIBC 2 T2 doesn't (booklet button hidden); IIBC 2 T3
   // links directly to the Drive booklet rather than a locally-hosted copy.
 
+  // Part 3 Conversations Test 1 (Drive folder 'LISTENING PART 3 only'): questions 32 to 70 of a TOEIC Listening, shown as 32 to 70 (numOffset),
+  // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'part3-t1': {
+    name: 'Part 3 Conversations | Test 1',
+    part: 'Part 3',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part3-t1',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 31,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1VuhUALNvQOOvtQKjEnKx4bmnIqgn6QN0/view?usp=sharing',
+    partIds: ['p3'],
+    total: 39,
+    parts: [
+      { name: 'Part 3: Conversations', start: 1, end: 39, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 3 Conversations Test 2 (Drive folder 'LISTENING PART 3 only'): questions 32 to 70 of a TOEIC Listening, shown as 32 to 70 (numOffset),
+  // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'part3-t2': {
+    name: 'Part 3 Conversations | Test 2',
+    part: 'Part 3',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part3-t2',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 31,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/14372wFynG6-lb9FlCYPGaIndIrSK-ei9/view?usp=sharing',
+    partIds: ['p3'],
+    total: 39,
+    parts: [
+      { name: 'Part 3: Conversations', start: 1, end: 39, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 3 Conversations Test 3 (Drive folder 'LISTENING PART 3 only'): questions 32 to 70 of a TOEIC Listening, shown as 32 to 70 (numOffset),
+  // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'part3-t3': {
+    name: 'Part 3 Conversations | Test 3',
+    part: 'Part 3',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part3-t3',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 31,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1PpUhhErKVZaPADDepzCJ_jlUvSyQiS_W/view?usp=sharing',
+    partIds: ['p3'],
+    total: 39,
+    parts: [
+      { name: 'Part 3: Conversations', start: 1, end: 39, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 3 Conversations Test 4 (Drive folder 'LISTENING PART 3 only'): questions 32 to 70 of a TOEIC Listening, shown as 32 to 70 (numOffset),
+  // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'part3-t4': {
+    name: 'Part 3 Conversations | Test 4',
+    part: 'Part 3',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part3-t4',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 31,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1ZnOhTOfCWNcuyvJ7DhdMTwokIvJezR0H/view?usp=sharing',
+    partIds: ['p3'],
+    total: 39,
+    parts: [
+      { name: 'Part 3: Conversations', start: 1, end: 39, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 3 Conversations Test 5 (Drive folder 'LISTENING PART 3 only'): questions 32 to 70 of a TOEIC Listening, shown as 32 to 70 (numOffset),
+  // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'part3-t5': {
+    name: 'Part 3 Conversations | Test 5',
+    part: 'Part 3',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part3-t5',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 31,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1-xM3TB5i1uHD6BuRD4ezsxoZxCi-DSsR/view?usp=sharing',
+    partIds: ['p3'],
+    total: 39,
+    parts: [
+      { name: 'Part 3: Conversations', start: 1, end: 39, choices: ['A','B','C','D'] }
+    ]
+  },
+
   // Part 2 Question-Response Test 1 (Drive folder 'Part 2'): questions 7 to 31 of a TOEIC Listening, shown as 7 to 31 (numOffset),
   // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
   'part2-t1': {
