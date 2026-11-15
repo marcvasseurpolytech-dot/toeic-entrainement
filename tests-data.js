@@ -1759,6 +1759,7 @@ const TESTS_DATA = {
     practice: true,
     defaultClosed: true,   // closed until an admin opens it
     baseId: 'part3-t1',
+    bookletUrl: 'booklets/part3-t1-booklet.pdf',
     maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
     numOffset: 31,
     audioControlled: true,
@@ -1779,6 +1780,7 @@ const TESTS_DATA = {
     practice: true,
     defaultClosed: true,   // closed until an admin opens it
     baseId: 'part3-t2',
+    bookletUrl: 'booklets/part3-t2-booklet.pdf',
     maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
     numOffset: 31,
     audioControlled: true,
@@ -1799,6 +1801,7 @@ const TESTS_DATA = {
     practice: true,
     defaultClosed: true,   // closed until an admin opens it
     baseId: 'part3-t3',
+    bookletUrl: 'booklets/part3-t3-booklet.pdf',
     maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
     numOffset: 31,
     audioControlled: true,
@@ -1819,6 +1822,7 @@ const TESTS_DATA = {
     practice: true,
     defaultClosed: true,   // closed until an admin opens it
     baseId: 'part3-t4',
+    bookletUrl: 'booklets/part3-t4-booklet.pdf',
     maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
     numOffset: 31,
     audioControlled: true,
@@ -1839,6 +1843,7 @@ const TESTS_DATA = {
     practice: true,
     defaultClosed: true,   // closed until an admin opens it
     baseId: 'part3-t5',
+    bookletUrl: 'booklets/part3-t5-booklet.pdf',
     maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
     numOffset: 31,
     audioControlled: true,
