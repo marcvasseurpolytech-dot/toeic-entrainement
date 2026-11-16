@@ -288,6 +288,7 @@
           <option value="">All accounts</option>
           <option value="pending">Pending approval</option>
           <option value="approved">Approved</option>
+          <option value="repeater">Repeating the year</option>
         </select>
         <select id="stu-dept" onchange="stuPage=1;renderStudents()"><option value="">All departments</option></select>
         <select id="stu-year" onchange="stuPage=1;renderStudents()" title="Academic year of registration (September to August)"><option value="">All academic years</option></select>
@@ -1073,9 +1074,11 @@
       sel.value = years.some(y => (y || 'none') === cur) ? cur : '';
     }
     async function bulkDelete(list, label) {
-      if (!list.length) return;
+      const kept = list.filter(s => s.repeater).length;
+      list = list.filter(s => !s.repeater);
+      if (!list.length) { alert(kept ? `Nothing to delete: the ${kept} matching student(s) are marked as repeating and are kept.` : 'Nothing to delete.'); return; }
       const nbScores = allScores.filter(sc => list.some(s => s.nom === sc.nom)).length;
-      if (!confirm(`⚠️ PERMANENTLY delete ${list.length} student account(s) (${label}) and their ${nbScores} result(s)?\n\nThis cannot be undone. Export the results first if you need them.`)) return;
+      if (!confirm(`⚠️ PERMANENTLY delete ${list.length} student account(s) (${label}) and their ${nbScores} result(s)?` + (kept ? `\n\n${kept} repeating student(s) are kept.` : '') + `\n\nThis cannot be undone. Export the results first if you need them.`)) return;
       const typed = prompt(`To confirm, type the number of accounts to delete: ${list.length}`);
       if (typed === null || typed.trim() !== String(list.length)) { alert('Cancelled: nothing was deleted.'); return; }
       let ok = 0, fail = 0;
@@ -1088,6 +1091,16 @@
       alert(`${ok} account(s) deleted` + (fail ? `, ${fail} failed (try again).` : '.'));
       await loadAll();
     }
+    async function toggleRepeater(nom, repeater, el) {
+      el.disabled = true;
+      try {
+        const r = await fetch('/api/admin?resource=repeater', { method: 'POST', headers: { 'Content-Type': 'application/json', ...authHeaders() }, body: JSON.stringify({ nom, repeater }) });
+        if (!r.ok) throw new Error();
+        const st = allStudents.find(x => x.nom === nom); if (st) st.repeater = repeater;
+        renderStudents();
+      } catch (e) { alert('Could not update this student, reverting.'); el.checked = !repeater; }
+      finally { el.disabled = false; }
+    }
     function deleteByYear() {
       const y = document.getElementById('stu-year').value;
       if (!y) return;
@@ -1095,13 +1108,13 @@
     }
     function deleteOld() { bulkDelete(allStudents.filter(isOld), `registered 3 or more academic years ago`); }
     function updateYearTools() {
-      const y = document.getElementById('stu-year').value, old = allStudents.filter(isOld).length;
-      const n = y ? allStudents.filter(s => (acadYear(s) || 'none') === y).length : 0;
+      const y = document.getElementById('stu-year').value, old = allStudents.filter(s => isOld(s) && !s.repeater).length;
+      const n = y ? allStudents.filter(s => (acadYear(s) || 'none') === y && !s.repeater).length : 0;
       document.getElementById('btn-del-year').disabled = !y;
       document.getElementById('btn-del-year').textContent = y ? `🗑 Delete ${y === 'none' ? 'unknown date' : y} (${n})` : '🗑 Delete the selected year';
       document.getElementById('btn-del-old').disabled = !old;
       document.getElementById('btn-del-old').textContent = `🗑 Delete 3+ years old (${old})`;
-      document.getElementById('year-summary').textContent = `Current academic year: ${curAcadStart()}-${curAcadStart() + 1}. Pick a year in the filter, then delete it.`;
+      document.getElementById('year-summary').textContent = `Current academic year: ${curAcadStart()}-${curAcadStart() + 1}. Pick a year in the filter, then delete it. Students marked Repeating are never deleted by these buttons.`;
     }
 
     function renderStudents() {
@@ -1125,7 +1138,7 @@
       const status = document.getElementById('stu-status').value;
       const deptSel = document.getElementById('stu-dept').value;
       let sorted = allStudents.filter(s =>
-        (!status || (status === 'pending') === !isApproved(s)) &&
+        (!status || (status === 'repeater' ? !!s.repeater : (status === 'pending') === !isApproved(s))) &&
         (!deptSel || promoOf(s) === deptSel) &&
         (!document.getElementById('stu-year').value || (acadYear(s) || 'none') === document.getElementById('stu-year').value) &&
         (!q || `${s.nom} ${s.prenom} ${s.dept} ${deptOf(s)}`.toUpperCase().includes(q))
@@ -1150,7 +1163,7 @@
 
       document.getElementById('students-wrap').innerHTML = `
         <table>
-          <thead><tr><th>Last name</th><th>First name</th><th>Department</th><th>Registered</th><th>Year</th><th>Tests done</th><th>Avg %</th><th>Approved</th><th></th></tr></thead>
+          <thead><tr><th>Last name</th><th>First name</th><th>Department</th><th>Registered</th><th>Year</th><th title="Repeating the year: protected from bulk deletion">Repeating</th><th>Tests done</th><th>Avg %</th><th>Approved</th><th></th></tr></thead>
           <tbody>${sorted.map(s => {
             const d = s.createdAt ? new Date(s.createdAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : '-';
             const approved = isApproved(s);
@@ -1162,6 +1175,7 @@
               : null;
             return `<tr${approved ? '' : ' style="background:#fef9ec"'}>
               <td>${esc(s.nom)}</td><td>${esc(s.prenom)}</td><td>${deptSelect(s, safeName)}</td><td>${d}</td><td>${acadYear(s) || '-'}</td>
+              <td><label class="switch"><input type="checkbox" ${s.repeater ? 'checked' : ''} onchange="toggleRepeater('${safeName}', this.checked, this)"><span class="slider"></span></label></td>
               <td>${testsDone}/${totalTests}</td>
               <td>${avgPct !== null ? `<span class="pct ${pctClass(avgPct)}">${avgPct}%</span>` : '—'}</td>
               <td>

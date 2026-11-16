@@ -181,6 +181,24 @@ module.exports = async (req, res) => {
       return res.status(500).json({ error: 'SHA conflict — try again.' });
     }
 
+    // resource=repeater — flags a student who repeats the year: kept out of bulk deletion by year.
+    if (resource === 'repeater') {
+      const { nom, repeater } = req.body || {};
+      const nomUpper = (nom || '').trim().toUpperCase();
+      if (!nomUpper || typeof repeater !== 'boolean') return res.status(400).json({ error: 'Missing data' });
+
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const file = await ghGet('data/students.json', token);
+        const students = file?.data?.students || [];
+        const idx = students.findIndex(s => s.nom === nomUpper);
+        if (idx < 0) return res.status(404).json({ error: 'Student not found' });
+        students[idx] = { ...students[idx], repeater };
+        const ok = await ghPut('data/students.json', { students }, file?.sha, token);
+        if (ok) return res.json({ success: true });
+      }
+      return res.status(500).json({ error: 'SHA conflict, try again.' });
+    }
+
     // resource=student-dept — admin corrects a student's class (must be in the list).
     if (resource === 'student-dept') {
       const { nom, dept } = req.body || {};
