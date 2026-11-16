@@ -290,6 +290,7 @@
           <option value="approved">Approved</option>
         </select>
         <select id="stu-dept" onchange="stuPage=1;renderStudents()"><option value="">All departments</option></select>
+        <select id="stu-year" onchange="stuPage=1;renderStudents()" title="Academic year of registration (September to August)"><option value="">All academic years</option></select>
         <select id="sort-stu" onchange="stuPage=1;renderStudents()" title="Sort">
           <option value="pending">Pending first, then A → Z</option>
           <option value="name-asc">Name A → Z</option>
@@ -299,6 +300,11 @@
           <option value="dept-asc">Department A → Z</option>
         </select>
         <button id="btn-approve-all" class="btn-export spacer" onclick="approveAll()">✅ Approve all pending</button>
+      </div>
+      <div id="year-tools" style="display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:.2rem 0 1rem;padding:.7rem .9rem;background:#fff;border:1px solid #e5e7eb;border-radius:10px;font-size:.85rem">
+        <span id="year-summary" style="color:#6b7280"></span>
+        <button id="btn-del-year" class="btn-delete spacer" onclick="deleteByYear()" disabled>🗑 Delete the selected year</button>
+        <button id="btn-del-old" class="btn-delete" onclick="deleteOld()" disabled>🗑 Delete 3+ years old</button>
       </div>
       <div id="students-wrap"><p style="color:#9ca3af;font-style:italic">Loading…</p></div>
       <div class="pager" id="pager-students"></div>
@@ -1049,7 +1055,57 @@
       `;
     }
 
+    // Academic year of a registration: September to August ("2026-2027").
+    function acadYear(s) {
+      if (!s.createdAt) return '';
+      const d = new Date(s.createdAt); if (isNaN(d)) return '';
+      const y = d.getMonth() >= 8 ? d.getFullYear() : d.getFullYear() - 1;
+      return `${y}-${y + 1}`;
+    }
+    const curAcadStart = () => { const n = new Date(); return n.getMonth() >= 8 ? n.getFullYear() : n.getFullYear() - 1; };
+    // "3+ years at the school": registered in an academic year that started 3 or more years before the current one.
+    const isOld = s => { const a = acadYear(s); return a && curAcadStart() - parseInt(a, 10) >= 3; };
+    function fillYearSelect() {
+      const sel = document.getElementById('stu-year'), cur = sel.value;
+      const years = [...new Set(allStudents.map(acadYear))].sort().reverse();
+      sel.innerHTML = '<option value="">All academic years</option>' +
+        years.map(y => `<option value="${y || 'none'}">${y || 'Unknown date'} (${allStudents.filter(s => (acadYear(s) || 'none') === (y || 'none')).length})</option>`).join('');
+      sel.value = years.some(y => (y || 'none') === cur) ? cur : '';
+    }
+    async function bulkDelete(list, label) {
+      if (!list.length) return;
+      const nbScores = allScores.filter(sc => list.some(s => s.nom === sc.nom)).length;
+      if (!confirm(`⚠️ PERMANENTLY delete ${list.length} student account(s) (${label}) and their ${nbScores} result(s)?\n\nThis cannot be undone. Export the results first if you need them.`)) return;
+      const typed = prompt(`To confirm, type the number of accounts to delete: ${list.length}`);
+      if (typed === null || typed.trim() !== String(list.length)) { alert('Cancelled: nothing was deleted.'); return; }
+      let ok = 0, fail = 0;
+      for (const s of list) {
+        try {
+          const r = await fetch(`/api/admin?resource=student&nom=${encodeURIComponent(s.nom)}`, { method: 'DELETE', headers: { ...authHeaders() } });
+          if (r.ok) ok++; else fail++;
+        } catch (e) { fail++; }
+      }
+      alert(`${ok} account(s) deleted` + (fail ? `, ${fail} failed (try again).` : '.'));
+      await loadAll();
+    }
+    function deleteByYear() {
+      const y = document.getElementById('stu-year').value;
+      if (!y) return;
+      bulkDelete(allStudents.filter(s => (acadYear(s) || 'none') === y), y === 'none' ? 'unknown registration date' : `registered in ${y}`);
+    }
+    function deleteOld() { bulkDelete(allStudents.filter(isOld), `registered 3 or more academic years ago`); }
+    function updateYearTools() {
+      const y = document.getElementById('stu-year').value, old = allStudents.filter(isOld).length;
+      const n = y ? allStudents.filter(s => (acadYear(s) || 'none') === y).length : 0;
+      document.getElementById('btn-del-year').disabled = !y;
+      document.getElementById('btn-del-year').textContent = y ? `🗑 Delete ${y === 'none' ? 'unknown date' : y} (${n})` : '🗑 Delete the selected year';
+      document.getElementById('btn-del-old').disabled = !old;
+      document.getElementById('btn-del-old').textContent = `🗑 Delete 3+ years old (${old})`;
+      document.getElementById('year-summary').textContent = `Current academic year: ${curAcadStart()}-${curAcadStart() + 1}. Pick a year in the filter, then delete it.`;
+    }
+
     function renderStudents() {
+      fillYearSelect(); updateYearTools();
       if (!allStudents.length) {
         document.getElementById('students-wrap').innerHTML = '<p style="color:#9ca3af;font-style:italic">No students registered.</p>';
         document.getElementById('pager-students').innerHTML = '';
@@ -1071,6 +1127,7 @@
       let sorted = allStudents.filter(s =>
         (!status || (status === 'pending') === !isApproved(s)) &&
         (!deptSel || promoOf(s) === deptSel) &&
+        (!document.getElementById('stu-year').value || (acadYear(s) || 'none') === document.getElementById('stu-year').value) &&
         (!q || `${s.nom} ${s.prenom} ${s.dept} ${deptOf(s)}`.toUpperCase().includes(q))
       );
       const nameCmp = (a, b) => (a.nom + a.prenom).localeCompare(b.nom + b.prenom, 'fr', { sensitivity: 'base' });
@@ -1093,7 +1150,7 @@
 
       document.getElementById('students-wrap').innerHTML = `
         <table>
-          <thead><tr><th>Last name</th><th>First name</th><th>Department</th><th>Registered</th><th>Tests done</th><th>Avg %</th><th>Approved</th><th></th></tr></thead>
+          <thead><tr><th>Last name</th><th>First name</th><th>Department</th><th>Registered</th><th>Year</th><th>Tests done</th><th>Avg %</th><th>Approved</th><th></th></tr></thead>
           <tbody>${sorted.map(s => {
             const d = s.createdAt ? new Date(s.createdAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : '-';
             const approved = isApproved(s);
@@ -1104,7 +1161,7 @@
               ? Math.round(theirScores.reduce((sum, sc) => sum + (sc.score / sc.total * 100), 0) / theirScores.length)
               : null;
             return `<tr${approved ? '' : ' style="background:#fef9ec"'}>
-              <td>${esc(s.nom)}</td><td>${esc(s.prenom)}</td><td>${deptSelect(s, safeName)}</td><td>${d}</td>
+              <td>${esc(s.nom)}</td><td>${esc(s.prenom)}</td><td>${deptSelect(s, safeName)}</td><td>${d}</td><td>${acadYear(s) || '-'}</td>
               <td>${testsDone}/${totalTests}</td>
               <td>${avgPct !== null ? `<span class="pct ${pctClass(avgPct)}">${avgPct}%</span>` : '—'}</td>
               <td>
