@@ -134,7 +134,11 @@
     .loading { color: var(--muted); font-style: italic; padding: 2rem 0; text-align: center; }
     .table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 6px; }
     /* Tabs */
-    .tabs { display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1.6rem; border-bottom:2px solid var(--light-gold); }
+    .tabs { display:flex; flex-wrap:wrap; align-items:flex-end; gap:0.4rem 1.6rem; margin-bottom:1.6rem; border-bottom:2px solid var(--light-gold); }
+    .tab-group { display:flex; flex-direction:column; gap:0.25rem; }
+    .tab-group-label { font-family:'Source Serif 4',serif; font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase; color:var(--dark-gold); padding-left:0.3rem; }
+    .tab-group-btns { display:flex; flex-wrap:wrap; gap:0.3rem; }
+    .tab-group + .tab-group { border-left:1px solid var(--light-gold); padding-left:1.6rem; }
     .tab-btn { background:transparent; border:1px solid transparent; border-bottom:none; border-radius:6px 6px 0 0; padding:0.6rem 0.95rem; cursor:pointer;
       font-family:'Playfair Display',serif; font-size:0.9rem; color:var(--navy); margin-bottom:-2px; }
     .tab-btn:hover { background:#fdf8f0; }
@@ -423,7 +427,15 @@
         const fresh = stt.filter(x => x.isNew).length;
         return { key: g.key, title: g.title, cnt: `${stt.filter(x => x.used > 0).length}/${stt.length}`, open, fresh };
       }).concat([{ key: 'results', title: 'My results', cnt: String(new Set(scores.map(s => s.testId)).size) }]);
-      nav.innerHTML = tabs.map(t => `<button type="button" role="tab" class="tab-btn" data-tab="${t.key}">${t.title}<span class="cnt" title="${t.key === 'results' ? 'tests taken' : 'done / total'}">${t.cnt}</span>${t.fresh ? '<span class="badge-new" title="new tests">NEW</span>' : ''}${t.open ? `<span class="cnt" style="background:#e6f4ec;color:var(--success);border-color:#b9dfc9" title="open now">${t.open} open</span>` : ''}</button>`).join('');
+      const SHORT = { full: 'Full Tests', listening: 'Full Listening', reading: 'Full Reading', part1: 'Part 1', part2: 'Part 2', part3: 'Part 3', part34: 'Part 3 & 4', grammar: 'Part 5', part6: 'Part 6', part7: 'Part 7', results: 'My results' };
+      const SECTIONS = [
+        { label: 'Full exams', keys: ['full', 'listening', 'reading'] },
+        { label: 'Listening parts', keys: ['part1', 'part2', 'part3', 'part34'] },
+        { label: 'Reading parts', keys: ['grammar', 'part6', 'part7'] },
+        { label: 'Progress', keys: ['results'] }
+      ];
+      const tabBtn = t => `<button type="button" role="tab" class="tab-btn" data-tab="${t.key}">${SHORT[t.key] || t.title}<span class="cnt" title="${t.key === 'results' ? 'tests taken' : 'done / total'}">${t.cnt}</span>${t.fresh ? '<span class="badge-new" title="new tests">NEW</span>' : ''}${t.open ? `<span class="cnt" style="background:#e6f4ec;color:var(--success);border-color:#b9dfc9" title="open now">${t.open} open</span>` : ''}</button>`;
+      nav.innerHTML = SECTIONS.map(s => `<div class="tab-group"><div class="tab-group-label">${s.label}</div><div class="tab-group-btns">${s.keys.map(k => tabs.find(t => t.key === k)).filter(Boolean).map(tabBtn).join('')}</div></div>`).join('');
       nav.onclick = e => { const b = e.target.closest('.tab-btn'); if (b) showTab(b.dataset.tab); };
       let start = 'full';
       try { start = sessionStorage.getItem('dashTab') || ''; } catch {}
