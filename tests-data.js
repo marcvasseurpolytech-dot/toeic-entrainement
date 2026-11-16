@@ -3308,6 +3308,50 @@ const TESTS_DATA = {
   // full booklet PDF; IIBC 2 T2 doesn't (booklet button hidden); IIBC 2 T3
   // links directly to the Drive booklet rather than a locally-hosted copy.
 
+  // Part 3 and 4 chained, Test 1 (Drive folder 'LISTENING PART 3 and 4'): questions 32 to 100 of a TOEIC Listening, shown as 32 to 100 (numOffset),
+  // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'part34-t1': {
+    name: 'Part 3 and 4 | Test 1',
+    part: 'Part 3 & 4',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part34-t1',
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 31,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1Y8wD44AiEmiS70LO6TES1q2xyy6hZuYL/view?usp=sharing',
+    partIds: ['p3', 'p4'],
+    total: 69,
+    parts: [
+      { name: 'Part 3: Conversations', start: 1, end: 39, choices: ['A','B','C','D'] },
+      { name: 'Part 4: Talks', start: 40, end: 69, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 3 and 4 chained, Test 2 (Drive folder 'LISTENING PART 3 and 4'): questions 32 to 100 of a TOEIC Listening, shown as 32 to 100 (numOffset),
+  // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
+  'part34-t2': {
+    name: 'Part 3 and 4 | Test 2',
+    part: 'Part 3 & 4',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part34-t2',
+    bookletUrl: 'booklets/part34-t2-booklet.pdf',
+    qImages: {"32": ["qimg/part34-t2/q32-1.jpg"], "35": ["qimg/part34-t2/q35-2.jpg"], "36": ["qimg/part34-t2/q36-3.jpg"], "38": ["qimg/part34-t2/q38-4.jpg"], "41": ["qimg/part34-t2/q41-5.jpg"], "42": ["qimg/part34-t2/q42-6.jpg"], "44": ["qimg/part34-t2/q44-7.jpg"], "47": ["qimg/part34-t2/q47-8.jpg"], "48": ["qimg/part34-t2/q48-9.jpg"], "50": ["qimg/part34-t2/q50-10.jpg"], "53": ["qimg/part34-t2/q53-11.jpg"], "56": ["qimg/part34-t2/q56-12.jpg"], "59": ["qimg/part34-t2/q59-13.jpg"], "60": ["qimg/part34-t2/q60-14.jpg"], "62": ["qimg/part34-t2/q62-15.jpg", "qimg/part34-t2/q62-16.jpg"], "65": ["qimg/part34-t2/q65-17.jpg", "qimg/part34-t2/q65-18.jpg"], "68": ["qimg/part34-t2/q68-19.jpg", "qimg/part34-t2/q68-20.jpg"], "71": ["qimg/part34-t2/q71-21.jpg"], "74": ["qimg/part34-t2/q74-22.jpg"], "75": ["qimg/part34-t2/q75-23.jpg"], "77": ["qimg/part34-t2/q77-24.jpg"], "80": ["qimg/part34-t2/q80-25.jpg"], "83": ["qimg/part34-t2/q83-26.jpg"], "86": ["qimg/part34-t2/q86-27.jpg"], "87": ["qimg/part34-t2/q87-28.jpg"], "89": ["qimg/part34-t2/q89-29.jpg"], "92": ["qimg/part34-t2/q92-30.jpg"], "95": ["qimg/part34-t2/q95-31.jpg"], "98": ["qimg/part34-t2/q98-32.jpg"]},  // question images shown in the answer grid, keyed by the displayed number of the first question they cover
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 31,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1v8w3AHWkzJvRAVRq-kqD212hxbQwUj0E/view?usp=sharing',
+    partIds: ['p3', 'p4'],
+    total: 69,
+    parts: [
+      { name: 'Part 3: Conversations', start: 1, end: 39, choices: ['A','B','C','D'] },
+      { name: 'Part 4: Talks', start: 40, end: 69, choices: ['A','B','C','D'] }
+    ]
+  },
+
   // Part 3 Conversations Test 1 (Drive folder 'LISTENING PART 3 only'): questions 32 to 70 of a TOEIC Listening, shown as 32 to 70 (numOffset),
   // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
   'part3-t1': {

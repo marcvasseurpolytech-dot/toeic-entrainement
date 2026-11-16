@@ -285,7 +285,9 @@
     @media (prefers-reduced-motion: reduce) {
       * { animation: none !important; transition: none !important; }
     }
-  </style>
+  .qimg-box{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin:1rem 0 .4rem;padding:.6rem;background:#fff;border:1px solid #e5e7eb;border-radius:10px}
+.qimg-box img{max-width:100%;height:auto}
+</style>
 </head>
 <body>
   <div class="sticky-header">
@@ -774,9 +776,17 @@ function renderQuestions() {
     ph.innerHTML = `<span>${cleanDash(part.name)}</span><span class="range">Q${part.start + OFF} to Q${part.end + OFF}</span>`;
     root.appendChild(ph);
 
-    const sheet = document.createElement('div');
+    let sheet = document.createElement('div');
     sheet.className = 'qsheet';
     for (let q = part.start; q <= part.end; q++) {
+      const imgs = TEST.qImages && TEST.qImages[q + OFF];
+      if (imgs) {
+        if (sheet.children.length) { root.appendChild(sheet); sheet = document.createElement('div'); sheet.className = 'qsheet'; }
+        const box = document.createElement('div');
+        box.className = 'qimg-box';
+        box.innerHTML = imgs.map(u => `<img src="${u}" alt="Questions from number ${q + OFF}" loading="lazy">`).join('');
+        root.appendChild(box);
+      }
       sheet.appendChild(buildQuestionCard(q, part.choices));
     }
     root.appendChild(sheet);

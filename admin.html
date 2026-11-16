@@ -492,8 +492,9 @@
       { key: 'grammar',   title: 'Part 5',  sub: '30-sentence tests (Grammar tests and Practice exercises), two attempts each (more on request)', pick: t => !!t.practice && t.part === 'Part 5' },
       { key: 'part2',     title: 'Part 2 question-response', sub: '25 audio questions (7 to 31), two attempts each (more on request)', pick: t => !!t.practice && t.part === 'Part 2' },
       { key: 'part3',     title: 'Part 3 conversations', sub: '39 audio questions (32 to 70), two attempts each (more on request)', pick: t => !!t.practice && t.part === 'Part 3' },
+      { key: 'part34',    title: 'Part 3 and 4 chained', sub: '69 audio questions (32 to 100), two attempts each (more on request)', pick: t => !!t.practice && t.part === 'Part 3 & 4' },
       { key: 'part6',     title: 'Part 6 text completion', sub: 'Four texts with blanks, two attempts each (more on request)', pick: t => !!t.practice && t.part === 'Part 6' },
-      { key: 'practice',  title: 'Part 7 training', sub: 'Single-part drills, each with its own timer', pick: t => !!t.practice && t.part !== 'Part 5' && t.part !== 'Part 6' && t.part !== 'Part 2' && t.part !== 'Part 3' }
+      { key: 'practice',  title: 'Part 7 training', sub: 'Single-part drills, each with its own timer', pick: t => !!t.practice && t.part !== 'Part 5' && t.part !== 'Part 6' && t.part !== 'Part 2' && t.part !== 'Part 3' && t.part !== 'Part 3 & 4' }
     ];
     const natural = (a, b) => a.localeCompare(b, 'en', { numeric: true, sensitivity: 'base' });
     let accessState = { tests: {}, classes: {} };
