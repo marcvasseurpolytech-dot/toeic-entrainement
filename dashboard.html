@@ -130,21 +130,28 @@
     }
     .btn-export-mine:hover { background: var(--dark-gold); }
 
-    .empty-msg { color: var(--muted); font-size: 0.9rem; padding: 1rem 0; font-style: italic; }
+    .empty-msg { grid-column:1 / -1; color: var(--muted); font-size: 0.9rem; padding: 1rem 0; font-style: italic; }
     .loading { color: var(--muted); font-style: italic; padding: 2rem 0; text-align: center; }
     .table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 6px; }
     /* Tabs */
-    .tabs { display:flex; flex-wrap:wrap; align-items:flex-end; gap:0.4rem 1.6rem; margin-bottom:1.6rem; border-bottom:2px solid var(--light-gold); }
-    .tab-group { display:flex; flex-direction:column; gap:0.25rem; }
-    .tab-group-label { font-family:'Source Serif 4',serif; font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase; color:var(--dark-gold); padding-left:0.3rem; }
-    .tab-group-btns { display:flex; flex-wrap:wrap; gap:0.3rem; }
-    .tab-group + .tab-group { border-left:1px solid var(--light-gold); padding-left:1.6rem; }
-    .tab-btn { background:transparent; border:1px solid transparent; border-bottom:none; border-radius:6px 6px 0 0; padding:0.6rem 0.95rem; cursor:pointer;
-      font-family:'Playfair Display',serif; font-size:0.9rem; color:var(--navy); margin-bottom:-2px; }
-    .tab-btn:hover { background:#fdf8f0; }
-    .tab-btn.on { background:#fff; border-color:var(--light-gold); border-bottom:2px solid #fff; color:var(--dark-gold); font-weight:700; }
-    .tab-btn .cnt { display:inline-block; margin-left:0.4rem; font-family:'Source Serif 4',serif; font-size:0.7rem; background:var(--cream); border:1px solid var(--border); border-radius:10px; padding:0 0.45rem; color:var(--muted); font-weight:600; }
+    .tabs { margin-bottom:1.6rem; }
+    .sec-bar { display:flex; gap:0.35rem; background:#fff; border:1px solid var(--light-gold); border-radius:14px; padding:0.35rem; box-shadow:0 1px 3px rgba(30,58,95,.06); }
+    .sec-btn { flex:1 1 0; display:flex; align-items:center; justify-content:center; gap:0.5rem; padding:0.8rem 0.6rem; border:0; border-radius:10px; background:transparent; cursor:pointer;
+      font-family:'Playfair Display',serif; font-size:1rem; color:var(--navy); transition:background .15s, color .15s; }
+    .sec-btn:hover { background:#fbf6ea; }
+    .sec-btn.on { background:var(--navy); color:var(--gold); font-weight:700; box-shadow:0 2px 6px rgba(30,58,95,.25); }
+    .sec-btn .scnt { font-family:'Source Serif 4',serif; font-size:0.72rem; font-weight:700; background:#e6f4ec; color:var(--success); border-radius:10px; padding:0.05rem 0.5rem; }
+    .sec-btn.on .scnt { background:var(--gold); color:var(--navy); }
+    .sub-bar { display:none; flex-wrap:wrap; gap:0.5rem; margin-top:0.9rem; }
+    .sub-bar.on { display:flex; }
+    .sub-bar.single { display:none; }
+    .tab-btn { display:inline-flex; align-items:center; background:#fff; border:1px solid var(--border); border-radius:999px; padding:0.45rem 1rem; cursor:pointer;
+      font-family:'Playfair Display',serif; font-size:0.9rem; color:var(--navy); transition:background .15s, border-color .15s; }
+    .tab-btn:hover { border-color:var(--gold); background:#fdf8f0; }
+    .tab-btn.on { background:#fbf1d6; border-color:var(--gold); color:var(--navy); font-weight:700; box-shadow:inset 0 0 0 1px var(--gold); }
+    .tab-btn .cnt { display:inline-block; margin-left:0.45rem; font-family:'Source Serif 4',serif; font-size:0.7rem; background:var(--cream); border:1px solid var(--border); border-radius:10px; padding:0 0.45rem; color:var(--muted); font-weight:600; }
     .tab-btn.on .cnt { background:var(--navy); color:var(--gold); border-color:var(--navy); }
+    @media (max-width:640px) { .sec-btn { font-size:0.85rem; padding:0.65rem 0.3rem; } .sub-bar { gap:0.35rem; } .tab-btn { padding:0.4rem 0.75rem; font-size:0.82rem; } }
     .tabpane { display:none; } .tabpane.on { display:block; }
     .pane-sub { color:var(--muted); font-size:0.85rem; margin-bottom:1rem; }
     .group-title { font-family:'Playfair Display',serif; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--dark-gold); margin:1.4rem 0 0.7rem; }
@@ -429,14 +436,21 @@
       }).concat([{ key: 'results', title: 'My results', cnt: String(new Set(scores.map(s => s.testId)).size) }]);
       const SHORT = { full: 'Full Tests', listening: 'Full Listening', reading: 'Full Reading', part1: 'Part 1', part2: 'Part 2', part3: 'Part 3', part34: 'Part 3 & 4', grammar: 'Part 5', part6: 'Part 6', part7: 'Part 7', results: 'My results' };
       const SECTIONS = [
-        { label: 'Full exams', keys: ['full', 'listening', 'reading'] },
-        { label: 'Listening parts', keys: ['part1', 'part2', 'part3', 'part34'] },
-        { label: 'Reading parts', keys: ['grammar', 'part6', 'part7'] },
-        { label: 'Progress', keys: ['results'] }
+        { id: 'exams', label: 'Full exams', keys: ['full', 'listening', 'reading'] },
+        { id: 'lis', label: 'Listening', keys: ['part1', 'part2', 'part3', 'part34'] },
+        { id: 'read', label: 'Reading', keys: ['grammar', 'part6', 'part7'] },
+        { id: 'res', label: 'My results', keys: ['results'] }
       ];
+      window.__SECTIONS = SECTIONS;
       const tabBtn = t => `<button type="button" role="tab" class="tab-btn" data-tab="${t.key}">${SHORT[t.key] || t.title}<span class="cnt" title="${t.key === 'results' ? 'tests taken' : 'done / total'}">${t.cnt}</span>${t.fresh ? '<span class="badge-new" title="new tests">NEW</span>' : ''}${t.open ? `<span class="cnt" style="background:#e6f4ec;color:var(--success);border-color:#b9dfc9" title="open now">${t.open} open</span>` : ''}</button>`;
-      nav.innerHTML = SECTIONS.map(s => `<div class="tab-group"><div class="tab-group-label">${s.label}</div><div class="tab-group-btns">${s.keys.map(k => tabs.find(t => t.key === k)).filter(Boolean).map(tabBtn).join('')}</div></div>`).join('');
-      nav.onclick = e => { const b = e.target.closest('.tab-btn'); if (b) showTab(b.dataset.tab); };
+      const secOpen = s => s.keys.reduce((n, k) => n + ((tabs.find(t => t.key === k) || {}).open || 0), 0);
+      nav.innerHTML = `<div class="sec-bar" role="tablist">${SECTIONS.map(s => `<button type="button" class="sec-btn" data-sec="${s.id}">${s.label}${secOpen(s) ? `<span class="scnt" title="tests you can start">${secOpen(s)}</span>` : ''}</button>`).join('')}</div>` +
+        SECTIONS.map(s => `<div class="sub-bar${s.keys.length < 2 ? ' single' : ''}" data-subbar="${s.id}">${s.keys.map(k => tabs.find(t => t.key === k)).filter(Boolean).map(tabBtn).join('')}</div>`).join('');
+      nav.onclick = e => {
+        const b = e.target.closest('.tab-btn'); if (b) return showTab(b.dataset.tab);
+        const s = e.target.closest('.sec-btn');
+        if (s) { const sec = SECTIONS.find(x => x.id === s.dataset.sec); const pick = sec.keys.find(k => (tabs.find(t => t.key === k) || {}).open) || sec.keys[0]; showTab(pick); }
+      };
       let start = 'full';
       try { start = sessionStorage.getItem('dashTab') || ''; } catch {}
       if (sessionStorage.getItem('focusPart') === '7') { start = 'part7'; sessionStorage.removeItem('focusPart'); }
@@ -449,6 +463,9 @@
     }
     function showTab(key) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('on', b.dataset.tab === key));
+      const curSec = (window.__SECTIONS || []).find(s => s.keys.includes(key));
+      document.querySelectorAll('.sec-btn').forEach(b => b.classList.toggle('on', !!curSec && b.dataset.sec === curSec.id));
+      document.querySelectorAll('.sub-bar').forEach(b => b.classList.toggle('on', !!curSec && b.dataset.subbar === curSec.id));
       document.querySelectorAll('.tabpane').forEach(p => p.classList.toggle('on', p.dataset.pane === key));
       try { sessionStorage.setItem('dashTab', key); } catch {}
       if (key === 'grammar') renderGrammarBilan();
