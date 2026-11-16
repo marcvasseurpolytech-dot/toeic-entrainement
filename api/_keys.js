@@ -4848,6 +4848,13 @@ module.exports = {
   "parts": [{ "id": "p3", "start": 1, "end": 39 }],
   "keys": ["D", "B", "C", "C", "D", "C", "C", "B", "A", "D", "C", "B", "A", "C", "B", "C", "C", "A", "A", "C", "C", "B", "C", "D", "A", "C", "B", "A", "B", "C", "B", "A", "C", "C", "D", "D", "A", "C", "B"]
  },
+ "part1-t1": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["B", "C", "D", "A", "D", "C"]
+ },
  "part2-t1": {
   "section": "P",
   "total": 25,

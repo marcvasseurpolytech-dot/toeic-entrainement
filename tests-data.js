@@ -3537,6 +3537,27 @@ const TESTS_DATA = {
     ]
   },
 
+  // Part 1 Photographs Test 1 (Drive folder 'Part 1'): questions 1 to 6 of a TOEIC Listening,
+  // audio streamed from Drive, the six photographs are shown in the answer grid, two attempts per student, closed until an admin opens it.
+  'part1-t1': {
+    name: 'Part 1 Photographs | Test 1',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,   // closed until an admin opens it
+    baseId: 'part1-t1',
+    qImages: {"1": ["qimg/part1-t1/q1.jpg"], "2": ["qimg/part1-t1/q2.jpg"], "3": ["qimg/part1-t1/q3.jpg"], "4": ["qimg/part1-t1/q4.jpg"], "5": ["qimg/part1-t1/q5.jpg"], "6": ["qimg/part1-t1/q6.jpg"]},  // photographs shown in the answer grid, keyed by question number
+    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1ePx6Iab7WCAfMmJUtCKhxKTpuTqvQxmw/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
   // Part 2 Question-Response Test 1 (Drive folder 'Part 2'): questions 7 to 31 of a TOEIC Listening, shown as 7 to 31 (numOffset),
   // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
   'part2-t1': {
