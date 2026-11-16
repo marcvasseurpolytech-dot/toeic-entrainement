@@ -4855,6 +4855,146 @@ module.exports = {
   "parts": [{ "id": "p1", "start": 1, "end": 6 }],
   "keys": ["B", "C", "D", "A", "D", "C"]
  },
+ "part1-t2": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["D", "A", "C", "A", "B", "C"]
+ },
+ "part1-t3": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["A", "C", "C", "B", "D", "A"]
+ },
+ "part1-t4": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["D", "C", "A", "A", "C", "D"]
+ },
+ "part1-t5": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["B", "C", "A", "A", "B", "D"]
+ },
+ "part1-t6": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["C", "A", "B", "D", "C", "B"]
+ },
+ "part1-t7": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["D", "C", "D", "C", "A", "B"]
+ },
+ "part1-t8": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["C", "C", "B", "B", "D", "A"]
+ },
+ "part1-t9": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["B", "C", "B", "D", "A", "D"]
+ },
+ "part1-t10": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["D", "B", "A", "C", "D", "C"]
+ },
+ "part1-t12": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["B", "A", "C", "C", "A", "D"]
+ },
+ "part1-t13": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["B", "C", "D", "B", "C", "A"]
+ },
+ "part1-t14": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["B", "D", "B", "D", "A", "D"]
+ },
+ "part1-t15": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["C", "D", "B", "D", "C", "B"]
+ },
+ "part1-t16": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["B", "D", "B", "C", "D", "A"]
+ },
+ "part1-t17": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["D", "D", "A", "D", "A", "D"]
+ },
+ "part1-t18": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["C", "D", "A", "C", "D", "B"]
+ },
+ "part1-t19": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["A", "C", "D", "D", "B", "D"]
+ },
+ "part1-t20": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["C", "C", "B", "D", "A", "C"]
+ },
+ "part1-t21": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["B", "C", "A", "B", "A", "D"]
+ },
+ "part1-t22": {
+  "section": "P",
+  "total": 6,
+  "attempts": 2,
+  "parts": [{ "id": "p1", "start": 1, "end": 6 }],
+  "keys": ["C", "B", "D", "B", "C", "A"]
+ },
  "part2-t1": {
   "section": "P",
   "total": 25,

@@ -3558,6 +3558,406 @@ const TESTS_DATA = {
     ]
   },
 
+  // Part 1 Photographs Test 2: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t2': {
+    name: 'Part 1 Photographs | Test 2',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t2',
+    qImages: {"1": ["qimg/part1-t2/q1.jpg"], "2": ["qimg/part1-t2/q2.jpg"], "3": ["qimg/part1-t2/q3.jpg"], "4": ["qimg/part1-t2/q4.jpg"], "5": ["qimg/part1-t2/q5.jpg"], "6": ["qimg/part1-t2/q6.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1vk_ln_JPo99lp6XcoUbwZw2olJHOFg1S/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 3: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t3': {
+    name: 'Part 1 Photographs | Test 3',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t3',
+    qImages: {"1": ["qimg/part1-t3/q1.jpg"], "2": ["qimg/part1-t3/q2.jpg"], "3": ["qimg/part1-t3/q3.jpg"], "4": ["qimg/part1-t3/q4.jpg"], "5": ["qimg/part1-t3/q5.jpg"], "6": ["qimg/part1-t3/q6.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/16CMGwYIHom9XbZbJktktgy5MK8YWUwNS/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 4: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t4': {
+    name: 'Part 1 Photographs | Test 4',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t4',
+    qImages: {"1": ["qimg/part1-t4/q1.jpg"], "2": ["qimg/part1-t4/q2.jpg"], "3": ["qimg/part1-t4/q3.jpg"], "4": ["qimg/part1-t4/q4.jpg"], "5": ["qimg/part1-t4/q5.jpg"], "6": ["qimg/part1-t4/q6.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1xXq1IT6x9vDjignULiAAKp83UQdFEEzQ/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 5: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t5': {
+    name: 'Part 1 Photographs | Test 5',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t5',
+    qImages: {"1": ["qimg/part1-t5/q1.jpg"], "2": ["qimg/part1-t5/q2.jpg"], "3": ["qimg/part1-t5/q3.jpg"], "4": ["qimg/part1-t5/q4.jpg"], "5": ["qimg/part1-t5/q5.jpg"], "6": ["qimg/part1-t5/q6.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1HDJJYDtMdRxqHrHSoua6qUeF_msvE7DI/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 6: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t6': {
+    name: 'Part 1 Photographs | Test 6',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t6',
+    qImages: {"1": ["qimg/part1-t6/q1.jpg"], "2": ["qimg/part1-t6/q2.jpg"], "3": ["qimg/part1-t6/q3.jpg"], "4": ["qimg/part1-t6/q4.jpg"], "5": ["qimg/part1-t6/q5.jpg"], "6": ["qimg/part1-t6/q6.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1kEW2MLzAtX0uFgtR85shuvpKk9xv5jYQ/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 7: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t7': {
+    name: 'Part 1 Photographs | Test 7',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t7',
+    qImages: {"1": ["qimg/part1-t7/q1.jpg"], "2": ["qimg/part1-t7/q2.jpg"], "3": ["qimg/part1-t7/q3.jpg"], "4": ["qimg/part1-t7/q4.jpg"], "5": ["qimg/part1-t7/q5.jpg"], "6": ["qimg/part1-t7/q6.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1oNuIv0m1zuY3ph7wWdXtAFuElXljT7cU/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 8: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t8': {
+    name: 'Part 1 Photographs | Test 8',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t8',
+    qImages: {"1": ["qimg/part1-t8/q1.jpg"], "2": ["qimg/part1-t8/q2.jpg"], "3": ["qimg/part1-t8/q3.jpg"], "4": ["qimg/part1-t8/q4.jpg"], "5": ["qimg/part1-t8/q5.jpg"], "6": ["qimg/part1-t8/q6.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1qITipPBl_sXM75AY721wvt-8DIUT2u_p/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 9: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t9': {
+    name: 'Part 1 Photographs | Test 9',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t9',
+    qImages: {"1": ["qimg/part1-t9/q1.jpg"], "2": ["qimg/part1-t9/q2.jpg"], "3": ["qimg/part1-t9/q3.jpg"], "4": ["qimg/part1-t9/q4.jpg"], "5": ["qimg/part1-t9/q5.jpg"], "6": ["qimg/part1-t9/q6.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/11bOOfLrHotPoewqCB34Tg7sd5zHFfKdh/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 10: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t10': {
+    name: 'Part 1 Photographs | Test 10',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t10',
+    qImages: {"1": ["qimg/part1-t10/q1.jpg"], "2": ["qimg/part1-t10/q2.jpg"], "3": ["qimg/part1-t10/q3.jpg"], "4": ["qimg/part1-t10/q4.jpg"], "5": ["qimg/part1-t10/q5.jpg"], "6": ["qimg/part1-t10/q6.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1QMbCpJH4yGyYWtgDZlSnlFpOsIae9M0k/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 12: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t12': {
+    name: 'Part 1 Photographs | Test 12',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t12',
+    qImages: {"1": ["qimg/part1-t12/q1.jpg"], "3": ["qimg/part1-t12/q3.jpg"], "5": ["qimg/part1-t12/q5.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1iSUlUO8LJGJ5oaH1LFzhDaRsEOT6QV_W/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 13: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t13': {
+    name: 'Part 1 Photographs | Test 13',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t13',
+    qImages: {"1": ["qimg/part1-t13/q1.jpg"], "2": ["qimg/part1-t13/q2.jpg"], "3": ["qimg/part1-t13/q3.jpg"], "4": ["qimg/part1-t13/q4.jpg"], "5": ["qimg/part1-t13/q5.jpg"], "6": ["qimg/part1-t13/q6.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1e7U8hingdxhioSt2BLkdreLTfHxJ1YU7/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 14: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t14': {
+    name: 'Part 1 Photographs | Test 14',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t14',
+    qImages: {"1": ["qimg/part1-t14/q1.jpg"], "2": ["qimg/part1-t14/q2.jpg"], "3": ["qimg/part1-t14/q3.jpg"], "4": ["qimg/part1-t14/q4.jpg"], "5": ["qimg/part1-t14/q5.jpg"], "6": ["qimg/part1-t14/q6.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1U24SYAkULDe6r4id02gPgIqykqdtSHOd/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 15: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t15': {
+    name: 'Part 1 Photographs | Test 15',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t15',
+    qImages: {"1": ["qimg/part1-t15/q1.jpg"], "2": ["qimg/part1-t15/q2.jpg"], "3": ["qimg/part1-t15/q3.jpg"], "4": ["qimg/part1-t15/q4.jpg"], "5": ["qimg/part1-t15/q5.jpg"], "6": ["qimg/part1-t15/q6.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1ck43z_nJSPagqJvC5bq5Z-r8_tudOiYP/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 16: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t16': {
+    name: 'Part 1 Photographs | Test 16',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t16',
+    qImages: {"1": ["qimg/part1-t16/q1.jpg"], "2": ["qimg/part1-t16/q2.jpg"], "3": ["qimg/part1-t16/q3.jpg"], "4": ["qimg/part1-t16/q4.jpg"], "5": ["qimg/part1-t16/q5.jpg"], "6": ["qimg/part1-t16/q6.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1NUxm_yJ6CtFiiFnLHjzNnUsWlyjkmrnM/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 17: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t17': {
+    name: 'Part 1 Photographs | Test 17',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t17',
+    qImages: {"1": ["qimg/part1-t17/q1.jpg"], "2": ["qimg/part1-t17/q2.jpg"], "3": ["qimg/part1-t17/q3.jpg"], "4": ["qimg/part1-t17/q4.jpg"], "5": ["qimg/part1-t17/q5.jpg"], "6": ["qimg/part1-t17/q6.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1l2wmlGSe-o3r_3UPaouvAY0AQFV7ohc9/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 18: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t18': {
+    name: 'Part 1 Photographs | Test 18',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t18',
+    qImages: {"1": ["qimg/part1-t18/q1.jpg"], "2": ["qimg/part1-t18/q2.jpg"], "3": ["qimg/part1-t18/q3.jpg"], "4": ["qimg/part1-t18/q4.jpg"], "5": ["qimg/part1-t18/q5.jpg"], "6": ["qimg/part1-t18/q6.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1LRJrVhgEfBfJ6LInf6rx3kk8ArIttjqY/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 19: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t19': {
+    name: 'Part 1 Photographs | Test 19',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t19',
+    qImages: {"1": ["qimg/part1-t19/q1.jpg"], "3": ["qimg/part1-t19/q3.jpg"], "5": ["qimg/part1-t19/q5.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1dTUTYoY_ykxlgqdf5c1_9fZ3_xj2Xx7j/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 20: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t20': {
+    name: 'Part 1 Photographs | Test 20',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t20',
+    qImages: {"1": ["qimg/part1-t20/q1.jpg"], "3": ["qimg/part1-t20/q3.jpg"], "5": ["qimg/part1-t20/q5.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/1WFdoQZrYSA3PLGegKDwzVfei1NEjQXLP/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 21: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t21': {
+    name: 'Part 1 Photographs | Test 21',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t21',
+    qImages: {"1": ["qimg/part1-t21/q1.jpg"], "3": ["qimg/part1-t21/q3.jpg"], "5": ["qimg/part1-t21/q5.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/17hyanc4rKnHOkvSzLEbZUsty0ghTHA9P/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
+  // Part 1 Photographs Test 22: keys read from the Google Form, audio streamed from Drive, closed until an admin opens it.
+  'part1-t22': {
+    name: 'Part 1 Photographs | Test 22',
+    part: 'Part 1',
+    section: 'P',
+    practice: true,
+    defaultClosed: true,
+    baseId: 'part1-t22',
+    qImages: {"1": ["qimg/part1-t22/q1.jpg"], "3": ["qimg/part1-t22/q3.jpg"], "5": ["qimg/part1-t22/q5.jpg"]},
+    maxAttempts: 2,
+    numOffset: 0,
+    audioControlled: true,
+    audioUrl: 'https://drive.google.com/file/d/16aIMpSy3BukzN9zOYlUY63JULWddROx_/view?usp=sharing',
+    partIds: ['p1'],
+    total: 6,
+    parts: [
+      { name: 'Part 1: Photographs', start: 1, end: 6, choices: ['A','B','C','D'] }
+    ]
+  },
+
   // Part 2 Question-Response Test 1 (Drive folder 'Part 2'): questions 7 to 31 of a TOEIC Listening, shown as 7 to 31 (numOffset),
   // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
   'part2-t1': {
