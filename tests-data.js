@@ -3308,27 +3308,6 @@ const TESTS_DATA = {
   // full booklet PDF; IIBC 2 T2 doesn't (booklet button hidden); IIBC 2 T3
   // links directly to the Drive booklet rather than a locally-hosted copy.
 
-  // Part 3 and 4 chained, Test 1 (Drive folder 'LISTENING PART 3 and 4'): questions 32 to 100 of a TOEIC Listening, shown as 32 to 100 (numOffset),
-  // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
-  'part34-t1': {
-    name: 'Part 3 and 4 | Test 1',
-    part: 'Part 3 & 4',
-    section: 'P',
-    practice: true,
-    defaultClosed: true,   // closed until an admin opens it
-    baseId: 'part34-t1',
-    maxAttempts: 2,        // keep in sync with "attempts" in api/_keys.js
-    numOffset: 31,
-    audioControlled: true,
-    audioUrl: 'https://drive.google.com/file/d/1Y8wD44AiEmiS70LO6TES1q2xyy6hZuYL/view?usp=sharing',
-    partIds: ['p3', 'p4'],
-    total: 69,
-    parts: [
-      { name: 'Part 3: Conversations', start: 1, end: 39, choices: ['A','B','C','D'] },
-      { name: 'Part 4: Talks', start: 40, end: 69, choices: ['A','B','C','D'] }
-    ]
-  },
-
   // Part 3 and 4 chained, Test 2 (Drive folder 'LISTENING PART 3 and 4'): questions 32 to 100 of a TOEIC Listening, shown as 32 to 100 (numOffset),
   // audio streamed from Drive, two attempts per student (an admin can grant more), closed until an admin opens it.
   'part34-t2': {
