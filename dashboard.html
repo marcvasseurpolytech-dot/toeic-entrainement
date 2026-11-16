@@ -294,10 +294,10 @@
       { key: 'full',      title: 'Full Tests',   pick: t => !t.practice && READING_BASES.has(t.baseId) && LISTENING_BASES.has(t.baseId) },
       { key: 'listening', title: 'Full Listening', pick: t => !t.practice && !READING_BASES.has(t.baseId) },
       { key: 'reading',   title: 'Full Reading',   pick: t => !t.practice && READING_BASES.has(t.baseId) && !LISTENING_BASES.has(t.baseId) },
-      { key: 'grammar',   title: 'Part 5', pick: t => !!t.practice && t.part === 'Part 5' },
       { key: 'part2',     title: 'Part 2 Question-Response', pick: t => !!t.practice && t.part === 'Part 2' },
       { key: 'part3',     title: 'Part 3 Conversations', pick: t => !!t.practice && t.part === 'Part 3' },
       { key: 'part34',    title: 'Part 3 and 4 Chained', pick: t => !!t.practice && t.part === 'Part 3 & 4' },
+      { key: 'grammar',   title: 'Part 5', pick: t => !!t.practice && t.part === 'Part 5' },
       { key: 'part6',     title: 'Part 6 Text Completion', pick: t => !!t.practice && t.part === 'Part 6' },
       { key: 'part7',     title: 'Part 7 Training', pick: t => !!t.practice && t.part !== 'Part 5' && t.part !== 'Part 6' && t.part !== 'Part 2' && t.part !== 'Part 3' && t.part !== 'Part 3 & 4' }
     ];
