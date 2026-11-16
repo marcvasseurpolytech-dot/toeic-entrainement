@@ -742,7 +742,7 @@
               <td><span class="score-pct ${pctClass(pct)}">${s.score}/${s.total}</span><span class="sub-line">${pct}%</span></td>
               <td>${s.converted !== null ? s.converted : '—'}</td>
               <td>${s.cecrl === '—' ? '—' : `<span class="cecrl-chip">${s.cecrl}</span>`}</td>
-              <td>${fmtDur(s.elapsedSec)}${s.TEST.duration ? `<span class="sub-line">of ${Math.round(s.TEST.duration / 60)} min</span>` : ''}</td>
+              <td>${fmtDur(s.elapsedSec)}${s.TEST.duration ? `<span class="sub-line">of ${Math.round(s.TEST.duration / 60)} min</span>` : ''}${overAudioNote(s)}</td>
               <td>${d}</td>
               <td>${isLast ? `<button class="btn-review" onclick="reviewTest('${s.testId}')">📖 Review</button>` : ''}</td>
             </tr>`;
@@ -750,6 +750,16 @@
         </table>
         </div>
       `;
+    }
+
+    // Full Listening with controlled audio: warn the student who took longer than the audio allows
+    // (3 min of grace for loading and submitting).
+    function overAudioNote(s) {
+      const T = s.TEST;
+      if (!T || T.section !== 'L' || !T.audioControlled || !T.audioDuration || !Number.isFinite(s.elapsedSec)) return '';
+      const over = Math.round((s.elapsedSec - T.audioDuration) / 60);
+      if (s.elapsedSec - T.audioDuration < 3 * 60 || over < 1) return '';
+      return `<span class="sub-line" style="color:#b45309;font-weight:600">⚠ You took ${over} minute${over > 1 ? 's' : ''} too many for this part</span>`;
     }
 
     function reviewTest(testId) {
