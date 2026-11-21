@@ -201,7 +201,7 @@
           <option value="open">Open only</option>
           <option value="closed">Closed only</option>
         </select>
-        <span class="acc-groups" id="acc-groups"><button type="button" data-g="" class="on" onclick="setGroupFilter('')">All</button><button type="button" data-g="full" onclick="setGroupFilter('full')">Full tests</button><button type="button" data-g="listening" onclick="setGroupFilter('listening')">Listening</button><button type="button" data-g="reading" onclick="setGroupFilter('reading')">Reading</button><button type="button" data-g="part1" onclick="setGroupFilter('part1')">Part 1</button><button type="button" data-g="part2" onclick="setGroupFilter('part2')">Part 2</button><button type="button" data-g="part3" onclick="setGroupFilter('part3')">Part 3</button><button type="button" data-g="part34" onclick="setGroupFilter('part34')">Part 3 and 4</button><button type="button" data-g="grammar" onclick="setGroupFilter('grammar')">Part 5</button><button type="button" data-g="part6" onclick="setGroupFilter('part6')">Part 6</button><button type="button" data-g="practice" onclick="setGroupFilter('practice')">Part 7</button></span>
+        <span class="acc-groups" id="acc-groups"><button type="button" data-g="" class="on" onclick="setGroupFilter('')">All</button><button type="button" data-g="full" onclick="setGroupFilter('full')">Full tests</button><button type="button" data-g="listening" onclick="setGroupFilter('listening')">Listening</button><button type="button" data-g="reading" onclick="setGroupFilter('reading')">Reading</button><button type="button" data-g="part1" onclick="setGroupFilter('part1')">Part 1</button><button type="button" data-g="part2" onclick="setGroupFilter('part2')">Part 2</button><button type="button" data-g="part3" onclick="setGroupFilter('part3')">Part 3</button><button type="button" data-g="part34" onclick="setGroupFilter('part34')">Part 3 and 4</button><button type="button" data-g="grammar" onclick="setGroupFilter('grammar')">Part 5</button><button type="button" data-g="part6" onclick="setGroupFilter('part6')">Part 6</button><button type="button" data-g="practice" onclick="setGroupFilter('practice')">Part 7</button><button type="button" data-g="tc3" onclick="setGroupFilter('tc3')">Classes TC3</button></span>
         <span class="acc-bulk">
           <button id="btn-close-all" class="btn-reset" style="margin-left:0" onclick="closeAllTests()">🔒 Close all</button>
         </span>
@@ -316,6 +316,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="tests-data.js"></script>
+<script src="courses-data.js"></script>
   <script src="scoring.js"></script>
   <script src="dept.js"></script>
   <script>
@@ -492,9 +493,11 @@
     // closed = none ticked. Stored server-side as tests[id] (open) + classes[id] (restriction).
     const READING_BASES = new Set(Object.values(TESTS_DATA).filter(t => t.section === 'R').map(t => t.baseId));
     const LISTENING_BASES = new Set(Object.values(TESTS_DATA).filter(t => t.section === 'L').map(t => t.baseId));
+    // Courses (Classes TC3) are listed in the same matrix, closed by default.
+    const ACC_DATA = Object.assign({}, TESTS_DATA, Object.fromEntries(Object.entries(COURSES).map(([id, c]) => [id, { name: c.name, part: 'Course', course: true, practice: true }])));
     const ACCESS_GROUPS = [
       { key: 'full',      title: 'Full tests',      sub: 'Listening and Reading of the same exam', pick: t => !t.practice && READING_BASES.has(t.baseId) && LISTENING_BASES.has(t.baseId) },
-      { key: 'listening', title: 'Full Listening',  sub: 'Complete Listening section only',         pick: t => !t.practice && !READING_BASES.has(t.baseId) },
+      { key: 'listening', title: 'Full Listening',  sub: 'Complete Listening section only',         pick: t => !t.practice && !t.course && !READING_BASES.has(t.baseId) },
       { key: 'reading',   title: 'Full Reading',    sub: 'Complete Reading section only',           pick: t => !t.practice && READING_BASES.has(t.baseId) && !LISTENING_BASES.has(t.baseId) },
       { key: 'part1',     title: 'Part 1 photographs', sub: '6 audio questions (1 to 6), two attempts each (more on request)', pick: t => !!t.practice && t.part === 'Part 1' },
       { key: 'part2',     title: 'Part 2 question-response', sub: '25 audio questions (7 to 31), two attempts each (more on request)', pick: t => !!t.practice && t.part === 'Part 2' },
@@ -502,16 +505,17 @@
       { key: 'part34',    title: 'Part 3 and 4 chained', sub: '69 audio questions (32 to 100), two attempts each (more on request)', pick: t => !!t.practice && t.part === 'Part 3 & 4' },
       { key: 'grammar',   title: 'Part 5',  sub: '30-sentence tests (Grammar tests and Practice exercises), two attempts each (more on request)', pick: t => !!t.practice && t.part === 'Part 5' },
       { key: 'part6',     title: 'Part 6 text completion', sub: 'Four texts with blanks, two attempts each (more on request)', pick: t => !!t.practice && t.part === 'Part 6' },
-      { key: 'practice',  title: 'Part 7 training', sub: 'Single-part drills, each with its own timer', pick: t => !!t.practice && t.part !== 'Part 5' && t.part !== 'Part 6' && t.part !== 'Part 1' && t.part !== 'Part 2' && t.part !== 'Part 3' && t.part !== 'Part 3 & 4' }
+      { key: 'practice',  title: 'Part 7 training', sub: 'Single-part drills, each with its own timer', pick: t => !!t.practice && !t.course && t.part !== 'Part 5' && t.part !== 'Part 6' && t.part !== 'Part 1' && t.part !== 'Part 2' && t.part !== 'Part 3' && t.part !== 'Part 3 & 4' },
+      { key: 'tc3',       title: 'Classes TC3', sub: 'Courses opened by class, closed by default', pick: t => !!t.course }
     ];
     const natural = (a, b) => a.localeCompare(b, 'en', { numeric: true, sensitivity: 'base' });
     let accessState = { tests: {}, classes: {} };
     let accGroupFilter = '', accCollapsed = {};
 
-    const depsOn = id => testIsOpen(accessState.tests, id)
+    const depsOn = id => (ACC_DATA[id] && ACC_DATA[id].course ? courseIsOpen(accessState.tests, id) : testIsOpen(accessState.tests, id))
       ? ((accessState.classes[id] || []).length ? accessState.classes[id] : PROMOS) : [];
-    const groupIds = g => Object.keys(TESTS_DATA).filter(id => g.pick(TESTS_DATA[id]))
-      .sort((x, y) => natural(TESTS_DATA[x].name, TESTS_DATA[y].name) || (TESTS_DATA[x].section === 'L' ? -1 : 1));
+    const groupIds = g => Object.keys(ACC_DATA).filter(id => g.pick(ACC_DATA[id]))
+      .sort((x, y) => natural(ACC_DATA[x].name, ACC_DATA[y].name) || (ACC_DATA[x].section === 'L' ? -1 : 1));
     const visibleIds = () => [...document.querySelectorAll('#access-wrap tr[data-id]:not([hidden])')].map(r => r.dataset.id);
 
     const fam = c => c.slice(0, 3);
@@ -531,7 +535,7 @@
           <span class="g-title">${esc(g.title)}</span><span class="g-count${nOpen ? '' : ' none'}">${nOpen}/${ids.length} open</span><span class="g-sub">${esc(g.sub)}</span>
           <span class="g-actions"><button type="button" onclick="setGroupDepts('${g.key}', true)">All departments</button><button type="button" onclick="setGroupDepts('${g.key}', false)">Close group</button></span></td></tr>`;
         ids.forEach(id => {
-          const t = TESTS_DATA[id], on = depsOn(id);
+          const t = ACC_DATA[id], on = depsOn(id);
           const label = g.key === 'full' ? (t.section === 'L' ? 'Listening' : 'Reading') : t.part;
           const name = g.key === 'full' ? `${esc(t.name)} <span class="sec">${label}</span>` : esc(t.name) + (g.key === 'grammar' || g.key === 'part6' ? '' : ` <span class="sec">${esc(label)}</span>`);
           body += `<tr data-id="${esc(id)}" data-group="${g.key}" data-name="${esc((t.name + ' ' + t.part + ' ' + label).toLowerCase())}"${col ? ' hidden' : ''} class="${on.length ? '' : 'isclosed'}">
@@ -548,7 +552,7 @@
     }
 
     function refreshOpenCount() {
-      openTests = Object.keys(TESTS_DATA).filter(id => depsOn(id).length).length;
+      openTests = Object.keys(ACC_DATA).filter(id => depsOn(id).length).length;
       updateSummary();
     }
 
@@ -652,7 +656,7 @@
     function fillQuestionTests() {
       const opt = id => `<option value="${esc(id)}">${esc(testLabel(id))}</option>`;
       const ids = Object.keys(TESTS_DATA);
-      const opts = ACCESS_GROUPS.map(g => `<optgroup label="${esc(g.title)}">${ids.filter(id => g.pick(TESTS_DATA[id])).map(opt).join('')}</optgroup>`).join('');
+      const opts = ACCESS_GROUPS.filter(g => g.key !== 'tc3').map(g => `<optgroup label="${esc(g.title)}">${ids.filter(id => g.pick(TESTS_DATA[id])).map(opt).join('')}</optgroup>`).join('');
       document.getElementById('q-test').innerHTML = '<option value="">Select a test…</option>' + opts;
       document.getElementById('rs-test').innerHTML = '<option value="">All tests</option>' + opts;
     }

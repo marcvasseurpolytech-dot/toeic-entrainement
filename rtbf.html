@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Right to be Forgotten | Polytech Lille</title>
+<style id="gatecss">body{visibility:hidden}</style>
+<script src="dept.js"></script>
+<script src="courses-data.js"></script>
+<script>
+var COURSE_ID="course-rtbf",STUDENT=null;
+try{STUDENT=JSON.parse(sessionStorage.getItem("student")||"null");}catch(e){}
+if(!STUDENT||!sessionStorage.getItem("studentAuth")){location.replace("index.html");}
+else{fetch("/api/access").then(function(r){return r.json();}).then(function(a){
+  if(courseIsOpen(a.tests,COURSE_ID)&&classAllowed(a.classes,COURSE_ID,STUDENT.dept)){var g=document.getElementById("gatecss");if(g)g.remove();}
+  else{alert("This course is not open to your class yet.");location.replace("dashboard.html");}
+}).catch(function(){alert("Could not check access. Please try again.");location.replace("dashboard.html");});}
+</script>
+<style>
+:root{ --hh:66px;
+  --navy:#1b2a4a; --navy2:#2c3e66; --gold:#c9a227; --gold-soft:#f1e3a8;
+  --cream:#faf5e6; --paper:#fffdf6; --ink:#1d2433; --muted:#5b6478;
+  --ok:#2e7d4f; --ok-bg:#e4f3ea; --ko:#b3402f; --ko-bg:#f9e5e0; --line:#e3dcc4;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.6 "Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif}
+body::before{
+  content:"MARC VASSEUR | POLYTECH LILLE";
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:clamp(28px,6vw,72px);letter-spacing:.08em;color:var(--navy);
+  opacity:.045;transform:rotate(-24deg);pointer-events:none;z-index:0;white-space:nowrap;
+}
+.wrap{max-width:1240px;margin:0 auto;position:relative;z-index:1}
+section.tab:not(#tab-read){max-width:960px;margin-left:auto;margin-right:auto}
+header{background:var(--navy);color:#fff;padding:8px 20px;position:sticky;top:0;z-index:40;border-bottom:3px solid var(--gold)}
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+header .kicker{color:var(--gold);font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:700}
+header h1{margin:0;font:700 19px/1.2 Georgia,"Times New Roman",serif}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav button{
+  appearance:none;border:0;background:transparent;color:#cdd6ea;font:600 14px inherit;font-family:inherit;
+  padding:8px 14px;border-radius:8px;cursor:pointer
+}
+nav button:hover{background:var(--navy2);color:#fff}
+nav button[aria-selected="true"]{background:var(--gold);color:var(--navy)}
+main{padding:24px 20px 60px}
+.moreh{background:var(--navy);color:var(--gold);font-weight:700;letter-spacing:.03em}
+.src{font-size:13px;color:var(--muted);margin:0 0 4px}
+.card.art h3{margin:0 0 6px}
+.card.art a.btn{display:inline-block;text-decoration:none}
+section.tab{display:none}
+section.tab.on{display:block}
+h2{font:700 22px/1.3 Georgia,serif;color:var(--navy);margin:0 0 6px}
+h3{font:700 17px/1.35 Georgia,serif;color:var(--navy);margin:26px 0 8px}
+.lead{color:var(--muted);margin:0 0 18px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:0 0 16px}
+.reminder{border-left:5px solid var(--gold);background:var(--gold-soft);padding:12px 16px;border-radius:0 10px 10px 0;margin:0 0 18px}
+.reminder p{margin:0}
+.byline{color:var(--muted);font-style:italic;margin:0 0 18px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:0 0 14px}
+.article{font:18px/1.75 Georgia,"Times New Roman",serif}
+.article h3{font-size:19px;margin:28px 0 6px}
+.article p{margin:0 0 14px}
+.term{
+  all:unset;cursor:pointer;border-bottom:2px solid var(--gold);background:linear-gradient(transparent 62%,var(--gold-soft) 62%);
+}
+.term.extra{border-bottom:2px dashed #8a97b8;background:none}
+.term:hover,.term:focus-visible{background:var(--gold-soft)}
+.term.extra:hover,.term.extra:focus-visible{background:#e6ebf6}
+.sw{display:inline-block;width:26px;border-bottom:2px solid var(--gold);vertical-align:middle;margin-right:6px}
+.sw.extra{border-bottom:2px dashed #8a97b8}
+#tip{
+  position:absolute;z-index:80;display:none;max-width:280px;background:var(--navy);color:#fff;border-radius:10px;
+  padding:10px 14px;font:14px/1.45 "Segoe UI",system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.25)
+}
+#tip small{display:block;color:var(--gold);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:10px;margin-bottom:2px}
+.btn{
+  appearance:none;border:1px solid var(--navy);background:var(--navy);color:#fff;border-radius:8px;
+  padding:8px 16px;font:600 14px inherit;font-family:inherit;cursor:pointer
+}
+.btn:hover{background:var(--navy2)}
+.btn.ghost{background:transparent;color:var(--navy)}
+.btn.ghost:hover{background:var(--gold-soft)}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.btn:disabled{opacity:.45;cursor:default}
+textarea{
+  width:100%;min-height:84px;border:1px solid var(--line);border-radius:8px;padding:10px 12px;
+  font:15px/1.5 inherit;font-family:inherit;background:#fff;color:var(--ink);resize:vertical
+}
+textarea:focus,input:focus{outline:2px solid var(--gold);outline-offset:1px}
+.qnum{display:inline-block;background:var(--navy);color:#fff;border-radius:6px;padding:1px 9px;font-weight:700;font-size:13px;margin-right:8px}
+.qtext{font-weight:700;color:var(--navy)}
+.answer{display:none;margin-top:12px;border-radius:10px;background:var(--ok-bg);border:1px solid #b9dcc8;padding:12px 14px}
+.answer.on{display:block}
+.answer .ev{font-style:italic;color:#244a35;margin:0 0 8px}
+.answer p{margin:0 0 6px}
+.answer p:last-child{margin:0}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+table{border-collapse:collapse;width:100%;background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th,td{padding:9px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--navy);color:#fff;font-size:13px;letter-spacing:.05em;text-transform:uppercase}
+tr:last-child td{border-bottom:0}
+td.fr{color:var(--navy);font-weight:600}
+body.hidefr td.fr span{filter:blur(7px);cursor:pointer;user-select:none}
+body.hidefr td.fr span.shown{filter:none}
+input[type=search]{border:1px solid var(--line);border-radius:8px;padding:8px 12px;font:15px inherit;font-family:inherit;min-width:220px;background:#fff}
+.flash{
+  background:var(--navy);color:#fff;border-radius:14px;min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:22px;cursor:pointer;border:3px solid var(--gold);user-select:none
+}
+.flash .side{color:var(--gold);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.flash .word{font:700 26px/1.3 Georgia,serif}
+.flash.back{background:var(--gold-soft);color:var(--navy)}
+.flash.back .side{color:var(--navy2)}
+.progress{height:8px;background:var(--line);border-radius:6px;overflow:hidden;margin:0 0 14px}
+.progress i{display:block;height:100%;background:var(--gold);width:0;transition:width .25s}
+.opt{
+  display:block;width:100%;text-align:left;background:#fff;border:2px solid var(--line);border-radius:10px;
+  padding:11px 14px;margin:0 0 8px;font:15px/1.45 inherit;font-family:inherit;cursor:pointer;color:var(--ink)
+}
+.opt:hover:not(:disabled){border-color:var(--gold)}
+.opt .L{display:inline-block;width:24px;font-weight:800;color:var(--navy)}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.wrong{border-color:var(--ko);background:var(--ko-bg)}
+.opt:disabled{cursor:default}
+.why{display:none;margin-top:6px;font-size:14px}
+.why.on{display:block}
+.why p{margin:0 0 6px;padding:8px 12px;border-radius:8px;background:#fff;border:1px solid var(--line)}
+.why p.k{border-color:var(--ok);background:var(--ok-bg)}
+.why b{color:var(--navy)}
+.score{font:700 34px/1.1 Georgia,serif;color:var(--navy)}
+.phase{border-left:5px solid var(--navy);padding-left:16px;margin:0 0 22px}
+.phase h3{margin-top:0}
+.phase ul{margin:6px 0 8px;padding-left:20px}
+.phase li{margin:0 0 6px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{background:var(--gold-soft);color:var(--navy);border-radius:999px;padding:2px 11px;font-size:13px;font-weight:600}
+.opts label{display:block;margin:0 0 6px;font-weight:600;color:var(--navy);cursor:pointer}
+.small{font-size:13px;color:var(--muted)}
+
+.split{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:22px;align-items:start}
+@media(min-width:900px){
+  .pane{position:sticky;top:calc(var(--hh) + 10px);height:calc(100vh - var(--hh) - 20px);overflow-y:auto;padding:0 8px 24px 0;scrollbar-gutter:stable}
+}
+@media(max-width:899px){
+  header{position:static}
+  .split{display:block}
+  .pane{margin-bottom:22px}
+  body.on-read #jump{display:inline-block}
+}
+mark.ev{background:#ffe27a;color:inherit;border-radius:3px;padding:0 1px;box-shadow:0 0 0 2px #ffe27a}
+#jump{position:fixed;right:16px;bottom:16px;z-index:45;display:none;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+#drawer{
+  position:fixed;top:0;right:0;bottom:0;width:min(560px,94vw);background:var(--cream);border-left:4px solid var(--gold);
+  z-index:70;transform:translateX(100%);transition:transform .22s;overflow-y:auto;padding:14px 16px 30px;box-shadow:-8px 0 30px rgba(0,0,0,.2)
+}
+#drawer.open{transform:none}
+#drawer .dh{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 10px}
+@media(min-width:1200px){body.drawer-open main{padding-right:calc(min(560px,94vw) + 12px)}}
+footer{border-top:4px solid var(--gold);background:var(--navy);color:#cdd6ea;padding:18px 20px;font-size:13px;position:relative;z-index:2}
+footer b{color:#fff}
+footer a{color:var(--gold)}
+@media(max-width:600px){header h1{font-size:21px}.article{font-size:17px}nav button{padding:9px 11px;font-size:13px}}
+@media print{body::before{opacity:.06}nav,.btn,textarea{display:none}section.tab{display:block!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap hdr">
+    <div>
+      <div class="kicker">Polytech Lille | English | Discussion unit</div>
+      <h1>The Right to be Forgotten</h1>
+    </div>
+    <a class="btn ghost" id="backDash" href="dashboard.html" style="border-color:var(--gold);color:var(--gold);text-decoration:none">Dashboard</a>
+    <nav id="nav" role="tablist">
+      <button role="tab" data-tab="read" aria-selected="true">1. Read and answer</button>
+      <button role="tab" data-tab="vocab" aria-selected="false">2. Vocabulary</button>
+      <button role="tab" data-tab="quiz" aria-selected="false">3. Quiz</button>
+      <button role="tab" data-tab="debate" aria-selected="false">4. Discussion</button>
+      <button role="tab" data-tab="further" aria-selected="false">5. Further reading</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============ 1. READ AND ANSWER ============ -->
+<section class="tab on" id="tab-read">
+  <div class="split">
+    <div class="pane" id="paneText">
+      <h2>The Siren Song of Oblivion: Why Europe’s digital eraser threatens the public record</h2>
+      <div class="reminder"><p>Reminder of our discussion question: <b>Should a person be allowed to delete their online history? Is the "Right to Be Forgotten" an absolute right?</b></p></div>
+      <p class="byline">(Adapted from The Economist and The Guardian)</p>
+      <p class="legend">
+        <span><span class="sw"></span>Course vocabulary (click for the French)</span>
+        <span><span class="sw extra"></span>Extra help (click for the French)</span>
+      </p>
+      <div class="card article" id="article">
+<p>The grand ambition of the European Union’s General Data Protection Regulation (GDPR) was to grant data sovereignty to the citizen, transforming the individual from a mere data point into a rights-holder. At the heart of this project lies the so-called "Right to be Forgotten," or more accurately, the "Right to Erasure." It is a noble, profoundly human impulse—the desire for a fresh start, untethered from the digital permanence of a youthful indiscretion or a resolved criminal conviction. Yet, six years after the GDPR’s full implementation, this right has proven itself not a tool of human rehabilitation, but a regulatory anomaly that has outsourced judicial review to Silicon Valley and introduced a troubling opacity to the historical record.</p>
+<h3>The Private Arbiter of History</h3>
+<p>The most acute paradox of the <em>droit à l'oubli</em> remains the delegation of its enforcement. When an individual seeks to have a link concerning their past—be it a decades-old auction notice of a repossessed home or a report on a criminal conviction—removed from search results, the ultimate arbiter is not a magistrate, but an American tech giant. Google, and its competitors, are forced to operate as a decentralised supreme court, balancing the claimant’s right to privacy against the <strong>public interest</strong> in accessing that information.</p>
+<p>This administrative fiction has created a sclerotic regulatory regime. The power to determine what constitutes "inadequate, irrelevant, or no longer relevant" data is wielded by private compliance teams, whose core incentive is risk minimisation. The path of least resistance often involves erasure, particularly when confronted with the complexity of content relating to individuals who are neither unambiguously public figures nor anonymous citizens. The regulation thus compels Big Tech to exert editorial control over information it did not create, a position for which it is ill-suited and ethically compromised.</p>
+<h3>The Illusion of Global Scope</h3>
+<p>The inherent borderlessness of the internet has exposed the fragility of European regulatory ambition. Early on, European regulators, led most fiercely by France’s <em>Commission Nationale de l'Informatique et des Libertés</em> (CNIL), sought to have delisting orders applied globally, demanding that search results be scrubbed from all Google domains, including the ubiquitous google.com. This attempt to export European law—the creation of a <em>droit à l'oubli</em> that respected no geographical fence-was always destined for conflict.</p>
+<p>The European Court of Justice (ECJ) eventually intervened in 2019, ruling that while search engines must implement the right within the EU via geoblocking to "seriously discourage" local users from accessing the content, they had no obligation to apply the removal worldwide. This decision, hailed by free-speech advocates, confirmed the limits of digital sovereignty. Europe, in essence, succeeded only in constructing a localised "Swiss cheese internet," a fragmented search index where the public record is viewable only if the browser sits outside the bloc, or if one is moderately tech-savvy.</p>
+<h3>The Veil of Silence</h3>
+<p>Most recently, the regulatory environment has darkened further, particularly for the journalistic estate. A 2024 ruling by the Swedish data protection authority—which is now being applied across the EU—found that notifying publishers when one of their links has been delisted constitutes a further breach of the claimant’s privacy.</p>
+<p>The practical consequence is that search engines now delist content quietly, offering no mechanism for the original publisher, who often holds the public-interest argument, to challenge the removal. This systemic opacity is precisely what enables "serial miscreants"—criminals, disgraced professionals, and fraudsters—to systematically sanitise their digital past, hiding legitimate reporting from the public square without due scrutiny.</p>
+<p>The intent behind the right to be forgotten is, undeniably, humane. But in its execution, Europe has created a peculiar regulatory regime: an expensive legal edifice that imposes censorship by obscurity, forces private corporations to police the public record, and risks empowering the very individuals who should remain subject to the necessary scrutiny of an unforgiving, yet truthful, history. Forgetting, it turns out, is a privilege that can only be purchased at the cost of collective memory.</p>
+  </div>
+    </div>
+    <div class="pane" id="paneQ">
+      <h2>Comprehension questions</h2>
+      <p class="lead">The text is next to the questions (above them on a phone). Answer in your own words in the box: the evidence and the model answer unlock once you have written your answer. Then compare, and correct or complete it.</p>
+      <div id="compList"></div>
+      <div class="row">
+        <button class="btn ghost" id="revealAll">Reveal the answers I have written</button>
+        <button class="btn ghost" id="resetComp">Clear my answers</button>
+        <span class="small">Your answers stay in this browser only.</span>
+      </div>
+      <div class="row" style="margin-top:18px"><button class="btn gold" data-go="vocab">Next: vocabulary</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. VOCABULARY ============ -->
+<section class="tab" id="tab-vocab">
+  <h2>Vocabulary</h2>
+  <p class="lead">All the course words in one list (English → French). Use the cover mode to test yourself, then switch to the flashcards.</p>
+  <div class="row" style="margin:0 0 14px">
+    <input type="search" id="vsearch" placeholder="Search a word…" aria-label="Search a word">
+    <button class="btn ghost" id="hidefr">Hide the French</button>
+    <button class="btn" id="startFlash">Flashcards</button>
+  </div>
+  <div id="flashBox" style="display:none;margin:0 0 20px">
+    <div class="progress"><i id="fprog"></i></div>
+    <div class="flash" id="flash" tabindex="0" role="button" aria-label="Flip the card"><div class="side" id="fside"></div><div class="word" id="fword"></div></div>
+    <div class="row">
+      <button class="btn ghost" id="fflip">Flip</button>
+      <button class="btn" id="fgot" disabled>I knew it</button>
+      <button class="btn ghost" id="fagain" disabled>Again later</button>
+      <button class="btn ghost" id="fclose">Close</button>
+      <span class="small" id="fcount"></span>
+    </div>
+  </div>
+  <table id="vtable"><thead><tr><th style="width:50%">English</th><th>French</th></tr></thead><tbody></tbody></table>
+</section>
+
+<!-- ============ 4. QUIZ ============ -->
+<section class="tab" id="tab-quiz">
+  <h2>Quiz: the text</h2>
+  <p class="lead">8 questions, one correct answer each. After each answer, read why the key is right and why each wrong option is wrong.</p>
+  <div class="row" style="margin:0 0 14px"><button class="btn ghost" data-drawer type="button">Show the text</button></div>
+  <div class="progress"><i id="qprog"></i></div>
+  <div id="quizBox"></div>
+</section>
+
+<!-- ============ 5. DISCUSSION ============ -->
+<section class="tab" id="tab-debate">
+  <h2>Discussion: write your answers</h2>
+  <p class="lead">We cannot meet in class, so you express yourself in writing here. Take one step at a time, answer in full sentences, give reasons and examples, and use the vocabulary. Your work is saved in this browser.</p>
+  <div class="row" style="margin:0 0 14px"><button class="btn ghost" data-drawer type="button">Show the text</button></div>
+  <div class="card">
+    <label class="qtext" for="who">Your name and group</label>
+    <input type="text" id="who" placeholder="First name, last name, group" style="width:100%;margin:6px 0 12px;border:1px solid var(--line);border-radius:8px;padding:8px 12px;font:15px inherit;font-family:inherit;background:#fff">
+    <div class="row" style="margin-top:0">
+      <button class="btn gold" id="copyAll">Copy all my answers</button>
+      <button class="btn ghost" id="dlAll">Download my answers (.txt)</button>
+      <span class="small" id="expMsg"></span>
+    </div>
+    <p class="small" style="margin:8px 0 0">When you have finished, copy or download your answers and send them to your teacher. Total so far: <b id="totWords">0</b> words.</p>
+  </div>
+  <h3>Quick debate prompts</h3>
+  <p class="small" style="margin:0 0 10px">Choose the prompts you want to react to and write a few sentences for each.</p>
+  <div id="quick"></div>
+  <h3>The eight steps</h3>
+  <div id="phases"></div>
+  <div class="card">
+    <h3 style="margin-top:0">Useful language</h3>
+    <div class="chips">
+      <span class="chip">In my opinion…</span><span class="chip">I would argue that…</span><span class="chip">On the one hand… on the other hand…</span>
+      <span class="chip">That is true, but…</span><span class="chip">I see your point; however…</span><span class="chip">The main risk is…</span>
+      <span class="chip">It depends on…</span><span class="chip">For example…</span><span class="chip">As a result…</span><span class="chip">To sum up…</span>
+    </div>
+  </div>
+  <div class="card" id="final">
+    <h3 style="margin-top:0">8. My final position</h3>
+    <p class="qtext" style="margin:0 0 6px">Should the Right to Be Forgotten be:</p>
+    <div class="opts" id="finalOpts">
+      <label><input type="radio" name="pos" value="absolute"> absolute</label>
+      <label><input type="radio" name="pos" value="conditional"> conditional</label>
+      <label><input type="radio" name="pos" value="exceptional"> exceptional</label>
+      <label><input type="radio" name="pos" value="abolished"> abolished</label>
+    </div>
+    <p class="qtext" style="margin:12px 0 6px">If you were writing the law, what <b>one clear limit</b> would you include?</p>
+    <textarea id="limit" placeholder="Write your limit here…"></textarea>
+    <div class="small count" data-for="limit">0 words</div>
+    <p class="qtext" style="margin:12px 0 6px">Has your opinion changed during the discussion? Why?</p>
+    <textarea id="changed" placeholder="Write here after the discussion…"></textarea>
+    <div class="small count" data-for="changed">0 words</div>
+    <p class="small">Saved in this browser only.</p>
+  </div>
+</section>
+<section class="tab" id="tab-further">
+  <h2>Further reading and watching</h2>
+  <p class="lead">Four press articles and one video on the same subject, for those who want to go further. They were chosen to echo the sections of our text. The articles belong to their publishers: they open on their own sites, and the summaries are mine. Read at least one before the next class.</p>
+  <div class="card art"><p class="src">The Guardian (read on PressReader), February 2024</p><h3>Google stops notifying publishers of ‘right to be forgotten’ removals from search results</h3><p>Same news as the last section of our text. Google no longer tells publishers when a link to their article is delisted, following a Swedish data protection decision. Journalists say this makes it harder to spot people who abuse the rules to hide legitimate reporting.</p><p class="small"><b>Think about it:</b> Compare: who does the author blame, the regulator, Google or the claimants? PressReader may ask you to sign in; the page is the Guardian’s own piece.</p><div class="row"><a class="btn" href="https://www.pressreader.com/usa/the-guardian-usa/20240216/282428469106856" target="_blank" rel="noopener noreferrer">Read the article (new tab)</a></div></div>
+  <div class="card art"><p class="src">PBS NewsHour, 29 June 2015</p><h3>BBC responds to privacy law by publishing list of stories removed from Google search</h3><p>The BBC decided to keep a public list of its articles that Google has dropped from its results. It argues that its archive is harder to find when pages vanish from searches, even though they stay online. The BBC presents this as a contribution to the policy debate.</p><p class="small"><b>Think about it:</b> Link with our text: how can a publisher react to delisting? Is a public list a fair answer?</p><div class="row"><a class="btn" href="https://www.pbs.org/newshour/world/bbc-protests-right-forgotten-ruling" target="_blank" rel="noopener noreferrer">Read the article (new tab)</a></div></div>
+  <div class="card art"><p class="src">NPR, 24 September 2019</p><h3>‘Right To Be Forgotten’ Only Applies To Websites Inside EU, European Court Says</h3><p>The European Court of Justice ruled that Google must apply removal requests on its European search sites, not worldwide. The decision narrows the 2014 ruling in Google’s favour, although the French regulator says it may still ask for global delisting in some cases.</p><p class="small"><b>Think about it:</b> Link with our text: this is the 2019 ruling behind the “Swiss cheese internet”. Which side does NPR seem to give more room to?</p><div class="row"><a class="btn" href="https://www.npr.org/2019/09/24/763857307/right-to-be-forgotten-only-applies-inside-eu-european-court-says" target="_blank" rel="noopener noreferrer">Read the article (new tab)</a></div></div>
+  <div class="card art"><p class="src">Reuters (read on Yahoo), December 2022</p><h3>Google must remove ‘manifestly inaccurate’ data, EU top court says</h3><p>Europe’s highest court ruled that Google must delist results when a person can prove that the linked information is clearly false. This proof does not require a court ruling against the publisher. Two executives had asked for links and thumbnail photos to be removed.</p><p class="small"><b>Think about it:</b> Link with our text: here the claimant proves that the data is false. Does that change your view on who should decide?</p><div class="row"><a class="btn" href="https://tech.yahoo.com/general/articles/google-must-remove-data-search-084808314.html" target="_blank" rel="noopener noreferrer">Read the article (new tab)</a></div></div>
+  <div class="card art"><p class="src">World Economic Forum, October 2023, 2 min 29 s</p><h3>The EU says you have a ‘right to be forgotten’. But what does that mean?</h3><p>A short video that asks what the “right to be forgotten” means in practice. Watch it before the articles if you want a quick overview.</p><div class="row"><a class="btn" href="https://www.weforum.org/videos/eu-right-to-be-forgotten" target="_blank" rel="noopener noreferrer">Watch the video (new tab)</a></div></div>
+</section>
+
+
+</main>
+<button class="btn gold" id="jump" type="button">Questions ↓</button>
+<aside id="drawer" aria-label="The text"><div class="dh"><b>The text</b><button class="btn ghost" id="drawerClose" type="button">Close</button></div><div id="drawerBody"></div></aside>
+
+<div id="tip" role="tooltip"></div>
+
+<footer>
+  <div class="wrap">
+    <b>MARC VASSEUR | POLYTECH LILLE</b><br>
+    Marc Vasseur, <a href="mailto:marc.vasseur@polytech-lille.fr">marc.vasseur@polytech-lille.fr</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- storage helpers (may be unavailable) ---------- */
+var NS=(STUDENT&&STUDENT.nom?STUDENT.nom:"")+"::";
+function sget(k){try{return localStorage.getItem(NS+k)}catch(e){return null}}
+function sset(k,v){try{localStorage.setItem(NS+k,v)}catch(e){}}
+function sdel(k){try{localStorage.removeItem(NS+k)}catch(e){}}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+
+/* ---------- tabs ---------- */
+var TABS=["read","vocab","quiz","debate","further"];
+function showTab(id){
+  if(id==="text"||id==="comp")id="read";
+  if(TABS.indexOf(id)<0)id="read";
+  document.body.classList.toggle("on-read",id==="read");
+  closeDrawer();
+  TABS.forEach(function(t){
+    document.getElementById("tab-"+t).classList.toggle("on",t===id);
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("#nav button"),function(b){
+    b.setAttribute("aria-selected",b.getAttribute("data-tab")===id?"true":"false");
+  });
+  hideTip();
+  window.scrollTo(0,0);
+  try{ if(location.hash!=="#"+id) history.replaceState(null,"","#"+id); }catch(e){}
+}
+document.getElementById("nav").addEventListener("click",function(e){
+  var b=e.target.closest("button[data-tab]"); if(b)showTab(b.getAttribute("data-tab"));
+});
+document.addEventListener("click",function(e){
+  var g=e.target.closest("[data-go]"); if(g)showTab(g.getAttribute("data-go"));
+});
+window.addEventListener("hashchange",function(){showTab(location.hash.replace("#",""));});
+
+/* ---------- vocabulary data (English / French, as in the course documents) ---------- */
+var VOCAB=[
+ ["Digital Footprint","L'empreinte numérique"],
+ ["Right to be Forgotten","Le Droit à l'Oubli"],
+ ["Right to Erasure","Le droit à l’effacement"],
+ ["Data Privacy","La confidentialité des données"],
+ ["Data Sovereignty","La souveraineté des données"],
+ ["Personal Data","Les données personnelles"],
+ ["Accountability","La Responsabilité / L'obligation de rendre des comptes"],
+ ["Public Interest","L'Intérêt Public (général)"],
+ ["Historical Record","La mémoire historique / La trace historique"],
+ ["Public Record","Les archives publiques / la mémoire collective"],
+ ["Archive","Les Archives"],
+ ["To Erase / To Delete","Effacer / Supprimer"],
+ ["To Anonymize","Anonymiser"],
+ ["Permanent / Permanence","Permanent / La Permanence"],
+ ["Online History","L'historique en ligne / Le passé numérique"],
+ ["Jurisdiction","La Juridiction"],
+ ["Judicial Review","Le contrôle juridictionnel"],
+ ["Search Engine","Le Moteur de recherche"],
+ ["Delisting","Le déréférencement"],
+ ["Geoblocking","Le géoblocage"],
+ ["Opacity","L'opacité"],
+ ["Publisher","L'éditeur / l'organe de presse"],
+ ["Free-speech Advocates","Les défenseurs de la liberté d’expression"],
+ ["The Law / Legislation","La Loi / La Législation"],
+ ["To Compromise","Compromettre"],
+ ["Clean slate / Fresh start","Table rase, repartir de zéro","more"],
+ ["To come back to haunt someone","Revenir hanter quelqu'un, se retourner contre quelqu'un","more"],
+ ["Data controller","Le responsable du traitement","more"],
+ ["Data subject","La personne concernée","more"],
+ ["Data protection authority","L'autorité de protection des données","more"],
+ ["To comply with","Se conformer à, respecter (une règle)","more"],
+ ["A fine / To fine","Une amende / Infliger une amende","more"],
+ ["Freedom of the press","La liberté de la presse","more"],
+ ["Censorship","La censure","more"],
+ ["Newsworthy","Digne d'intérêt médiatique, qui mérite d'être publié","more"],
+ ["Public figure","Une personnalité publique","more"],
+ ["Rehabilitation","La réinsertion","more"],
+ ["To strike a balance between","Trouver un équilibre entre","more"],
+ ["A slippery slope","Un engrenage, une pente glissante","more"],
+ ["A chilling effect","Un effet dissuasif (qui décourage de s'exprimer)","more"],
+ ["A loophole","Une faille, un vide juridique","more"],
+ ["To sweep under the rug","Étouffer, balayer sous le tapis","more"],
+ ["A landmark ruling","Une décision de principe, un arrêt historique","more"],
+ ["To enshrine in law","Consacrer dans la loi","more"],
+ ["Burden of proof","La charge de la preuve","more"]
+];
+
+/* ---------- glossary for the article (hover / click) ---------- */
+var GLOSS=[
+ ["right to erasure","droit à l’effacement","core"],
+ ["right to be forgotten","droit à l’oubli","core"],
+ ["free-speech advocates","défenseurs de la liberté d’expression","core"],
+ ["public[- ]interest","intérêt général","core"],
+ ["public record","archives publiques, mémoire collective","core"],
+ ["historical record","mémoire historique, trace historique","core"],
+ ["judicial review","contrôle juridictionnel","core"],
+ ["data sovereignty","souveraineté des données","core"],
+ ["search engines?","moteur(s) de recherche","core"],
+ ["delist(?:ing|ed)?","déréférencer, déréférencement","core"],
+ ["geoblocking","géoblocage","core"],
+ ["opacity","opacité","core"],
+ ["publishers?","éditeur(s), organe(s) de presse","core"],
+ ["erasure","effacement","core"],
+ ["arbiter","arbitre, celui qui tranche","extra"],
+ ["sclerotic","sclérosé, figé","extra"],
+ ["untethered","libéré de, détaché de","extra"],
+ ["repossessed","saisi (par la banque)","extra"],
+ ["claimant","demandeur (celui qui réclame l’effacement)","extra"],
+ ["wielded","exercé, manié","extra"],
+ ["ill-suited","mal adapté","extra"],
+ ["borderlessness","absence de frontières","extra"],
+ ["ubiquitous","omniprésent","extra"],
+ ["scrubbed","effacés, nettoyés","extra"],
+ ["hailed","salué","extra"],
+ ["bloc","bloc (l’Union européenne)","extra"],
+ ["tech-savvy","doué en informatique","extra"],
+ ["miscreants","malfaiteurs","extra"],
+ ["sanitise","assainir, blanchir","extra"],
+ ["scrutiny","examen minutieux, contrôle","extra"],
+ ["humane","humaniste, bienveillant (≠ human)","extra"],
+ ["edifice","édifice","extra"]
+];
+(function glossArticle(){
+  var root=document.getElementById("article");
+  var parts=GLOSS.map(function(g,i){return "(?<g"+i+">\\b"+g[0]+"\\b)";});
+  var re=new RegExp(parts.join("|"),"gi");
+  var walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{
+    acceptNode:function(n){
+      var p=n.parentNode;
+      if(p.tagName==="H3")return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  var nodes=[],n;
+  while((n=walker.nextNode()))nodes.push(n);
+  nodes.forEach(function(node){
+    var text=node.nodeValue; re.lastIndex=0;
+    var m,last=0,frag=document.createDocumentFragment(),hit=false;
+    while((m=re.exec(text))){
+      hit=true;
+      var idx=-1;
+      for(var i=0;i<GLOSS.length;i++){ if(m.groups["g"+i]!==undefined){idx=i;break;} }
+      if(m.index>last)frag.appendChild(document.createTextNode(text.slice(last,m.index)));
+      var b=document.createElement("button");
+      b.type="button";
+      b.className="term"+(GLOSS[idx][2]==="extra"?" extra":"");
+      b.setAttribute("data-fr",GLOSS[idx][1]);
+      b.setAttribute("data-kind",GLOSS[idx][2]);
+      b.textContent=m[0];
+      frag.appendChild(b);
+      last=m.index+m[0].length;
+    }
+    if(hit){
+      if(last<text.length)frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag,node);
+    }
+  });
+})();
+
+/* ---------- tooltip ---------- */
+var tip=document.getElementById("tip"),tipFor=null;
+function showTip(el){
+  tipFor=el;
+  tip.innerHTML="<small>"+(el.getAttribute("data-kind")==="extra"?"Extra help":"Course vocabulary")+"</small>"+esc(el.getAttribute("data-fr"));
+  tip.style.display="block";
+  var r=el.getBoundingClientRect(),w=tip.offsetWidth;
+  var left=Math.max(8,Math.min(window.scrollX+r.left,window.scrollX+document.documentElement.clientWidth-w-8));
+  tip.style.left=left+"px";
+  tip.style.top=(window.scrollY+r.bottom+8)+"px";
+}
+function hideTip(){tip.style.display="none";tipFor=null;}
+document.addEventListener("click",function(e){
+  var t=e.target.closest(".article .term");
+  if(!t){hideTip();return;}
+  e.stopPropagation();
+  if(tipFor===t)hideTip();else showTip(t);
+});
+document.addEventListener("scroll",hideTip,true);
+document.addEventListener("keydown",function(e){ if(e.key==="Escape"){hideTip();closeDrawer();} });
+
+/* ---------- comprehension ---------- */
+var QA=[
+ {q:"What was the original goal of the GDPR according to the text? (What does GDPR mean?)",
+  ev:"“The grand ambition of the European Union’s General Data Protection Regulation (GDPR) was to grant data sovereignty to the citizen”",
+  a:"The GDPR aimed to give individuals real control over their personal data and to recognise them as legal rights-holders rather than passive data sources.",
+  extra:"GDPR = General Data Protection Regulation (in French: RGPD, Règlement général sur la protection des données)."},
+ {q:"Why does the author say that the “Right to be Forgotten” has become problematic?",
+  ev:"“this right has proven itself not a tool of human rehabilitation, but a regulatory anomaly”",
+  a:"Instead of helping people move on fairly, the right has created legal and ethical problems that undermine transparency and accountability."},
+ {q:"Who is responsible for deciding whether information should be removed from search results?",
+  ev:"“the ultimate arbiter is not a magistrate, but an American tech giant”",
+  a:"Private technology companies, rather than judges or courts, are the ones making these sensitive decisions."},
+ {q:"Why do tech companies often choose to remove content rather than keep it online?",
+  ev:"“The path of least resistance often involves erasure”",
+  a:"To reduce legal risk and avoid complex judgments, companies tend to delete information instead of carefully assessing its public value."},
+ {q:"What limits did the European Court of Justice place on the right to be forgotten in 2019?",
+  ev:"“they had no obligation to apply the removal worldwide”",
+  a:"The court decided that search results only need to be restricted within the EU, not across the entire internet."},
+ {q:"Why is the recent approach especially harmful for journalists and the public?",
+  ev:"“search engines now delist content quietly, offering no mechanism for the original publisher… to challenge the removal”",
+  a:"Because removals happen without warning, journalists cannot defend the public interest, allowing wrongdoing to be hidden from view."}
+];
+var compList=document.getElementById("compList");
+QA.forEach(function(it,i){
+  var d=document.createElement("div");d.className="card";
+  d.innerHTML='<p class="qtext"><span class="qnum">'+(i+1)+'</span>'+esc(it.q)+'</p>'+
+   '<textarea data-i="'+i+'" placeholder="Your answer…" aria-label="Your answer to question '+(i+1)+'"></textarea>'+
+   '<div class="row"><button class="btn" data-rev="'+i+'" disabled>Show evidence and model answer</button><span class="small" id="gate'+i+'">Write your own answer first (at least 3 words).</span></div>'+
+   '<div class="answer" id="ans'+i+'"><p class="ev">Evidence in the text: '+esc(it.ev)+'</p>'+
+   '<p><b>Model answer:</b> '+esc(it.a)+'</p>'+(it.extra?'<p><b>Note:</b> '+esc(it.extra)+'</p>':'')+'<div class="row"><button class="btn ghost" data-find="'+i+'" type="button">Find it in the text</button></div></div>';
+  compList.appendChild(d);
+  var ta=d.querySelector("textarea"),v=sget("rtbf_comp_"+i); if(v)ta.value=v;
+  ta.addEventListener("input",function(){sset("rtbf_comp_"+i,ta.value);updateGate(i);});
+});
+function hasAnswer(i){var t=compList.querySelector('textarea[data-i="'+i+'"]');return !!t&&t.value.trim().split(/\s+/).filter(Boolean).length>=3;}
+function updateGate(i){
+  var b=compList.querySelector('[data-rev="'+i+'"]'),g=document.getElementById("gate"+i),a=document.getElementById("ans"+i),ok=hasAnswer(i);
+  b.disabled=!ok&&!a.classList.contains("on");
+  g.style.display=(ok||a.classList.contains("on"))?"none":"";
+}
+QA.forEach(function(it,i){updateGate(i);});
+compList.addEventListener("click",function(e){
+  var f=e.target.closest("[data-find]"); if(f){markEvidence(QA[+f.getAttribute("data-find")].ev);return;}
+  var b=e.target.closest("[data-rev]"); if(!b||b.disabled)return;
+  var a=document.getElementById("ans"+b.getAttribute("data-rev"));
+  var on=a.classList.toggle("on");
+  b.textContent=on?"Hide the answer":"Show evidence and model answer";
+  if(!on)clearMarks();
+});
+document.getElementById("revealAll").addEventListener("click",function(){
+  QA.forEach(function(it,i){
+    if(!hasAnswer(i))return;
+    document.getElementById("ans"+i).classList.add("on");
+    compList.querySelector('[data-rev="'+i+'"]').textContent="Hide the answer";
+    updateGate(i);
+  });
+});
+document.getElementById("resetComp").addEventListener("click",function(){
+  clearMarks();
+  Array.prototype.forEach.call(compList.querySelectorAll("textarea"),function(t,i){t.value="";sdel("rtbf_comp_"+i);});
+  Array.prototype.forEach.call(compList.querySelectorAll(".answer"),function(a){a.classList.remove("on");});
+  Array.prototype.forEach.call(compList.querySelectorAll("[data-rev]"),function(b){b.textContent="Show evidence and model answer";});
+  QA.forEach(function(it,i){updateGate(i);});
+});
+
+/* ---------- vocabulary table ---------- */
+var tbody=document.querySelector("#vtable tbody");
+function renderVocab(filter){
+  var f=(filter||"").trim().toLowerCase();
+  tbody.innerHTML="";
+  var moreShown=false;
+  VOCAB.forEach(function(v){
+    if(f && v[0].toLowerCase().indexOf(f)<0 && v[1].toLowerCase().indexOf(f)<0)return;
+    if(v[2]==="more"&&!moreShown){moreShown=true;var h=document.createElement("tr");h.innerHTML='<td colspan="2" class="moreh">More words and expressions on the theme</td>';tbody.appendChild(h);}
+    var tr=document.createElement("tr");
+    tr.innerHTML="<td><b>"+esc(v[0])+"</b></td><td class='fr'><span>"+esc(v[1])+"</span></td>";
+    tbody.appendChild(tr);
+  });
+}
+renderVocab("");
+document.getElementById("vsearch").addEventListener("input",function(e){renderVocab(e.target.value);});
+document.getElementById("hidefr").addEventListener("click",function(){
+  var on=document.body.classList.toggle("hidefr");
+  this.textContent=on?"Show the French":"Hide the French";
+});
+tbody.addEventListener("click",function(e){
+  var s=e.target.closest("td.fr span"); if(s&&document.body.classList.contains("hidefr"))s.classList.toggle("shown");
+});
+
+/* ---------- flashcards ---------- */
+var fq=[],fdone=0,fTotal=0,fBack=false;
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function fRender(){
+  var box=document.getElementById("flash");
+  document.getElementById("fprog").style.width=(fTotal?fdone/fTotal*100:0)+"%";
+  document.getElementById("fcount").textContent=fdone+" / "+fTotal+" known";
+  if(!fq.length){
+    box.className="flash back";
+    document.getElementById("fside").textContent="Finished";
+    document.getElementById("fword").textContent="All "+fTotal+" words reviewed. Well done!";
+    document.getElementById("fgot").disabled=true;document.getElementById("fagain").disabled=true;
+    return;
+  }
+  var c=fq[0];
+  box.className="flash"+(fBack?" back":"");
+  document.getElementById("fside").textContent=fBack?"French":"English";
+  document.getElementById("fword").textContent=fBack?c[1]:c[0];
+  document.getElementById("fgot").disabled=!fBack;document.getElementById("fagain").disabled=!fBack;
+}
+function fFlip(){ if(!fq.length)return; fBack=!fBack; fRender(); }
+document.getElementById("startFlash").addEventListener("click",function(){
+  fq=shuffle(VOCAB);fTotal=fq.length;fdone=0;fBack=false;
+  document.getElementById("flashBox").style.display="block";fRender();
+  document.getElementById("flashBox").scrollIntoView({behavior:"smooth",block:"center"});
+});
+document.getElementById("flash").addEventListener("click",fFlip);
+document.getElementById("flash").addEventListener("keydown",function(e){ if(e.key===" "||e.key==="Enter"){e.preventDefault();fFlip();} });
+document.getElementById("fflip").addEventListener("click",fFlip);
+document.getElementById("fgot").addEventListener("click",function(){fq.shift();fdone++;fBack=false;fRender();});
+document.getElementById("fagain").addEventListener("click",function(){fq.push(fq.shift());fBack=false;fRender();});
+document.getElementById("fclose").addEventListener("click",function(){document.getElementById("flashBox").style.display="none";});
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"What did the GDPR want to give citizens?",c:0,o:[
+  ["Real control over their personal data.","Right answer. Evidence: <em>“to grant data sovereignty to the citizen”</em>. Rephrased answer: the GDPR wanted people to control their own data instead of being passive data sources."],
+  ["A share of the money made from their data.","Wrong. The text never mentions any payment for data."],
+  ["A European search engine of their own.","Wrong. The text mentions no European search engine; it talks about Google and its competitors."],
+  ["Automatic deletion of all old online content.","Wrong. Nothing in the text says that old content is deleted automatically; people have to ask for it."]]},
+ {q:"Who decides in practice whether a link is removed from search results?",c:2,o:[
+  ["A judge or a magistrate.","Wrong. The text says that the decision-maker is not a magistrate."],
+  ["The CNIL, the French data protection authority.","Wrong. The CNIL asked for worldwide removal, but it does not take the individual decisions."],
+  ["A private tech company such as Google.","Right answer. Evidence: <em>“the ultimate arbiter is not a magistrate, but an American tech giant”</em>. Rephrased answer: private companies, rather than judges, make these decisions."],
+  ["The European Court of Justice.","Wrong. In 2019 the ECJ decided how far the right applies, not what happens to each request."]]},
+ {q:"According to the author, why do tech companies often choose erasure?",c:1,o:[
+  ["They earn money each time they delete a link.","Wrong. The text never mentions any payment."],
+  ["They want to reduce their legal risk.","Right answer. Evidence: <em>“core incentive is risk minimisation”</em>. Rephrased answer: deleting is the easiest way to avoid trouble, so companies tend to delete instead of judging the public value."],
+  ["The law forbids them to keep any link to a past conviction.","Wrong. The law asks them to weigh privacy against the public interest; it does not ban every link."],
+  ["Courts order them to delete the links.","Wrong. The decisions are made by private compliance teams, not by courts."]]},
+ {q:"What did the European Court of Justice decide in 2019?",c:3,o:[
+  ["That links must be removed from every Google domain in the world.","Wrong. This is what the CNIL asked for; the court did not follow it."],
+  ["That the right to be forgotten should be cancelled.","Wrong. The court kept the right inside the EU."],
+  ["That publishers must be told about every removal.","Wrong. This is about the 2024 Swedish ruling, which says that telling publishers is itself a breach of privacy."],
+  ["That search engines must apply the right in the EU, but not worldwide.","Right answer. Evidence: <em>“they had no obligation to apply the removal worldwide”</em>. Rephrased answer: results only need to be restricted within the EU, not across the entire internet."]]},
+ {q:"What does “Swiss cheese internet” mean in the text?",c:0,o:[
+  ["A search index with holes: the information is hidden for most users in the EU but still visible elsewhere.","Right answer. Evidence: <em>“a fragmented search index where the public record is viewable only if the browser sits outside the bloc, or if one is moderately tech-savvy”</em>. Rephrased answer: the same search gives different results depending on where you are and how skilled you are."],
+  ["A secure network that protects European data.","Wrong. The image describes holes in access to information, not protection."],
+  ["A worldwide index from which all removed links have disappeared.","Wrong. The ECJ did not impose worldwide removal, so the content stays visible outside the EU."],
+  ["A database where publishers can see the removed links.","Wrong. The text says that publishers are not even told about the removals."]]},
+ {q:"What did the 2024 Swedish ruling say about publishers?",c:1,o:[
+  ["That a court must approve every removal.","Wrong. No court is mentioned; the ruling is about telling publishers."],
+  ["That search engines should not warn them when a link is removed.","Right answer. Evidence: <em>“notifying publishers when one of their links has been delisted constitutes a further breach”</em>. Rephrased answer: telling the publisher is seen as a second attack on the privacy of the person."],
+  ["That newspapers must delete their reports on convictions.","Wrong. The ruling is not about the original articles but about telling publishers of the removal."],
+  ["That the right must apply outside the EU.","Wrong. The scope of the right was decided by the ECJ in 2019, which is a different decision."]]},
+ {q:"Which sentence sums up the author’s conclusion best?",c:3,o:[
+  ["The right to be forgotten should apply all over the world.","Wrong. The author says that this attempt was <em>“destined for conflict”</em>."],
+  ["The right to be forgotten should be absolute.","Wrong. The author criticises how the right works and what it costs the public record."],
+  ["Search engines should be banned in Europe.","Wrong. Nothing in the text suggests this."],
+  ["Forgetting is a privilege that has a price: collective memory.","Right answer. Evidence: <em>“a privilege that can only be purchased at the cost of collective memory”</em>. Rephrased answer: the right helps some individuals, but society loses part of its memory."]]},
+ {q:"Who are the “serial miscreants” in the text?",c:2,o:[
+  ["Journalists who keep old stories online.","Wrong. Journalists and publishers are on the other side: they defend the public interest."],
+  ["The compliance teams of Big Tech companies.","Wrong. They are the ones who delist; the text criticises their role but does not call them miscreants."],
+  ["Criminals, disgraced professionals and fraudsters.","Right answer. Evidence: <em>“criminals, disgraced professionals, and fraudsters”</em>. Rephrased answer: people who use delisting to hide their past."],
+  ["European regulators such as the CNIL.","Wrong. The text describes regulators as ambitious, not as miscreants."]]}
+];
+var qi=0,qscore=0,answered=false,qbox=document.getElementById("quizBox");
+var LET=["A","B","C","D"];
+function renderQ(){
+  document.getElementById("qprog").style.width=(qi/QUIZ.length*100)+"%";
+  if(qi>=QUIZ.length){
+    var msg=qscore===QUIZ.length?"Perfect score!":qscore>=6?"Very good.":qscore>=4?"Good start: reread the text and try again.":"Reread the text carefully and try again.";
+    qbox.innerHTML='<div class="card"><p class="small" style="margin:0">Your score</p><p class="score">'+qscore+' / '+QUIZ.length+'</p><p>'+msg+'</p><div class="row"><button class="btn" id="qretry">Try again</button><button class="btn ghost" data-go="read">Back to the text</button></div></div>';
+    document.getElementById("qretry").addEventListener("click",function(){qi=0;qscore=0;renderQ();});
+    return;
+  }
+  var it=QUIZ[qi];answered=false;
+  var h='<div class="card"><p class="small" style="margin:0 0 6px">Question '+(qi+1)+' of '+QUIZ.length+'</p><p class="qtext" style="font-size:18px;margin:0 0 12px">'+esc(it.q)+'</p>';
+  it.o.forEach(function(o,i){ h+='<button class="opt" data-i="'+i+'"><span class="L">'+LET[i]+'</span>'+esc(o[0])+'</button>'; });
+  h+='<div class="why" id="why"></div><div class="row"><button class="btn" id="qnext" style="display:none">'+(qi===QUIZ.length-1?"See my score":"Next question")+'</button></div></div>';
+  qbox.innerHTML=h;
+}
+qbox.addEventListener("click",function(e){
+  var b=e.target.closest(".opt");
+  if(b&&!answered){
+    answered=true;
+    var it=QUIZ[qi],i=+b.getAttribute("data-i");
+    if(i===it.c)qscore++;
+    Array.prototype.forEach.call(qbox.querySelectorAll(".opt"),function(x,k){
+      x.disabled=true;
+      if(k===it.c)x.classList.add("right");
+      else if(k===i)x.classList.add("wrong");
+    });
+    var w='';
+    it.o.forEach(function(o,k){ w+='<p class="'+(k===it.c?'k':'')+'"><b>'+LET[k]+'.</b> '+o[1]+'</p>'; });
+    var why=document.getElementById("why");why.innerHTML=w;why.classList.add("on");
+    document.getElementById("qnext").style.display="inline-block";
+    return;
+  }
+  if(e.target.id==="qnext"){qi++;renderQ();window.scrollTo(0,0);}
+});
+renderQ();
+
+/* ---------- discussion (written) ---------- */
+var QUICK=[
+ "If you delete a negative post, is it lying about your past?",
+ "Should a journalist have to delete a true story because the person in it changed their mind?",
+ "Should rich people be able to afford to wipe their slate clean, while poor people cannot?",
+ "If the content is illegal (like hate speech), should it be deleted instantly, regardless of the law?",
+ "If your employer demands to see your old social media, should the law protect you?"
+];
+var PHASES=[
+ {t:"1. Personal and intuitive level (warm-up)",q:[
+  "If you could erase <b>one piece</b> of your online history, would you? Why or why not?",
+  "Do you think people should be judged forever for things they posted years ago?",
+  "Is forgetting a <b>human right</b>, or a <b>luxury</b> in the digital age?"],v:["Online History","Digital Footprint","Permanent / Permanence"]},
+ {t:"2. Defining the right (clarification phase)",q:[
+  "What does “being forgotten” really mean online? (Deleted completely? Hidden from search engines? Contextualised?)",
+  "Who should decide what deserves to be erased: the individual, courts, or platforms?",
+  "Should the right apply equally to <b>everyone</b>, or should some people have fewer rights to privacy?"],v:["Right to be Forgotten","Search Engine","To Erase / To Delete","Delisting"]},
+ {t:"3. Privacy vs public interest (core tension)",q:[
+  "Where should we draw the line between <b>personal privacy</b> and the <b>public’s right to know</b>?",
+  "Should past actions that are <i>legal but embarrassing</i> be treated differently from <i>illegal</i> ones?",
+  "Does the public interest change depending on <b>time</b> (e.g. 5 years vs 20 years later)?"],v:["Data Privacy","Public Interest","Personal Data"]},
+ {t:"4. Power, status, and inequality",q:[
+  "Should politicians, CEOs, or public figures ever be allowed to erase their past?",
+  "Could the “Right to Be Forgotten” benefit the powerful more than ordinary citizens?",
+  "Is it fair that people with money and lawyers may erase their past more easily?"],v:["Accountability","The Law / Legislation"]},
+ {t:"5. Technology and consequences",q:[
+  "Can information truly be erased in a digital system designed to copy and archive?",
+  "Could widespread erasure lead to a form of <b>digital rewriting of history</b>?",
+  "Might this right unintentionally encourage censorship or self-censorship?"],v:["Archive","Historical Record","Public Record","To Anonymize"]},
+ {t:"6. Moral responsibility and second chances",q:[
+  "Should people be allowed to escape their past mistakes?",
+  "At what point does accountability turn into <b>permanent punishment</b>?",
+  "Do societies need to remember past wrongs in order to learn from them?"],v:["Accountability","Permanent / Permanence","To Compromise"]},
+ {t:"7. Absoluteness of the right (key question)",q:[
+  "Can a right be considered “fundamental” if it has limits?",
+  "In what situations should the Right to Be Forgotten <b>not</b> apply?",
+  "Is an absolute right to erasure compatible with democracy and free speech?"],v:["Jurisdiction","Free-speech Advocates","The Law / Legislation"]}
+];
+function wc(t){var m=String(t).trim().match(/\S+/g);return m?m.length:0;}
+function plain(h){var d=document.createElement("div");d.innerHTML=h;return d.textContent;}
+function updateTotals(){
+  var n=0;
+  Array.prototype.forEach.call(document.querySelectorAll("#tab-debate textarea"),function(t){n+=wc(t.value);});
+  document.getElementById("totWords").textContent=n;
+}
+function bindBox(t,key){
+  var c=t.parentNode.querySelector(".count");
+  var v=sget(key);if(v)t.value=v;
+  function upd(){ if(c)c.textContent=wc(t.value)+" words"; updateTotals(); }
+  t.addEventListener("input",function(){sset(key,t.value);upd();});
+  upd();
+}
+function mkQ(n,html,key,sec){
+  var d=document.createElement("div");d.className="card wq";
+  d.setAttribute("data-sec",sec);d.setAttribute("data-q",plain(html));
+  d.innerHTML='<p class="qtext"><span class="qnum">'+n+'</span>'+html+'</p><textarea placeholder="Write your answer here…" aria-label="Your answer"></textarea><div class="small count">0 words</div>';
+  bindBox(d.querySelector("textarea"),key);
+  return d;
+}
+var quick=document.getElementById("quick");
+QUICK.forEach(function(q,i){quick.appendChild(mkQ(i+1,esc(q),"rtbf_dq_"+i,"Quick debate prompts"));});
+var ph=document.getElementById("phases");
+PHASES.forEach(function(p,pi){
+  var d=document.createElement("div");d.className="phase";
+  d.innerHTML="<h3>"+esc(p.t)+"</h3>";
+  p.q.forEach(function(q,qi){d.appendChild(mkQ(qi+1,q,"rtbf_d_"+pi+"_"+qi,p.t));});
+  if(p.v.length){
+    var c=document.createElement("div");
+    c.innerHTML='<p class="small" style="margin:0 0 6px">Useful words for this step</p><div class="chips">'+p.v.map(function(x){return '<span class="chip">'+esc(x)+'</span>';}).join("")+"</div>";
+    d.appendChild(c);
+  }
+  ph.appendChild(d);
+});
+var pos=sget("rtbf_pos");
+Array.prototype.forEach.call(document.querySelectorAll("input[name=pos]"),function(r){
+  if(r.value===pos)r.checked=true;
+  r.addEventListener("change",function(){sset("rtbf_pos",r.value);});
+});
+bindBox(document.getElementById("limit"),"rtbf_limit");
+bindBox(document.getElementById("changed"),"rtbf_changed");
+var who=document.getElementById("who");
+(function(){var v=sget("rtbf_who");if(!v&&STUDENT)v=[STUDENT.prenom,STUDENT.nom,STUDENT.dept].filter(Boolean).join(" ");if(v)who.value=v;who.addEventListener("input",function(){sset("rtbf_who",who.value);});})();
+
+function buildExport(){
+  var out=["The Right to be Forgotten: written discussion","Name and group: "+who.value.trim(),""];
+  var cur="";
+  Array.prototype.forEach.call(document.querySelectorAll("#tab-debate .wq"),function(w){
+    var a=w.querySelector("textarea").value.trim(); if(!a)return;
+    var sec=w.getAttribute("data-sec");
+    if(sec!==cur){cur=sec;out.push("== "+sec+" ==");}
+    out.push("Q: "+w.getAttribute("data-q"));out.push("A: "+a);out.push("");
+  });
+  var chosen=document.querySelector("input[name=pos]:checked"),lim=document.getElementById("limit").value.trim(),chg=document.getElementById("changed").value.trim();
+  if(chosen||lim||chg){
+    out.push("== 8. My final position ==");
+    if(chosen)out.push("Position: "+chosen.value);
+    if(lim){out.push("Q: If you were writing the law, what one clear limit would you include?");out.push("A: "+lim);}
+    if(chg){out.push("Q: Has your opinion changed during the discussion? Why?");out.push("A: "+chg);}
+  }
+  return out.join("\n");
+}
+function msg(t){var m=document.getElementById("expMsg");m.textContent=t;setTimeout(function(){m.textContent="";},4000);}
+document.getElementById("copyAll").addEventListener("click",function(){
+  var text=buildExport(),done=false;
+  function fallback(){
+    try{
+      var ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";
+      document.body.appendChild(ta);ta.select();done=document.execCommand("copy");document.body.removeChild(ta);
+    }catch(e){done=false;}
+    msg(done?"Copied. Paste it into your message.":"Copy failed: use the download button instead.");
+  }
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){msg("Copied. Paste it into your message.");},fallback);
+    }else fallback();
+  }catch(e){fallback();}
+});
+document.getElementById("dlAll").addEventListener("click",function(){
+  try{
+    var blob=new Blob([buildExport()],{type:"text/plain;charset=utf-8"});
+    var url=URL.createObjectURL(blob),a=document.createElement("a");
+    a.href=url;a.download="right-to-be-forgotten_answers.txt";
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+    msg("File downloaded.");
+  }catch(e){msg("Download failed: use the copy button instead.");}
+});
+updateTotals();
+
+/* ---------- evidence highlight (after the correction is shown) ---------- */
+function clearMarks(){
+  var root=document.getElementById("article");
+  Array.prototype.slice.call(root.querySelectorAll("mark.ev")).forEach(function(m){
+    var p=m.parentNode;
+    while(m.firstChild)p.insertBefore(m.firstChild,m);
+    p.removeChild(m);p.normalize();
+  });
+}
+function markEvidence(ev){
+  clearMarks();
+  var root=document.getElementById("article");
+  var frags=ev.replace(/[“”]/g,"").split("…").map(function(x){return x.trim();}).filter(Boolean);
+  var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null),nodes=[],full="",n;
+  while((n=w.nextNode())){nodes.push({n:n,s:full.length,l:n.nodeValue.length});full+=n.nodeValue;}
+  var from=0,segs=[];
+  frags.forEach(function(f){
+    var i=full.indexOf(f,from); if(i<0)return;
+    var end=i+f.length; from=end;
+    nodes.forEach(function(o){
+      var a=Math.max(i,o.s),b=Math.min(end,o.s+o.l);
+      if(a<b)segs.push([o.n,a-o.s,b-o.s]);
+    });
+  });
+  var first=null;
+  segs.reverse().forEach(function(sg){
+    var node=sg[0],a=sg[1],b=sg[2],mid=node;
+    if(b<node.nodeValue.length)node.splitText(b);
+    if(a>0)mid=node.splitText(a);
+    var m=document.createElement("mark");m.className="ev";
+    mid.parentNode.insertBefore(m,mid);m.appendChild(mid);
+    first=m;
+  });
+  if(first&&first.scrollIntoView)first.scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+/* ---------- text drawer (quiz and discussion) ---------- */
+(function(){
+  var c=document.getElementById("article").cloneNode(true);
+  c.removeAttribute("id");
+  var lg=document.createElement("p");lg.className="legend";
+  lg.innerHTML='<span><span class="sw"></span>Course vocabulary</span><span><span class="sw extra"></span>Extra help</span>';
+  var h=document.createElement("h3");h.style.marginTop="0";
+  h.textContent="The Siren Song of Oblivion: Why Europe’s digital eraser threatens the public record";
+  var body=document.getElementById("drawerBody");
+  body.appendChild(h);body.appendChild(lg);body.appendChild(c);
+})();
+function openDrawer(){document.getElementById("drawer").classList.add("open");document.body.classList.add("drawer-open");}
+function closeDrawer(){var d=document.getElementById("drawer");if(d)d.classList.remove("open");document.body.classList.remove("drawer-open");}
+document.addEventListener("click",function(e){
+  if(e.target.closest("[data-drawer]")){openDrawer();return;}
+  if(e.target.id==="drawerClose")closeDrawer();
+});
+
+/* ---------- jump button (phones) ---------- */
+var jump=document.getElementById("jump");
+function jumpLabel(){
+  var q=document.getElementById("paneQ").getBoundingClientRect();
+  jump.textContent=q.top<window.innerHeight*0.5?"Text ↑":"Questions ↓";
+}
+jump.addEventListener("click",function(){
+  var toText=jump.textContent.indexOf("Text")===0;
+  document.getElementById(toText?"paneText":"paneQ").scrollIntoView({behavior:"smooth",block:"start"});
+});
+window.addEventListener("scroll",jumpLabel);
+
+/* ---------- start ---------- */
+showTab(location.hash.replace("#",""));
+window.scrollTo(0,0);
+})();
+</script>
+</body>
+</html>

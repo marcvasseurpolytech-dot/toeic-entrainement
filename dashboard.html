@@ -237,6 +237,10 @@
         <p class="pane-sub">Single-part Part 7 drills, each with its own timer.</p>
         <div class="tests-grid" id="grid-part7"></div>
       </div>
+      <div class="tabpane" data-pane="tc3">
+        <p class="pane-sub">Courses for your class, opened by your teacher. Your answers are saved in this browser under your name.</p>
+        <div class="tests-grid compact" id="grid-tc3"></div>
+      </div>
       <div class="tabpane" data-pane="results">
         <section>
           <h2>My scores by test</h2>
@@ -263,6 +267,7 @@
 <script src="dept.js"></script>
 <script src="tests-data.js"></script>
 <script src="part5-data.js"></script>
+<script src="courses-data.js"></script>
 <script src="scoring.js"></script>
 <script>
     const student = JSON.parse(sessionStorage.getItem('student') || 'null');
@@ -425,6 +430,24 @@
       });
     }
 
+    // Courses (Classes TC3): open only when the admin ticked the student's class.
+    function courseStatus(id) {
+      const c = COURSES[id];
+      const classOk = classAllowed(ACCESS_CLASSES, id, student.dept);
+      const open = courseIsOpen(window.__access, id) && classOk;
+      const oa = OPENED_AT[id] ? new Date(OPENED_AT[id]).getTime() : 0;
+      return { id, c, open, isNew: open && oa > 0 && Date.now() - oa < NEW_DAYS * 864e5 };
+    }
+    function renderCourses() {
+      const grid = document.getElementById('grid-tc3');
+      const list = Object.keys(COURSES).map(courseStatus).filter(x => x.open);
+      grid.innerHTML = list.length ? list.map(x => `<div class="test-card">
+          <h3>${x.c.name}</h3>
+          <div class="meta">📚 ${x.c.meta}</div>
+          ${x.isNew ? '<span class="badge-new">NEW</span> ' : ''}<span class="badge open">Available</span>
+          <button class="btn-start" onclick="window.location.href='${x.c.page}'">▶ Open the course</button>
+        </div>`).join('') : '<p class="empty-msg">No course open for your class right now.</p>';
+    }
     function renderTabs(scores, access) {
       const nav = document.getElementById('tabs');
       const tabs = GROUPS.map(g => {
@@ -433,14 +456,15 @@
         const open = stt.filter(x => x.remaining > 0).length;
         const fresh = stt.filter(x => x.isNew).length;
         return { key: g.key, title: g.title, cnt: `${stt.filter(x => x.used > 0).length}/${stt.length}`, open, fresh };
-      }).concat([{ key: 'results', title: 'My results', cnt: String(new Set(scores.map(s => s.testId)).size) }]);
-      const SHORT = { full: 'Full Tests', listening: 'Full Listening', reading: 'Full Reading', part1: 'Part 1', part2: 'Part 2', part3: 'Part 3', part34: 'Part 3 & 4', grammar: 'Part 5', part6: 'Part 6', part7: 'Part 7', results: 'My results' };
+      }).concat(Object.keys(COURSES).some(id => courseStatus(id).open) ? [{ key: 'tc3', title: 'Classes TC3', cnt: String(Object.keys(COURSES).filter(id => courseStatus(id).open).length), open: 0, fresh: Object.keys(COURSES).filter(id => courseStatus(id).isNew).length }] : []).concat([{ key: 'results', title: 'My results', cnt: String(new Set(scores.map(s => s.testId)).size) }]);
+      const SHORT = { full: 'Full Tests', listening: 'Full Listening', reading: 'Full Reading', part1: 'Part 1', part2: 'Part 2', part3: 'Part 3', part34: 'Part 3 & 4', grammar: 'Part 5', part6: 'Part 6', part7: 'Part 7', tc3: 'Classes TC3', results: 'My results' };
       const SECTIONS = [
         { id: 'exams', label: 'Full exams', keys: ['full', 'listening', 'reading'] },
         { id: 'lis', label: 'Listening', keys: ['part1', 'part2', 'part3', 'part34'] },
         { id: 'read', label: 'Reading', keys: ['grammar', 'part6', 'part7'] },
+        { id: 'tc3', label: 'Classes TC3', keys: ['tc3'] },
         { id: 'res', label: 'My results', keys: ['results'] }
-      ];
+      ].filter(s => s.keys.some(k => tabs.find(t => t.key === k)));
       window.__SECTIONS = SECTIONS;
       const tabBtn = t => `<button type="button" role="tab" class="tab-btn" data-tab="${t.key}">${SHORT[t.key] || t.title}<span class="cnt" title="${t.key === 'results' ? 'tests taken' : 'done / total'}">${t.cnt}</span>${t.fresh ? '<span class="badge-new" title="new tests">NEW</span>' : ''}${t.open ? `<span class="cnt" style="background:#e6f4ec;color:var(--success);border-color:#b9dfc9" title="open now">${t.open} open</span>` : ''}</button>`;
       const secOpen = s => s.keys.reduce((n, k) => n + ((tabs.find(t => t.key === k) || {}).open || 0), 0);
@@ -783,7 +807,9 @@
         currentEnriched = enriched; currentScores = scores;
 
         renderProgressCounter(scores);
+        window.__access = access;
         renderTests(scores, access);
+        renderCourses();
         renderTabs(scores, access);
         fillAttFilter();
         renderSummary(enriched);
