@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Virtue or Fear? | China's Social Credit | Polytech Lille</title>
+<style id="gatecss">body{visibility:hidden}</style>
+<script src="dept.js"></script>
+<script src="courses-data.js"></script>
+<script>
+var COURSE_ID="course-scredit",STUDENT=null;
+try{STUDENT=JSON.parse(sessionStorage.getItem("student")||"null");}catch(e){}
+if(!STUDENT||!sessionStorage.getItem("studentAuth")){location.replace("index.html");}
+else{fetch("/api/access").then(function(r){return r.json();}).then(function(a){
+  if(courseIsOpen(a.tests,COURSE_ID)&&classAllowed(a.classes,COURSE_ID,STUDENT.dept)){var g=document.getElementById("gatecss");if(g)g.remove();}
+  else{alert("This course is not open to your class yet.");location.replace("dashboard.html");}
+}).catch(function(){alert("Could not check access. Please try again.");location.replace("dashboard.html");});}
+</script>
+<style>
+:root{
+  --navy:#1b2a4a; --navy2:#2c3e66; --gold:#c9a227; --gold-soft:#f1e3a8;
+  --cream:#faf5e6; --paper:#fffdf6; --ink:#1d2433; --muted:#5b6478; --line:#e3dcc4; --ok:#2e7d4f; --ok-bg:#e4f3ea; --ko:#b3402f;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.6 "Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif}
+body::before{
+  content:"MARC VASSEUR | POLYTECH LILLE";position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:clamp(28px,6vw,72px);letter-spacing:.08em;color:var(--navy);
+  opacity:.045;transform:rotate(-24deg);pointer-events:none;z-index:0;white-space:nowrap;
+}
+header{background:var(--navy);color:#fff;padding:8px 20px;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:40}
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+header .kicker{color:var(--gold);font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:700}
+header h1{margin:0;font:700 19px/1.2 Georgia,"Times New Roman",serif}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav button{appearance:none;border:0;background:transparent;color:#cdd6ea;font:600 14px inherit;font-family:inherit;padding:8px 14px;border-radius:8px;cursor:pointer}
+nav button:hover{background:var(--navy2);color:#fff}
+nav button[aria-selected="true"]{background:var(--gold);color:var(--navy)}
+main{max-width:900px;margin:0 auto;padding:24px 20px 70px;position:relative;z-index:1}
+section.tab{display:none}
+section.tab.on{display:block}
+h2{font:700 22px/1.3 Georgia,serif;color:var(--navy);margin:0 0 6px}
+h3{font:700 17px/1.35 Georgia,serif;color:var(--navy);margin:22px 0 8px}
+.lead{color:var(--muted);margin:0 0 18px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:0 0 16px}
+.quote{background:var(--navy);color:#fff;border-radius:14px;padding:28px 30px;margin:0 0 20px;border-left:8px solid var(--gold)}
+.quote p{margin:0;font:italic 700 24px/1.4 Georgia,"Times New Roman",serif}
+.quote cite{display:block;margin-top:12px;color:var(--gold);font:600 14px "Segoe UI",system-ui,sans-serif;font-style:normal;letter-spacing:.06em}
+.reminder{border-left:5px solid var(--gold);background:var(--gold-soft);padding:12px 16px;border-radius:0 10px 10px 0;margin:0 0 18px}
+.reminder p{margin:0 0 6px}.reminder p:last-child{margin:0}
+.qnum{display:inline-block;background:var(--navy);color:#fff;border-radius:6px;padding:1px 9px;font-weight:700;font-size:13px;margin-right:8px}
+.q{font:600 17px/1.5 Georgia,serif;color:var(--navy);margin:0 0 4px}
+.hint{font-size:14px;color:var(--muted);margin:0 0 8px}
+label.f{display:block;font-weight:700;font-size:14px;color:var(--navy);margin:0 0 4px}
+textarea,input[type=text],input[type=url]{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font:15px/1.5 inherit;font-family:inherit;background:#fff;color:var(--ink)}
+textarea{min-height:110px;resize:vertical}
+textarea.short{min-height:76px}
+textarea:focus,input:focus{outline:2px solid var(--gold);outline-offset:1px}
+.meta{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:4px}
+.meta .ok{color:var(--ok);font-weight:700}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+.linkrow{display:flex;gap:8px;align-items:flex-start}
+.linkrow input{flex:1}
+.btn{appearance:none;border:1px solid var(--navy);background:var(--navy);color:#fff;border-radius:8px;padding:9px 18px;font:600 14px inherit;font-family:inherit;cursor:pointer;text-decoration:none;display:inline-block}
+.btn:hover{background:var(--navy2)}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.btn.ghost{background:transparent;color:var(--navy)}
+.btn.ghost:hover{background:var(--gold-soft)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.sm{padding:9px 12px;white-space:nowrap}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.toolbox{background:var(--navy);color:#fff;border-radius:12px;padding:18px 20px;margin:0 0 20px}
+.toolbox h3{color:#fff;margin-top:0}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.tools h4{margin:0 0 6px;font:700 13px "Segoe UI",system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.tools ul{margin:0;padding-left:18px}.tools li{margin:0 0 4px}
+.steps{margin:6px 0 0;padding-left:22px}.steps li{margin:0 0 5px}
+.pair{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:0 0 12px;background:#fff}
+.pair .lvl{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+.check{list-style:none;margin:8px 0 0;padding:0}
+.check li{padding:3px 0 3px 26px;position:relative;font-size:14px;color:var(--muted)}
+.check li::before{content:"";position:absolute;left:0;top:6px;width:16px;height:16px;border:2px solid var(--line);border-radius:50%;background:#fff}
+.check li.done{color:var(--ok);font-weight:600}
+.check li.done::before{background:var(--ok);border-color:var(--ok)}
+.status{border-radius:10px;padding:12px 16px;margin:0 0 16px;background:var(--ok-bg);color:var(--ok);font-weight:600}
+.status.no{background:#f9e5e0;color:var(--ko)}
+.next{border:2px solid var(--gold);background:var(--paper)}
+
+.sbox{position:sticky;top:64px;z-index:20;background:var(--cream);padding:8px 0 10px}
+.sbox input{font-size:18px;padding:14px 16px;border:2px solid var(--navy);border-radius:12px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 0}
+.chip{appearance:none;border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:999px;padding:4px 12px;font:600 13px inherit;font-family:inherit;cursor:pointer}
+.chip:hover{background:var(--gold-soft)}
+.chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.chip.sug{border-style:dashed}
+.tbcount{font-size:13px;color:var(--muted);margin:6px 0 0}
+.tbcat{font:700 13px "Segoe UI",system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);background:var(--navy);padding:6px 12px;border-radius:8px;margin:18px 0 8px}
+.tbi{display:grid;grid-template-columns:1fr auto;gap:4px 12px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:0 0 8px;cursor:pointer}
+.tbi:hover{border-color:var(--gold);background:#fff}
+.tbi .en{font:700 16px/1.4 Georgia,serif;color:var(--navy)}
+.tbi .fr{color:var(--muted);font-size:14px}
+.tbi .ex{grid-column:1/-1;font-style:italic;font-size:14px;color:var(--ink)}
+.tbi .cp{font-size:12px;color:var(--muted);align-self:start}
+.tbi.copied{background:var(--ok-bg);border-color:var(--ok)}
+mark{background:var(--gold-soft);color:inherit;border-radius:3px;padding:0 1px}
+.tbnone{padding:18px;text-align:center;color:var(--muted)}
+.timing{background:var(--paper);border:2px solid var(--gold);border-radius:12px;padding:14px 18px;margin:0 0 18px}
+.timing h3{margin:0 0 8px}
+.timing table{width:100%;border-collapse:collapse;font-size:14px}
+.timing td{padding:5px 8px;border-top:1px solid var(--line);vertical-align:top}
+.timing tr:first-child td{border-top:0}
+.timing td:last-child{white-space:nowrap;text-align:right;font-weight:700;color:var(--navy)}
+.timing .sess td{background:var(--navy);color:#fff;font-weight:700;border-top:0}
+.timing .sess td:last-child{color:var(--gold)}
+.timing .tot{font-weight:700;margin:8px 0 0}
+.tm{display:inline-block;background:var(--gold);color:var(--navy);border-radius:6px;padding:0 8px;font-size:12px;font-weight:700;margin-left:6px;vertical-align:middle}
+
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.vcard{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.vcard.picked{border:2px solid var(--gold);background:#fff}
+.vcard.own{opacity:.75}
+.vwrap{position:relative;width:100%;max-width:270px;margin:0 auto;aspect-ratio:9/16;background:#000;border-radius:10px;overflow:hidden}
+.vwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+select{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px 10px;font:15px inherit;font-family:inherit;background:#fff}
+#privacy{background:#fff7dc;border-bottom:1px solid var(--line);padding:9px 20px;font-size:14px;color:var(--ink)}
+#privacy .in{max-width:900px;margin:0 auto;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+#subinfo{background:var(--ok-bg);color:var(--ok);border-radius:10px;padding:10px 14px;margin:0 0 12px;font-weight:600}
+@media print{#privacy{display:none!important}header,.row,.toolbox,.btn{display:none}body::before{display:none}section.tab{display:block!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr">
+    <div><div class="kicker">Polytech Lille | English</div><h1>Virtue or Fear? China&rsquo;s Social Credit</h1></div>
+    <nav id="nav" role="tablist">
+      <button role="tab" data-t="warm" aria-selected="true">1. Warm-up</button>
+      <button role="tab" data-t="work" aria-selected="false">2. Research work</button>
+      <button role="tab" data-t="send" aria-selected="false">3. Hand in</button>
+      <button role="tab" data-t="vote" aria-selected="false">4. Vote</button>
+      <button role="tab" data-t="tool" aria-selected="false">Toolbox</button>
+    </nav>
+  </div>
+</header>
+<div id="privacy" style="display:none">
+  <div class="in">
+    <span><b>Your activity is recorded.</b> On this page, your teacher can see when you work, for how long, what you write and the links you hand in. This is used only to follow your work in this course and is not shared outside the teaching team. If you hand in your video, your classmates will be able to watch it (without your names) to vote.</span>
+    <button class="btn" id="privacyOk" type="button" style="padding:6px 14px">Got it</button>
+  </div>
+</div>
+<main>
+
+<!-- ============ TAB 1 ============ -->
+<section class="tab on" id="tab-warm">
+<h2>Before we look at China <span class="tm">25 min</span></h2>
+<p class="lead">Read the quotation, then write your own opinion. Nobody is going to mark your ideas, but we will read your English carefully.</p>
+
+<div class="timing">
+  <h3>Time needed for the whole project: 4h30, all in class</h3>
+  <table>
+    <tr class="sess"><td>Session 1 (2h15)</td><td>2h15</td></tr>
+    <tr><td>Warm-up: your opinion on Hobbes, then a short class discussion</td><td>25 min</td></tr>
+    <tr><td>Task 1: choose your video and your article</td><td>25 min</td></tr>
+    <tr><td>Task 2: questions and answers on the video and the article</td><td>1h25</td></tr>
+    <tr class="sess"><td>Session 2 (2h15)</td><td>2h15</td></tr>
+    <tr><td>Task 2: finish your answers and your vocabulary list, then check them</td><td>25 min</td></tr>
+    <tr><td>Task 3: write the text of your video, screen by screen</td><td>20 min</td></tr>
+    <tr><td>Task 3: make the video on Canva and upload it to YouTube (Unlisted)</td><td>55 min</td></tr>
+    <tr><td>Watch some videos, go back to question 3 of the warm-up</td><td>25 min</td></tr>
+    <tr><td>Hand in your work on the last tab</td><td>10 min</td></tr>
+  </table>
+  <p class="tot">Total: 2 sessions of 2h15 = 4h30.</p>
+</div>
+<div class="quote">
+  <p>&ldquo;It is not virtue but the fear of punishment that keeps men within the bounds of duty.&rdquo;</p>
+  <cite>THOMAS HOBBES (1588-1679), English philosopher</cite>
+</div>
+
+<div class="reminder">
+  <p><b>Your task.</b> Answer the <b>4 questions</b> below on your own. Write at least 5 lines for each one (about 40 words or more).</p>
+  <p>Give one example from your own life in each answer, and use at least one connector of contrast (<i>however</i>, <i>whereas</i>, <i>on the other hand</i>).</p>
+  <p>Your answers are saved on this device while you type.</p>
+</div>
+
+<div class="card">
+  <p class="q"><span class="qnum">1</span>In your own words, what does Hobbes mean? Do you agree with him?</p>
+  <p class="hint">Think of everyday life: school, the road, work, the internet.</p>
+  <textarea data-k="q1" aria-label="Answer to question 1"></textarea>
+  <div class="meta"><span data-c="q1"></span><span></span></div>
+</div>
+<div class="card">
+  <p class="q"><span class="qnum">2</span>Think of a rule you follow. Do you follow it because you believe it is right, or because you are afraid of the consequences? What would you do if nobody could ever find out?</p>
+  <p class="hint">Be honest. A good answer gives a real example, not a general statement.</p>
+  <textarea data-k="q2" aria-label="Answer to question 2"></textarea>
+  <div class="meta"><span data-c="q2"></span><span></span></div>
+</div>
+<div class="card">
+  <p class="q"><span class="qnum">3</span>Imagine a country where every citizen has a public score. It goes up when you behave well and down when you behave badly. Would people become more virtuous, or only more careful? Explain.</p>
+  <p class="hint">We will come back to this question at the end of the project.</p>
+  <textarea data-k="q3" aria-label="Answer to question 3"></textarea>
+  <div class="meta"><span data-c="q3"></span><span></span></div>
+</div>
+<div class="card">
+  <p class="q"><span class="qnum">4</span>Should a government have the right to rate its citizens&rsquo; behaviour in order to keep order? Where would you draw the line?</p>
+  <p class="hint">Say what you would accept (for example CCTV, speed cameras, a bank credit score) and what you would refuse.</p>
+  <textarea data-k="q4" aria-label="Answer to question 4"></textarea>
+  <div class="meta"><span data-c="q4"></span><span></span></div>
+</div>
+
+<div class="toolbox">
+  <h3>Your toolbox</h3>
+  <p style="margin:0 0 12px;color:#cdd6ea">This is only a short list. Open the <a href="#" data-go="tool" style="color:var(--gold);font-weight:700">full searchable Toolbox</a> to find many more expressions and words.</p>
+  <div class="tools">
+    <div><h4>Giving your opinion</h4><ul>
+      <li>I (strongly) agree / disagree with&hellip; because&hellip;</li>
+      <li>As far as I am concerned,&hellip;</li>
+      <li>It seems to me that&hellip;</li>
+      <li>To some extent, he is right, but&hellip;</li></ul></div>
+    <div><h4>Balancing ideas</h4><ul>
+      <li>On the one hand&hellip; on the other hand&hellip;</li>
+      <li>However, / Whereas / Although</li>
+      <li>It depends on&hellip;</li>
+      <li>This raises the question of&hellip;</li></ul></div>
+    <div><h4>Useful words</h4><ul>
+      <li>a deterrent</li><li>to comply with a rule</li>
+      <li>to be held accountable</li><li>to be monitored</li>
+      <li>in the name of public safety</li><li>a sense of duty</li></ul></div>
+  </div>
+</div>
+
+<div class="card next">
+  <h3 style="margin-top:0">Now let&rsquo;s see what happens in real life</h3>
+  <p style="margin:0">In China, a system exists that is built on exactly this idea: the <b>social credit system</b>. Does it produce virtue, or only fear? Your job is to find out, and then to explain it to the world in one minute.</p>
+  <div class="row" style="margin-top:12px"><button class="btn gold" data-go="work">Start the research work</button></div>
+</div>
+</section>
+
+<!-- ============ TAB 2 ============ -->
+<section class="tab" id="tab-work">
+<h2>Research work (pair work) <span class="tm">3h30 in total</span></h2>
+<p class="lead">Work with a partner. Fill in this page as you go. Everything is saved on this device. When you have finished, go to the last tab to hand in your work.</p>
+
+<div class="reminder">
+  <p><b>Task 1</b> <span class="tm">25 min</span> Find <b>one video</b> (3 to 4 minutes) and <b>one press article</b> (3 to 4 minutes to read) on the subject.</p>
+  <p><b>Task 2</b> <span class="tm">1h50 (1h25 in session 1 + 25 min in session 2)</span> Write <b>5 questions on the video</b> and <b>5 on the article</b>, from &ldquo;easy&rdquo; to &ldquo;let&rsquo;s think about it&rdquo;. Write the answers by rephrasing the information you found, as we do in class. You may give several rephrased answers. Then list the vocabulary specific to the subject.</p>
+  <p><b>Task 3</b> <span class="tm">1h15</span> Make a vertical video (like a social media clip) that explains &ldquo;what social credit is in China&rdquo; in 60 to 90 seconds. Put text on the pictures or on the video. No sound.</p>
+</div>
+
+<h3>Your pair</h3>
+<div class="card"><div class="grid2">
+  <div><label class="f" for="n1">Student 1 (first name, last name)</label><input type="text" id="n1" data-k="n1" autocomplete="off"></div>
+  <div><label class="f" for="n2">Student 2 (first name, last name)</label><input type="text" id="n2" data-k="n2" autocomplete="off"></div>
+</div></div>
+
+<h3>Task 1. Your documents</h3>
+<div class="card">
+  <p class="hint">Paste the full link. Your teacher will click on it, so check that it opens. For the video, say which part you use (for example 0:30 to 4:00).</p>
+  <label class="f" for="vurl">Video link</label>
+  <div class="linkrow"><input type="url" id="vurl" data-k="vurl" placeholder="https://www.youtube.com/watch?v=..."><a class="btn ghost sm" data-open="vurl" target="_blank" rel="noopener">Test link</a></div>
+  <label class="f" for="vtime" style="margin-top:10px">Part of the video you use</label>
+  <input type="text" id="vtime" data-k="vtime" placeholder="from 0:30 to 4:00">
+  <label class="f" for="aurl" style="margin-top:14px">Article link</label>
+  <div class="linkrow"><input type="url" id="aurl" data-k="aurl" placeholder="https://..."><a class="btn ghost sm" data-open="aurl" target="_blank" rel="noopener">Test link</a></div>
+  <label class="f" for="atitle" style="margin-top:10px">Title and newspaper</label>
+  <input type="text" id="atitle" data-k="atitle" placeholder="Title of the article, name of the newspaper or website">
+</div>
+
+<h3>Task 2. Questions and answers</h3>
+<div class="reminder"><p>Question 1 is the easiest (a fact). Question 5 is the hardest (&ldquo;let&rsquo;s think about it&rdquo;: your opinion, a comparison, a consequence). Rephrase your answers: do not copy and paste from the source.</p></div>
+
+<div id="vq"></div>
+<div id="aq"></div>
+
+<div class="card">
+  <p class="q">Vocabulary specific to the subject</p>
+  <p class="hint">At least 10 words or expressions. Write one per line: the word, then a short definition or an example sentence in English.</p>
+  <textarea data-k="vocab" style="min-height:200px" aria-label="Vocabulary list" placeholder="to blacklist: to put someone's name on a list of people who are punished&#10;a score: ..."></textarea>
+  <div class="meta"><span data-lines="vocab"></span><span></span></div>
+</div>
+
+<h3>Task 3. Your video</h3>
+<div class="card">
+  <p class="q">The text of your video</p>
+  <p class="hint">Write the exact text of each screen, one screen per line, in the order of the video (about 6 to 10 words per screen). Start with a hook, end with a question or an opinion.</p>
+  <textarea data-k="script" style="min-height:200px" aria-label="Text of the video" placeholder="1. Your score decides if you can buy a train ticket.&#10;2. ..."></textarea>
+  <div class="meta"><span data-lines="script"></span><span></span></div>
+
+  <label class="f" for="yurl" style="margin-top:16px">YouTube link of your video (Unlisted)</label>
+  <p class="hint">Upload your video to YouTube. In &ldquo;Visibility&rdquo;, choose <b>Unlisted</b>, not Public. Then copy the link and paste it here. Do not forget to test it.</p>
+  <div class="linkrow"><input type="url" id="yurl" data-k="yurl" placeholder="https://youtu.be/..."><a class="btn ghost sm" data-open="yurl" target="_blank" rel="noopener">Test link</a></div>
+  <div class="hint" id="yhint" style="margin:6px 0 0"></div>
+</div>
+
+<div class="row"><button class="btn gold" data-go="send">Go to &ldquo;Hand in&rdquo;</button></div>
+</section>
+
+<!-- ============ TAB 3 ============ -->
+<section class="tab" id="tab-send">
+<h2>Hand in</h2>
+<p class="lead">Check that everything is complete, then hand in your work to your teacher. You can hand it in again if you change something.</p>
+
+<div class="status no" id="status"></div>
+
+<div class="card">
+  <h3 style="margin-top:0">Checklist</h3>
+  <ul class="check" id="check"></ul>
+</div>
+
+<div class="card">
+  <div id="subinfo" style="display:none"></div>
+  <div class="row">
+    <button class="btn gold" id="submit" disabled>Hand in to my teacher</button>
+  </div>
+  <p class="hint" style="margin:12px 0 6px">Backup copies (optional):</p>
+  <div class="row">
+    <button class="btn ghost" id="copy" disabled>Copy my work</button>
+    <button class="btn ghost" id="dl" disabled>Download as a text file</button>
+    <button class="btn ghost" id="print">Print</button>
+  </div>
+  <p class="hint" id="msg" style="margin:10px 0 0"></p>
+</div>
+
+<div class="card next">
+  <h3 style="margin-top:0">One last thing</h3>
+  <p style="margin:0">Go back to your answer to question 3 in the warm-up. Has your opinion changed after your research? Write 3 or 4 lines on the back of your sheet, or tell it to your partner in English.</p>
+</div>
+</section>
+
+
+<!-- ============ VOTE ============ -->
+<section class="tab" id="tab-vote">
+<h2>Vote for the best videos</h2>
+<p class="lead">Watch the videos of your classmates and choose your three favourites. The names of the authors are hidden until the end.</p>
+<div id="votebox"></div>
+</section>
+
+<!-- ============ TAB 4 ============ -->
+<section class="tab" id="tab-tool">
+<h2>Toolbox</h2>
+<p class="lead">Type what you want to say, in French or in English, and find the expressions and words you need. Click on an entry to copy it.</p>
+<div class="sbox">
+  <input type="text" id="tbq" placeholder="Type here: accord, cause, d'un côté, however, surveiller, privacy…" autocomplete="off" aria-label="Search the toolbox">
+  <div class="chips" id="tbsug"></div>
+  <div class="chips" id="tbcats"></div>
+  <div class="tbcount" id="tbcount"></div>
+</div>
+<div id="tblist"></div>
+</section>
+
+</main>
+<script>
+(function(){
+  var COURSE=COURSE_ID, AUTH=null;try{AUTH=sessionStorage.getItem("studentAuth");}catch(e){}
+  var NS=(STUDENT&&STUDENT.nom?STUDENT.nom:"")+"::";
+  var KEY=NS+"social_credit_v2", PRIV=NS+"scredit_privacy_ok", data={};
+  var MIN_WARM=40, MIN_VOCAB=10;
+  function iso(){return new Date().toISOString();}
+  function load(){try{data=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){data={}}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){}}
+  function words(s){var m=(s||"").trim().match(/\S+/g);return m?m.length:0}
+  function lines(s){return (s||"").split(/\n/).filter(function(x){return x.trim()}).length}
+  function isUrl(s){return /^https?:\/\/\S+\.\S+/i.test((s||"").trim())}
+  function isYT(s){return /^https?:\/\/(www\.|m\.)?(youtube\.com|youtu\.be|youtube-nocookie\.com)\//i.test((s||"").trim())}
+  function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+  var LV=["Easy","Easy","Medium","Medium","Let's think about it"];
+
+  function build(host,prefix,title){
+    var h='<div class="card"><p class="q" style="margin-bottom:10px">'+title+'</p>';
+    for(var i=1;i<=5;i++){
+      h+='<div class="pair"><div class="lvl">Question '+i+' | '+LV[i-1]+'</div>'+
+        '<label class="f" for="'+prefix+'q'+i+'">Question</label>'+
+        '<input type="text" id="'+prefix+'q'+i+'" data-k="'+prefix+'q'+i+'" autocomplete="off">'+
+        '<label class="f" for="'+prefix+'a'+i+'" style="margin-top:8px">Answer (rephrased)</label>'+
+        '<textarea class="short" id="'+prefix+'a'+i+'" data-k="'+prefix+'a'+i+'"></textarea>'+
+        '<div class="meta"><span data-c="'+prefix+'a'+i+'"></span><span></span></div></div>';
+    }
+    document.getElementById(host).innerHTML=h+'</div>';
+  }
+  build("vq","v","Five questions on the VIDEO");
+  build("aq","a","Five questions on the ARTICLE");
+  load();
+  if(!data.n1&&STUDENT){data.n1=[STUDENT.prenom,STUDENT.nom].filter(Boolean).join(" ");save();}
+
+  /* ================= activity tracking (teacher dashboard) ================= */
+  var TRK=(function(){
+    function blank(){return {v:1,prenom:STUDENT?STUDENT.prenom||"":"",dept:STUDENT?STUDENT.dept||"":"",firstSeen:iso(),lastSeen:iso(),sessions:[],activeSec:0,tabs:{},answers:[],edits:{},clicks:{toolbox:0,copy:0,download:0,test:{}},submission:null,vote:null,log:[]};}
+    var REC=blank(),SESS={id:Math.random().toString(36).slice(2,10),start:iso(),end:iso(),activeSec:0};
+    var loaded=false,restoring=false,dirty=false,urgent=false,lastSave=0,curTab="warm",lastAct=Date.now(),onLoaded=[];
+    function log(e,d){REC.log.push({t:iso(),e:e,d:d==null?"":d});if(REC.log.length>400)REC.log.shift();}
+    function mark(u){dirty=true;if(u)urgent=true;}
+    function fix(r){var b=blank();["tabs","edits","clicks"].forEach(function(k){r[k]=Object.assign(b[k],r[k]||{});});
+      if(!r.clicks.test||typeof r.clicks.test!=="object")r.clicks.test={};
+      ["sessions","answers","log"].forEach(function(k){if(!Array.isArray(r[k]))r[k]=[];});
+      r.activeSec=r.activeSec||0;r.firstSeen=r.firstSeen||iso();r.v=1;return r;}
+    function keyOf(el){return el&&el.getAttribute?el.getAttribute("data-k"):null;}
+    var SEC={q:"Warm-up",n:"Pair",v:"Documents",a:"Documents",vocab:"Vocabulary",script:"Video text",yurl:"Video link"};
+    function secOf(k){
+      if(/^q[1-4]$/.test(k))return "Warm-up";
+      if(k==="n1"||k==="n2")return "Pair";
+      if(k==="vurl"||k==="vtime"||k==="aurl"||k==="atitle")return "Documents";
+      if(/^v[qa]\d$/.test(k))return "Questions on the video";
+      if(/^a[qa]\d$/.test(k))return "Questions on the article";
+      if(k==="vocab")return "Vocabulary";
+      if(k==="script")return "Text of the video";
+      if(k==="yurl")return "Video link";
+      return "Other";}
+    var FIXEDQ={vocab:"Vocabulary specific to the subject",script:"Text of the video, screen by screen",yurl:"YouTube link (Unlisted)",n1:"Student 1",n2:"Student 2",vurl:"Video link",vtime:"Part of the video used",aurl:"Article link",atitle:"Article title and newspaper"};
+    function qText(el,k){
+      if(FIXEDQ[k])return FIXEDQ[k];
+      var m=k.match(/^([va])a(\d)$/);
+      if(m){var inp=document.getElementById(m[1]+"q"+m[2]);return (m[1]==="v"?"Video Q":"Article Q")+m[2]+": "+(inp?inp.value:"");}
+      m=k.match(/^[va]q(\d)$/);
+      if(m)return (k[0]==="v"?"Video":"Article")+" question "+m[1];
+      var card=el.closest(".card"),q=card&&card.querySelector(".q");
+      if(q){var c=q.cloneNode(true),n=c.querySelector(".qnum");if(n)n.remove();return c.textContent.trim();}
+      return k;}
+    function snapshot(){
+      var out=[];
+      Array.prototype.forEach.call(document.querySelectorAll("[data-k]"),function(el){
+        var k=keyOf(el),ed=REC.edits[k]||{};
+        out.push({key:k,sec:secOf(k),q:qText(el,k),text:el.value,words:words(el.value),first:ed.first||null,last:ed.last||null,typeSec:ed.typeSec||0,edits:ed.n||0,pastes:ed.pastes||0,pastedChars:ed.pastedChars||0});
+      });
+      return out;}
+    function save(){
+      if(!loaded||!STUDENT||!AUTH)return;
+      REC.answers=snapshot();REC.dept=STUDENT.dept||REC.dept;REC.prenom=STUDENT.prenom||REC.prenom;
+      var body=JSON.stringify({nom:STUDENT.nom,codeHash:AUTH,courseId:COURSE,record:REC});
+      dirty=false;urgent=false;lastSave=Date.now();
+      try{fetch("/api/course",{method:"POST",headers:{"Content-Type":"application/json"},body:body,keepalive:body.length<60000}).then(function(r){if(!r.ok){dirty=true;}}).catch(function(){dirty=true;});}catch(e){dirty=true;}}
+    function restore(){
+      restoring=true;
+      try{
+        var by={};REC.answers.forEach(function(a){by[a.key]=a;});
+        Array.prototype.forEach.call(document.querySelectorAll("[data-k]"),function(el){
+          var k=keyOf(el),a=by[k];
+          if(a&&a.text&&!el.value.trim()){el.value=a.text;data[k]=a.text;el.dispatchEvent(new Event("input",{bubbles:true}));}});
+        save_local();
+      }catch(e){}
+      restoring=false;}
+    function save_local(){try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){}}
+    function loadRemote(){
+      if(!STUDENT||!AUTH)return;
+      fetch("/api/course?courseId="+COURSE+"&nom="+encodeURIComponent(STUDENT.nom),{headers:{"X-Code-Hash":AUTH}})
+        .then(function(r){if(!r.ok)throw new Error("load");return r.json();})
+        .then(function(d){
+          REC=d.record?fix(d.record):fix(blank());
+          REC.sessions.push(SESS);if(REC.sessions.length>60)REC.sessions.shift();
+          loaded=true;log("open",curTab);restore();mark(true);onLoaded.forEach(function(f){f()});})
+        .catch(function(){setTimeout(loadRemote,15000);});}
+    ["mousemove","keydown","scroll","click","touchstart","input"].forEach(function(ev){window.addEventListener(ev,function(){lastAct=Date.now();},true);});
+    setInterval(function(){
+      if(!loaded||document.hidden||Date.now()-lastAct>45000)return;
+      REC.activeSec++;SESS.activeSec++;REC.tabs[curTab]=(REC.tabs[curTab]||0)+1;REC.lastSeen=SESS.end=iso();mark(false);},1000);
+    setInterval(function(){var age=Date.now()-lastSave;if(dirty&&((urgent&&age>45000)||age>120000))save();},15000);
+    document.addEventListener("visibilitychange",function(){if(document.hidden&&dirty)save();else if(!document.hidden)lastAct=Date.now();});
+    window.addEventListener("pagehide",function(){if(dirty)save();});
+    document.addEventListener("input",function(e){
+      var k=keyOf(e.target);if(!k||restoring||!loaded)return;
+      var ed=REC.edits[k]||(REC.edits[k]={first:iso(),n:0,typeSec:0,pastes:0,pastedChars:0}),t=Date.now();
+      if(ed.lt&&t-ed.lt<10000)ed.typeSec+=Math.round((t-ed.lt)/1000);
+      ed.lt=t;ed.last=iso();ed.n++;if(ed.n===1)log("first-edit",k);mark(true);},true);
+    document.addEventListener("paste",function(e){
+      var k=keyOf(e.target);if(!k||!loaded)return;
+      var ed=REC.edits[k]||(REC.edits[k]={first:iso(),n:0,typeSec:0,pastes:0,pastedChars:0}),txt="";
+      try{txt=(e.clipboardData&&e.clipboardData.getData("text"))||"";}catch(x){}
+      ed.pastes++;ed.pastedChars+=txt.length;log("paste",k+" ("+txt.length+" chars)");mark(true);},true);
+    document.addEventListener("click",function(e){
+      if(!loaded)return;var t=e.target;
+      if(t.closest&&t.closest(".tbi")){REC.clicks.toolbox++;mark(false);return;}
+      if(t.closest&&t.closest("#copy")){REC.clicks.copy++;log("copy-export");mark(true);return;}
+      if(t.closest&&t.closest("#dl")){REC.clicks.download++;log("download-export");mark(true);return;}
+      var op=t.closest&&t.closest("[data-open]");
+      if(op){var f=op.getAttribute("data-open");REC.clicks.test[f]=(REC.clicks.test[f]||0)+1;log("test-link",f);mark(true);}
+    },true);
+    loadRemote();
+    return {
+      tab:function(id){curTab=id;if(loaded){log("tab",id);mark(false);}},
+      log:function(e,d){if(loaded){log(e,d);mark(true);}},
+      submitted:function(sub){REC.submission=Object.assign({at:iso()},sub);log("hand-in",sub.yurl);mark(true);save();return REC.submission;},
+      submission:function(){return REC.submission||null;},
+      voted:function(picks){REC.vote={at:iso(),n:((REC.vote&&REC.vote.n)||0)+1};log("vote");mark(true);},
+      onLoaded:function(f){if(loaded)f();else onLoaded.push(f);}
+    };
+  })();
+
+  /* ================= fields, counters, checklist ================= */
+  var fields=[].slice.call(document.querySelectorAll("[data-k]"));
+  fields.forEach(function(el){
+    var k=el.getAttribute("data-k");
+    el.value=data[k]||"";
+    el.addEventListener("input",function(){data[k]=el.value;save();refresh()});
+  });
+  function setCount(el,k,min){var n=words(data[k]||"");el.textContent=n+" word"+(n===1?"":"s");el.className=n>=min?"ok":"";}
+  function refresh(){
+    ["q1","q2","q3","q4"].forEach(function(k){setCount(document.querySelector('[data-c="'+k+'"]'),k,MIN_WARM)});
+    [].forEach.call(document.querySelectorAll('[data-c^="va"],[data-c^="aa"]'),function(el){setCount(el,el.getAttribute("data-c"),8)});
+    [].forEach.call(document.querySelectorAll("[data-lines]"),function(el){
+      var k=el.getAttribute("data-lines"),n=lines(data[k]);
+      el.textContent=n+" line"+(n===1?"":"s");el.className=n>=(k==="vocab"?MIN_VOCAB:5)?"ok":"";});
+    var yh=document.getElementById("yhint"),y=data.yurl||"";
+    yh.textContent=!y?"":(!isUrl(y)?"This does not look like a link.":(!isYT(y)?"This is not a YouTube link.":"Link looks fine. Check that the video is set to Unlisted."));
+    [].forEach.call(document.querySelectorAll("[data-open]"),function(a){
+      var v=(data[a.getAttribute("data-open")]||"").trim();
+      if(isUrl(v)){a.href=v;a.style.opacity=1}else{a.removeAttribute("href");a.style.opacity=.45}});
+    checklist();
+  }
+  function all5(p){for(var i=1;i<=5;i++){if(words(data[p+"q"+i])<3||words(data[p+"a"+i])<8)return false}return true}
+  var COMPLETE=false;
+  function checklist(){
+    var items=[
+      ["Warm-up: the 4 questions are answered ("+MIN_WARM+" words or more each)",["q1","q2","q3","q4"].every(function(k){return words(data[k])>=MIN_WARM})],
+      ["The names of the two students are filled in",words(data.n1)>=2&&words(data.n2)>=2],
+      ["The video link works (a full link)",isUrl(data.vurl)],
+      ["The article link works (a full link)",isUrl(data.aurl)],
+      ["5 questions and 5 answers on the video",all5("v")],
+      ["5 questions and 5 answers on the article",all5("a")],
+      ["At least "+MIN_VOCAB+" words in the vocabulary list",lines(data.vocab)>=MIN_VOCAB],
+      ["The text of your video is written (5 lines or more)",lines(data.script)>=5],
+      ["The YouTube link of your video is filled in",isYT(data.yurl)]
+    ];
+    var n=0,h="";items.forEach(function(it){if(it[1])n++;h+='<li class="'+(it[1]?"done":"")+'">'+it[0]+'</li>'});
+    document.getElementById("check").innerHTML=h;
+    COMPLETE=(n===items.length);
+    var st=document.getElementById("status");
+    st.className="status"+(COMPLETE?"":" no");
+    st.textContent=COMPLETE?"Everything is complete. You can hand in your work.":n+" of "+items.length+" points done. Complete the missing points to hand in.";
+    document.getElementById("copy").disabled=!COMPLETE;
+    document.getElementById("dl").disabled=!COMPLETE;
+    document.getElementById("submit").disabled=!COMPLETE;
+  }
+
+  /* ================= hand in (sent to the teacher) ================= */
+  function showSub(){
+    var s=TRK.submission(),b=document.getElementById("subinfo"),btn=document.getElementById("submit");
+    if(s){
+      b.style.display="block";
+      b.innerHTML='Handed in on <b>'+esc(new Date(s.at).toLocaleString("en-GB",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}))+'</b> by '+esc(s.n1)+(s.n2?' and '+esc(s.n2):'')+'. You can change your work and hand it in again until your teacher says stop.';
+      btn.textContent="Hand in again (update)";
+    }else{b.style.display="none";btn.textContent="Hand in to my teacher";}
+  }
+  document.getElementById("submit").onclick=function(){
+    if(!COMPLETE||!AUTH)return;
+    var btn=this,m=document.getElementById("msg");btn.disabled=true;m.textContent="Sending…";
+    var sub={n1:(data.n1||"").trim(),n2:(data.n2||"").trim(),vurl:(data.vurl||"").trim(),aurl:(data.aurl||"").trim(),yurl:(data.yurl||"").trim()};
+    fetch("/api/course",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"submit",nom:STUDENT.nom,codeHash:AUTH,courseId:COURSE,submission:sub})})
+      .then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j}})})
+      .then(function(x){
+        if(!x.ok)throw new Error((x.j&&x.j.error)||"Could not send");
+        TRK.submitted(sub);showSub();m.textContent="Done. Your work and your video link have been sent to your teacher.";
+      })
+      .catch(function(e){m.textContent="Not sent: "+e.message+". Try again, or use the copy button as a backup."})
+      .then(function(){btn.disabled=!COMPLETE;setTimeout(function(){m.textContent=""},8000)});
+  };
+  TRK.onLoaded(showSub);
+
+  function out(){
+    var o="SOCIAL CREDIT IN CHINA - RESEARCH WORK\n";
+    o+="Student 1: "+(data.n1||"")+"\nStudent 2: "+(data.n2||"")+"\n";
+    o+="\n=== WARM-UP: Hobbes ===\n\"It is not virtue but the fear of punishment that keeps men within the bounds of duty.\"\n";
+    for(var i=1;i<=4;i++)o+="\nQuestion "+i+"\n"+(data["q"+i]||"").trim()+"\n";
+    o+="\n=== TASK 1: DOCUMENTS ===\nVideo: "+(data.vurl||"").trim()+"\nPart used: "+(data.vtime||"")+"\nArticle: "+(data.aurl||"").trim()+"\nTitle and source: "+(data.atitle||"")+"\n";
+    o+="\n=== TASK 2: QUESTIONS AND ANSWERS ===\n";
+    [["v","VIDEO"],["a","ARTICLE"]].forEach(function(p){
+      o+="\n-- "+p[1]+" --\n";
+      for(var i=1;i<=5;i++)o+="\nQ"+i+": "+(data[p[0]+"q"+i]||"").trim()+"\nA"+i+": "+(data[p[0]+"a"+i]||"").trim()+"\n";});
+    o+="\n-- VOCABULARY --\n"+(data.vocab||"").trim()+"\n";
+    o+="\n=== TASK 3: VIDEO ===\nText of the video:\n"+(data.script||"").trim()+"\n\nYouTube link (unlisted): "+(data.yurl||"").trim()+"\n";
+    return o;}
+  function msg(s){var m=document.getElementById("msg");m.textContent=s;setTimeout(function(){m.textContent=""},4000)}
+  document.getElementById("copy").onclick=function(){
+    var t=out();
+    function ok(){msg("Copied (backup copy).")}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){msg("Copy failed. Use the download button instead.")})}
+    else{var x=document.createElement("textarea");x.value=t;document.body.appendChild(x);x.select();try{document.execCommand("copy");ok()}catch(e){msg("Copy failed.")}document.body.removeChild(x)}
+  };
+  document.getElementById("dl").onclick=function(){
+    var b=new Blob([out()],{type:"text/plain;charset=utf-8"}),a=document.createElement("a");
+    var nm=((data.n1||"work").split(/\s+/).pop()||"work").replace(/[^A-Za-z0-9_-]/g,"");
+    a.href=URL.createObjectURL(b);a.download="social-credit-"+nm+".txt";document.body.appendChild(a);a.click();document.body.removeChild(a);
+  };
+  document.getElementById("print").onclick=function(){window.print()};
+
+  /* ================= vote ================= */
+  var voteBox=document.getElementById("votebox"),picks=[null,null,null],voteVideos=[],voteBusy=false;
+  var RANK=["1st choice (3 points)","2nd choice (2 points)","3rd choice (1 point)"];
+  function embedHtml(v){return '<div class="vwrap"><iframe loading="lazy" src="'+esc(v.embed)+'" title="'+esc(v.label)+'" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div><p class="hint" style="margin:6px 0 0"><a href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer">Open on YouTube</a> if the video does not play here.</p>';}
+  function renderOpen(){
+    var h='<div class="reminder"><p>Watch the videos, then choose your <b>3 favourites</b> and rank them: 1st choice = 3 points, 2nd = 2 points, 3rd = 1 point. You cannot vote for your own video. You can change your vote until your teacher closes the vote.</p></div>';
+    h+='<div class="vgrid">';
+    voteVideos.forEach(function(v){
+      var pos=picks.indexOf(v.id);
+      h+='<div class="vcard'+(v.own?" own":"")+(pos>-1?" picked":"")+'"><h3 style="margin:0 0 8px">'+esc(v.label)+'</h3>'+embedHtml(v);
+      if(v.own)h+='<p class="hint" style="margin:10px 0 0"><b>This is your own video.</b> You cannot vote for it.</p>';
+      else h+='<label class="f" style="margin-top:10px" for="pk-'+esc(v.id)+'">Your choice</label><select id="pk-'+esc(v.id)+'" data-pk="'+esc(v.id)+'"><option value="">No vote</option>'+RANK.map(function(r,i){return '<option value="'+i+'"'+(pos===i?" selected":"")+'>'+r+'</option>'}).join("")+'</select>';
+      h+='</div>';});
+    h+='</div><div class="card" style="margin-top:16px"><div class="row"><button class="btn gold" id="sendvote">Save my vote</button><span class="hint" id="votemsg" style="margin:0"></span></div></div>';
+    voteBox.innerHTML=h;updVote();
+  }
+  function updVote(){var b=document.getElementById("sendvote");if(b)b.disabled=voteBusy||picks.some(function(x){return !x});}
+  voteBox.addEventListener("change",function(e){
+    var id=e.target.getAttribute&&e.target.getAttribute("data-pk");if(!id)return;
+    var r=e.target.value===""?-1:+e.target.value;
+    picks=picks.map(function(x){return x===id?null:x});
+    if(r>-1)picks[r]=id;
+    renderOpen();
+  });
+  voteBox.addEventListener("click",function(e){
+    if(!e.target.closest||!e.target.closest("#sendvote"))return;
+    var m=document.getElementById("votemsg");voteBusy=true;updVote();m.textContent="Sending…";
+    fetch("/api/course",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"vote",nom:STUDENT.nom,codeHash:AUTH,courseId:COURSE,picks:picks})})
+      .then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j}})})
+      .then(function(x){if(!x.ok)throw new Error((x.j&&x.j.error)||"Could not save");TRK.voted(picks);m.textContent="Your vote is saved. You can still change it until the vote closes.";})
+      .catch(function(err){m.textContent="Not saved: "+err.message;})
+      .then(function(){voteBusy=false;updVote();});
+  });
+  function renderResults(d){
+    var h='<div class="reminder"><p>The vote is closed. Here are the <b>3 best videos</b> of the class'+(d.voters?' ('+d.voters+' voters)':'')+'. Congratulations!</p></div><div class="vgrid">';
+    var med=["1st","2nd","3rd"];
+    (d.podium||[]).forEach(function(v,i){h+='<div class="vcard picked"><h3 style="margin:0 0 4px">'+med[i]+' place: '+esc(v.n1)+(v.n2?' and '+esc(v.n2):'')+'</h3><p class="hint" style="margin:0 0 8px">'+v.points+' points</p>'+embedHtml(v)+'</div>';});
+    voteBox.innerHTML=h+'</div>';
+  }
+  function loadVote(){
+    voteBox.innerHTML='<p class="hint">Loading…</p>';
+    fetch("/api/course?courseId="+COURSE+"&action=videos&nom="+encodeURIComponent(STUDENT.nom),{headers:{"X-Code-Hash":AUTH}})
+      .then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j}})})
+      .then(function(x){
+        if(!x.ok)throw new Error((x.j&&x.j.error)||"error");
+        var d=x.j;
+        if(d.state==="closed"){voteBox.innerHTML='<div class="card"><p style="margin:0">The vote is not open yet. Your teacher will open it when all the videos are handed in.</p><div class="row" style="margin-top:12px"><button class="btn ghost" id="recheck">Check again</button></div></div>';return;}
+        voteVideos=d.videos||[];
+        if(d.state==="results"){renderResults(d);return;}
+        picks=[null,null,null];(d.myPicks||[]).forEach(function(id,i){if(i<3)picks[i]=id;});
+        if(!voteVideos.length){voteBox.innerHTML='<div class="card"><p style="margin:0">No video has been handed in yet.</p><div class="row" style="margin-top:12px"><button class="btn ghost" id="recheck">Check again</button></div></div>';return;}
+        renderOpen();
+      })
+      .catch(function(err){voteBox.innerHTML='<div class="card"><p style="margin:0">Could not load the vote ('+esc(err.message)+').</p><div class="row" style="margin-top:12px"><button class="btn ghost" id="recheck">Try again</button></div></div>';});
+  }
+  voteBox.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#recheck"))loadVote();});
+
+  /* ================= tabs ================= */
+  function show(t){
+    [].forEach.call(document.querySelectorAll("section.tab"),function(s){s.classList.toggle("on",s.id==="tab-"+t)});
+    [].forEach.call(document.querySelectorAll("#nav button"),function(b){b.setAttribute("aria-selected",b.getAttribute("data-t")===t?"true":"false")});
+    window.scrollTo(0,0);TRK.tab(t);
+    if(t==="vote")loadVote();
+  }
+  [].forEach.call(document.querySelectorAll("#nav button"),function(b){b.onclick=function(){show(b.getAttribute("data-t"))}});
+  [].forEach.call(document.querySelectorAll("[data-go]"),function(b){b.onclick=function(e){if(e&&e.preventDefault)e.preventDefault();show(b.getAttribute("data-go"))}});
+
+  /* ================= privacy notice ================= */
+  (function(){var b=document.getElementById("privacy"),ok=document.getElementById("privacyOk");if(!b||!ok)return;
+    var seen=null;try{seen=localStorage.getItem(PRIV)}catch(e){}
+    if(!seen)b.style.display="block";
+    ok.addEventListener("click",function(){try{localStorage.setItem(PRIV,"1")}catch(e){}b.style.display="none";});})();
+
+  refresh();
+})();
+</script>
+
+<script>
+var TB_CATS=[["opinion", "Giving your opinion", "avis, opinion, penser, croire, a mon avis, je pense, point de vue, selon moi"], ["agree", "Agreeing", "accord, d'accord, approuver, etre d'accord, partager, tout a fait, exactement, raison"], ["disagree", "Disagreeing", "desaccord, pas d'accord, contredire, s'opposer, objection, contester, tort"], ["partial", "Agreeing partly and nuancing", "nuancer, nuance, en partie, partiellement, pas tout a fait, dans une certaine mesure, ca depend"], ["contrast", "Contrast and balance", "contraste, opposition, mais, cependant, pourtant, d'un cote, de l'autre, malgre, bien que, alors que, en revanche"], ["add", "Adding ideas", "ajouter, de plus, en plus, aussi, egalement, en outre, d'ailleurs"], ["cause", "Cause and consequence", "cause, consequence, resultat, parce que, car, donc, a cause de, grace a, entrainer, mener a, pourquoi"], ["example", "Giving examples", "exemple, illustrer, par exemple, comme, tel que, citer"], ["structure", "Structuring your speech", "structurer, organiser, d'abord, ensuite, enfin, premierement, introduire, passer a, quant a"], ["conclude", "Concluding", "conclure, conclusion, resumer, bref, en somme, finalement, au final"], ["certainty", "Certainty, probability and doubt", "certitude, certain, sur, doute, probable, peut-etre, possible, peu probable, apparemment, il se peut"], ["clarify", "Clarifying and rephrasing", "clarifier, reformuler, repeter, expliquer, comprendre, c'est-a-dire, autrement dit, preciser, je n'ai pas compris"], ["hypo", "Imagining and hypotheses", "hypothese, imaginer, supposer, si, et si, condition, a moins que, scenario"], ["compare", "Comparing", "comparer, comparaison, par rapport a, plus que, moins que, different, similaire, contrairement"], ["emphasis", "Emphasizing and persuading", "insister, souligner, convaincre, important, essentiel, surtout, avant tout, il faut noter"], ["discuss", "Taking part in a discussion", "debat, discussion, interrompre, parole, tour de parole, demander, qu'en penses-tu"], ["report", "Reporting what you read", "rapporter, selon, d'apres, article, video, auteur, affirmer, pretendre, souligner, montrer, critiquer, partisans"], ["surv", "Vocabulary: surveillance and control", "surveillance, surveiller, controle, camera, donnees, espionner, censure, propagande, regime, autoritaire, algorithme, reconnaissance faciale"], ["soc", "Vocabulary: society, rights and ethics", "societe, droits, liberte, vie privee, ethique, morale, confiance, reputation, devoir, responsabilite, norme, citoyen, egalite"], ["score", "Vocabulary: scores, rewards and punishment", "note, score, recompense, punition, sanction, amende, liste noire, classement, interdire, privilege, comportement, credit"], ["video", "Vocabulary: making your video", "video, montage, sous-titres, texte, accroche, capture d'ecran, diaporama, source, lien, telecharger, voix off, plan"]];
+var TB=[["opinion", "In my opinion, …", "à mon avis, selon moi", "In my opinion, a score cannot measure virtue."],["opinion", "As far as I am concerned, …", "en ce qui me concerne", "As far as I am concerned, privacy comes first."],["opinion", "From my point of view, …", "de mon point de vue", "From my point of view, the risks are bigger than the benefits."],["opinion", "It seems to me that …", "il me semble que", "It seems to me that people behave differently when they are watched."],["opinion", "I would argue that …", "je soutiendrais que, je dirais que (défendre une idée)", "I would argue that fear is not the same as respect."],["opinion", "I firmly believe that …", "je crois fermement que", "I firmly believe that citizens should control their own data."],["opinion", "Personally, I feel that …", "personnellement, je pense que", "Personally, I feel that cameras make me safer."],["opinion", "I tend to think that …", "j'ai tendance à penser que", "I tend to think that most people follow rules out of habit."],["opinion", "If you ask me, …", "si tu veux mon avis", "If you ask me, a public score is humiliating."],["opinion", "To my mind, …", "à mon sens", "To my mind, the government is going too far."],["opinion", "I am convinced that …", "je suis convaincu que", "I am convinced that trust cannot be forced."],["opinion", "What strikes me is that …", "ce qui me frappe, c'est que", "What strikes me is that nobody seems to complain."],["agree", "I (totally) agree with …", "je suis (tout à fait) d'accord avec", "I totally agree with Hobbes on this point."],["agree", "I could not agree more.", "je suis entièrement d'accord, accord total", "\"Privacy is a right.\" \"I could not agree more.\""],["agree", "You are absolutely right.", "tu as tout à fait raison", "You are absolutely right: the law is too vague."],["agree", "That is exactly what I think.", "c'est exactement ce que je pense", "That is exactly what I think about CCTV."],["agree", "I share your view.", "je partage ton avis, ton point de vue", "I share your view that people need rules."],["agree", "That is a fair point.", "c'est un argument valable, juste", "That is a fair point, I had not thought about it."],["agree", "I am with you on that.", "je te suis là-dessus, je suis d'accord avec toi", "I am with you on that: it is too intrusive."],["agree", "I take your point.", "je comprends et j'accepte ton argument", "I take your point about public safety."],["agree", "I second that.", "je suis d'accord avec ce que vient de dire X, j'appuie", "I second that: we need more transparency."],["agree", "Exactly! / Precisely! / Absolutely!", "exactement ! tout à fait ! (accord rapide)", "\"So it is a form of control.\" \"Precisely!\""],["agree", "I see eye to eye with you on …", "nous sommes sur la même longueur d'onde sur", "I see eye to eye with you on the need for limits."],["disagree", "I (strongly) disagree with …", "je ne suis (pas du tout) d'accord avec, désaccord", "I strongly disagree with the idea of a public score."],["disagree", "I do not see it that way.", "je ne vois pas les choses comme ça", "I do not see it that way: fear is not a good teacher."],["disagree", "I am afraid I cannot agree.", "je crains de ne pas pouvoir être d'accord (poli)", "I am afraid I cannot agree with that statement."],["disagree", "That is not necessarily true.", "ce n'est pas forcément vrai", "That is not necessarily true: some people obey out of conviction."],["disagree", "I beg to differ.", "permets-moi de ne pas être d'accord (formel)", "I beg to differ: the system is not fair."],["disagree", "I am not convinced that …", "je ne suis pas convaincu que", "I am not convinced that a score changes behaviour."],["disagree", "On the contrary, …", "au contraire", "On the contrary, it makes people more suspicious of each other."],["disagree", "That is where I disagree.", "c'est là que je ne suis pas d'accord", "That is where I disagree: freedom matters more than order."],["disagree", "I would take issue with …", "je conteste, je ne suis pas d'accord avec (formel)", "I would take issue with the word \"voluntary\"."],["disagree", "I see what you mean, but …", "je vois ce que tu veux dire, mais", "I see what you mean, but the risks are real."],["disagree", "I am sorry, but I think you are wrong.", "désolé, mais je pense que tu te trompes, tort", "I am sorry, but I think you are wrong about the numbers."],["disagree", "That does not convince me.", "cela ne me convainc pas", "That does not convince me: where is the evidence?"],["partial", "To some extent, …", "dans une certaine mesure", "To some extent, he is right, but not always."],["partial", "Up to a point, …", "jusqu'à un certain point", "Up to a point, rules do keep people in line."],["partial", "You have a point, but …", "tu n'as pas tort, mais", "You have a point, but it is not the whole story."],["partial", "I partly agree, …", "je suis en partie d'accord", "I partly agree, but I would add a condition."],["partial", "That may be true, but …", "c'est peut-être vrai, mais", "That may be true, but it is not enough."],["partial", "It depends on …", "ça dépend de", "It depends on who controls the data."],["partial", "I agree in principle, but in practice …", "d'accord en principe, mais en pratique", "I agree in principle, but in practice it is easy to abuse."],["partial", "Yes, but do not forget that …", "oui, mais n'oublie pas que", "Yes, but do not forget that people can be wrongly punished."],["partial", "It is not that simple.", "ce n'est pas si simple, nuancer", "It is not that simple: safety and freedom both matter."],["partial", "There is some truth in that.", "il y a du vrai là-dedans", "There is some truth in that, but it is exaggerated."],["contrast", "On the one hand …, on the other hand …", "d'un côté …, de l'autre …", "On the one hand it protects people, on the other hand it watches them."],["contrast", "However, …", "cependant, pourtant", "However, nobody can check how the score is calculated."],["contrast", "Nevertheless, …", "néanmoins, malgré tout", "Nevertheless, many citizens support it."],["contrast", "Whereas …", "alors que (opposition entre deux faits)", "Whereas some see rewards, others see control."],["contrast", "While …", "tandis que, bien que", "While the system is efficient, it is also intrusive."],["contrast", "Although / Even though …", "bien que, même si", "Although it is popular, it raises serious questions."],["contrast", "Despite / In spite of + noun", "malgré + nom", "Despite the criticism, the system is expanding."],["contrast", "Yet …", "pourtant, et pourtant", "It is a game, yet the consequences are real."],["contrast", "By contrast, … / In contrast, …", "par contraste, en revanche", "In contrast, European systems protect personal data."],["contrast", "Conversely, …", "inversement, à l'inverse", "Conversely, a low score can close doors."],["contrast", "Having said that, …", "cela dit", "Having said that, I understand why people like it."],["contrast", "Still, … / All the same, …", "tout de même, quand même", "Still, it is hard to ignore the risks."],["contrast", "Instead of + -ing", "au lieu de", "Instead of trusting people, the system measures them."],["contrast", "Rather than + -ing", "plutôt que de", "Rather than punish, we could educate."],["add", "Moreover, …", "de plus, en outre", "Moreover, the data is stored for years."],["add", "Furthermore, …", "par ailleurs, de plus (formel)", "Furthermore, the criteria are not public."],["add", "In addition, …", "en plus, de plus", "In addition, businesses are also rated."],["add", "What is more, …", "qui plus est", "What is more, citizens cannot appeal easily."],["add", "Besides, …", "d'ailleurs, de toute façon, en plus", "Besides, who decides what is good behaviour?"],["add", "Not only … but also …", "non seulement … mais aussi", "Not only is it expensive, but it is also invasive."],["add", "As well as + noun / -ing", "ainsi que, en plus de", "As well as rewards, there are penalties."],["add", "Not to mention …", "sans parler de", "Not to mention the risk of mistakes."],["add", "On top of that, …", "en plus de ça, par-dessus le marché", "On top of that, the system never forgets."],["cause", "because of / due to / owing to + noun", "à cause de, en raison de, du fait de", "Due to the cameras, people feel watched."],["cause", "since / as + clause", "puisque, comme (cause connue)", "Since the rules are vague, anyone can be punished."],["cause", "Thanks to + noun", "grâce à (cause positive)", "Thanks to the score, some people get cheaper loans."],["cause", "This is why …", "c'est pourquoi, voilà pourquoi", "This is why many people change their behaviour."],["cause", "That explains why …", "cela explique pourquoi", "That explains why people avoid risky topics online."],["cause", "As a result, …", "par conséquent, du coup, résultat", "As a result, people stop speaking freely."],["cause", "Consequently, … / Therefore, …", "par conséquent, donc", "Therefore, trust slowly disappears."],["cause", "Thus, …", "ainsi, donc (formel)", "Thus, the system rewards obedience."],["cause", "This leads to …", "cela mène à, conduit à, entraîne", "This leads to self-censorship."],["cause", "This results in …", "cela aboutit à, a pour résultat", "This results in a society of suspicion."],["cause", "to cause / to lead to / to result in", "causer, entraîner, provoquer, mener à", "Surveillance can lead to fear."],["cause", "in order to / so as to + verb", "afin de, pour (but)", "People comply in order to avoid penalties."],["cause", "so that + clause", "pour que, afin que (but)", "The data is collected so that officials can rank people."],["cause", "the consequence of …", "la conséquence de", "The consequence of a low score can be severe."],["example", "For example, … / For instance, …", "par exemple", "For instance, a low score can block a train ticket."],["example", "such as + noun", "tel que, comme, par exemple", "Behaviours such as jaywalking are recorded."],["example", "A case in point is …", "un exemple parlant est", "A case in point is the city of Rongcheng."],["example", "To illustrate this, …", "pour illustrer ceci", "To illustrate this, let me describe one situation."],["example", "Take … for example.", "prenons … par exemple", "Take speed cameras, for example."],["example", "… is a good example of …", "… est un bon exemple de", "Credit scoring is a good example of rating people."],["example", "Let me give you an example.", "laisse-moi te donner un exemple", "Let me give you an example from my own life."],["example", "a typical example / a striking example", "un exemple typique / frappant", "A striking example is the public shaming of offenders."],["example", "to give an illustration of", "donner une illustration de", "The video gives an illustration of daily life under the system."],["structure", "First of all, … / Firstly, …", "tout d'abord, premièrement", "First of all, let me explain what social credit is."],["structure", "To begin with, …", "pour commencer", "To begin with, I would like to define the term."],["structure", "Secondly, … / Then, … / Next, …", "deuxièmement, ensuite, puis", "Next, I will talk about the consequences."],["structure", "Another point is that …", "un autre point est que", "Another point is that data is shared between agencies."],["structure", "Finally, … / Lastly, …", "enfin, pour finir", "Finally, I would like to give my opinion."],["structure", "Turning to …", "passons à, abordons", "Turning to the rewards, there are several types."],["structure", "As for … / As far as … is concerned, …", "quant à, en ce qui concerne", "As for businesses, they are rated too."],["structure", "Regarding … / With regard to …", "concernant, en ce qui concerne", "With regard to privacy, the picture is worrying."],["structure", "Let me start by saying …", "commençons par dire", "Let me start by saying that I find it surprising."],["structure", "The first thing to say is …", "la première chose à dire est", "The first thing to say is that it is not one system."],["conclude", "To sum up, …", "pour résumer", "To sum up, the system has benefits and serious dangers."],["conclude", "In conclusion, …", "en conclusion", "In conclusion, I think fear is not enough."],["conclude", "To conclude, …", "pour conclure", "To conclude, we need rules, but also trust."],["conclude", "All in all, …", "tout bien considéré, en somme", "All in all, the risks outweigh the benefits."],["conclude", "In short, …", "bref, en bref", "In short, it is a tool of control."],["conclude", "Overall, …", "dans l'ensemble, globalement", "Overall, the system is controversial."],["conclude", "On balance, …", "tout bien pesé, en fin de compte", "On balance, I would reject it."],["conclude", "The bottom line is that …", "l'essentiel, c'est que, en fin de compte", "The bottom line is that nobody should be rated like a product."],["conclude", "That is why I think …", "c'est pourquoi je pense que", "That is why I think freedom must come first."],["certainty", "It is obvious that … / Clearly, …", "il est évident que", "It is obvious that the data is being used."],["certainty", "There is no doubt that …", "il n'y a aucun doute que", "There is no doubt that cameras can deter crime."],["certainty", "Undoubtedly, … / Without a doubt, …", "sans aucun doute", "Undoubtedly, technology makes control easier."],["certainty", "It is likely / probable that …", "il est probable que", "It is likely that other countries will copy it."],["certainty", "It is unlikely that …", "il est peu probable que", "It is unlikely that people will accept it in Europe."],["certainty", "Perhaps / Maybe / Possibly", "peut-être, éventuellement", "Perhaps people feel safer, but are they free?"],["certainty", "It might / may / could be that …", "il se pourrait que, il est possible que", "It could be that people adapt over time."],["certainty", "I am not sure whether …", "je ne suis pas sûr que, je ne sais pas si", "I am not sure whether the data is secure."],["certainty", "It seems / appears that …", "il semble que", "It appears that the criteria change often."],["certainty", "Apparently, …", "apparemment, d'après ce qu'on dit", "Apparently, some cities use different rules."],["certainty", "Supposedly, …", "soi-disant, censément", "Supposedly, the system is voluntary."],["certainty", "As far as I know, …", "pour autant que je sache", "As far as I know, there is no single national score."],["certainty", "tend to + verb", "avoir tendance à", "People tend to obey when they are watched."],["certainty", "in most cases / in some cases", "dans la plupart des cas / dans certains cas", "In most cases, the penalties are mild."],["certainty", "to a large extent / to a certain extent", "en grande partie / dans une certaine mesure", "To a large extent, it depends on the region."],["clarify", "What do you mean by …?", "qu'entends-tu par … ?", "What do you mean by \"virtue\"?"],["clarify", "Could you explain what you mean?", "peux-tu expliquer ce que tu veux dire ?", "Could you explain what you mean by \"control\"?"],["clarify", "Sorry, could you repeat that?", "pardon, peux-tu répéter ?", "Sorry, could you repeat that, please?"],["clarify", "Do you mean that …?", "tu veux dire que … ?", "Do you mean that everyone is watched?"],["clarify", "In other words, …", "autrement dit", "In other words, you are saying that fear works."],["clarify", "That is to say, …", "c'est-à-dire", "It is a ranking, that is to say a list from best to worst."],["clarify", "What I mean is …", "ce que je veux dire, c'est", "What I mean is that rules should be clear."],["clarify", "Let me rephrase that.", "laisse-moi reformuler", "Let me rephrase that: I am not against rules."],["clarify", "If I understand you correctly, …", "si je te comprends bien", "If I understand you correctly, you prefer freedom."],["clarify", "Let me put it another way.", "disons-le autrement", "Let me put it another way: who watches the watchers?"],["clarify", "Could you give an example?", "peux-tu donner un exemple ?", "Could you give an example of a penalty?"],["clarify", "Sorry, I did not catch that.", "pardon, je n'ai pas compris, je n'ai pas saisi", "Sorry, I did not catch that. Could you say it again?"],["clarify", "To be more precise, …", "pour être plus précis", "To be more precise, it concerns about a million people."],["hypo", "Imagine that …", "imagine que, imaginez que", "Imagine that your score decided your job."],["hypo", "Suppose / Supposing that …", "supposons que", "Suppose that everyone could see your score."],["hypo", "What if …?", "et si … ?", "What if the system made a mistake about you?"],["hypo", "If … were …, … would …", "si … + conditionnel (irréel du présent)", "If I were a citizen there, I would be careful."],["hypo", "If … had …, … would have …", "si … + conditionnel passé (irréel du passé)", "If they had known, they would have refused."],["hypo", "Provided that / As long as …", "à condition que, tant que", "As long as the rules are fair, I accept them."],["hypo", "Unless …", "à moins que, sauf si", "Unless it is transparent, it cannot be trusted."],["hypo", "I wonder whether …", "je me demande si", "I wonder whether young people would accept it."],["hypo", "In that case, …", "dans ce cas", "In that case, people would avoid any risk."],["hypo", "in a worst-case scenario", "dans le pire des cas", "In a worst-case scenario, an error ruins your life."],["compare", "Compared to / In comparison with …", "par rapport à, en comparaison de", "Compared to Europe, the controls are much stricter."],["compare", "similar to / the same as", "semblable à, pareil que", "It is similar to a bank credit score."],["compare", "different from", "différent de", "It is different from a financial score."],["compare", "Unlike + noun", "contrairement à", "Unlike a bank, the state judges behaviour."],["compare", "just like / in the same way", "tout comme, de la même façon", "Just like in a game, you earn points."],["compare", "the more …, the more …", "plus …, plus …", "The more data they have, the more power they get."],["compare", "as … as", "aussi … que", "It is not as simple as it looks."],["compare", "far more … than", "bien plus … que", "It is far more intrusive than a speed camera."],["compare", "not as … as", "pas aussi … que", "Credit scores are not as broad as social scores."],["compare", "to resemble / to be comparable to", "ressembler à, être comparable à", "It resembles a reputation rating on an app."],["emphasis", "What really matters is …", "ce qui compte vraiment, c'est", "What really matters is who controls the data."],["emphasis", "Above all, …", "avant tout, par-dessus tout", "Above all, people need to feel free."],["emphasis", "It is worth noting that …", "il convient de noter que", "It is worth noting that businesses are rated too."],["emphasis", "We must not forget that …", "n'oublions pas que", "We must not forget that mistakes happen."],["emphasis", "It goes without saying that …", "il va sans dire que", "It goes without saying that privacy is a right."],["emphasis", "Surprisingly, … / Interestingly, …", "étonnamment, de façon intéressante", "Surprisingly, many citizens approve of it."],["emphasis", "The key point is …", "le point clé est", "The key point is consent."],["emphasis", "This raises the question of …", "cela soulève la question de", "This raises the question of who is in charge."],["emphasis", "It is crucial / essential to …", "il est crucial, essentiel de", "It is crucial to protect personal data."],["emphasis", "Believe it or not, …", "croyez-le ou non", "Believe it or not, some people enjoy being rated."],["emphasis", "Let us not underestimate …", "ne sous-estimons pas", "Let us not underestimate the power of peer pressure."],["discuss", "Can I add something?", "puis-je ajouter quelque chose ?", "Can I add something to what you just said?"],["discuss", "Sorry to interrupt, but …", "désolé de t'interrompre, mais", "Sorry to interrupt, but I have a question."],["discuss", "Let me finish my point.", "laisse-moi finir mon idée", "Let me finish my point, please."],["discuss", "Going back to what you said, …", "pour revenir à ce que tu as dit", "Going back to what you said about trust, …"],["discuss", "That is an interesting point.", "c'est un point intéressant", "That is an interesting point, I had not thought of it."],["discuss", "What do you think? / How about you?", "qu'en penses-tu ? et toi ?", "I think it is dangerous. What do you think?"],["discuss", "Do you see what I mean?", "tu vois ce que je veux dire ?", "It feels like a game, do you see what I mean?"],["discuss", "Let us move on to …", "passons à", "Let us move on to the next question."],["discuss", "Who would like to start?", "qui veut commencer ?", "Who would like to start?"],["discuss", "Let me play devil's advocate.", "laisse-moi jouer l'avocat du diable", "Let me play devil's advocate: what if it works?"],["discuss", "We are running out of time.", "on manque de temps", "We are running out of time, so let us conclude."],["report", "According to the article, …", "selon l'article, d'après l'article", "According to the article, citizens receive points."],["report", "The video explains / shows that …", "la vidéo explique / montre que", "The video shows that cameras are everywhere."],["report", "The author argues / claims that …", "l'auteur soutient / affirme que", "The author argues that the system is mainly about trust."],["report", "The article points out that …", "l'article souligne que", "The article points out that rules vary by city."],["report", "It is claimed / said that …", "on prétend / on dit que", "It is claimed that the system is fair."],["report", "The report highlights …", "le rapport met en évidence", "The report highlights several risks."],["report", "Critics say / argue that …", "les critiques disent / soutiennent que", "Critics argue that it threatens freedom."],["report", "Supporters argue that …", "les partisans soutiennent que", "Supporters argue that it improves honesty."],["report", "The government claims that …", "le gouvernement affirme que", "The government claims that it builds trust."],["report", "This shows / suggests / proves that …", "cela montre / suggère / prouve que", "This suggests that behaviour can be influenced."],["report", "to state / to mention / to reveal", "déclarer, mentionner, révéler", "The article reveals how the points are calculated."],["report", "to point out / to stress / to underline", "souligner, insister sur", "The video stresses the role of technology."],["report", "It is reported that …", "il est rapporté que", "It is reported that millions of people are affected."],["report", "In the text, it says that …", "dans le texte, il est dit que", "In the text, it says that businesses are ranked."],["surv", "surveillance (noun)", "surveillance", "Mass surveillance is growing."],["surv", "to monitor", "surveiller, suivre, contrôler", "The authorities monitor online behaviour."],["surv", "to track", "suivre à la trace, pister, tracer", "Apps can track your location."],["surv", "to spy on someone", "espionner quelqu'un", "They accuse the state of spying on citizens."],["surv", "CCTV (closed-circuit television)", "vidéosurveillance, caméras de surveillance", "CCTV cameras are installed at every crossing."],["surv", "facial recognition", "reconnaissance faciale", "Facial recognition identifies people in a crowd."],["surv", "big data", "mégadonnées, données massives", "Big data allows them to analyse millions of profiles."],["surv", "an algorithm", "algorithme", "An algorithm calculates the final score."],["surv", "data collection", "collecte de données", "Data collection never stops."],["surv", "personal data", "données personnelles", "Personal data should be protected."],["surv", "to collect / to gather data", "collecter, recueillir des données", "They gather data from banks and social media."],["surv", "to store / to share data", "stocker, partager des données", "Data is stored for years and shared between agencies."],["surv", "a database", "base de données", "The database contains millions of records."],["surv", "to hack / a data breach", "pirater / fuite de données", "A data breach exposed private information."],["surv", "to be watched / to be under surveillance", "être surveillé, être sous surveillance", "People behave differently when they are watched."],["surv", "an informant / an informer", "un informateur, un indicateur, un délateur", "An informant reports what neighbours do."],["surv", "to report someone (to the authorities)", "dénoncer, signaler quelqu'un", "Citizens are encouraged to report each other."],["surv", "to snitch on someone (informal)", "balancer, cafter, dénoncer (familier)", "Nobody wants to snitch on a friend."],["surv", "censorship / to censor", "censure / censurer", "Censorship limits what people can read."],["surv", "propaganda", "propagande", "State media spread propaganda."],["surv", "authoritarian", "autoritaire", "An authoritarian regime controls the media."],["surv", "totalitarian", "totalitaire", "A totalitarian state wants to control everything."],["surv", "a regime", "un régime (politique)", "The regime denies any abuse."],["surv", "Big Brother", "Big Brother (roman 1984, d'Orwell)", "\"Big Brother is watching you\" is a famous phrase from 1984."],["surv", "the authorities", "les autorités", "The authorities refused to comment."],["surv", "law enforcement", "les forces de l'ordre", "Law enforcement uses facial recognition."],["surv", "to enforce a law", "appliquer, faire respecter une loi", "The police enforce the rules strictly."],["surv", "to control / control (noun)", "contrôler / contrôle, maîtrise", "The state wants more control over daily life."],["soc", "privacy", "vie privée, intimité", "Privacy is a basic right."],["soc", "an invasion of privacy", "une atteinte à la vie privée", "Reading private messages is an invasion of privacy."],["soc", "freedom / liberty", "liberté", "People value their freedom."],["soc", "freedom of speech / of expression", "liberté d'expression", "Freedom of speech is protected by law."],["soc", "civil liberties", "libertés civiles, libertés publiques", "Civil liberties can be weakened in the name of security."],["soc", "human rights", "droits de l'homme, droits humains", "Human rights apply to everyone."],["soc", "the common good / the greater good", "le bien commun / le plus grand bien", "Is it acceptable in the name of the greater good?"],["soc", "public order", "ordre public", "The state maintains public order."],["soc", "public safety / security", "sécurité publique", "Cameras are installed for public safety."],["soc", "trust / trustworthy", "confiance / digne de confiance", "Trust takes years to build."],["soc", "trustworthiness", "fiabilité, probité, fait d'être digne de confiance", "The score measures trustworthiness."],["soc", "reputation", "réputation", "A bad reputation follows you."],["soc", "honesty / dishonesty", "honnêteté / malhonnêteté", "Honesty should not be forced."],["soc", "a social norm", "une norme sociale", "Queueing is a social norm."],["soc", "peer pressure", "pression du groupe, pression des pairs", "Peer pressure pushes people to conform."],["soc", "conformity / to conform to", "conformisme, conformité / se conformer à", "They conform to the rules to avoid trouble."],["soc", "a duty / a right / a responsibility", "un devoir / un droit / une responsabilité", "Voting is both a right and a duty."],["soc", "accountability / to be held accountable", "fait de rendre des comptes / devoir rendre des comptes", "Officials must be held accountable."],["soc", "transparency", "transparence", "Transparency builds trust."],["soc", "consent", "consentement", "Data should only be collected with consent."],["soc", "discrimination", "discrimination", "The system could lead to discrimination."],["soc", "inequality", "inégalité", "Scores may deepen inequality."],["soc", "bias / biased", "biais, parti pris / biaisé", "Algorithms can be biased."],["soc", "fair / unfair / fairness", "juste, équitable / injuste / équité", "It seems unfair to punish small mistakes."],["soc", "a slippery slope", "une pente glissante", "It could be a slippery slope towards total control."],["soc", "a double-edged sword", "une arme à double tranchant", "Technology is a double-edged sword."],["soc", "a dilemma", "un dilemme", "Safety versus freedom is a real dilemma."],["soc", "to trade (something) for (something)", "échanger, sacrifier une chose contre une autre", "Would you trade some freedom for safety?"],["soc", "ethical / unethical", "éthique / contraire à l'éthique", "Many experts find it unethical."],["soc", "moral / immoral", "moral / immoral", "Is it moral to rate people?"],["soc", "a citizen", "un citoyen", "Every citizen receives a score."],["soc", "virtue / virtuous", "vertu / vertueux", "Virtue cannot be measured by points."],["soc", "a sense of duty", "le sens du devoir", "A sense of duty keeps many people honest."],["score", "a score", "une note, un score", "Your score goes up when you help others."],["score", "to rate / a rating", "noter, évaluer / une note, une évaluation", "Companies are rated as well."],["score", "to rank / a ranking", "classer / un classement", "Citizens are ranked from best to worst."],["score", "a blacklist / to blacklist", "une liste noire / mettre sur liste noire", "Blacklisted people cannot travel by plane."],["score", "a reward", "une récompense", "Good behaviour earns a reward."],["score", "an incentive", "une incitation, une motivation", "Discounts are an incentive to behave well."],["score", "a penalty", "une sanction, une pénalité", "A low score brings penalties."],["score", "a punishment / to punish", "une punition / punir", "Public shaming is a form of punishment."],["score", "a fine / to fine someone", "une amende / mettre une amende", "Jaywalkers can be fined."],["score", "a ban / to ban / to be banned from", "une interdiction / interdire / être interdit de", "He was banned from buying tickets."],["score", "a sanction", "une sanction (officielle)", "The company faced heavy sanctions."],["score", "a deterrent", "un moyen de dissuasion, un élément dissuasif", "Cameras act as a deterrent."],["score", "to deter someone from + -ing", "dissuader quelqu'un de", "The fear of punishment deters people from breaking the rules."],["score", "to comply with a rule", "se conformer à une règle, respecter", "Businesses must comply with the rules."],["score", "to obey / obedience", "obéir / obéissance", "People obey out of fear."],["score", "to break the law / a rule", "enfreindre la loi / une règle", "He broke the law by ignoring the signal."],["score", "to jaywalk / jaywalking", "traverser hors des clous / traversée sauvage", "Jaywalking can lower your score."],["score", "to cheat", "tricher", "Cheating in an exam is punished."],["score", "good / bad behaviour", "bon / mauvais comportement", "Good behaviour is rewarded with points."],["score", "to be eligible for + noun", "avoir droit à, remplir les conditions pour", "High scorers are eligible for cheaper loans."],["score", "a privilege", "un privilège", "Good citizens get special privileges."],["score", "a perk", "un avantage (matériel), un petit plus", "Free bike rental is one of the perks."],["score", "a credit score", "une note de solvabilité, un score de crédit", "A credit score measures your ability to repay."],["score", "creditworthiness", "solvabilité", "Banks assess creditworthiness before lending."],["score", "to be denied + noun", "se voir refuser (un accès, un prêt)", "She was denied a loan."],["score", "public shaming", "humiliation publique, mise au pilori", "Public shaming is used against offenders."],["score", "to lose / to gain points", "perdre / gagner des points", "You gain points when you donate blood."],["score", "a threshold", "un seuil", "Below a certain threshold, you are blacklisted."],["video", "a hook", "une accroche (premières secondes)", "Start with a hook that makes people stay."],["video", "a caption / subtitles", "une légende / des sous-titres", "Add captions so that the video works without sound."],["video", "on-screen text", "texte à l'écran", "Keep the on-screen text short."],["video", "a voice-over", "une voix off", "Our video has no voice-over."],["video", "a slide / a slideshow", "une diapositive / un diaporama", "The slideshow lasts 90 seconds."],["video", "a screenshot", "une capture d'écran", "Take a screenshot of the key scene."],["video", "a clip", "un extrait, un clip", "We used a short clip as the background."],["video", "to upload / to download", "téléverser, mettre en ligne / télécharger", "Upload your video to YouTube."],["video", "an unlisted video", "une vidéo non répertoriée (YouTube)", "Set the video to unlisted, not public."],["video", "to edit a video", "monter une vidéo", "We edited the video on Canva."],["video", "a transition", "une transition", "Add a simple transition between two screens."],["video", "a call to action", "un appel à l'action", "End with a call to action or a question."],["video", "a source", "une source", "Always give your source."],["video", "a link", "un lien", "Check that the link works."],["video", "to rephrase", "reformuler", "Rephrase the answer in your own words."],["video", "to quote / a quotation", "citer / une citation", "He quotes Hobbes at the beginning."],["video", "to summarise / a summary", "résumer / un résumé", "Summarise the article in three sentences."],["video", "to paraphrase", "paraphraser, reformuler", "Do not copy: paraphrase."],["video", "a vertical video", "une vidéo verticale (format portrait)", "Social media clips are usually vertical videos."],["video", "a background", "un fond, un arrière-plan", "The text appears on a moving background."],["video", "a screen / a scene", "un écran / une scène, un plan", "There is one idea per screen."]];
+
+(function(){
+  function norm(s){
+    var o="";s=(s||"").toLowerCase();
+    for(var i=0;i<s.length;i++){
+      var c=s[i],n=c.normalize("NFD").charAt(0);
+      if(c==="\u0153")n="o";
+      o+=n;
+    }
+    return o;
+  }
+  function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+  var catName={},catKw={},cur="all";
+  TB_CATS.forEach(function(c){catName[c[0]]=c[1];catKw[c[0]]=norm(c[2])});
+  TB.forEach(function(r){r.hay=norm(r[1]+" "+r[2]+" "+r[3]+" "+catName[r[0]]+" "+catKw[r[0]])});
+  function hl(text,toks){
+    if(!toks.length)return esc(text);
+    var n=norm(text),mark=new Array(text.length+1).join("0").split("");
+    toks.forEach(function(t){
+      var p=0,i;
+      while((i=n.indexOf(t,p))>-1){for(var j=i;j<i+t.length;j++)mark[j]="1";p=i+t.length}
+    });
+    var out="",open=false;
+    for(var k=0;k<text.length;k++){
+      if(mark[k]==="1"&&!open){out+="<mark>";open=true}
+      if(mark[k]!=="1"&&open){out+="</mark>";open=false}
+      out+=esc(text[k]);
+    }
+    if(open)out+="</mark>";
+    return out;
+  }
+  var q=document.getElementById("tbq"),list=document.getElementById("tblist"),cnt=document.getElementById("tbcount");
+  var chipsEl=document.getElementById("tbcats"),sugEl=document.getElementById("tbsug");
+  function chips(){
+    var h='<button class="chip'+(cur==="all"?" on":"")+'" data-cat="all">All</button>';
+    TB_CATS.forEach(function(c){h+='<button class="chip'+(cur===c[0]?" on":"")+'" data-cat="'+c[0]+'">'+esc(c[1].replace("Vocabulary: ","Vocab: "))+'</button>'});
+    chipsEl.innerHTML=h;
+  }
+  var SUG=["accord","désaccord","d'un côté","cause","conséquence","exemple","conclure","reformuler","imaginer","surveiller","punir","vidéo"];
+  sugEl.innerHTML=SUG.map(function(s){return '<button class="chip sug" data-q="'+esc(s)+'">'+esc(s)+'</button>'}).join("");
+  function render(){
+    var toks=norm(q.value).split(/[\s,;]+/).filter(Boolean);
+    var res=TB.filter(function(r){
+      if(cur!=="all"&&r[0]!==cur)return false;
+      return toks.every(function(t){return r.hay.indexOf(t)>-1});
+    });
+    cnt.textContent=res.length+" result"+(res.length===1?"":"s")+(q.value.trim()?" for \u201c"+q.value.trim()+"\u201d":"");
+    if(!res.length){list.innerHTML='<div class="tbnone">Nothing found. Try another word, in French or in English, or choose &ldquo;All&rdquo;.</div>';return}
+    var h="",last="";
+    res.forEach(function(r){
+      if(r[0]!==last){h+='<div class="tbcat">'+esc(catName[r[0]])+'</div>';last=r[0]}
+      h+='<div class="tbi" data-en="'+esc(r[1]).replace(/"/g,"&quot;")+'"><div><div class="en">'+hl(r[1],toks)+'</div><div class="fr">'+hl(r[2],toks)+'</div></div><div class="cp">click to copy</div>'+
+         (r[3]?'<div class="ex">'+hl(r[3],toks)+'</div>':'')+'</div>';
+    });
+    list.innerHTML=h;
+  }
+  q.addEventListener("input",render);
+  chipsEl.addEventListener("click",function(e){var b=e.target.closest("[data-cat]");if(!b)return;cur=b.getAttribute("data-cat");chips();render()});
+  sugEl.addEventListener("click",function(e){var b=e.target.closest("[data-q]");if(!b)return;q.value=b.getAttribute("data-q");render();q.focus()});
+  list.addEventListener("click",function(e){
+    var it=e.target.closest(".tbi");if(!it)return;
+    var t=it.getAttribute("data-en");
+    function done(){it.classList.add("copied");var c=it.querySelector(".cp");c.textContent="copied";setTimeout(function(){it.classList.remove("copied");c.textContent="click to copy"},1200)}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){})}
+    else{var x=document.createElement("textarea");x.value=t;document.body.appendChild(x);x.select();try{document.execCommand("copy");done()}catch(err){}document.body.removeChild(x)}
+  });
+  chips();render();
+  window.__tb={norm:norm,count:function(v){var t=norm(v).split(/[\s,;]+/).filter(Boolean);return TB.filter(function(r){return t.every(function(x){return r.hay.indexOf(x)>-1})}).length}};
+})();
+</script>
+</body>
+</html>

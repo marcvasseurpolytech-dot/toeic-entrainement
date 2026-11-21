@@ -195,6 +195,8 @@
     <!-- CLASSES TC3 : course activity -->
     <section class="tab-panel" id="tab-course" hidden>
       <h2>Classes TC3: course activity</h2>
+      <div class="toolbar" style="margin-bottom:.4rem"><label for="co-course" style="font-weight:600">Course</label>
+        <select id="co-course" onchange="switchCourse(this.value)"></select></div>
       <p class="hint">What students do on the course page: when, for how long (active time only: page visible and student active), what they wrote. Saved on the server without any redeploy. Flags are hints, not verdicts: open the student to check.</p>
       <div class="toolbar">
         <input type="text" id="co-search" placeholder="Search a student…" oninput="renderCourse()">
@@ -213,6 +215,7 @@
       <div id="co-wrap"><p class="empty">Loading…</p></div>
       <p class="hint" id="co-legend"></p>
       <div id="co-detail" style="display:none"></div>
+      <div id="co-videos" style="display:none;margin-top:1.4rem"></div>
     </section>
 
     <!-- TESTS -->
@@ -423,7 +426,8 @@
 
 
     // ---------- Classes TC3: course activity ----------
-    const COURSE_ID = 'course-rtbf';
+    let COURSE_ID = 'course-rtbf';
+    const CC = () => COURSES[COURSE_ID];
     let courseLoaded = false, courseRows = [], courseFull = null;
     // Thresholds of the "rushed" hints (seconds, words, characters).
     const CO = { minActive: 600, minRead: 180, thinWords: 8, quizFast: 60, pasted: 200 };
@@ -434,15 +438,76 @@
     function courseFlags(r) {
       const f = [];
       if (r.activeSec < CO.minActive) f.push('Under ' + CO.minActive / 60 + ' min of active time');
-      if ((r.tabs.read || 0) < CO.minRead && (r.reveals > 0 || r.filled > 0)) f.push('Less than ' + CO.minRead / 60 + ' min on the text and questions');
+      const main = CC().mainTab, minMain = CC().minMain || CO.minRead;
+      if ((r.tabs[main] || 0) < minMain && (r.reveals > 0 || r.filled > 0)) f.push('Less than ' + Math.round(minMain / 60) + ' min on the ' + (CC().tabs.find(t => t[0] === main) || [0, main])[1].toLowerCase() + ' tab');
       if (r.filled > 0 && r.words / r.filled < CO.thinWords) f.push('Very short answers (' + (r.words / r.filled).toFixed(1) + ' words on average)');
       if (r.pastedChars >= CO.pasted) f.push('Pasted text (' + r.pastedChars + ' characters)');
-      if (r.quizAttempts > 0 && r.quizSecs > 0 && r.quizSecs < CO.quizFast) f.push('Quiz done in ' + r.quizSecs + ' s');
+      if (CC().quiz && r.quizAttempts > 0 && r.quizSecs > 0 && r.quizSecs < CO.quizFast) f.push('Quiz done in ' + r.quizSecs + ' s');
       if (r.fields && r.filled < r.fields * 0.4) f.push('Most written boxes are empty (' + r.filled + '/' + r.fields + ')');
+      if (CC().videos && !r.submitted) f.push('Nothing handed in yet');
       return f;
     }
+
+    function initCourseSelect() {
+      const sel = document.getElementById('co-course');
+      sel.innerHTML = Object.keys(COURSES).map(id => `<option value="${esc(id)}">${esc(COURSES[id].name)}</option>`).join('');
+      sel.value = COURSE_ID;
+    }
+    function switchCourse(id) {
+      COURSE_ID = id; courseLoaded = false; courseRows = []; courseFull = null;
+      document.getElementById('co-detail').style.display = 'none';
+      loadCourse();
+    }
+    // ----- hand-ins and class vote (courses with videos) -----
+    let vidData = null;
+    async function loadVideos() {
+      const box = document.getElementById('co-videos');
+      if (!CC().videos) { box.style.display = 'none'; return; }
+      box.style.display = 'block'; box.innerHTML = '<p class="empty">Loading the videos…</p>';
+      try {
+        const r = await fetch('/api/course?courseId=' + COURSE_ID + '&action=videos', { headers: authHeaders() });
+        if (!r.ok) throw new Error();
+        vidData = await r.json(); renderVideos();
+      } catch (e) { box.innerHTML = '<p class="empty">Could not load the videos.</p>'; }
+    }
+    async function setVoteState(state) {
+      const labels = { open: 'Open the vote? Students will see all the videos (without names) and can vote.', results: 'Close the vote and show the podium to the students?', closed: 'Hide the videos and stop the vote?' };
+      if (!confirm(labels[state])) return;
+      const r = await fetch('/api/course', { method: 'POST', headers: Object.assign({ 'Content-Type': 'application/json' }, authHeaders()), body: JSON.stringify({ action: 'config', courseId: COURSE_ID, state }) });
+      if (!r.ok) { alert('Could not change the state.'); return; }
+      loadVideos();
+    }
+    function renderVideos() {
+      const box = document.getElementById('co-videos'), d = vidData, rank = d.ranking || [], st = d.state;
+      const stLabel = { closed: 'Closed (students see nothing)', open: 'Open (students are voting)', results: 'Results shown (podium visible to students)' }[st];
+      const byNom = new Map((d.votes || []).map(v => [v.nom, v]));
+      const rows = rank.map((v, i) => `<tr><th class="tname" scope="row">${i + 1}</th><td><b>${esc(v.label)}</b></td><td>${esc([v.n1, v.n2].filter(Boolean).join(' and '))}</td><td><a href="${esc(v.yurl)}" target="_blank" rel="noopener">Watch</a>${v.vurl ? ' · <a href="' + esc(v.vurl) + '" target="_blank" rel="noopener">source video</a>' : ''}${v.aurl ? ' · <a href="' + esc(v.aurl) + '" target="_blank" rel="noopener">article</a>' : ''}</td><td><b>${v.points}</b></td><td>${v.votes} vote(s), ${v.first} first</td><td>${esc(coWhen(v.at))}</td></tr>`).join('');
+      const voters = (d.votes || []).map(v => `<tr><td>${esc(v.nom)} ${esc(v.prenom || '')}</td><td>${esc(promoOf({ dept: v.dept }))}</td><td>${(v.picks || []).map(id => { const x = rank.find(r => r.id === id); return esc(x ? x.label : '?'); }).join(' > ')}</td><td>${esc(coWhen(v.at))}</td></tr>`).join('');
+      box.innerHTML = `<div style="border:2px solid var(--gold);border-radius:12px;padding:1rem 1.2rem;background:#fffdf6">
+        <h3 style="margin:0 0 .3rem">Videos and class vote</h3>
+        <p class="hint" style="margin:0 0 .6rem">State: <b>${esc(stLabel)}</b>. Each student picks 3 videos (3, 2, 1 points) and cannot vote for their own pair. Names stay hidden from students until the podium is shown.</p>
+        <div class="toolbar" style="margin-bottom:.6rem">
+          <button class="btn-export" onclick="setVoteState('open')"${st === 'open' ? ' disabled' : ''}>Open the vote</button>
+          <button class="btn-export" onclick="setVoteState('results')"${st === 'results' ? ' disabled' : ''}>Close and show the podium</button>
+          <button class="btn-export" onclick="setVoteState('closed')"${st === 'closed' ? ' disabled' : ''}>Hide everything</button>
+          <button class="btn-export" onclick="loadVideos()">Reload</button>
+          <button class="btn-export" onclick="exportVideosXLSX()">Export Excel</button>
+        </div>
+        <p style="margin:.2rem 0"><b>${rank.length}</b> video(s) handed in, <b>${(d.votes || []).length}</b> student(s) have voted.</p>
+        ${rank.length ? `<div class="mx-wrap"><table class="mx" style="min-width:760px"><thead><tr><th class="tname">#</th><th>Video</th><th>Pair</th><th>Links</th><th>Points</th><th>Votes</th><th>Handed in</th></tr></thead><tbody>${rows}</tbody></table></div>` : '<p class="empty">No video handed in yet.</p>'}
+        ${voters ? `<h4 style="margin:.9rem 0 .3rem">Who voted for what (visible to you only)</h4><div class="mx-wrap"><table class="mx"><thead><tr><th class="tname">Student</th><th>Class</th><th>Picks (1st > 2nd > 3rd)</th><th>When</th></tr></thead><tbody>${voters}</tbody></table></div>` : ''}
+      </div>`;
+    }
+    function exportVideosXLSX() {
+      if (typeof XLSX === 'undefined' || !vidData) { alert('Excel export library failed to load. Please reload the page.'); return; }
+      const data = (vidData.ranking || []).map((v, i) => ({ Rank: i + 1, Video: v.label, Pair: [v.n1, v.n2].filter(Boolean).join(' and '), 'Handed in by': v.by, 'Video (unlisted)': v.yurl, 'Source video': v.vurl, Article: v.aurl, Points: v.points, Votes: v.votes, 'First places': v.first }));
+      const ws = XLSX.utils.json_to_sheet(data), wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Videos'); XLSX.writeFile(wb, COURSE_ID + '-videos.xlsx');
+    }
     async function loadCourse() {
+      if (!document.getElementById('co-course').options.length) initCourseSelect();
       document.getElementById('co-wrap').innerHTML = '<p class="empty">Loading…</p>';
+      loadVideos();
       try {
         const r = await fetch('/api/course?courseId=' + COURSE_ID + '&all=1', { headers: authHeaders() });
         if (!r.ok) throw new Error();
@@ -464,11 +529,12 @@
     function renderCourse() {
       const rows = courseView(), wrap = document.getElementById('co-wrap');
       document.getElementById('co-msg').textContent = courseRows.length + ' student(s) have opened the course; ' + rows.length + ' shown.';
-      document.getElementById('co-legend').textContent = 'Flags: active time under ' + CO.minActive / 60 + ' min, under ' + CO.minRead / 60 + ' min on the text, answers under ' + CO.thinWords + ' words on average, ' + CO.pasted + '+ pasted characters, quiz under ' + CO.quizFast + ' s, fewer than 40% of the written boxes filled.';
+      document.getElementById('co-legend').textContent = 'Flags: active time under ' + CO.minActive / 60 + ' min, under ' + Math.round((CC().minMain || CO.minRead) / 60) + ' min on the main tab, answers under ' + CO.thinWords + ' words on average, ' + CO.pasted + '+ pasted characters, ' + (CC().quiz ? 'quiz under ' + CO.quizFast + ' s, ' : '') + (CC().videos ? 'no hand-in, ' : '') + 'fewer than 40% of the written boxes filled.';
       if (!rows.length) { wrap.innerHTML = '<p class="empty">No student activity yet.</p>'; return; }
-      const T = r => ['read', 'vocab', 'quiz', 'debate', 'further'].map(k => Math.round((r.tabs[k] || 0) / 60) + 'm').join(' / ');
-      wrap.innerHTML = '<div class="mx-wrap"><table class="mx" style="min-width:980px"><thead><tr><th class="tname">Student</th><th>Class</th><th>Last seen</th><th>Visits</th><th>Active time</th><th title="Read / Vocab / Quiz / Discussion / Further">Time per tab</th><th>Written</th><th>Quiz</th><th>Flags</th><th></th></tr></thead><tbody>' +
-        rows.map(({ r, cls, flags }) => `<tr${flags.length >= 3 ? ' style="background:#fdf1ee"' : ''}><th class="tname" scope="row">${esc(r.nom)} ${esc(r.prenom)}</th><td>${esc(cls)}</td><td>${esc(coWhen(r.lastSeen))}</td><td>${r.sessions}</td><td><b>${coDur(r.activeSec)}</b></td><td style="font-size:.72rem">${T(r)}</td><td>${r.filled}/${r.fields} boxes, ${r.words} words</td><td>${r.quizAttempts ? r.quizBest + '/8' + (r.quizAttempts > 1 ? ' (' + r.quizAttempts + ' tries)' : '') : ''}</td><td title="${esc(flags.join('\n'))}">${flags.length ? '<span class="badge-granted" style="' + (flags.length >= 3 ? 'background:#fbe3dd;color:#a93226;border-color:#e6b0a6' : '') + '">' + flags.length + ' flag' + (flags.length > 1 ? 's' : '') + '</span>' : '<span style="color:#2e7d52">OK</span>'}</td><td><button type="button" class="btn-link" onclick="openCourseStudent(${JSON.stringify(r.nom).replace(/"/g, '&quot;')})">Open</button></td></tr>`).join('') + '</tbody></table></div>';
+      const T = r => CC().tabs.map(t => Math.round((r.tabs[t[0]] || 0) / 60) + 'm').join(' / ');
+      const vid = CC().videos, qz = CC().quiz;
+      wrap.innerHTML = '<div class="mx-wrap"><table class="mx" style="min-width:980px"><thead><tr><th class="tname">Student</th><th>Class</th><th>Last seen</th><th>Visits</th><th>Active time</th><th title="' + esc(CC().tabs.map(t => t[1]).join(' / ')) + '">Time per tab</th><th>Written</th>' + (qz ? '<th>Quiz</th>' : '') + (vid ? '<th>Hand-in</th>' : '') + '<th>Flags</th><th></th></tr></thead><tbody>' +
+        rows.map(({ r, cls, flags }) => `<tr${flags.length >= 3 ? ' style="background:#fdf1ee"' : ''}><th class="tname" scope="row">${esc(r.nom)} ${esc(r.prenom)}</th><td>${esc(cls)}</td><td>${esc(coWhen(r.lastSeen))}</td><td>${r.sessions}</td><td><b>${coDur(r.activeSec)}</b></td><td style="font-size:.72rem">${T(r)}</td><td>${r.filled}/${r.fields} boxes, ${r.words} words</td>${qz ? '<td>' + (r.quizAttempts ? r.quizBest + '/8' + (r.quizAttempts > 1 ? ' (' + r.quizAttempts + ' tries)' : '') : '') + '</td>' : ''}${vid ? '<td style="font-size:.78rem">' + (r.submitted ? esc(r.pair) + '<br>' + (r.yurl ? '<a href="' + esc(r.yurl) + '" target="_blank" rel="noopener">video</a>' : '') + (r.vurl ? ' · <a href="' + esc(r.vurl) + '" target="_blank" rel="noopener">source video</a>' : '') + (r.aurl ? ' · <a href="' + esc(r.aurl) + '" target="_blank" rel="noopener">article</a>' : '') + '<br><span style="color:#777">' + esc(coWhen(r.submittedAt)) + '</span>' : '<span style="color:#a93226">no</span>') + '</td>' : ''}<td title="${esc(flags.join('\n'))}">${flags.length ? '<span class="badge-granted" style="' + (flags.length >= 3 ? 'background:#fbe3dd;color:#a93226;border-color:#e6b0a6' : '') + '">' + flags.length + ' flag' + (flags.length > 1 ? 's' : '') + '</span>' : '<span style="color:#2e7d52">OK</span>'}</td><td><button type="button" class="btn-link" onclick="openCourseStudent(${JSON.stringify(r.nom).replace(/"/g, '&quot;')})">Open</button></td></tr>`).join('') + '</tbody></table></div>';
     }
     async function fetchCourseRecord(nom) {
       const r = await fetch('/api/course?courseId=' + COURSE_ID + '&nom=' + encodeURIComponent(nom), { headers: authHeaders() });
@@ -482,7 +548,7 @@
       if (!rec) { box.innerHTML = '<p class="empty">No record.</p>'; return; }
       const row = courseRows.find(x => x.nom === nom) || {};
       const answers = (rec.answers || []), filled = answers.filter(a => a.text && a.text.trim());
-      const tabs = ['read', 'vocab', 'quiz', 'debate', 'further'], tabName = { read: 'Read and answer', vocab: 'Vocabulary', quiz: 'Quiz', debate: 'Discussion', further: 'Further reading' };
+      const tabs = CC().tabs.map(t => t[0]), tabName = Object.fromEntries(CC().tabs);
       const maxT = Math.max(1, ...tabs.map(k => (rec.tabs || {})[k] || 0));
       const bars = tabs.map(k => { const v = (rec.tabs || {})[k] || 0; return `<div style="display:grid;grid-template-columns:130px 1fr 80px;gap:.5rem;align-items:center;font-size:.82rem"><span>${tabName[k]}</span><span style="background:#eee;border-radius:4px;height:10px;display:block"><span style="display:block;height:100%;width:${Math.round(v / maxT * 100)}%;background:var(--gold);border-radius:4px"></span></span><span>${coDur(v)}</span></div>`; }).join('');
       const quiz = (rec.quiz && rec.quiz.attempts || []).map((a, i) => `<li>Attempt ${i + 1}, ${coHour(a.at)}: <b>${a.score}/8</b> in ${coDur(a.secs)}; per question: ${(a.answers || []).map(x => (x.ok ? '✓' : '✗') + x.sec + 's').join(' ')}</li>`).join('') || '<li>No finished attempt.</li>';
@@ -496,12 +562,13 @@
         <p style="margin:.4rem 0">Active time <b>${coDur(rec.activeSec)}</b> · first seen ${esc(coHour(rec.firstSeen))} · last seen ${esc(coHour(rec.lastSeen))} · ${filled.length}/${answers.length} boxes filled</p>
         ${flags.length ? '<p style="color:#a93226;margin:.3rem 0">Flags: ' + flags.map(esc).join(' · ') + '</p>' : ''}
         <h4 style="margin:.8rem 0 .3rem">Active time per tab</h4>${bars}
-        <h4 style="margin:.8rem 0 .3rem">Quiz</h4><ul style="margin:0 0 0 1.1rem">${quiz}</ul>
+        ${CC().quiz ? '<h4 style="margin:.8rem 0 .3rem">Quiz</h4><ul style="margin:0 0 0 1.1rem">' + quiz + '</ul>' : ''}
+        ${CC().videos ? '<h4 style="margin:.8rem 0 .3rem">Hand-in</h4>' + (rec.submission ? '<p style="margin:0">' + esc(rec.submission.n1) + (rec.submission.n2 ? ' and ' + esc(rec.submission.n2) : '') + ' · ' + esc(coHour(rec.submission.at)) + '<br>Video (unlisted): <a href="' + esc(rec.submission.yurl) + '" target="_blank" rel="noopener">' + esc(rec.submission.yurl) + '</a><br>Source video: <a href="' + esc(rec.submission.vurl) + '" target="_blank" rel="noopener">' + esc(rec.submission.vurl) + '</a><br>Article: <a href="' + esc(rec.submission.aurl) + '" target="_blank" rel="noopener">' + esc(rec.submission.aurl) + '</a></p>' : '<p style="margin:0;color:#a93226">Nothing handed in yet.</p>') : ''}
         <h4 style="margin:.8rem 0 .3rem">Sessions</h4><ul style="margin:0 0 0 1.1rem">${sessions}</ul>
         <h4 style="margin:.8rem 0 .3rem">Written answers</h4>${ans}
         <h4 style="margin:.8rem 0 .3rem">Timeline (last ${(rec.log || []).length} events)</h4><div style="max-height:260px;overflow:auto"><table style="font-size:.78rem;border-collapse:collapse"><tbody>${log}</tbody></table></div></div>`;
     }
-    const FEEDBACK_HEAD = 'FEEDBACK REQUEST (course: The Right to be Forgotten). For each student below, give short feedback in English on the written answers: errors of syntax, vocabulary, tense, prepositions, agreement and word choice, each with the correction, then one line on the overall level and one on the effort (time, length, copy-paste signs). Do not rewrite their whole answers.\n';
+    const feedbackHead = () => 'FEEDBACK REQUEST (course: ' + (CC().feedback || CC().name) + '). For each student below, give short feedback in English on the written answers: errors of syntax, vocabulary, tense, prepositions, agreement and word choice, each with the correction, then one line on the overall level and one on the effort (time, length, copy-paste signs). Do not rewrite their whole answers.\n';
     function courseRecordText(rec, cls) {
       const out = ['### ' + rec.nom + ' ' + (rec.prenom || '') + ' (' + cls + ') | active ' + coDur(rec.activeSec) + ' | last seen ' + coHour(rec.lastSeen)];
       (rec.answers || []).filter(a => a.text && a.text.trim()).forEach(a => { out.push('[' + a.sec + '] Q: ' + a.q); out.push('A: ' + a.text.trim() + '  (' + a.words + ' words, typing ' + coDur(a.typeSec) + (a.pastes ? ', pasted ' + a.pastedChars + ' chars' : '') + ')'); });
@@ -513,7 +580,7 @@
     }
     async function copyOneFeedback(nom) {
       const rec = await fetchCourseRecord(nom), row = courseRows.find(x => x.nom === nom) || {};
-      await copyText(FEEDBACK_HEAD + '\n' + courseRecordText(rec, promoOf({ dept: row.dept || rec.dept })), 'Copied. Paste it to Claude to get the feedback.');
+      await copyText(feedbackHead() + '\n' + courseRecordText(rec, promoOf({ dept: row.dept || rec.dept })), 'Copied. Paste it to Claude to get the feedback.');
     }
     async function loadCourseFull() {
       if (courseFull) return courseFull;
@@ -527,20 +594,21 @@
       document.getElementById('co-msg').textContent = 'Preparing…';
       try {
         const full = (await loadCourseFull()).filter(s => shown.has(s.nom) && s.record);
-        await copyText(FEEDBACK_HEAD + '\n' + full.map(s => courseRecordText(s.record, promoOf({ dept: s.dept }))).join('\n\n'), 'Copied ' + full.length + ' student(s). Paste it to Claude to get the feedback.');
+        await copyText(feedbackHead() + '\n' + full.map(s => courseRecordText(s.record, promoOf({ dept: s.dept }))).join('\n\n'), 'Copied ' + full.length + ' student(s). Paste it to Claude to get the feedback.');
       } catch (e) { document.getElementById('co-msg').textContent = 'Could not prepare the answers.'; }
     }
     function exportCourseXLSX() {
       if (typeof XLSX === 'undefined') { alert('Excel export library failed to load. Please reload the page.'); return; }
       const data = courseView().map(({ r, cls, flags }) => ({
         Name: r.nom, 'First name': r.prenom, Class: cls, 'First seen': r.firstSeen, 'Last seen': r.lastSeen, Visits: r.sessions,
-        'Active min': Math.round(r.activeSec / 6) / 10, 'Read min': Math.round((r.tabs.read || 0) / 6) / 10, 'Vocabulary min': Math.round((r.tabs.vocab || 0) / 6) / 10,
-        'Quiz min': Math.round((r.tabs.quiz || 0) / 6) / 10, 'Discussion min': Math.round((r.tabs.debate || 0) / 6) / 10, 'Further min': Math.round((r.tabs.further || 0) / 6) / 10,
+        'Active min': Math.round(r.activeSec / 6) / 10, ...Object.fromEntries(CC().tabs.map(t => [t[1] + ' min', Math.round((r.tabs[t[0]] || 0) / 6) / 10])),
         'Boxes filled': r.filled, 'Boxes total': r.fields, Words: r.words, 'Typing sec': r.typeSec, 'Pasted chars': r.pastedChars,
-        'Quiz best /8': r.quizAttempts ? r.quizBest : '', 'Quiz tries': r.quizAttempts, Flags: flags.join(' | ')
+        ...(CC().quiz ? { 'Quiz best /8': r.quizAttempts ? r.quizBest : '', 'Quiz tries': r.quizAttempts } : {}),
+        ...(CC().videos ? { Pair: r.pair || '', 'Video (unlisted)': r.yurl || '', 'Source video': r.vurl || '', Article: r.aurl || '', 'Handed in': r.submittedAt || '' } : {}),
+        Flags: flags.join(' | ')
       }));
       const ws = XLSX.utils.json_to_sheet(data), wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Classes TC3'); XLSX.writeFile(wb, 'classes-tc3-activity.xlsx');
+      XLSX.utils.book_append_sheet(wb, ws, 'Classes TC3'); XLSX.writeFile(wb, COURSE_ID + '-activity.xlsx');
     }
 
     function pagerHTML(total, page, fn, noun) {
