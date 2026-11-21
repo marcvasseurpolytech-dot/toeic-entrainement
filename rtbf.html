@@ -335,6 +335,116 @@ var NS=(STUDENT&&STUDENT.nom?STUDENT.nom:"")+"::";
 function sget(k){try{return localStorage.getItem(NS+k)}catch(e){return null}}
 function sset(k,v){try{localStorage.setItem(NS+k,v)}catch(e){}}
 function sdel(k){try{localStorage.removeItem(NS+k)}catch(e){}}
+/* ---------- activity tracking (sent to the teacher's dashboard) ---------- */
+var TRK=(function(){
+  var COURSE="course-rtbf",AUTH=null;try{AUTH=sessionStorage.getItem("studentAuth");}catch(e){}
+  function iso(){return new Date().toISOString();}
+  function blank(){return {v:1,prenom:STUDENT?STUDENT.prenom||"":"",dept:STUDENT?STUDENT.dept||"":"",firstSeen:iso(),lastSeen:iso(),sessions:[],activeSec:0,tabs:{},visits:{},answers:[],edits:{},reveals:[],quiz:{attempts:[]},flash:{started:0,known:0,again:0},clicks:{further:{},gloss:0,evidence:0,copy:0,download:0},log:[]};}
+  var REC=blank(),SESS={id:Math.random().toString(36).slice(2,10),start:iso(),end:iso(),activeSec:0};
+  var loaded=false,restoring=false,dirty=false,urgent=false,lastSave=0,curTab="read",lastAct=Date.now(),qShown=0,curQuiz=null;
+  function log(e,d){REC.log.push({t:iso(),e:e,d:d==null?"":d});if(REC.log.length>400)REC.log.shift();}
+  function mark(u){dirty=true;if(u)urgent=true;}
+  function fix(r){var b=blank();["tabs","visits","edits","clicks","quiz","flash"].forEach(function(k){r[k]=Object.assign(b[k],r[k]||{});});
+    r.clicks.further=r.clicks.further||{};r.quiz.attempts=r.quiz.attempts||[];
+    ["sessions","answers","reveals","log"].forEach(function(k){if(!Array.isArray(r[k]))r[k]=[];});
+    r.activeSec=r.activeSec||0;r.firstSeen=r.firstSeen||iso();r.v=1;return r;}
+  function keyOf(el){return el&&el.getAttribute?el.getAttribute("data-key"):null;}
+  function qText(el){
+    var card=el.closest(".card");if(!card)return "";
+    var q=card.querySelector(".qtext");if(!q)return "";
+    var c=q.cloneNode(true);var n=c.querySelector(".qnum");if(n)n.remove();return c.textContent.trim();}
+  var FIXEDQ={rtbf_limit:"If you were writing the law, what one clear limit would you include?",rtbf_changed:"Has your opinion changed during the discussion? Why?"};
+  function snapshot(){
+    var out=[];
+    Array.prototype.forEach.call(document.querySelectorAll("[data-key]"),function(el){
+      var k=keyOf(el),card=el.closest(".card"),ed=REC.edits[k]||{};
+      var sec=card&&card.getAttribute("data-sec")?card.getAttribute("data-sec"):(k.indexOf("comp")>-1?"Comprehension questions":"Final position");
+      out.push({key:k,sec:sec,q:FIXEDQ[k]||qText(el),text:el.value,words:wc(el.value),first:ed.first||null,last:ed.last||null,typeSec:ed.typeSec||0,edits:ed.n||0,pastes:ed.pastes||0,pastedChars:ed.pastedChars||0});
+    });
+    var r=document.querySelector("input[name=pos]:checked");
+    out.push({key:"rtbf_pos",sec:"Final position",q:"Position",text:r?r.value:"",words:0,first:null,last:null,typeSec:0,edits:0,pastes:0,pastedChars:0});
+    return out;}
+  function save(){
+    if(!loaded||!STUDENT||!AUTH)return;
+    REC.answers=snapshot();REC.dept=STUDENT.dept||REC.dept;REC.prenom=STUDENT.prenom||REC.prenom;
+    var body=JSON.stringify({nom:STUDENT.nom,codeHash:AUTH,courseId:COURSE,record:REC});
+    dirty=false;urgent=false;lastSave=Date.now();
+    try{fetch("/api/course",{method:"POST",headers:{"Content-Type":"application/json"},body:body,keepalive:body.length<60000}).then(function(r){if(!r.ok){dirty=true;}}).catch(function(){dirty=true;});}catch(e){dirty=true;}}
+  function restore(){
+    restoring=true;
+    try{
+      var by={};REC.answers.forEach(function(a){by[a.key]=a;});
+      Array.prototype.forEach.call(document.querySelectorAll("[data-key]"),function(el){
+        var a=by[keyOf(el)];
+        if(a&&a.text&&!el.value.trim()){el.value=a.text;sset(keyOf(el),a.text);el.dispatchEvent(new Event("input",{bubbles:true}));}});
+      var p=by.rtbf_pos;
+      if(p&&p.text&&!document.querySelector("input[name=pos]:checked")){
+        Array.prototype.forEach.call(document.querySelectorAll("input[name=pos]"),function(r){if(r.value===p.text){r.checked=true;sset("rtbf_pos",p.text);}});}
+    }catch(e){}
+    restoring=false;}
+  function load(){
+    if(!STUDENT||!AUTH)return;
+    fetch("/api/course?courseId="+COURSE+"&nom="+encodeURIComponent(STUDENT.nom),{headers:{"X-Code-Hash":AUTH}})
+      .then(function(r){if(!r.ok)throw new Error("load");return r.json();})
+      .then(function(d){
+        REC=d.record?fix(d.record):fix(blank());
+        REC.sessions.push(SESS);if(REC.sessions.length>60)REC.sessions.shift();
+        loaded=true;log("open",curTab);restore();mark(true);})
+      .catch(function(){setTimeout(load,15000);});}
+  /* time: only while the page is visible and the student is active */
+  ["mousemove","keydown","scroll","click","touchstart","input"].forEach(function(ev){window.addEventListener(ev,function(){lastAct=Date.now();},true);});
+  setInterval(function(){
+    if(!loaded||document.hidden||Date.now()-lastAct>45000)return;
+    REC.activeSec++;SESS.activeSec++;REC.tabs[curTab]=(REC.tabs[curTab]||0)+1;REC.lastSeen=SESS.end=iso();mark(false);},1000);
+  setInterval(function(){
+    var age=Date.now()-lastSave;
+    if(dirty&&((urgent&&age>45000)||age>120000))save();},15000);
+  document.addEventListener("visibilitychange",function(){if(document.hidden&&dirty)save();else if(!document.hidden)lastAct=Date.now();});
+  window.addEventListener("pagehide",function(){if(dirty)save();});
+  /* written answers: first/last edit time, typing time, pastes */
+  document.addEventListener("input",function(e){
+    var k=keyOf(e.target);if(!k||restoring||!loaded)return;
+    var ed=REC.edits[k]||(REC.edits[k]={first:iso(),n:0,typeSec:0,pastes:0,pastedChars:0}),t=Date.now();
+    if(ed.lt&&t-ed.lt<10000)ed.typeSec+=Math.round((t-ed.lt)/1000);
+    ed.lt=t;ed.last=iso();ed.n++;if(ed.n===1)log("first-edit",k);mark(true);},true);
+  document.addEventListener("paste",function(e){
+    var k=keyOf(e.target);if(!k||!loaded)return;
+    var ed=REC.edits[k]||(REC.edits[k]={first:iso(),n:0,typeSec:0,pastes:0,pastedChars:0}),txt="";
+    try{txt=(e.clipboardData&&e.clipboardData.getData("text"))||"";}catch(x){}
+    ed.pastes++;ed.pastedChars+=txt.length;log("paste",k+" ("+txt.length+" chars)");mark(true);},true);
+  document.addEventListener("change",function(e){
+    if(e.target&&e.target.name==="pos"&&loaded){log("position",e.target.value);mark(true);}},true);
+  /* clicks worth knowing about */
+  document.addEventListener("click",function(e){
+    if(!loaded)return;var t=e.target;
+    var rv=t.closest&&t.closest("[data-rev]");
+    if(rv){var i=rv.getAttribute("data-rev"),ans=document.getElementById("ans"+i);
+      if(ans&&!ans.classList.contains("on")){var ta=document.querySelector('textarea[data-i="'+i+'"]');
+        REC.reveals.push({i:+i,at:iso(),answered:!!ta&&wc(ta.value)>=3,words:ta?wc(ta.value):0});log("reveal","Q"+(+i+1));mark(true);}return;}
+    if(t.closest&&t.closest("#revealAll")){log("reveal-all");mark(true);return;}
+    if(t.closest&&t.closest("[data-find]")){REC.clicks.evidence++;mark(false);return;}
+    if(t.closest&&t.closest(".article .term")){REC.clicks.gloss++;mark(false);return;}
+    if(t.closest&&t.closest("#copyAll")){REC.clicks.copy++;log("copy-export");mark(true);return;}
+    if(t.closest&&t.closest("#dlAll")){REC.clicks.download++;log("download-export");mark(true);return;}
+    if(t.closest&&t.closest("#startFlash")){REC.flash.started++;log("flashcards");mark(true);return;}
+    if(t.closest&&t.closest("#fgot")){REC.flash.known++;mark(false);return;}
+    if(t.closest&&t.closest("#fagain")){REC.flash.again++;mark(false);return;}
+    var a=t.closest&&t.closest("#tab-further a");
+    if(a){var h=a.getAttribute("href");REC.clicks.further[h]=(REC.clicks.further[h]||0)+1;log("link",h);mark(true);}
+  },true);
+  load();
+  return {
+    tab:function(id){curTab=id;if(!loaded)return;REC.visits[id]=(REC.visits[id]||0)+1;log("tab",id);mark(false);},
+    quizShown:function(){qShown=Date.now();},
+    quiz:function(q,i,ok){
+      if(!loaded)return;if(!curQuiz)curQuiz={at:iso(),t0:Date.now(),answers:[],score:null,secs:0};
+      curQuiz.answers.push({q:q,i:i,ok:!!ok,sec:Math.round((Date.now()-qShown)/1000)});mark(false);},
+    quizEnd:function(score){
+      if(!loaded||!curQuiz)return;curQuiz.score=score;curQuiz.secs=Math.round((Date.now()-curQuiz.t0)/1000);delete curQuiz.t0;
+      REC.quiz.attempts.push(curQuiz);log("quiz-done",score+"/8");curQuiz=null;mark(true);}
+  };
+})();
+
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
 
 /* ---------- tabs ---------- */
@@ -342,6 +452,7 @@ var TABS=["read","vocab","quiz","debate","further"];
 function showTab(id){
   if(id==="text"||id==="comp")id="read";
   if(TABS.indexOf(id)<0)id="read";
+  TRK.tab(id);
   document.body.classList.toggle("on-read",id==="read");
   closeDrawer();
   TABS.forEach(function(t){
@@ -535,7 +646,7 @@ QA.forEach(function(it,i){
    '<div class="answer" id="ans'+i+'"><p class="ev">Evidence in the text: '+esc(it.ev)+'</p>'+
    '<p><b>Model answer:</b> '+esc(it.a)+'</p>'+(it.extra?'<p><b>Note:</b> '+esc(it.extra)+'</p>':'')+'<div class="row"><button class="btn ghost" data-find="'+i+'" type="button">Find it in the text</button></div></div>';
   compList.appendChild(d);
-  var ta=d.querySelector("textarea"),v=sget("rtbf_comp_"+i); if(v)ta.value=v;
+  var ta=d.querySelector("textarea"),v=sget("rtbf_comp_"+i); if(v)ta.value=v; ta.setAttribute("data-key","rtbf_comp_"+i);
   ta.addEventListener("input",function(){sset("rtbf_comp_"+i,ta.value);updateGate(i);});
 });
 function hasAnswer(i){var t=compList.querySelector('textarea[data-i="'+i+'"]');return !!t&&t.value.trim().split(/\s+/).filter(Boolean).length>=3;}
@@ -674,12 +785,13 @@ var LET=["A","B","C","D"];
 function renderQ(){
   document.getElementById("qprog").style.width=(qi/QUIZ.length*100)+"%";
   if(qi>=QUIZ.length){
+    TRK.quizEnd(qscore);
     var msg=qscore===QUIZ.length?"Perfect score!":qscore>=6?"Very good.":qscore>=4?"Good start: reread the text and try again.":"Reread the text carefully and try again.";
     qbox.innerHTML='<div class="card"><p class="small" style="margin:0">Your score</p><p class="score">'+qscore+' / '+QUIZ.length+'</p><p>'+msg+'</p><div class="row"><button class="btn" id="qretry">Try again</button><button class="btn ghost" data-go="read">Back to the text</button></div></div>';
     document.getElementById("qretry").addEventListener("click",function(){qi=0;qscore=0;renderQ();});
     return;
   }
-  var it=QUIZ[qi];answered=false;
+  var it=QUIZ[qi];answered=false;TRK.quizShown(qi);
   var h='<div class="card"><p class="small" style="margin:0 0 6px">Question '+(qi+1)+' of '+QUIZ.length+'</p><p class="qtext" style="font-size:18px;margin:0 0 12px">'+esc(it.q)+'</p>';
   it.o.forEach(function(o,i){ h+='<button class="opt" data-i="'+i+'"><span class="L">'+LET[i]+'</span>'+esc(o[0])+'</button>'; });
   h+='<div class="why" id="why"></div><div class="row"><button class="btn" id="qnext" style="display:none">'+(qi===QUIZ.length-1?"See my score":"Next question")+'</button></div></div>';
@@ -691,6 +803,7 @@ qbox.addEventListener("click",function(e){
     answered=true;
     var it=QUIZ[qi],i=+b.getAttribute("data-i");
     if(i===it.c)qscore++;
+    TRK.quiz(qi,i,i===it.c);
     Array.prototype.forEach.call(qbox.querySelectorAll(".opt"),function(x,k){
       x.disabled=true;
       if(k===it.c)x.classList.add("right");
@@ -753,6 +866,7 @@ function updateTotals(){
 }
 function bindBox(t,key){
   var c=t.parentNode.querySelector(".count");
+  t.setAttribute("data-key",key);
   var v=sget(key);if(v)t.value=v;
   function upd(){ if(c)c.textContent=wc(t.value)+" words"; updateTotals(); }
   t.addEventListener("input",function(){sset(key,t.value);upd();});

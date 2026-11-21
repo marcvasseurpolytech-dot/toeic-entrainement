@@ -189,7 +189,31 @@
       <button class="tab" data-tab="results" role="tab" onclick="showTab('results')">Results</button>
       <button class="tab" data-tab="questions" role="tab" onclick="showTab('questions')">Questions</button>
       <button class="tab" data-tab="students" role="tab" onclick="showTab('students')">Students <span class="tab-badge" id="pending-badge" style="display:none"></span></button>
+      <button class="tab" data-tab="course" role="tab" onclick="showTab('course')">Classes TC3</button>
     </nav>
+
+    <!-- CLASSES TC3 : course activity -->
+    <section class="tab-panel" id="tab-course" hidden>
+      <h2>Classes TC3: course activity</h2>
+      <p class="hint">What students do on the course page: when, for how long (active time only: page visible and student active), what they wrote. Saved on the server without any redeploy. Flags are hints, not verdicts: open the student to check.</p>
+      <div class="toolbar">
+        <input type="text" id="co-search" placeholder="Search a student…" oninput="renderCourse()">
+        <select id="co-dept" onchange="renderCourse()"><option value="">All classes</option></select>
+        <select id="co-sort" onchange="renderCourse()">
+          <option value="last">Last seen first</option>
+          <option value="flags">Most flags first</option>
+          <option value="name">Name A to Z</option>
+          <option value="time">Active time (low to high)</option>
+        </select>
+        <button class="btn-export" onclick="loadCourse()">Reload</button>
+        <button class="btn-export" onclick="exportCourseXLSX()">Export Excel</button>
+        <button class="btn-export" onclick="copyCourseFeedback()" title="Copies every answer shown, with an instruction line, ready to paste to Claude for feedback">Copy answers for feedback</button>
+      </div>
+      <p class="hint" id="co-msg"></p>
+      <div id="co-wrap"><p class="empty">Loading…</p></div>
+      <p class="hint" id="co-legend"></p>
+      <div id="co-detail" style="display:none"></div>
+    </section>
 
     <!-- TESTS -->
     <section class="tab-panel" id="tab-tests">
@@ -391,9 +415,132 @@
     const promoOf = stu => { const d = deptOf(stu); return PROMOS.includes(d) ? d : NO_PROMO; };
 
     function showTab(name) {
+      if (name === 'course' && !courseLoaded) loadCourse();
       document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
       document.querySelectorAll('.tab-panel').forEach(p => { p.hidden = p.id !== 'tab-' + name; });
       try { history.replaceState(null, '', '#' + name); } catch(e) {}
+    }
+
+
+    // ---------- Classes TC3: course activity ----------
+    const COURSE_ID = 'course-rtbf';
+    let courseLoaded = false, courseRows = [], courseFull = null;
+    // Thresholds of the "rushed" hints (seconds, words, characters).
+    const CO = { minActive: 600, minRead: 180, thinWords: 8, quizFast: 60, pasted: 200 };
+    const coDur = s => { s = Math.round(s || 0); const m = Math.floor(s / 60); return m >= 60 ? Math.floor(m / 60) + ' h ' + String(m % 60).padStart(2, '0') : m + ' min' + (s < 120 ? ' ' + String(s % 60).padStart(2, '0') + ' s' : ''); };
+    const coWhen = iso => { if (!iso) return ''; const d = new Date(iso); return isNaN(d) ? '' : d.toLocaleString('en-GB', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }); };
+    const coHour = iso => { const d = new Date(iso); return isNaN(d) ? '' : d.toLocaleString('en-GB', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }); };
+
+    function courseFlags(r) {
+      const f = [];
+      if (r.activeSec < CO.minActive) f.push('Under ' + CO.minActive / 60 + ' min of active time');
+      if ((r.tabs.read || 0) < CO.minRead && (r.reveals > 0 || r.filled > 0)) f.push('Less than ' + CO.minRead / 60 + ' min on the text and questions');
+      if (r.filled > 0 && r.words / r.filled < CO.thinWords) f.push('Very short answers (' + (r.words / r.filled).toFixed(1) + ' words on average)');
+      if (r.pastedChars >= CO.pasted) f.push('Pasted text (' + r.pastedChars + ' characters)');
+      if (r.quizAttempts > 0 && r.quizSecs > 0 && r.quizSecs < CO.quizFast) f.push('Quiz done in ' + r.quizSecs + ' s');
+      if (r.fields && r.filled < r.fields * 0.4) f.push('Most written boxes are empty (' + r.filled + '/' + r.fields + ')');
+      return f;
+    }
+    async function loadCourse() {
+      document.getElementById('co-wrap').innerHTML = '<p class="empty">Loading…</p>';
+      try {
+        const r = await fetch('/api/course?courseId=' + COURSE_ID + '&all=1', { headers: authHeaders() });
+        if (!r.ok) throw new Error();
+        courseRows = (await r.json()).students || [];
+        courseLoaded = true; courseFull = null;
+        const sel = document.getElementById('co-dept'), keep = sel.value;
+        sel.innerHTML = '<option value="">All classes</option>' + PROMOS.concat([NO_PROMO]).map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
+        sel.value = keep;
+        renderCourse();
+      } catch (e) { document.getElementById('co-wrap').innerHTML = '<p class="empty">Could not load the activity. Check that you are signed in as admin, then reload.</p>'; }
+    }
+    function courseView() {
+      const q = (document.getElementById('co-search').value || '').trim().toLowerCase(), dept = document.getElementById('co-dept').value, sort = document.getElementById('co-sort').value;
+      let rows = courseRows.map(r => ({ r, cls: promoOf({ dept: r.dept }), flags: courseFlags(r) }))
+        .filter(x => (!q || (x.r.nom + ' ' + x.r.prenom).toLowerCase().includes(q)) && (!dept || x.cls === dept));
+      const by = { last: (a, b) => String(b.r.lastSeen).localeCompare(String(a.r.lastSeen)), flags: (a, b) => b.flags.length - a.flags.length || a.r.nom.localeCompare(b.r.nom), name: (a, b) => a.r.nom.localeCompare(b.r.nom), time: (a, b) => a.r.activeSec - b.r.activeSec };
+      return rows.sort(by[sort]);
+    }
+    function renderCourse() {
+      const rows = courseView(), wrap = document.getElementById('co-wrap');
+      document.getElementById('co-msg').textContent = courseRows.length + ' student(s) have opened the course; ' + rows.length + ' shown.';
+      document.getElementById('co-legend').textContent = 'Flags: active time under ' + CO.minActive / 60 + ' min, under ' + CO.minRead / 60 + ' min on the text, answers under ' + CO.thinWords + ' words on average, ' + CO.pasted + '+ pasted characters, quiz under ' + CO.quizFast + ' s, fewer than 40% of the written boxes filled.';
+      if (!rows.length) { wrap.innerHTML = '<p class="empty">No student activity yet.</p>'; return; }
+      const T = r => ['read', 'vocab', 'quiz', 'debate', 'further'].map(k => Math.round((r.tabs[k] || 0) / 60) + 'm').join(' / ');
+      wrap.innerHTML = '<div class="mx-wrap"><table class="mx" style="min-width:980px"><thead><tr><th class="tname">Student</th><th>Class</th><th>Last seen</th><th>Visits</th><th>Active time</th><th title="Read / Vocab / Quiz / Discussion / Further">Time per tab</th><th>Written</th><th>Quiz</th><th>Flags</th><th></th></tr></thead><tbody>' +
+        rows.map(({ r, cls, flags }) => `<tr${flags.length >= 3 ? ' style="background:#fdf1ee"' : ''}><th class="tname" scope="row">${esc(r.nom)} ${esc(r.prenom)}</th><td>${esc(cls)}</td><td>${esc(coWhen(r.lastSeen))}</td><td>${r.sessions}</td><td><b>${coDur(r.activeSec)}</b></td><td style="font-size:.72rem">${T(r)}</td><td>${r.filled}/${r.fields} boxes, ${r.words} words</td><td>${r.quizAttempts ? r.quizBest + '/8' + (r.quizAttempts > 1 ? ' (' + r.quizAttempts + ' tries)' : '') : ''}</td><td title="${esc(flags.join('\n'))}">${flags.length ? '<span class="badge-granted" style="' + (flags.length >= 3 ? 'background:#fbe3dd;color:#a93226;border-color:#e6b0a6' : '') + '">' + flags.length + ' flag' + (flags.length > 1 ? 's' : '') + '</span>' : '<span style="color:#2e7d52">OK</span>'}</td><td><button type="button" class="btn-link" onclick="openCourseStudent(${JSON.stringify(r.nom).replace(/"/g, '&quot;')})">Open</button></td></tr>`).join('') + '</tbody></table></div>';
+    }
+    async function fetchCourseRecord(nom) {
+      const r = await fetch('/api/course?courseId=' + COURSE_ID + '&nom=' + encodeURIComponent(nom), { headers: authHeaders() });
+      if (!r.ok) throw new Error();
+      return (await r.json()).record;
+    }
+    async function openCourseStudent(nom) {
+      const box = document.getElementById('co-detail');
+      box.style.display = 'block'; box.innerHTML = '<p class="empty">Loading…</p>'; box.scrollIntoView({ block: 'start' });
+      let rec; try { rec = await fetchCourseRecord(nom); } catch (e) { box.innerHTML = '<p class="empty">Could not load this student.</p>'; return; }
+      if (!rec) { box.innerHTML = '<p class="empty">No record.</p>'; return; }
+      const row = courseRows.find(x => x.nom === nom) || {};
+      const answers = (rec.answers || []), filled = answers.filter(a => a.text && a.text.trim());
+      const tabs = ['read', 'vocab', 'quiz', 'debate', 'further'], tabName = { read: 'Read and answer', vocab: 'Vocabulary', quiz: 'Quiz', debate: 'Discussion', further: 'Further reading' };
+      const maxT = Math.max(1, ...tabs.map(k => (rec.tabs || {})[k] || 0));
+      const bars = tabs.map(k => { const v = (rec.tabs || {})[k] || 0; return `<div style="display:grid;grid-template-columns:130px 1fr 80px;gap:.5rem;align-items:center;font-size:.82rem"><span>${tabName[k]}</span><span style="background:#eee;border-radius:4px;height:10px;display:block"><span style="display:block;height:100%;width:${Math.round(v / maxT * 100)}%;background:var(--gold);border-radius:4px"></span></span><span>${coDur(v)}</span></div>`; }).join('');
+      const quiz = (rec.quiz && rec.quiz.attempts || []).map((a, i) => `<li>Attempt ${i + 1}, ${coHour(a.at)}: <b>${a.score}/8</b> in ${coDur(a.secs)}; per question: ${(a.answers || []).map(x => (x.ok ? '✓' : '✗') + x.sec + 's').join(' ')}</li>`).join('') || '<li>No finished attempt.</li>';
+      const sessions = (rec.sessions || []).map(s => `<li>${coHour(s.start)} to ${coHour(s.end)}: ${coDur(s.activeSec)} active</li>`).join('');
+      const log = (rec.log || []).map(e => `<tr><td style="white-space:nowrap">${esc(coHour(e.t))}</td><td>${esc(e.e)}</td><td>${esc(e.d)}</td></tr>`).join('');
+      const ans = filled.map(a => `<div style="border:1px solid #eee3cf;border-radius:8px;padding:.6rem .8rem;margin:.5rem 0;background:#fff"><div style="font-size:.74rem;color:#777">${esc(a.sec)}</div><div style="font-weight:600;margin:.15rem 0">${esc(a.q)}</div><div style="white-space:pre-wrap">${esc(a.text)}</div><div style="font-size:.72rem;color:#777;margin-top:.3rem">${a.words} words · first edit ${esc(coHour(a.first))} · last edit ${esc(coHour(a.last))} · typing ${coDur(a.typeSec)}${a.pastes ? ' · <b style="color:#a93226">pasted ' + a.pastes + 'x (' + a.pastedChars + ' chars)</b>' : ''}</div></div>`).join('') || '<p class="empty">Nothing written yet.</p>';
+      const flags = courseFlags(row.nom ? row : { activeSec: rec.activeSec || 0, tabs: rec.tabs || {}, reveals: 0, filled: filled.length, words: 0, pastedChars: 0, quizAttempts: 0, quizSecs: 0, fields: answers.length });
+      box.innerHTML = `<div style="border:2px solid var(--gold);border-radius:12px;padding:1rem 1.2rem;background:#fffdf6;margin-top:1rem">
+        <div style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap"><h3 style="margin:0">${esc(rec.nom)} ${esc(rec.prenom || '')} <span style="font-weight:400;font-size:.85rem;color:#777">${esc(promoOf({ dept: row.dept || rec.dept }))}</span></h3>
+        <span><button class="btn-export" onclick="copyOneFeedback(${JSON.stringify(nom).replace(/"/g, '&quot;')})">Copy for feedback</button> <button class="btn-link" onclick="document.getElementById('co-detail').style.display='none'">Close</button></span></div>
+        <p style="margin:.4rem 0">Active time <b>${coDur(rec.activeSec)}</b> · first seen ${esc(coHour(rec.firstSeen))} · last seen ${esc(coHour(rec.lastSeen))} · ${filled.length}/${answers.length} boxes filled</p>
+        ${flags.length ? '<p style="color:#a93226;margin:.3rem 0">Flags: ' + flags.map(esc).join(' · ') + '</p>' : ''}
+        <h4 style="margin:.8rem 0 .3rem">Active time per tab</h4>${bars}
+        <h4 style="margin:.8rem 0 .3rem">Quiz</h4><ul style="margin:0 0 0 1.1rem">${quiz}</ul>
+        <h4 style="margin:.8rem 0 .3rem">Sessions</h4><ul style="margin:0 0 0 1.1rem">${sessions}</ul>
+        <h4 style="margin:.8rem 0 .3rem">Written answers</h4>${ans}
+        <h4 style="margin:.8rem 0 .3rem">Timeline (last ${(rec.log || []).length} events)</h4><div style="max-height:260px;overflow:auto"><table style="font-size:.78rem;border-collapse:collapse"><tbody>${log}</tbody></table></div></div>`;
+    }
+    const FEEDBACK_HEAD = 'FEEDBACK REQUEST (course: The Right to be Forgotten). For each student below, give short feedback in English on the written answers: errors of syntax, vocabulary, tense, prepositions, agreement and word choice, each with the correction, then one line on the overall level and one on the effort (time, length, copy-paste signs). Do not rewrite their whole answers.\n';
+    function courseRecordText(rec, cls) {
+      const out = ['### ' + rec.nom + ' ' + (rec.prenom || '') + ' (' + cls + ') | active ' + coDur(rec.activeSec) + ' | last seen ' + coHour(rec.lastSeen)];
+      (rec.answers || []).filter(a => a.text && a.text.trim()).forEach(a => { out.push('[' + a.sec + '] Q: ' + a.q); out.push('A: ' + a.text.trim() + '  (' + a.words + ' words, typing ' + coDur(a.typeSec) + (a.pastes ? ', pasted ' + a.pastedChars + ' chars' : '') + ')'); });
+      return out.join('\n');
+    }
+    async function copyText(t, ok) {
+      try { await navigator.clipboard.writeText(t); document.getElementById('co-msg').textContent = ok; }
+      catch (e) { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); document.getElementById('co-msg').textContent = ok; }
+    }
+    async function copyOneFeedback(nom) {
+      const rec = await fetchCourseRecord(nom), row = courseRows.find(x => x.nom === nom) || {};
+      await copyText(FEEDBACK_HEAD + '\n' + courseRecordText(rec, promoOf({ dept: row.dept || rec.dept })), 'Copied. Paste it to Claude to get the feedback.');
+    }
+    async function loadCourseFull() {
+      if (courseFull) return courseFull;
+      const r = await fetch('/api/course?courseId=' + COURSE_ID + '&all=1&full=1', { headers: authHeaders() });
+      if (!r.ok) throw new Error();
+      courseFull = (await r.json()).students || []; return courseFull;
+    }
+    async function copyCourseFeedback() {
+      const shown = new Set(courseView().map(x => x.r.nom));
+      if (!shown.size) return;
+      document.getElementById('co-msg').textContent = 'Preparing…';
+      try {
+        const full = (await loadCourseFull()).filter(s => shown.has(s.nom) && s.record);
+        await copyText(FEEDBACK_HEAD + '\n' + full.map(s => courseRecordText(s.record, promoOf({ dept: s.dept }))).join('\n\n'), 'Copied ' + full.length + ' student(s). Paste it to Claude to get the feedback.');
+      } catch (e) { document.getElementById('co-msg').textContent = 'Could not prepare the answers.'; }
+    }
+    function exportCourseXLSX() {
+      if (typeof XLSX === 'undefined') { alert('Excel export library failed to load. Please reload the page.'); return; }
+      const data = courseView().map(({ r, cls, flags }) => ({
+        Name: r.nom, 'First name': r.prenom, Class: cls, 'First seen': r.firstSeen, 'Last seen': r.lastSeen, Visits: r.sessions,
+        'Active min': Math.round(r.activeSec / 6) / 10, 'Read min': Math.round((r.tabs.read || 0) / 6) / 10, 'Vocabulary min': Math.round((r.tabs.vocab || 0) / 6) / 10,
+        'Quiz min': Math.round((r.tabs.quiz || 0) / 6) / 10, 'Discussion min': Math.round((r.tabs.debate || 0) / 6) / 10, 'Further min': Math.round((r.tabs.further || 0) / 6) / 10,
+        'Boxes filled': r.filled, 'Boxes total': r.fields, Words: r.words, 'Typing sec': r.typeSec, 'Pasted chars': r.pastedChars,
+        'Quiz best /8': r.quizAttempts ? r.quizBest : '', 'Quiz tries': r.quizAttempts, Flags: flags.join(' | ')
+      }));
+      const ws = XLSX.utils.json_to_sheet(data), wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Classes TC3'); XLSX.writeFile(wb, 'classes-tc3-activity.xlsx');
     }
 
     function pagerHTML(total, page, fn, noun) {
